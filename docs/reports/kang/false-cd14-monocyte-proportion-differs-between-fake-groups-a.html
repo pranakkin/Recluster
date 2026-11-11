@@ -1,0 +1,3676 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recluster · FALSE: CD14+ monocyte proportion differs between fake groups A and B (Kang ctrl only)</title>
+<style>
+:root { --ink:#1b1b1b; --muted:#5f5e58; --rule:#d8d6cf; --bg:#fbfaf7; --panel:#ffffff; --soft:#f3f1ea;
+        --accent:#1f4e79; --pass:#2f6b3a; --fail:#9b3b2e; --warn:#8a6a1e; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink);
+       font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+main { max-width: 960px; margin: 0 auto; padding: 36px 24px 72px; }
+.mono, code, td.num, .params { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.92em; }
+.eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+h1 { font-size: 27px; line-height: 1.25; font-weight: 650; letter-spacing: -0.01em; margin: 0 0 6px; }
+.sub { color: var(--muted); margin: 0 0 22px; }
+h2 { font-size: 17px; font-weight: 650; margin: 44px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+h3 { font-size: 14.5px; font-weight: 650; margin: 22px 0 8px; color: var(--muted); }
+p { margin: 8px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--panel); }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; background: var(--soft); }
+td.num, th.num { text-align: right; }
+.verdict { display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin: 18px 0 6px; }
+.badge { display:inline-flex; align-items:center; gap:12px; padding: 12px 18px; border: 2px solid; border-radius: 4px;
+         font-weight: 750; font-size: 20px; letter-spacing: .03em; background: var(--panel); }
+.badge .icon { font-size: 22px; line-height: 1; }
+.badge.robust { border-color: var(--pass); color: var(--pass); }
+.badge.fragile { border-color: var(--warn); color: var(--warn); border-style: dashed; }
+.badge.not-supported { border-color: var(--fail); color: var(--fail); }
+.verdict-text { flex: 1 1 420px; }
+.kv { display:grid; grid-template-columns: max-content 1fr; gap: 3px 18px; margin: 10px 0; font-size: 14px; }
+.kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.note { background: var(--panel); border-left: 3px solid var(--accent); padding: 10px 14px; margin: 14px 0; font-size: 14px; }
+.note.flag { border-left-color: var(--fail); }
+.pass::before { content: "✓ "; color: var(--pass); font-weight: 700; }
+.fail::before { content: "✕ "; color: var(--fail); font-weight: 700; }
+.na { color: var(--muted); }
+details { margin-top: 10px; }
+summary { cursor: pointer; color: var(--accent); }
+pre { background: var(--soft); padding: 12px 14px; font-size: 12.5px; overflow: auto; max-height: 520px; border: 1px solid var(--rule); }
+.legend { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.small { font-size: 13px; color: var(--muted); }
+svg { max-width: 100%; height: auto; }
+footer { margin-top: 56px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); }
+.llm { border: 1px dashed var(--rule); padding: 10px 14px; margin: 14px 0; background: var(--soft); }
+</style>
+</head>
+<body>
+<main>
+<div class="eyebrow">Recluster report · composition shift · run mode</div>
+<h1>FALSE: CD14+ monocyte proportion differs between fake groups A and B (Kang ctrl only)</h1>
+<p class="sub">kang_fake_split_ctrl.h5ad · 12,315 cells × 15,706 genes · counts from <span class="mono">.X</span></p>
+
+<div class="verdict">
+  <div class="badge not-supported"><span class="icon">✕</span>NOT SUPPORTED</div>
+  <div class="verdict-text">
+    <p>The claim held in 0 of 21 runs (0%). It did not hold under the baseline pipeline.</p>
+    <dl class="kv">
+      <dt>Survival</dt><dd class="mono">0 / 21 runs (0%)</dd>
+      
+      
+      <dt>Naive cell-level</dt><dd class="mono">19% of runs (not used for the verdict)</dd>
+      
+      <dt>Rule</dt><dd>ROBUST ≥ 80% · FRAGILE ≥ 20% · else NOT SUPPORTED</dd>
+    </dl>
+  </div>
+</div>
+
+
+
+<h2>Claim</h2>
+<pre class="mono">claim_type: composition_shift
+name: &#39;FALSE: CD14+ monocyte proportion differs between fake groups A and B (Kang
+  ctrl only)&#39;
+columns:
+  condition: fake_group
+  sample:
+  - replicate
+  - fake_group
+  labels: cell_type
+target:
+  markers:
+  - CD14
+  - LYZ
+  - S100A8
+  negative_markers: []
+  label_value: CD14+ Monocytes
+  min_cells: 20
+comparison:
+  group_a: A
+  group_b: B
+  direction: different
+genes: []
+require: all</pre>
+<p class="small">Reference cell set: cells labelled `CD14+ Monocytes` in `cell_type` (2932 cells).</p>
+
+<h2>Survival across the grid</h2>
+<p class="small">One square per run in grid order; the thick-bordered square is the baseline. Hover for the run's settings.</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 648 27" width="648" height="27" role="img" aria-label="survival strip"><defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="6" height="6" fill="#f6f4ee"/><line x1="0" y1="0" x2="0" y2="6" stroke="#9b3b2e" stroke-width="1.2" opacity="0.7"/></pattern></defs><g><title>run 0: baseline — failed</title><rect x="0" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#1b1b1b" stroke-width="2.5"/><text x="11.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 1: min_genes=100 — failed</title><rect x="27" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="38.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 2: min_genes=500 — failed</title><rect x="54" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="65.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 3: doublet_removal=False — failed</title><rect x="81" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="92.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 4: normalization=pearson — failed</title><rect x="108" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="119.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 5: n_hvgs=1000 — failed</title><rect x="135" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="146.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 6: n_hvgs=3000 — failed</title><rect x="162" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="173.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 7: n_pcs=20 — failed</title><rect x="189" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="200.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 8: n_pcs=50 — failed</title><rect x="216" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="227.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 9: resolution=0.3 — failed</title><rect x="243" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="254.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 10: resolution=0.5 — failed</title><rect x="270" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="281.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 11: resolution=1.5 — failed</title><rect x="297" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="308.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 12: resolution=2.0 — failed</title><rect x="324" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="335.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 13: seed=1 — failed</title><rect x="351" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="362.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 14: seed=2 — failed</title><rect x="378" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="389.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 15: min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 — failed</title><rect x="405" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="416.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 16: min_genes=100, doublet_removal=False, normalization=pearson, n_pcs=50, seed=1 — failed</title><rect x="432" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="443.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 17: min_genes=500, normalization=pearson, resolution=2.0 — failed</title><rect x="459" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="470.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 18: min_genes=500, n_pcs=50 — failed</title><rect x="486" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="497.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 19: min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 — failed</title><rect x="513" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="524.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 20: min_genes=100, doublet_removal=False, n_hvgs=3000, resolution=1.5 — failed</title><rect x="540" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="551.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g></svg>
+<h3>By analysis choice</h3>
+<p class="small">Fraction of runs with that setting in which the claim held. ● marks the baseline value. Hatched = failed.</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 618" width="760" height="618" role="img" aria-label="survival by analysis choice"><defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="6" height="6" fill="#f6f4ee"/><line x1="0" y1="0" x2="0" y2="6" stroke="#9b3b2e" stroke-width="1.2" opacity="0.7"/></pattern></defs><text x="0" y="24" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">MIN_GENES</text><text x="16" y="48" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">100</text><rect x="250" y="37" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="48" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/3</text><text x="16" y="68" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">200  ●</text><rect x="250" y="57" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="68" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/13</text><text x="16" y="88" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">500</text><rect x="250" y="77" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="88" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/5</text><text x="0" y="110" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">DOUBLET_REMOVAL</text><text x="16" y="134" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">off</text><rect x="250" y="123" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="134" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/3</text><text x="16" y="154" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">on  ●</text><rect x="250" y="143" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="154" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/18</text><text x="0" y="176" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">NORMALIZATION</text><text x="16" y="200" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">log_total  ●</text><rect x="250" y="189" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="200" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/16</text><text x="16" y="220" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">pearson</text><rect x="250" y="209" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="220" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/5</text><text x="0" y="242" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">N_HVGS</text><text x="16" y="266" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1000</text><rect x="250" y="255" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="266" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/3</text><text x="16" y="286" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2000  ●</text><rect x="250" y="275" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="286" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/16</text><text x="16" y="306" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">3000</text><rect x="250" y="295" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="306" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/2</text><text x="0" y="328" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">N_PCS</text><text x="16" y="352" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">20</text><rect x="250" y="341" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="352" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/3</text><text x="16" y="372" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">30  ●</text><rect x="250" y="361" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="372" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/15</text><text x="16" y="392" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">50</text><rect x="250" y="381" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="392" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/3</text><text x="0" y="414" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">RESOLUTION</text><text x="16" y="438" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0.3</text><rect x="250" y="427" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="438" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/2</text><text x="16" y="458" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0.5</text><rect x="250" y="447" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="458" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/1</text><text x="16" y="478" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1  ●</text><rect x="250" y="467" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="478" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/13</text><text x="16" y="498" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1.5</text><rect x="250" y="487" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="498" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/2</text><text x="16" y="518" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2</text><rect x="250" y="507" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="518" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/3</text><text x="0" y="540" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">SEED</text><text x="16" y="564" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0  ●</text><rect x="250" y="553" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="564" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/18</text><text x="16" y="584" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1</text><rect x="250" y="573" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="584" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/2</text><text x="16" y="604" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2</text><rect x="250" y="593" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="604" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/1</text></svg>
+
+<h2>What broke it</h2>
+
+<p>No single one-at-a-time change flipped the baseline result.</p>
+
+
+<h3>Failure rate by setting</h3>
+<table><thead><tr><th>Axis</th><th>Value</th><th class="num">Runs</th><th class="num">Failed</th><th class="num">Fail rate</th></tr></thead><tbody>
+<tr><td class="mono">doublet_removal</td><td class="mono">on ●</td><td class="num">18</td><td class="num">18</td><td class="num">100%</td></tr><tr><td class="mono">seed</td><td class="mono">0 ●</td><td class="num">18</td><td class="num">18</td><td class="num">100%</td></tr><tr><td class="mono">n_hvgs</td><td class="mono">2000 ●</td><td class="num">16</td><td class="num">16</td><td class="num">100%</td></tr><tr><td class="mono">normalization</td><td class="mono">log_total ●</td><td class="num">16</td><td class="num">16</td><td class="num">100%</td></tr><tr><td class="mono">n_pcs</td><td class="mono">30 ●</td><td class="num">15</td><td class="num">15</td><td class="num">100%</td></tr><tr><td class="mono">min_genes</td><td class="mono">200 ●</td><td class="num">13</td><td class="num">13</td><td class="num">100%</td></tr><tr><td class="mono">resolution</td><td class="mono">1 ●</td><td class="num">13</td><td class="num">13</td><td class="num">100%</td></tr><tr><td class="mono">min_genes</td><td class="mono">500</td><td class="num">5</td><td class="num">5</td><td class="num">100%</td></tr><tr><td class="mono">normalization</td><td class="mono">pearson</td><td class="num">5</td><td class="num">5</td><td class="num">100%</td></tr><tr><td class="mono">doublet_removal</td><td class="mono">off</td><td class="num">3</td><td class="num">3</td><td class="num">100%</td></tr><tr><td class="mono">min_genes</td><td class="mono">100</td><td class="num">3</td><td class="num">3</td><td class="num">100%</td></tr><tr><td class="mono">n_hvgs</td><td class="mono">1000</td><td class="num">3</td><td class="num">3</td><td class="num">100%</td></tr><tr><td class="mono">n_pcs</td><td class="mono">20</td><td class="num">3</td><td class="num">3</td><td class="num">100%</td></tr><tr><td class="mono">n_pcs</td><td class="mono">50</td><td class="num">3</td><td class="num">3</td><td class="num">100%</td></tr><tr><td class="mono">resolution</td><td class="mono">2</td><td class="num">3</td><td class="num">3</td><td class="num">100%</td></tr><tr><td class="mono">n_hvgs</td><td class="mono">3000</td><td class="num">2</td><td class="num">2</td><td class="num">100%</td></tr><tr><td class="mono">resolution</td><td class="mono">0.3</td><td class="num">2</td><td class="num">2</td><td class="num">100%</td></tr><tr><td class="mono">resolution</td><td class="mono">1.5</td><td class="num">2</td><td class="num">2</td><td class="num">100%</td></tr><tr><td class="mono">seed</td><td class="mono">1</td><td class="num">2</td><td class="num">2</td><td class="num">100%</td></tr><tr><td class="mono">resolution</td><td class="mono">0.5</td><td class="num">1</td><td class="num">1</td><td class="num">100%</td></tr><tr><td class="mono">seed</td><td class="mono">2</td><td class="num">1</td><td class="num">1</td><td class="num">100%</td></tr>
+</tbody></table>
+
+
+<h2>Replicate-aware vs cell-level</h2>
+<h3>baseline</h3><table><tbody><tr><td>Samples (A vs B)</td><td class='num'>4 vs 4</td></tr><tr><td>Cells (A vs B)</td><td class='num'>4743 vs 7495</td></tr><tr><td>Mean proportion A / B</td><td class='num'>0.277 / 0.240</td></tr><tr><td>Effect (log-odds A − B)</td><td class='num'>0.174</td></tr><tr><td>Replicate-aware: Welch t on logit proportions, p</td><td class='num'>0.604</td></tr><tr><td>Replicate-aware: Mann-Whitney U on proportions, p</td><td class='num'>0.886</td></tr><tr><td>Cell-level: chi-square on pooled cells, p (not used)</td><td class='num'>0.042</td></tr><tr><td>Holds (replicate-aware)</td><td class='num'>no</td></tr><tr><td>Holds (cell-level)</td><td class='num'>no</td></tr></tbody></table><details><summary>Per-sample proportions</summary><table><thead><tr><th>Sample</th><th>Condition</th><th class='num'>In population</th><th class='num'>Cells</th><th class='num'>Proportion</th></tr></thead><tbody><tr><td class='mono'>patient_1015|B</td><td class='mono'>B</td><td class='num'>841</td><td class='num'>2735</td><td class='num'>0.307</td></tr><tr><td class='mono'>patient_1016|A</td><td class='mono'>A</td><td class='num'>350</td><td class='num'>1719</td><td class='num'>0.204</td></tr><tr><td class='mono'>patient_101|B</td><td class='mono'>B</td><td class='num'>217</td><td class='num'>858</td><td class='num'>0.253</td></tr><tr><td class='mono'>patient_1039|A</td><td class='mono'>A</td><td class='num'>121</td><td class='num'>407</td><td class='num'>0.297</td></tr><tr><td class='mono'>patient_107|A</td><td class='mono'>A</td><td class='num'>216</td><td class='num'>515</td><td class='num'>0.419</td></tr><tr><td class='mono'>patient_1244|B</td><td class='mono'>B</td><td class='num'>450</td><td class='num'>1874</td><td class='num'>0.240</td></tr><tr><td class='mono'>patient_1256|A</td><td class='mono'>A</td><td class='num'>396</td><td class='num'>2102</td><td class='num'>0.188</td></tr><tr><td class='mono'>patient_1488|B</td><td class='mono'>B</td><td class='num'>325</td><td class='num'>2028</td><td class='num'>0.160</td></tr></tbody></table></details><p class='small'>Across the grid the replicate-aware test held in 0% of runs; the cell-level chi-square in 19%.</p>
+
+
+<h2>As labelled</h2>
+<p class="small">The same test applied to the cells exactly as labelled in <span class="mono">cell_type</span> = <span class="mono">CD14+ Monocytes</span>, without re-clustering. This is the claim as the original analysis made it.</p>
+<h3>Using the labels as given</h3><table><tbody><tr><td>Samples (A vs B)</td><td class='num'>4 vs 4</td></tr><tr><td>Cells (A vs B)</td><td class='num'>4809 vs 7506</td></tr><tr><td>Mean proportion A / B</td><td class='num'>0.275 / 0.233</td></tr><tr><td>Effect (log-odds A − B)</td><td class='num'>0.212</td></tr><tr><td>Replicate-aware: Welch t on logit proportions, p</td><td class='num'>0.502</td></tr><tr><td>Replicate-aware: Mann-Whitney U on proportions, p</td><td class='num'>0.686</td></tr><tr><td>Cell-level: chi-square on pooled cells, p (not used)</td><td class='num'>0.560</td></tr><tr><td>Holds (replicate-aware)</td><td class='num'>no</td></tr><tr><td>Holds (cell-level)</td><td class='num'>no</td></tr></tbody></table><details><summary>Per-sample proportions</summary><table><thead><tr><th>Sample</th><th>Condition</th><th class='num'>In population</th><th class='num'>Cells</th><th class='num'>Proportion</th></tr></thead><tbody><tr><td class='mono'>patient_1015|B</td><td class='mono'>B</td><td class='num'>859</td><td class='num'>2738</td><td class='num'>0.314</td></tr><tr><td class='mono'>patient_1016|A</td><td class='mono'>A</td><td class='num'>393</td><td class='num'>1723</td><td class='num'>0.228</td></tr><tr><td class='mono'>patient_101|B</td><td class='mono'>B</td><td class='num'>207</td><td class='num'>858</td><td class='num'>0.241</td></tr><tr><td class='mono'>patient_1039|A</td><td class='mono'>A</td><td class='num'>126</td><td class='num'>461</td><td class='num'>0.273</td></tr><tr><td class='mono'>patient_107|A</td><td class='mono'>A</td><td class='num'>210</td><td class='num'>517</td><td class='num'>0.406</td></tr><tr><td class='mono'>patient_1244|B</td><td class='mono'>B</td><td class='num'>418</td><td class='num'>1879</td><td class='num'>0.222</td></tr><tr><td class='mono'>patient_1256|A</td><td class='mono'>A</td><td class='num'>402</td><td class='num'>2108</td><td class='num'>0.191</td></tr><tr><td class='mono'>patient_1488|B</td><td class='mono'>B</td><td class='num'>317</td><td class='num'>2031</td><td class='num'>0.156</td></tr></tbody></table></details>
+
+
+<h2>All runs</h2>
+<table><thead><tr><th>#</th><th>Settings (differences from baseline)</th><th class="num">Cells</th><th class="num">Clusters</th><th>Population</th><th class="num">effect_log_odds</th><th class="num">p_replicate</th><th>Result</th></tr></thead><tbody>
+<tr>
+<td class="num">0</td>
+<td class="params">baseline</td>
+<td class="num">12,238</td>
+<td class="num">18</td>
+<td class="mono" style="white-space:nowrap">2916 cells / 4 cl.</td>
+<td class="num">0.174</td><td class="num">0.604</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">1</td>
+<td class="params">min_genes=100</td>
+<td class="num">12,240</td>
+<td class="num">18</td>
+<td class="mono" style="white-space:nowrap">3028 cells / 4 cl.</td>
+<td class="num">0.145</td><td class="num">0.635</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">2</td>
+<td class="params">min_genes=500</td>
+<td class="num">6,396</td>
+<td class="num">16</td>
+<td class="mono" style="white-space:nowrap">1720 cells / 2 cl.</td>
+<td class="num">0.218</td><td class="num">0.524</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">3</td>
+<td class="params">doublet_removal=False</td>
+<td class="num">12,261</td>
+<td class="num">17</td>
+<td class="mono" style="white-space:nowrap">2891 cells / 4 cl.</td>
+<td class="num">0.210</td><td class="num">0.535</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">4</td>
+<td class="params">normalization=pearson</td>
+<td class="num">12,238</td>
+<td class="num">23</td>
+<td class="mono" style="white-space:nowrap">1987 cells / 3 cl.</td>
+<td class="num">-0.002</td><td class="num">0.996</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">5</td>
+<td class="params">n_hvgs=1000</td>
+<td class="num">12,238</td>
+<td class="num">16</td>
+<td class="mono" style="white-space:nowrap">2840 cells / 2 cl.</td>
+<td class="num">0.210</td><td class="num">0.541</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">6</td>
+<td class="params">n_hvgs=3000</td>
+<td class="num">12,238</td>
+<td class="num">17</td>
+<td class="mono" style="white-space:nowrap">3109 cells / 4 cl.</td>
+<td class="num">0.225</td><td class="num">0.491</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">7</td>
+<td class="params">n_pcs=20</td>
+<td class="num">12,238</td>
+<td class="num">17</td>
+<td class="mono" style="white-space:nowrap">3022 cells / 4 cl.</td>
+<td class="num">0.236</td><td class="num">0.480</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">8</td>
+<td class="params">n_pcs=50</td>
+<td class="num">12,238</td>
+<td class="num">14</td>
+<td class="mono" style="white-space:nowrap">2737 cells / 2 cl.</td>
+<td class="num">0.204</td><td class="num">0.537</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">9</td>
+<td class="params">resolution=0.3</td>
+<td class="num">12,238</td>
+<td class="num">9</td>
+<td class="mono" style="white-space:nowrap">3055 cells / 1 cl.</td>
+<td class="num">0.225</td><td class="num">0.496</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">10</td>
+<td class="params">resolution=0.5</td>
+<td class="num">12,238</td>
+<td class="num">10</td>
+<td class="mono" style="white-space:nowrap">2869 cells / 1 cl.</td>
+<td class="num">0.201</td><td class="num">0.549</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">11</td>
+<td class="params">resolution=1.5</td>
+<td class="num">12,238</td>
+<td class="num">19</td>
+<td class="mono" style="white-space:nowrap">2972 cells / 4 cl.</td>
+<td class="num">0.171</td><td class="num">0.606</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">12</td>
+<td class="params">resolution=2.0</td>
+<td class="num">12,238</td>
+<td class="num">23</td>
+<td class="mono" style="white-space:nowrap">2679 cells / 5 cl.</td>
+<td class="num">0.170</td><td class="num">0.596</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">13</td>
+<td class="params">seed=1</td>
+<td class="num">12,238</td>
+<td class="num">17</td>
+<td class="mono" style="white-space:nowrap">3031 cells / 4 cl.</td>
+<td class="num">0.163</td><td class="num">0.622</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">14</td>
+<td class="params">seed=2</td>
+<td class="num">12,238</td>
+<td class="num">17</td>
+<td class="mono" style="white-space:nowrap">3114 cells / 4 cl.</td>
+<td class="num">0.208</td><td class="num">0.519</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">15</td>
+<td class="params">min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3</td>
+<td class="num">6,396</td>
+<td class="num">9</td>
+<td class="mono" style="white-space:nowrap">2219 cells / 1 cl.</td>
+<td class="num">0.314</td><td class="num">0.322</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">16</td>
+<td class="params">min_genes=100, doublet_removal=False, normalization=pearson, n_pcs=50, seed=1</td>
+<td class="num">12,268</td>
+<td class="num">18</td>
+<td class="mono" style="white-space:nowrap">2880 cells / 3 cl.</td>
+<td class="num">0.258</td><td class="num">0.423</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">17</td>
+<td class="params">min_genes=500, normalization=pearson, resolution=2.0</td>
+<td class="num">6,396</td>
+<td class="num">29</td>
+<td class="mono" style="white-space:nowrap">1323 cells / 4 cl.</td>
+<td class="num">0.043</td><td class="num">0.923</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">18</td>
+<td class="params">min_genes=500, n_pcs=50</td>
+<td class="num">6,396</td>
+<td class="num">13</td>
+<td class="mono" style="white-space:nowrap">1897 cells / 2 cl.</td>
+<td class="num">0.239</td><td class="num">0.402</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">19</td>
+<td class="params">min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0</td>
+<td class="num">6,396</td>
+<td class="num">33</td>
+<td class="mono" style="white-space:nowrap">1073 cells / 4 cl.</td>
+<td class="num">0.103</td><td class="num">0.835</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">20</td>
+<td class="params">min_genes=100, doublet_removal=False, n_hvgs=3000, resolution=1.5</td>
+<td class="num">12,268</td>
+<td class="num">19</td>
+<td class="mono" style="white-space:nowrap">2967 cells / 4 cl.</td>
+<td class="num">0.256</td><td class="num">0.441</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr>
+</tbody></table>
+
+<h2>Methods</h2>
+<p>Raw counts for 12,315 cells and 15,706 genes were taken from .X of the input file (SHA-256 56873b6d08d3…). Each of 21 pipeline runs (1 baseline, 14 one-at-a-time variations and 6 seeded random combinations) re-derived clusters from these counts. Cells were kept if they expressed at least {100, 200*, 500} genes (the input has no mitochondrial genes, so the mitochondrial-fraction axis was not varied); genes detected in fewer than 3 cells were dropped. Doublets were scored with Scrublet (scanpy implementation, per sample, seed 0) and removed when the doublet_removal axis was on (baseline: on). Expression was normalised either by total-count scaling to 10,000 counts per cell followed by log1p and z-scaling of {1000, 2000*, 3000} highly variable genes (Seurat flavour), or by analytic Pearson residuals on the same number of genes (baseline: log_total). {20, 30*, 50} principal components (ARPACK, seeded) were computed; a 15-nearest-neighbour graph (exact search) was clustered with Leiden (igraph flavour, resolution {0.3, 0.5, 1.0*, 1.5, 2.0}, seeds {0*, 1, 2}). The target population was located in each run by marker enrichment: a per-cell score (mean CP10k-log1p expression of CD14, LYZ, S100A8, z-scored) was computed once from the raw counts, and clusters with at least 10 cells whose AUROC for that score versus all other cells was at least 0.8 were taken as the population. Overlap with the reference cell set (cells labelled `CD14+ Monocytes` in `cell_type` (2932 cells)) was measured by the Jaccard index over barcodes, counting cells removed by QC as absent. For each run the proportion of cells in the population was computed per sample (`replicate`, `fake_group`), and samples in `A` were compared with samples in `B` by a Welch t-test on logit-transformed proportions, so that the biological replicate, not the cell, is the unit of inference. The claim held when p &lt; 0.05 and the direction was `different`. A cell-level chi-square test on pooled cells is reported only to show the effect of pseudoreplication. Verdicts: ROBUST if the claim held in at least 80% of runs, FRAGILE if in at least 20%, otherwise NOT SUPPORTED. All thresholds are listed below and are configurable.</p>
+<p class="small">This paragraph is generated from a fixed template filled with the settings used. It is not written by a language model.</p>
+
+<h2>Thresholds</h2>
+<table><thead><tr><th>Setting</th><th>Value</th></tr></thead><tbody>
+<tr><td class="mono">robust_min_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">fragile_min_survival</td><td class="mono">0.2</td></tr><tr><td class="mono">alpha</td><td class="mono">0.05</td></tr><tr><td class="mono">marker_auroc_min</td><td class="mono">0.8</td></tr><tr><td class="mono">jaccard_min</td><td class="mono">0.5</td></tr><tr><td class="mono">label_precision_min</td><td class="mono">0.5</td></tr><tr><td class="mono">min_samples_present</td><td class="mono">2</td></tr><tr><td class="mono">min_cells_per_sample</td><td class="mono">5</td></tr><tr><td class="mono">min_cluster_size</td><td class="mono">10</td></tr><tr><td class="mono">composition_test</td><td class="mono">logit_t</td></tr><tr><td class="mono">pseudobulk_min_total_counts</td><td class="mono">10</td></tr><tr><td class="mono">pseudoreplication_cell_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">pseudoreplication_replicate_survival</td><td class="mono">0.5</td></tr>
+</tbody></table>
+
+<h2>Provenance</h2>
+<dl class="kv">
+  <dt>Input</dt><dd class="mono">data/kang_fake_split_ctrl.h5ad</dd>
+  <dt>SHA-256</dt><dd class="mono">56873b6d08d34cdff1ac3740438c23ca04f1e67bcaa2230a42c619535aec2f94</dd>
+  <dt>Recluster</dt><dd class="mono">0.1.0</dd>
+  <dt>Python</dt><dd class="mono">3.11.16 · macOS-26.6.2-arm64-arm-64bit</dd>
+  <dt>Key packages</dt><dd class="mono">scanpy 1.11.5 · anndata 0.12.19 · pydeseq2 0.5.4 · harmonypy 2.1.0</dd>
+  <dt>Started</dt><dd class="mono">2026-11-11T05:44:36+00:00</dd>
+  <dt>Total runtime</dt><dd class="mono">302.7 s</dd>
+</dl>
+<details><summary>Full provenance log (JSON)</summary><pre class="mono">{
+  &#34;started_at&#34;: &#34;2026-11-11T05:44:36+00:00&#34;,
+  &#34;finished_at&#34;: &#34;2026-11-11T05:49:39+00:00&#34;,
+  &#34;total_runtime_s&#34;: 302.72,
+  &#34;mode&#34;: &#34;run&#34;,
+  &#34;environment&#34;: {
+    &#34;python&#34;: &#34;3.11.16&#34;,
+    &#34;platform&#34;: &#34;macOS-26.6.2-arm64-arm-64bit&#34;,
+    &#34;machine&#34;: &#34;arm64&#34;,
+    &#34;packages&#34;: {
+      &#34;recluster&#34;: &#34;0.1.0&#34;,
+      &#34;scanpy&#34;: &#34;1.11.5&#34;,
+      &#34;anndata&#34;: &#34;0.12.19&#34;,
+      &#34;numpy&#34;: &#34;2.4.6&#34;,
+      &#34;scipy&#34;: &#34;1.17.1&#34;,
+      &#34;pandas&#34;: &#34;2.3.3&#34;,
+      &#34;scikit-learn&#34;: &#34;1.9.1&#34;,
+      &#34;igraph&#34;: &#34;1.0.0&#34;,
+      &#34;harmonypy&#34;: &#34;2.1.0&#34;,
+      &#34;pydeseq2&#34;: &#34;0.5.4&#34;,
+      &#34;scikit-image&#34;: &#34;0.26.0&#34;,
+      &#34;numba&#34;: &#34;0.68.1&#34;,
+      &#34;pydantic&#34;: &#34;2.14.3&#34;
+    }
+  },
+  &#34;input&#34;: {
+    &#34;path&#34;: &#34;data/kang_fake_split_ctrl.h5ad&#34;,
+    &#34;path_name&#34;: &#34;kang_fake_split_ctrl.h5ad&#34;,
+    &#34;sha256&#34;: &#34;56873b6d08d34cdff1ac3740438c23ca04f1e67bcaa2230a42c619535aec2f94&#34;,
+    &#34;n_cells&#34;: 12315,
+    &#34;n_genes&#34;: 15706,
+    &#34;counts_source&#34;: &#34;.X&#34;,
+    &#34;mito_prefix&#34;: null,
+    &#34;n_samples&#34;: 8,
+    &#34;conditions&#34;: [
+      &#34;A&#34;,
+      &#34;B&#34;
+    ],
+    &#34;n_batches&#34;: null
+  },
+  &#34;claim&#34;: {
+    &#34;claim_type&#34;: &#34;composition_shift&#34;,
+    &#34;name&#34;: &#34;FALSE: CD14+ monocyte proportion differs between fake groups A and B (Kang ctrl only)&#34;,
+    &#34;columns&#34;: {
+      &#34;condition&#34;: &#34;fake_group&#34;,
+      &#34;sample&#34;: [
+        &#34;replicate&#34;,
+        &#34;fake_group&#34;
+      ],
+      &#34;labels&#34;: &#34;cell_type&#34;
+    },
+    &#34;target&#34;: {
+      &#34;markers&#34;: [
+        &#34;CD14&#34;,
+        &#34;LYZ&#34;,
+        &#34;S100A8&#34;
+      ],
+      &#34;negative_markers&#34;: [],
+      &#34;label_value&#34;: &#34;CD14+ Monocytes&#34;,
+      &#34;min_cells&#34;: 20
+    },
+    &#34;comparison&#34;: {
+      &#34;group_a&#34;: &#34;A&#34;,
+      &#34;group_b&#34;: &#34;B&#34;,
+      &#34;direction&#34;: &#34;different&#34;
+    },
+    &#34;genes&#34;: [],
+    &#34;require&#34;: &#34;all&#34;
+  },
+  &#34;grid&#34;: {
+    &#34;baseline&#34;: {
+      &#34;min_genes&#34;: 200,
+      &#34;max_mito_pct&#34;: 10.0,
+      &#34;doublet_removal&#34;: true,
+      &#34;normalization&#34;: &#34;log_total&#34;,
+      &#34;n_hvgs&#34;: 2000,
+      &#34;n_pcs&#34;: 30,
+      &#34;resolution&#34;: 1.0,
+      &#34;batch_correction&#34;: true,
+      &#34;seed&#34;: 0
+    },
+    &#34;axes&#34;: {
+      &#34;min_genes&#34;: [
+        100,
+        200,
+        500
+      ],
+      &#34;max_mito_pct&#34;: [
+        5.0,
+        10.0,
+        20.0
+      ],
+      &#34;doublet_removal&#34;: [
+        false,
+        true
+      ],
+      &#34;normalization&#34;: [
+        &#34;log_total&#34;,
+        &#34;pearson&#34;
+      ],
+      &#34;n_hvgs&#34;: [
+        1000,
+        2000,
+        3000
+      ],
+      &#34;n_pcs&#34;: [
+        20,
+        30,
+        50
+      ],
+      &#34;resolution&#34;: [
+        0.3,
+        0.5,
+        1.0,
+        1.5,
+        2.0
+      ],
+      &#34;batch_correction&#34;: [
+        false,
+        true
+      ],
+      &#34;seed&#34;: [
+        0,
+        1,
+        2
+      ]
+    },
+    &#34;n_random&#34;: 6,
+    &#34;random_seed&#34;: 0,
+    &#34;n_neighbors&#34;: 15,
+    &#34;mito_prefix&#34;: &#34;auto&#34;,
+    &#34;scrublet_seed&#34;: 0,
+    &#34;max_runs&#34;: null,
+    &#34;n_cpus&#34;: 4
+  },
+  &#34;thresholds&#34;: {
+    &#34;robust_min_survival&#34;: 0.8,
+    &#34;fragile_min_survival&#34;: 0.2,
+    &#34;alpha&#34;: 0.05,
+    &#34;marker_auroc_min&#34;: 0.8,
+    &#34;jaccard_min&#34;: 0.5,
+    &#34;label_precision_min&#34;: 0.5,
+    &#34;min_samples_present&#34;: 2,
+    &#34;min_cells_per_sample&#34;: 5,
+    &#34;min_cluster_size&#34;: 10,
+    &#34;composition_test&#34;: &#34;logit_t&#34;,
+    &#34;pseudobulk_min_total_counts&#34;: 10,
+    &#34;pseudoreplication_cell_survival&#34;: 0.8,
+    &#34;pseudoreplication_replicate_survival&#34;: 0.5
+  },
+  &#34;grid_counts&#34;: {
+    &#34;total&#34;: 21,
+    &#34;baseline&#34;: 1,
+    &#34;one_at_a_time&#34;: 14,
+    &#34;random&#34;: 6
+  },
+  &#34;reference_source&#34;: &#34;cells labelled `CD14+ Monocytes` in `cell_type` (2932 cells)&#34;,
+  &#34;verdict&#34;: {
+    &#34;label&#34;: &#34;NOT SUPPORTED&#34;,
+    &#34;survival&#34;: 0.0,
+    &#34;n_runs&#34;: 21,
+    &#34;n_holds&#34;: 0,
+    &#34;baseline_holds&#34;: false,
+    &#34;cell_level_survival&#34;: 0.190476,
+    &#34;recovered_survival&#34;: null,
+    &#34;pseudoreplication_flag&#34;: false,
+    &#34;by_choice&#34;: [
+      {
+        &#34;axis&#34;: &#34;min_genes&#34;,
+        &#34;value&#34;: 100,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;min_genes&#34;,
+        &#34;value&#34;: 200,
+        &#34;n_runs&#34;: 13,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;min_genes&#34;,
+        &#34;value&#34;: 500,
+        &#34;n_runs&#34;: 5,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;doublet_removal&#34;,
+        &#34;value&#34;: false,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;doublet_removal&#34;,
+        &#34;value&#34;: true,
+        &#34;n_runs&#34;: 18,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;normalization&#34;,
+        &#34;value&#34;: &#34;log_total&#34;,
+        &#34;n_runs&#34;: 16,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;normalization&#34;,
+        &#34;value&#34;: &#34;pearson&#34;,
+        &#34;n_runs&#34;: 5,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_hvgs&#34;,
+        &#34;value&#34;: 1000,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_hvgs&#34;,
+        &#34;value&#34;: 2000,
+        &#34;n_runs&#34;: 16,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;n_hvgs&#34;,
+        &#34;value&#34;: 3000,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_pcs&#34;,
+        &#34;value&#34;: 20,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_pcs&#34;,
+        &#34;value&#34;: 30,
+        &#34;n_runs&#34;: 15,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;n_pcs&#34;,
+        &#34;value&#34;: 50,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 0.3,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 0.5,
+        &#34;n_runs&#34;: 1,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 1.0,
+        &#34;n_runs&#34;: 13,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 1.5,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 2.0,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;seed&#34;,
+        &#34;value&#34;: 0,
+        &#34;n_runs&#34;: 18,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;seed&#34;,
+        &#34;value&#34;: 1,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;seed&#34;,
+        &#34;value&#34;: 2,
+        &#34;n_runs&#34;: 1,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      }
+    ],
+    &#34;breakers&#34;: [
+      {
+        &#34;axis&#34;: &#34;doublet_removal&#34;,
+        &#34;value&#34;: true,
+        &#34;n_runs&#34;: 18,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;seed&#34;,
+        &#34;value&#34;: 0,
+        &#34;n_runs&#34;: 18,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;n_hvgs&#34;,
+        &#34;value&#34;: 2000,
+        &#34;n_runs&#34;: 16,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;normalization&#34;,
+        &#34;value&#34;: &#34;log_total&#34;,
+        &#34;n_runs&#34;: 16,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;n_pcs&#34;,
+        &#34;value&#34;: 30,
+        &#34;n_runs&#34;: 15,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;min_genes&#34;,
+        &#34;value&#34;: 200,
+        &#34;n_runs&#34;: 13,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 1.0,
+        &#34;n_runs&#34;: 13,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;min_genes&#34;,
+        &#34;value&#34;: 500,
+        &#34;n_runs&#34;: 5,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;normalization&#34;,
+        &#34;value&#34;: &#34;pearson&#34;,
+        &#34;n_runs&#34;: 5,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;doublet_removal&#34;,
+        &#34;value&#34;: false,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;min_genes&#34;,
+        &#34;value&#34;: 100,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_hvgs&#34;,
+        &#34;value&#34;: 1000,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_pcs&#34;,
+        &#34;value&#34;: 20,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_pcs&#34;,
+        &#34;value&#34;: 50,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 2.0,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_hvgs&#34;,
+        &#34;value&#34;: 3000,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 0.3,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 1.5,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;seed&#34;,
+        &#34;value&#34;: 1,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 0.5,
+        &#34;n_runs&#34;: 1,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;seed&#34;,
+        &#34;value&#34;: 2,
+        &#34;n_runs&#34;: 1,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      }
+    ],
+    &#34;oat_flips&#34;: [],
+    &#34;summary&#34;: &#34;The claim held in 0 of 21 runs (0%). It did not hold under the baseline pipeline.&#34;
+  },
+  &#34;runs&#34;: [
+    {
+      &#34;index&#34;: 0,
+      &#34;label&#34;: &#34;baseline&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: true,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 18,
+      &#34;runtime_s&#34;: 44.429,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;1&#34;,
+          &#34;4&#34;,
+          &#34;13&#34;
+        ],
+        &#34;n_cells&#34;: 2916,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.90828,
+        &#34;marker_auroc&#34;: 0.966559,
+        &#34;jaccard&#34;: 0.899935,
+        &#34;precision&#34;: 0.949931,
+        &#34;recall&#34;: 0.944748,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.288409,
+        &#34;doublet_score_median&#34;: 0.0367133,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.17368,
+        &#34;p_replicate&#34;: 0.604067
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.17368,
+        &#34;mean_proportion_a&#34;: 0.277178,
+        &#34;mean_proportion_b&#34;: 0.240198,
+        &#34;proportion_ratio_a_over_b&#34;: 1.15396,
+        &#34;p_logit_ttest&#34;: 0.604067,
+        &#34;p_mannwhitney&#34;: 0.885714,
+        &#34;p_cell_level_chi2&#34;: 0.0422531,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4743,
+        &#34;n_cells_b&#34;: 7495,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2735,
+            &#34;k&#34;: 841,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.307495,
+            &#34;logit&#34;: -0.811524
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1719,
+            &#34;k&#34;: 350,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.203607,
+            &#34;logit&#34;: -1.36284
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 217,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.252914,
+            &#34;logit&#34;: -1.08161
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 407,
+            &#34;k&#34;: 121,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.297297,
+            &#34;logit&#34;: -0.857824
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 515,
+            &#34;k&#34;: 216,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.419417,
+            &#34;logit&#34;: -0.324524
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1874,
+            &#34;k&#34;: 450,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.240128,
+            &#34;logit&#34;: -1.15122
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2102,
+            &#34;k&#34;: 396,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.188392,
+            &#34;logit&#34;: -1.45952
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2028,
+            &#34;k&#34;: 325,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.160256,
+            &#34;logit&#34;: -1.65508
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 1,
+      &#34;label&#34;: &#34;min_genes=100&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 100,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12240,
+      &#34;n_removed_qc&#34;: 47,
+      &#34;n_removed_doublet&#34;: 28,
+      &#34;n_clusters&#34;: 18,
+      &#34;runtime_s&#34;: 38.919,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;2&#34;,
+          &#34;5&#34;,
+          &#34;15&#34;
+        ],
+        &#34;n_cells&#34;: 3028,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.961983,
+        &#34;marker_auroc&#34;: 0.977032,
+        &#34;jaccard&#34;: 0.842919,
+        &#34;precision&#34;: 0.900264,
+        &#34;recall&#34;: 0.929741,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.282034,
+        &#34;doublet_score_median&#34;: 0.0379747,
+        &#34;doublet_score_median_all&#34;: 0.0491196
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.145188,
+        &#34;p_replicate&#34;: 0.635324
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.145188,
+        &#34;mean_proportion_a&#34;: 0.281417,
+        &#34;mean_proportion_b&#34;: 0.250464,
+        &#34;proportion_ratio_a_over_b&#34;: 1.12358,
+        &#34;p_logit_ttest&#34;: 0.635324,
+        &#34;p_mannwhitney&#34;: 0.885714,
+        &#34;p_cell_level_chi2&#34;: 0.0848308,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4748,
+        &#34;n_cells_b&#34;: 7492,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2735,
+            &#34;k&#34;: 854,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.312249,
+            &#34;logit&#34;: -0.789308
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1719,
+            &#34;k&#34;: 398,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.23153,
+            &#34;logit&#34;: -1.19882
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 235,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.273893,
+            &#34;logit&#34;: -0.973638
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 412,
+            &#34;k&#34;: 118,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.286408,
+            &#34;logit&#34;: -0.910366
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 515,
+            &#34;k&#34;: 214,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.415534,
+            &#34;logit&#34;: -0.34046
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1874,
+            &#34;k&#34;: 457,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.243863,
+            &#34;logit&#34;: -1.13087
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2102,
+            &#34;k&#34;: 404,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.192198,
+            &#34;logit&#34;: -1.43485
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2025,
+            &#34;k&#34;: 348,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.171852,
+            &#34;logit&#34;: -1.57142
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 2,
+      &#34;label&#34;: &#34;min_genes=500&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 500,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 6396,
+      &#34;n_removed_qc&#34;: 5880,
+      &#34;n_removed_doublet&#34;: 39,
+      &#34;n_clusters&#34;: 16,
+      &#34;runtime_s&#34;: 18.312,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;1&#34;,
+          &#34;2&#34;
+        ],
+        &#34;n_cells&#34;: 1720,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.881587,
+        &#34;marker_auroc&#34;: 0.930241,
+        &#34;jaccard&#34;: 0.578019,
+        &#34;precision&#34;: 0.990698,
+        &#34;recall&#34;: 0.581173,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.25407,
+        &#34;doublet_score_median&#34;: 0.0486009,
+        &#34;doublet_score_median_all&#34;: 0.0486009
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.218417,
+        &#34;p_replicate&#34;: 0.523829
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.218417,
+        &#34;mean_proportion_a&#34;: 0.316582,
+        &#34;mean_proportion_b&#34;: 0.268279,
+        &#34;proportion_ratio_a_over_b&#34;: 1.18005,
+        &#34;p_logit_ttest&#34;: 0.523829,
+        &#34;p_mannwhitney&#34;: 0.885714,
+        &#34;p_cell_level_chi2&#34;: 0.286316,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 2451,
+        &#34;n_cells_b&#34;: 3945,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 1584,
+            &#34;k&#34;: 437,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.275884,
+            &#34;logit&#34;: -0.964264
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 695,
+            &#34;k&#34;: 165,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.23741,
+            &#34;logit&#34;: -1.16485
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 486,
+            &#34;k&#34;: 162,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.333333,
+            &#34;logit&#34;: -0.691608
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 272,
+            &#34;k&#34;: 82,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.301471,
+            &#34;logit&#34;: -0.836854
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 324,
+            &#34;k&#34;: 160,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.493827,
+            &#34;logit&#34;: -0.0246166
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1022,
+            &#34;k&#34;: 286,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.279843,
+            &#34;logit&#34;: -0.944171
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 1160,
+            &#34;k&#34;: 271,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.233621,
+            &#34;logit&#34;: -1.1867
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 853,
+            &#34;k&#34;: 157,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.184056,
+            &#34;logit&#34;: -1.48664
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 3,
+      &#34;label&#34;: &#34;doublet_removal=False&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: false,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12261,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 0,
+      &#34;n_clusters&#34;: 17,
+      &#34;runtime_s&#34;: 12.868,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;2&#34;,
+          &#34;3&#34;,
+          &#34;11&#34;
+        ],
+        &#34;n_cells&#34;: 2891,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.924945,
+        &#34;marker_auroc&#34;: 0.965305,
+        &#34;jaccard&#34;: 0.923052,
+        &#34;precision&#34;: 0.966793,
+        &#34;recall&#34;: 0.953274,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.291595,
+        &#34;doublet_score_median&#34;: 0.0361261,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.209813,
+        &#34;p_replicate&#34;: 0.535089
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.209813,
+        &#34;mean_proportion_a&#34;: 0.277666,
+        &#34;mean_proportion_b&#34;: 0.234545,
+        &#34;proportion_ratio_a_over_b&#34;: 1.18385,
+        &#34;p_logit_ttest&#34;: 0.535089,
+        &#34;p_mannwhitney&#34;: 0.885714,
+        &#34;p_cell_level_chi2&#34;: 0.177165,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4756,
+        &#34;n_cells_b&#34;: 7505,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2738,
+            &#34;k&#34;: 843,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.307889,
+            &#34;logit&#34;: -0.809678
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1723,
+            &#34;k&#34;: 355,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.206036,
+            &#34;logit&#34;: -1.34795
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 210,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.244755,
+            &#34;logit&#34;: -1.12518
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 408,
+            &#34;k&#34;: 121,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.296569,
+            &#34;logit&#34;: -0.861309
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 517,
+            &#34;k&#34;: 217,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.419729,
+            &#34;logit&#34;: -0.323249
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1879,
+            &#34;k&#34;: 431,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.229377,
+            &#34;logit&#34;: -1.21102
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2108,
+            &#34;k&#34;: 397,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.18833,
+            &#34;logit&#34;: -1.45993
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2030,
+            &#34;k&#34;: 317,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.156158,
+            &#34;logit&#34;: -1.68582
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 4,
+      &#34;label&#34;: &#34;normalization=pearson&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;pearson&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 23,
+      &#34;runtime_s&#34;: 8.14,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;2&#34;,
+          &#34;18&#34;,
+          &#34;19&#34;
+        ],
+        &#34;n_cells&#34;: 1987,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.959861,
+        &#34;marker_auroc&#34;: 0.962161,
+        &#34;jaccard&#34;: 0.561092,
+        &#34;precision&#34;: 0.889784,
+        &#34;recall&#34;: 0.603001,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.238551,
+        &#34;doublet_score_median&#34;: 0.0361261,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: -0.00190666,
+        &#34;p_replicate&#34;: 0.99643
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: -0.00190666,
+        &#34;mean_proportion_a&#34;: 0.193587,
+        &#34;mean_proportion_b&#34;: 0.177135,
+        &#34;proportion_ratio_a_over_b&#34;: 1.09288,
+        &#34;p_logit_ttest&#34;: 0.99643,
+        &#34;p_mannwhitney&#34;: 0.885714,
+        &#34;p_cell_level_chi2&#34;: 0.00230126,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4743,
+        &#34;n_cells_b&#34;: 7495,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2735,
+            &#34;k&#34;: 474,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.173309,
+            &#34;logit&#34;: -1.56152
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1719,
+            &#34;k&#34;: 144,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.0837696,
+            &#34;logit&#34;: -2.38905
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 185,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.215618,
+            &#34;logit&#34;: -1.28943
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 407,
+            &#34;k&#34;: 76,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.186732,
+            &#34;logit&#34;: -1.46634
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 515,
+            &#34;k&#34;: 185,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.359223,
+            &#34;logit&#34;: -0.577552
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1874,
+            &#34;k&#34;: 355,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.189434,
+            &#34;logit&#34;: -1.45261
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2102,
+            &#34;k&#34;: 304,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.144624,
+            &#34;logit&#34;: -1.77604
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2028,
+            &#34;k&#34;: 264,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.130178,
+            &#34;logit&#34;: -1.89778
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 5,
+      &#34;label&#34;: &#34;n_hvgs=1000&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 1000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 16,
+      &#34;runtime_s&#34;: 10.448,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;1&#34;
+        ],
+        &#34;n_cells&#34;: 2840,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.914363,
+        &#34;marker_auroc&#34;: 0.96426,
+        &#34;jaccard&#34;: 0.894944,
+        &#34;precision&#34;: 0.959859,
+        &#34;recall&#34;: 0.929741,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.288028,
+        &#34;doublet_score_median&#34;: 0.0361261,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.209926,
+        &#34;p_replicate&#34;: 0.540657
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.209926,
+        &#34;mean_proportion_a&#34;: 0.275215,
+        &#34;mean_proportion_b&#34;: 0.231489,
+        &#34;proportion_ratio_a_over_b&#34;: 1.18889,
+        &#34;p_logit_ttest&#34;: 0.540657,
+        &#34;p_mannwhitney&#34;: 0.885714,
+        &#34;p_cell_level_chi2&#34;: 0.215511,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4743,
+        &#34;n_cells_b&#34;: 7495,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2735,
+            &#34;k&#34;: 818,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.299086,
+            &#34;logit&#34;: -0.851304
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1719,
+            &#34;k&#34;: 335,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.194881,
+            &#34;logit&#34;: -1.41747
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 210,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.244755,
+            &#34;logit&#34;: -1.12518
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 407,
+            &#34;k&#34;: 119,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.292383,
+            &#34;logit&#34;: -0.881379
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 515,
+            &#34;k&#34;: 218,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.423301,
+            &#34;logit&#34;: -0.308628
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1874,
+            &#34;k&#34;: 425,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.226788,
+            &#34;logit&#34;: -1.22571
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2102,
+            &#34;k&#34;: 400,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.190295,
+            &#34;logit&#34;: -1.44714
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2028,
+            &#34;k&#34;: 315,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.155325,
+            &#34;logit&#34;: -1.69213
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 6,
+      &#34;label&#34;: &#34;n_hvgs=3000&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 3000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 17,
+      &#34;runtime_s&#34;: 23.501,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;1&#34;,
+          &#34;2&#34;,
+          &#34;5&#34;
+        ],
+        &#34;n_cells&#34;: 3109,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.934102,
+        &#34;marker_auroc&#34;: 0.969068,
+        &#34;jaccard&#34;: 0.899686,
+        &#34;precision&#34;: 0.920232,
+        &#34;recall&#34;: 0.975784,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.283693,
+        &#34;doublet_score_median&#34;: 0.0379747,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.224805,
+        &#34;p_replicate&#34;: 0.491201
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.224805,
+        &#34;mean_proportion_a&#34;: 0.299343,
+        &#34;mean_proportion_b&#34;: 0.251979,
+        &#34;proportion_ratio_a_over_b&#34;: 1.18797,
+        &#34;p_logit_ttest&#34;: 0.491201,
+        &#34;p_mannwhitney&#34;: 0.685714,
+        &#34;p_cell_level_chi2&#34;: 0.383782,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4743,
+        &#34;n_cells_b&#34;: 7495,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2735,
+            &#34;k&#34;: 882,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.322486,
+            &#34;logit&#34;: -0.742072
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1719,
+            &#34;k&#34;: 412,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.239674,
+            &#34;logit&#34;: -1.15364
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 226,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.263403,
+            &#34;logit&#34;: -1.02694
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 407,
+            &#34;k&#34;: 133,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.326781,
+            &#34;logit&#34;: -0.72085
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 515,
+            &#34;k&#34;: 223,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.43301,
+            &#34;logit&#34;: -0.269053
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1874,
+            &#34;k&#34;: 473,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.252401,
+            &#34;logit&#34;: -1.08515
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2102,
+            &#34;k&#34;: 416,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.197907,
+            &#34;logit&#34;: -1.39852
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2028,
+            &#34;k&#34;: 344,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.169625,
+            &#34;logit&#34;: -1.58713
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 7,
+      &#34;label&#34;: &#34;n_pcs=20&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 20,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 17,
+      &#34;runtime_s&#34;: 11.909,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;2&#34;,
+          &#34;3&#34;,
+          &#34;12&#34;
+        ],
+        &#34;n_cells&#34;: 3022,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.929721,
+        &#34;marker_auroc&#34;: 0.967038,
+        &#34;jaccard&#34;: 0.940046,
+        &#34;precision&#34;: 0.954666,
+        &#34;recall&#34;: 0.98397,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.294176,
+        &#34;doublet_score_median&#34;: 0.037037,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.235948,
+        &#34;p_replicate&#34;: 0.479558
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.235948,
+        &#34;mean_proportion_a&#34;: 0.291049,
+        &#34;mean_proportion_b&#34;: 0.242959,
+        &#34;proportion_ratio_a_over_b&#34;: 1.19794,
+        &#34;p_logit_ttest&#34;: 0.479558,
+        &#34;p_mannwhitney&#34;: 0.685714,
+        &#34;p_cell_level_chi2&#34;: 0.47199,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4743,
+        &#34;n_cells_b&#34;: 7495,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2735,
+            &#34;k&#34;: 889,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.325046,
+            &#34;logit&#34;: -0.730388
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1719,
+            &#34;k&#34;: 406,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.236184,
+            &#34;logit&#34;: -1.17287
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 218,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.254079,
+            &#34;logit&#34;: -1.07546
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 407,
+            &#34;k&#34;: 126,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.309582,
+            &#34;logit&#34;: -0.79989
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 515,
+            &#34;k&#34;: 220,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.427184,
+            &#34;logit&#34;: -0.292771
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1874,
+            &#34;k&#34;: 431,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.229989,
+            &#34;logit&#34;: -1.20756
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2102,
+            &#34;k&#34;: 402,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.191246,
+            &#34;logit&#34;: -1.44098
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2028,
+            &#34;k&#34;: 330,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.162722,
+            &#34;logit&#34;: -1.63689
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 8,
+      &#34;label&#34;: &#34;n_pcs=50&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 50,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 14,
+      &#34;runtime_s&#34;: 14.967,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;3&#34;
+        ],
+        &#34;n_cells&#34;: 2737,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.931752,
+        &#34;marker_auroc&#34;: 0.959471,
+        &#34;jaccard&#34;: 0.906828,
+        &#34;precision&#34;: 0.98502,
+        &#34;recall&#34;: 0.919509,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.29631,
+        &#34;doublet_score_median&#34;: 0.0357143,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.204003,
+        &#34;p_replicate&#34;: 0.536709
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.204003,
+        &#34;mean_proportion_a&#34;: 0.262777,
+        &#34;mean_proportion_b&#34;: 0.222122,
+        &#34;proportion_ratio_a_over_b&#34;: 1.18303,
+        &#34;p_logit_ttest&#34;: 0.536709,
+        &#34;p_mannwhitney&#34;: 0.885714,
+        &#34;p_cell_level_chi2&#34;: 0.16393,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4743,
+        &#34;n_cells_b&#34;: 7495,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2735,
+            &#34;k&#34;: 811,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.296527,
+            &#34;logit&#34;: -0.863537
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1719,
+            &#34;k&#34;: 327,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.190227,
+            &#34;logit&#34;: -1.44737
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 199,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.231935,
+            &#34;logit&#34;: -1.19567
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 407,
+            &#34;k&#34;: 115,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.282555,
+            &#34;logit&#34;: -0.929194
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 515,
+            &#34;k&#34;: 204,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.396117,
+            &#34;logit&#34;: -0.420831
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1874,
+            &#34;k&#34;: 391,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.208645,
+            &#34;logit&#34;: -1.33217
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2102,
+            &#34;k&#34;: 383,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.182207,
+            &#34;logit&#34;: -1.50045
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2028,
+            &#34;k&#34;: 307,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.151381,
+            &#34;logit&#34;: -1.72248
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 9,
+      &#34;label&#34;: &#34;resolution=0.3&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 0.3,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 9,
+      &#34;runtime_s&#34;: 10.326,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;
+        ],
+        &#34;n_cells&#34;: 3055,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.969318,
+        &#34;marker_auroc&#34;: 0.969318,
+        &#34;jaccard&#34;: 0.933161,
+        &#34;precision&#34;: 0.94599,
+        &#34;recall&#34;: 0.985675,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.291653,
+        &#34;doublet_score_median&#34;: 0.0373333,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.224936,
+        &#34;p_replicate&#34;: 0.495614
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.224936,
+        &#34;mean_proportion_a&#34;: 0.292532,
+        &#34;mean_proportion_b&#34;: 0.246502,
+        &#34;proportion_ratio_a_over_b&#34;: 1.18674,
+        &#34;p_logit_ttest&#34;: 0.495614,
+        &#34;p_mannwhitney&#34;: 0.885714,
+        &#34;p_cell_level_chi2&#34;: 0.334627,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4743,
+        &#34;n_cells_b&#34;: 7495,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2735,
+            &#34;k&#34;: 891,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.325777,
+            &#34;logit&#34;: -0.727058
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1719,
+            &#34;k&#34;: 407,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.236766,
+            &#34;logit&#34;: -1.16965
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 219,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.255245,
+            &#34;logit&#34;: -1.06933
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 407,
+            &#34;k&#34;: 128,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.314496,
+            &#34;logit&#34;: -0.777073
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 515,
+            &#34;k&#34;: 219,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.425243,
+            &#34;logit&#34;: -0.300695
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1874,
+            &#34;k&#34;: 454,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.242263,
+            &#34;logit&#34;: -1.13957
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2102,
+            &#34;k&#34;: 407,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.193625,
+            &#34;logit&#34;: -1.42569
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2028,
+            &#34;k&#34;: 330,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.162722,
+            &#34;logit&#34;: -1.63689
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 10,
+      &#34;label&#34;: &#34;resolution=0.5&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 0.5,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 10,
+      &#34;runtime_s&#34;: 11.276,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;
+        ],
+        &#34;n_cells&#34;: 2869,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.964392,
+        &#34;marker_auroc&#34;: 0.964392,
+        &#34;jaccard&#34;: 0.915786,
+        &#34;precision&#34;: 0.966539,
+        &#34;recall&#34;: 0.945771,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.292785,
+        &#34;doublet_score_median&#34;: 0.0361261,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.2013,
+        &#34;p_replicate&#34;: 0.548515
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.2013,
+        &#34;mean_proportion_a&#34;: 0.27486,
+        &#34;mean_proportion_b&#34;: 0.233623,
+        &#34;proportion_ratio_a_over_b&#34;: 1.17651,
+        &#34;p_logit_ttest&#34;: 0.548515,
+        &#34;p_mannwhitney&#34;: 0.885714,
+        &#34;p_cell_level_chi2&#34;: 0.14329,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4743,
+        &#34;n_cells_b&#34;: 7495,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2735,
+            &#34;k&#34;: 840,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.30713,
+            &#34;logit&#34;: -0.813241
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1719,
+            &#34;k&#34;: 350,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.203607,
+            &#34;logit&#34;: -1.36284
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 210,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.244755,
+            &#34;logit&#34;: -1.12518
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 407,
+            &#34;k&#34;: 119,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.292383,
+            &#34;logit&#34;: -0.881379
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 515,
+            &#34;k&#34;: 214,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.415534,
+            &#34;logit&#34;: -0.34046
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1874,
+            &#34;k&#34;: 425,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.226788,
+            &#34;logit&#34;: -1.22571
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2102,
+            &#34;k&#34;: 395,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.187916,
+            &#34;logit&#34;: -1.46263
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2028,
+            &#34;k&#34;: 316,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.155819,
+            &#34;logit&#34;: -1.68839
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 11,
+      &#34;label&#34;: &#34;resolution=1.5&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.5,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 19,
+      &#34;runtime_s&#34;: 13.751,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;1&#34;,
+          &#34;3&#34;,
+          &#34;16&#34;
+        ],
+        &#34;n_cells&#34;: 2972,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.90861,
+        &#34;marker_auroc&#34;: 0.965726,
+        &#34;jaccard&#34;: 0.858942,
+        &#34;precision&#34;: 0.9179,
+        &#34;recall&#34;: 0.930423,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.280619,
+        &#34;doublet_score_median&#34;: 0.0373333,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.171167,
+        &#34;p_replicate&#34;: 0.605843
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.171167,
+        &#34;mean_proportion_a&#34;: 0.284216,
+        &#34;mean_proportion_b&#34;: 0.246233,
+        &#34;proportion_ratio_a_over_b&#34;: 1.15426,
+        &#34;p_logit_ttest&#34;: 0.605843,
+        &#34;p_mannwhitney&#34;: 0.685714,
+        &#34;p_cell_level_chi2&#34;: 0.0405302,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4743,
+        &#34;n_cells_b&#34;: 7495,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2735,
+            &#34;k&#34;: 834,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.304936,
+            &#34;logit&#34;: -0.823566
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1719,
+            &#34;k&#34;: 349,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.203025,
+            &#34;logit&#34;: -1.36643
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 225,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.262238,
+            &#34;logit&#34;: -1.03294
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 407,
+            &#34;k&#34;: 128,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.314496,
+            &#34;logit&#34;: -0.777073
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 515,
+            &#34;k&#34;: 219,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.425243,
+            &#34;logit&#34;: -0.300695
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1874,
+            &#34;k&#34;: 465,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.248132,
+            &#34;logit&#34;: -1.10788
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2102,
+            &#34;k&#34;: 408,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.194101,
+            &#34;logit&#34;: -1.42265
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2028,
+            &#34;k&#34;: 344,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.169625,
+            &#34;logit&#34;: -1.58713
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 12,
+      &#34;label&#34;: &#34;resolution=2.0&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 2.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 23,
+      &#34;runtime_s&#34;: 14.993,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;1&#34;,
+          &#34;2&#34;,
+          &#34;3&#34;,
+          &#34;6&#34;,
+          &#34;7&#34;
+        ],
+        &#34;n_cells&#34;: 2679,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.946006,
+        &#34;marker_auroc&#34;: 0.969126,
+        &#34;jaccard&#34;: 0.759486,
+        &#34;precision&#34;: 0.904069,
+        &#34;recall&#34;: 0.826057,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.265771,
+        &#34;doublet_score_median&#34;: 0.0379747,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.170017,
+        &#34;p_replicate&#34;: 0.596108
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.170017,
+        &#34;mean_proportion_a&#34;: 0.258415,
+        &#34;mean_proportion_b&#34;: 0.221978,
+        &#34;proportion_ratio_a_over_b&#34;: 1.16415,
+        &#34;p_logit_ttest&#34;: 0.596108,
+        &#34;p_mannwhitney&#34;: 0.685714,
+        &#34;p_cell_level_chi2&#34;: 0.229469,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4743,
+        &#34;n_cells_b&#34;: 7495,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2735,
+            &#34;k&#34;: 712,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.260329,
+            &#34;logit&#34;: -1.0438
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1719,
+            &#34;k&#34;: 309,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.179756,
+            &#34;logit&#34;: -1.51674
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 206,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.240093,
+            &#34;logit&#34;: -1.15051
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 407,
+            &#34;k&#34;: 110,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.27027,
+            &#34;logit&#34;: -0.990399
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 515,
+            &#34;k&#34;: 206,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.4,
+            &#34;logit&#34;: -0.404658
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1874,
+            &#34;k&#34;: 436,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.232657,
+            &#34;logit&#34;: -1.19257
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2102,
+            &#34;k&#34;: 386,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.183635,
+            &#34;logit&#34;: -1.49091
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2028,
+            &#34;k&#34;: 314,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.154832,
+            &#34;logit&#34;: -1.69589
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 13,
+      &#34;label&#34;: &#34;seed=1&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 1
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 17,
+      &#34;runtime_s&#34;: 10.417,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;1&#34;,
+          &#34;2&#34;,
+          &#34;3&#34;,
+          &#34;14&#34;
+        ],
+        &#34;n_cells&#34;: 3031,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.943695,
+        &#34;marker_auroc&#34;: 0.96732,
+        &#34;jaccard&#34;: 0.87339,
+        &#34;precision&#34;: 0.917189,
+        &#34;recall&#34;: 0.948158,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.284065,
+        &#34;doublet_score_median&#34;: 0.0379747,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.163103,
+        &#34;p_replicate&#34;: 0.62212
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.163103,
+        &#34;mean_proportion_a&#34;: 0.287488,
+        &#34;mean_proportion_b&#34;: 0.251318,
+        &#34;proportion_ratio_a_over_b&#34;: 1.14392,
+        &#34;p_logit_ttest&#34;: 0.62212,
+        &#34;p_mannwhitney&#34;: 0.885714,
+        &#34;p_cell_level_chi2&#34;: 0.0248371,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4743,
+        &#34;n_cells_b&#34;: 7495,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2735,
+            &#34;k&#34;: 861,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.314808,
+            &#34;logit&#34;: -0.777422
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1719,
+            &#34;k&#34;: 364,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.211751,
+            &#34;logit&#34;: -1.3134
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 230,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.268065,
+            &#34;logit&#34;: -1.00309
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 407,
+            &#34;k&#34;: 128,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.314496,
+            &#34;logit&#34;: -0.777073
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 515,
+            &#34;k&#34;: 221,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.429126,
+            &#34;logit&#34;: -0.284856
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1874,
+            &#34;k&#34;: 470,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.2508,
+            &#34;logit&#34;: -1.09364
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2102,
+            &#34;k&#34;: 409,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.194577,
+            &#34;logit&#34;: -1.41962
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2028,
+            &#34;k&#34;: 348,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.171598,
+            &#34;logit&#34;: -1.57321
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 14,
+      &#34;label&#34;: &#34;seed=2&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 2
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 17,
+      &#34;runtime_s&#34;: 12.562,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;1&#34;,
+          &#34;2&#34;,
+          &#34;11&#34;,
+          &#34;14&#34;
+        ],
+        &#34;n_cells&#34;: 3114,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.923822,
+        &#34;marker_auroc&#34;: 0.969463,
+        &#34;jaccard&#34;: 0.897082,
+        &#34;precision&#34;: 0.918112,
+        &#34;recall&#34;: 0.975102,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.284522,
+        &#34;doublet_score_median&#34;: 0.0379747,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.207756,
+        &#34;p_replicate&#34;: 0.519459
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.207756,
+        &#34;mean_proportion_a&#34;: 0.297494,
+        &#34;mean_proportion_b&#34;: 0.253589,
+        &#34;proportion_ratio_a_over_b&#34;: 1.17313,
+        &#34;p_logit_ttest&#34;: 0.519459,
+        &#34;p_mannwhitney&#34;: 0.685714,
+        &#34;p_cell_level_chi2&#34;: 0.243601,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4743,
+        &#34;n_cells_b&#34;: 7495,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2735,
+            &#34;k&#34;: 886,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.323949,
+            &#34;logit&#34;: -0.735389
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1719,
+            &#34;k&#34;: 411,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.239092,
+            &#34;logit&#34;: -1.15683
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 229,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.2669,
+            &#34;logit&#34;: -1.00902
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 407,
+            &#34;k&#34;: 132,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.324324,
+            &#34;logit&#34;: -0.732005
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 515,
+            &#34;k&#34;: 221,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.429126,
+            &#34;logit&#34;: -0.284856
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1874,
+            &#34;k&#34;: 473,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.252401,
+            &#34;logit&#34;: -1.08515
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2102,
+            &#34;k&#34;: 415,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.197431,
+            &#34;logit&#34;: -1.40152
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2028,
+            &#34;k&#34;: 347,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.171105,
+            &#34;logit&#34;: -1.57668
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 15,
+      &#34;label&#34;: &#34;min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 500,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;pearson&#34;,
+        &#34;n_hvgs&#34;: 1000,
+        &#34;n_pcs&#34;: 20,
+        &#34;resolution&#34;: 0.3,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 6396,
+      &#34;n_removed_qc&#34;: 5880,
+      &#34;n_removed_doublet&#34;: 39,
+      &#34;n_clusters&#34;: 9,
+      &#34;runtime_s&#34;: 4.139,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;
+        ],
+        &#34;n_cells&#34;: 2219,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.958076,
+        &#34;marker_auroc&#34;: 0.958076,
+        &#34;jaccard&#34;: 0.725628,
+        &#34;precision&#34;: 0.976115,
+        &#34;recall&#34;: 0.738745,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.28977,
+        &#34;doublet_score_median&#34;: 0.0527859,
+        &#34;doublet_score_median_all&#34;: 0.0486009
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.314314,
+        &#34;p_replicate&#34;: 0.322424
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.314314,
+        &#34;mean_proportion_a&#34;: 0.398488,
+        &#34;mean_proportion_b&#34;: 0.327083,
+        &#34;proportion_ratio_a_over_b&#34;: 1.21831,
+        &#34;p_logit_ttest&#34;: 0.322424,
+        &#34;p_mannwhitney&#34;: 0.342857,
+        &#34;p_cell_level_chi2&#34;: 0.0731695,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 2451,
+        &#34;n_cells_b&#34;: 3945,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 1584,
+            &#34;k&#34;: 643,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.405934,
+            &#34;logit&#34;: -0.380552
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 695,
+            &#34;k&#34;: 290,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.417266,
+            &#34;logit&#34;: -0.333517
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 486,
+            &#34;k&#34;: 175,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.360082,
+            &#34;logit&#34;: -0.57376
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 272,
+            &#34;k&#34;: 101,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.371324,
+            &#34;logit&#34;: -0.524524
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 324,
+            &#34;k&#34;: 171,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.527778,
+            &#34;logit&#34;: 0.110883
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1022,
+            &#34;k&#34;: 329,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.321918,
+            &#34;logit&#34;: -0.744175
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 1160,
+            &#34;k&#34;: 322,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.277586,
+            &#34;logit&#34;: -0.955511
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 853,
+            &#34;k&#34;: 188,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.220399,
+            &#34;logit&#34;: -1.26144
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 16,
+      &#34;label&#34;: &#34;min_genes=100, doublet_removal=False, normalization=pearson, n_pcs=50, seed=1&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 100,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: false,
+        &#34;normalization&#34;: &#34;pearson&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 50,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 1
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 12268,
+      &#34;n_removed_qc&#34;: 47,
+      &#34;n_removed_doublet&#34;: 0,
+      &#34;n_clusters&#34;: 18,
+      &#34;runtime_s&#34;: 11.27,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;2&#34;,
+          &#34;14&#34;
+        ],
+        &#34;n_cells&#34;: 2880,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.895605,
+        &#34;marker_auroc&#34;: 0.962094,
+        &#34;jaccard&#34;: 0.95099,
+        &#34;precision&#34;: 0.983681,
+        &#34;recall&#34;: 0.966235,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.287847,
+        &#34;doublet_score_median&#34;: 0.0361261,
+        &#34;doublet_score_median_all&#34;: 0.0491196
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.257511,
+        &#34;p_replicate&#34;: 0.422826
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.257511,
+        &#34;mean_proportion_a&#34;: 0.279636,
+        &#34;mean_proportion_b&#34;: 0.229174,
+        &#34;proportion_ratio_a_over_b&#34;: 1.22019,
+        &#34;p_logit_ttest&#34;: 0.422826,
+        &#34;p_mannwhitney&#34;: 0.685714,
+        &#34;p_cell_level_chi2&#34;: 0.985588,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4762,
+        &#34;n_cells_b&#34;: 7506,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2738,
+            &#34;k&#34;: 829,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.302776,
+            &#34;logit&#34;: -0.833774
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1723,
+            &#34;k&#34;: 386,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.224028,
+            &#34;logit&#34;: -1.24143
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 204,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.237762,
+            &#34;logit&#34;: -1.1633
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 414,
+            &#34;k&#34;: 125,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.301932,
+            &#34;logit&#34;: -0.83585
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 517,
+            &#34;k&#34;: 209,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.404255,
+            &#34;logit&#34;: -0.386998
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1879,
+            &#34;k&#34;: 420,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.223523,
+            &#34;logit&#34;: -1.2444
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2108,
+            &#34;k&#34;: 397,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.18833,
+            &#34;logit&#34;: -1.45993
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2031,
+            &#34;k&#34;: 310,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.152634,
+            &#34;logit&#34;: -1.71277
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 17,
+      &#34;label&#34;: &#34;min_genes=500, normalization=pearson, resolution=2.0&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 500,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;pearson&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 2.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 6396,
+      &#34;n_removed_qc&#34;: 5880,
+      &#34;n_removed_doublet&#34;: 39,
+      &#34;n_clusters&#34;: 29,
+      &#34;runtime_s&#34;: 4.897,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;1&#34;,
+          &#34;2&#34;,
+          &#34;8&#34;,
+          &#34;21&#34;
+        ],
+        &#34;n_cells&#34;: 1323,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.930504,
+        &#34;marker_auroc&#34;: 0.938932,
+        &#34;jaccard&#34;: 0.440908,
+        &#34;precision&#34;: 0.984127,
+        &#34;recall&#34;: 0.444065,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.238095,
+        &#34;doublet_score_median&#34;: 0.0480167,
+        &#34;doublet_score_median_all&#34;: 0.0486009
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.043433,
+        &#34;p_replicate&#34;: 0.922679
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.043433,
+        &#34;mean_proportion_a&#34;: 0.23853,
+        &#34;mean_proportion_b&#34;: 0.214347,
+        &#34;proportion_ratio_a_over_b&#34;: 1.11282,
+        &#34;p_logit_ttest&#34;: 0.922679,
+        &#34;p_mannwhitney&#34;: 0.685714,
+        &#34;p_cell_level_chi2&#34;: 0.634611,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 2451,
+        &#34;n_cells_b&#34;: 3945,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 1584,
+            &#34;k&#34;: 315,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.198864,
+            &#34;logit&#34;: -1.39222
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 695,
+            &#34;k&#34;: 78,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.11223,
+            &#34;logit&#34;: -2.06258
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 486,
+            &#34;k&#34;: 125,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.257202,
+            &#34;logit&#34;: -1.05796
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 272,
+            &#34;k&#34;: 54,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.198529,
+            &#34;logit&#34;: -1.38859
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 324,
+            &#34;k&#34;: 147,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.453704,
+            &#34;logit&#34;: -0.185142
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1022,
+            &#34;k&#34;: 252,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.246575,
+            &#34;logit&#34;: -1.11563
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 1160,
+            &#34;k&#34;: 220,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.189655,
+            &#34;logit&#34;: -1.45051
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 853,
+            &#34;k&#34;: 132,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.154748,
+            &#34;logit&#34;: -1.69475
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 18,
+      &#34;label&#34;: &#34;min_genes=500, n_pcs=50&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 500,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 50,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 6396,
+      &#34;n_removed_qc&#34;: 5880,
+      &#34;n_removed_doublet&#34;: 39,
+      &#34;n_clusters&#34;: 13,
+      &#34;runtime_s&#34;: 6.09,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;3&#34;
+        ],
+        &#34;n_cells&#34;: 1897,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.877524,
+        &#34;marker_auroc&#34;: 0.93406,
+        &#34;jaccard&#34;: 0.637504,
+        &#34;precision&#34;: 0.991038,
+        &#34;recall&#34;: 0.641201,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.275698,
+        &#34;doublet_score_median&#34;: 0.0523691,
+        &#34;doublet_score_median_all&#34;: 0.0486009
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.239429,
+        &#34;p_replicate&#34;: 0.402029
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.239429,
+        &#34;mean_proportion_a&#34;: 0.339627,
+        &#34;mean_proportion_b&#34;: 0.287471,
+        &#34;proportion_ratio_a_over_b&#34;: 1.18143,
+        &#34;p_logit_ttest&#34;: 0.402029,
+        &#34;p_mannwhitney&#34;: 0.885714,
+        &#34;p_cell_level_chi2&#34;: 0.166787,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 2451,
+        &#34;n_cells_b&#34;: 3945,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 1584,
+            &#34;k&#34;: 523,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.330177,
+            &#34;logit&#34;: -0.706901
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 695,
+            &#34;k&#34;: 215,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.309353,
+            &#34;logit&#34;: -0.801866
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 486,
+            &#34;k&#34;: 164,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.337449,
+            &#34;logit&#34;: -0.673193
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 272,
+            &#34;k&#34;: 85,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.3125,
+            &#34;logit&#34;: -0.785262
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 324,
+            &#34;k&#34;: 156,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.481481,
+            &#34;logit&#34;: -0.0738797
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1022,
+            &#34;k&#34;: 282,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.27593,
+            &#34;logit&#34;: -0.963647
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 1160,
+            &#34;k&#34;: 296,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.255172,
+            &#34;logit&#34;: -1.0701
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 853,
+            &#34;k&#34;: 176,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.206331,
+            &#34;logit&#34;: -1.34509
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 19,
+      &#34;label&#34;: &#34;min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 500,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;pearson&#34;,
+        &#34;n_hvgs&#34;: 1000,
+        &#34;n_pcs&#34;: 20,
+        &#34;resolution&#34;: 2.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 6396,
+      &#34;n_removed_qc&#34;: 5880,
+      &#34;n_removed_doublet&#34;: 39,
+      &#34;n_clusters&#34;: 33,
+      &#34;runtime_s&#34;: 3.193,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;7&#34;,
+          &#34;15&#34;,
+          &#34;18&#34;,
+          &#34;19&#34;
+        ],
+        &#34;n_cells&#34;: 1073,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.923808,
+        &#34;marker_auroc&#34;: 0.933391,
+        &#34;jaccard&#34;: 0.364566,
+        &#34;precision&#34;: 0.997204,
+        &#34;recall&#34;: 0.364939,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.214352,
+        &#34;doublet_score_median&#34;: 0.047619,
+        &#34;doublet_score_median_all&#34;: 0.0486009
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.103319,
+        &#34;p_replicate&#34;: 0.834836
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.103319,
+        &#34;mean_proportion_a&#34;: 0.208856,
+        &#34;mean_proportion_b&#34;: 0.177733,
+        &#34;proportion_ratio_a_over_b&#34;: 1.17511,
+        &#34;p_logit_ttest&#34;: 0.834836,
+        &#34;p_mannwhitney&#34;: 0.885714,
+        &#34;p_cell_level_chi2&#34;: 0.663673,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 2451,
+        &#34;n_cells_b&#34;: 3945,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 1584,
+            &#34;k&#34;: 230,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.145202,
+            &#34;logit&#34;: -1.77094
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 695,
+            &#34;k&#34;: 66,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.094964,
+            &#34;logit&#34;: -2.24772
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 486,
+            &#34;k&#34;: 122,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.251029,
+            &#34;logit&#34;: -1.09042
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 272,
+            &#34;k&#34;: 47,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.172794,
+            &#34;logit&#34;: -1.55759
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 324,
+            &#34;k&#34;: 137,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.42284,
+            &#34;logit&#34;: -0.310155
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1022,
+            &#34;k&#34;: 209,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.204501,
+            &#34;logit&#34;: -1.35662
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 1160,
+            &#34;k&#34;: 168,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.144828,
+            &#34;logit&#34;: -1.77329
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 853,
+            &#34;k&#34;: 94,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.110199,
+            &#34;logit&#34;: -2.08406
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 20,
+      &#34;label&#34;: &#34;min_genes=100, doublet_removal=False, n_hvgs=3000, resolution=1.5&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 100,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: false,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 3000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.5,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 12268,
+      &#34;n_removed_qc&#34;: 47,
+      &#34;n_removed_doublet&#34;: 0,
+      &#34;n_clusters&#34;: 19,
+      &#34;runtime_s&#34;: 14.039,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;2&#34;,
+          &#34;3&#34;,
+          &#34;14&#34;
+        ],
+        &#34;n_cells&#34;: 2967,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.893092,
+        &#34;marker_auroc&#34;: 0.966205,
+        &#34;jaccard&#34;: 0.939822,
+        &#34;precision&#34;: 0.963263,
+        &#34;recall&#34;: 0.974761,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.288507,
+        &#34;doublet_score_median&#34;: 0.0362319,
+        &#34;doublet_score_median_all&#34;: 0.0491196
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;effect_log_odds&#34;: 0.255764,
+        &#34;p_replicate&#34;: 0.440769
+      },
+      &#34;details&#34;: {
+        &#34;direction_ok&#34;: true,
+        &#34;effect_log_odds_a_minus_b&#34;: 0.255764,
+        &#34;mean_proportion_a&#34;: 0.287651,
+        &#34;mean_proportion_b&#34;: 0.23648,
+        &#34;proportion_ratio_a_over_b&#34;: 1.21638,
+        &#34;p_logit_ttest&#34;: 0.440769,
+        &#34;p_mannwhitney&#34;: 0.885714,
+        &#34;p_cell_level_chi2&#34;: 0.789059,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_cells_a&#34;: 4762,
+        &#34;n_cells_b&#34;: 7506,
+        &#34;per_sample&#34;: [
+          {
+            &#34;sample&#34;: &#34;patient_1015|B&#34;,
+            &#34;n&#34;: 2738,
+            &#34;k&#34;: 856,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.312637,
+            &#34;logit&#34;: -0.787502
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1016|A&#34;,
+            &#34;n&#34;: 1723,
+            &#34;k&#34;: 398,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.230992,
+            &#34;logit&#34;: -1.20184
+          },
+          {
+            &#34;sample&#34;: &#34;patient_101|B&#34;,
+            &#34;n&#34;: 858,
+            &#34;k&#34;: 208,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.242424,
+            &#34;logit&#34;: -1.1378
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1039|A&#34;,
+            &#34;n&#34;: 414,
+            &#34;k&#34;: 128,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.309179,
+            &#34;logit&#34;: -0.80181
+          },
+          {
+            &#34;sample&#34;: &#34;patient_107|A&#34;,
+            &#34;n&#34;: 517,
+            &#34;k&#34;: 217,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.419729,
+            &#34;logit&#34;: -0.323249
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1244|B&#34;,
+            &#34;n&#34;: 1879,
+            &#34;k&#34;: 443,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.235764,
+            &#34;logit&#34;: -1.17527
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1256|A&#34;,
+            &#34;n&#34;: 2108,
+            &#34;k&#34;: 402,
+            &#34;condition&#34;: &#34;A&#34;,
+            &#34;proportion&#34;: 0.190702,
+            &#34;logit&#34;: -1.4445
+          },
+          {
+            &#34;sample&#34;: &#34;patient_1488|B&#34;,
+            &#34;n&#34;: 2031,
+            &#34;k&#34;: 315,
+            &#34;condition&#34;: &#34;B&#34;,
+            &#34;proportion&#34;: 0.155096,
+            &#34;logit&#34;: -1.69388
+          }
+        ]
+      }
+    }
+  ],
+  &#34;as_labelled&#34;: {
+    &#34;holds&#34;: false,
+    &#34;holds_cell_level&#34;: false,
+    &#34;replicate_ok&#34;: false,
+    &#34;direction_ok&#34;: true,
+    &#34;effect_log_odds_a_minus_b&#34;: 0.211599,
+    &#34;mean_proportion_a&#34;: 0.274575,
+    &#34;mean_proportion_b&#34;: 0.233383,
+    &#34;proportion_ratio_a_over_b&#34;: 1.1765,
+    &#34;p_logit_ttest&#34;: 0.501792,
+    &#34;p_mannwhitney&#34;: 0.685714,
+    &#34;p_cell_level_chi2&#34;: 0.559863,
+    &#34;n_samples_a&#34;: 4,
+    &#34;n_samples_b&#34;: 4,
+    &#34;n_cells_a&#34;: 4809,
+    &#34;n_cells_b&#34;: 7506,
+    &#34;per_sample&#34;: [
+      {
+        &#34;sample&#34;: &#34;patient_1015|B&#34;,
+        &#34;n&#34;: 2738,
+        &#34;k&#34;: 859,
+        &#34;condition&#34;: &#34;B&#34;,
+        &#34;proportion&#34;: 0.313733,
+        &#34;logit&#34;: -0.78241
+      },
+      {
+        &#34;sample&#34;: &#34;patient_1016|A&#34;,
+        &#34;n&#34;: 1723,
+        &#34;k&#34;: 393,
+        &#34;condition&#34;: &#34;A&#34;,
+        &#34;proportion&#34;: 0.228091,
+        &#34;logit&#34;: -1.21823
+      },
+      {
+        &#34;sample&#34;: &#34;patient_101|B&#34;,
+        &#34;n&#34;: 858,
+        &#34;k&#34;: 207,
+        &#34;condition&#34;: &#34;B&#34;,
+        &#34;proportion&#34;: 0.241259,
+        &#34;logit&#34;: -1.14415
+      },
+      {
+        &#34;sample&#34;: &#34;patient_1039|A&#34;,
+        &#34;n&#34;: 461,
+        &#34;k&#34;: 126,
+        &#34;condition&#34;: &#34;A&#34;,
+        &#34;proportion&#34;: 0.273319,
+        &#34;logit&#34;: -0.97538
+      },
+      {
+        &#34;sample&#34;: &#34;patient_107|A&#34;,
+        &#34;n&#34;: 517,
+        &#34;k&#34;: 210,
+        &#34;condition&#34;: &#34;A&#34;,
+        &#34;proportion&#34;: 0.40619,
+        &#34;logit&#34;: -0.378989
+      },
+      {
+        &#34;sample&#34;: &#34;patient_1244|B&#34;,
+        &#34;n&#34;: 1879,
+        &#34;k&#34;: 418,
+        &#34;condition&#34;: &#34;B&#34;,
+        &#34;proportion&#34;: 0.222459,
+        &#34;logit&#34;: -1.25054
+      },
+      {
+        &#34;sample&#34;: &#34;patient_1256|A&#34;,
+        &#34;n&#34;: 2108,
+        &#34;k&#34;: 402,
+        &#34;condition&#34;: &#34;A&#34;,
+        &#34;proportion&#34;: 0.190702,
+        &#34;logit&#34;: -1.4445
+      },
+      {
+        &#34;sample&#34;: &#34;patient_1488|B&#34;,
+        &#34;n&#34;: 2031,
+        &#34;k&#34;: 317,
+        &#34;condition&#34;: &#34;B&#34;,
+        &#34;proportion&#34;: 0.156081,
+        &#34;logit&#34;: -1.6864
+      }
+    ],
+    &#34;warnings&#34;: [],
+    &#34;key_stats&#34;: {
+      &#34;effect_log_odds&#34;: 0.211599,
+      &#34;p_replicate&#34;: 0.501792
+    }
+  }
+}</pre></details>
+
+<footer>Recluster 0.1.0 · an independent stress test for single-cell RNA-seq claims · all numbers in this report were computed by deterministic code.</footer>
+</main>
+</body>
+</html>

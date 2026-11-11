@@ -226,6 +226,17 @@ significant digits; a test asserts two runs produce identical results.
 - PBMC3k reference labels for building planted errors use resolution 1.0 (0.5 merged CD8 T into NK).
 - Benchmark claims run in parallel worker processes (`--jobs`, default 4); the grid itself is still sequential within a claim.
 
+## Milestone 4 status (2026-11-11): done
+
+- CI on push (`.github/workflows/ci.yml`): ruff check + format, mypy, pytest; offline tests only.
+- `docs/`: `index.html` (static list of the 16 benchmark reports with verdicts), `reports/`,
+  `HOW_IT_WORKS.md`, `report-screenshot.png` (headless Chrome render of a Kang report),
+  `.nojekyll`. Built by `scripts/build_docs.py` from `bench/results.json`; committed, no build
+  step on Pages. Enable with Settings → Pages → Source "Deploy from a branch", branch `main`,
+  folder `/docs`.
+- README rewritten with the required sections; Kang quickstart uses `recluster bench --part kang`
+  or `scripts/download_kang.py` + `examples/claims/kang_isg15_cd14_monocytes.yaml`.
+
 ## Milestone 3 status (2026-11-11): done, live call unverified in this environment
 
 - `recluster/llm/`: `common.py` (client, `.env`, number extraction), `parse.py` (claim →

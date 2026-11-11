@@ -1,0 +1,18 @@
+# Kang et al. 2018 (data/kang_2018.h5ad; download with scripts/download_kang.py).
+# A true claim: ISG15 is an interferon-stimulated gene and rises in monocytes after IFN-beta.
+# Each patient was split into a control and a stimulated sample, so the replicate is
+# [replicate, label] (donor x condition), never the donor alone.
+claim_type: differential_expression
+name: "ISG15 up in CD14+ monocytes, stim vs ctrl (Kang 2018)"
+columns:
+  condition: label
+  sample: [replicate, label]
+  labels: cell_type
+target:
+  markers: [CD14, LYZ, S100A8]
+  label_value: "CD14+ Monocytes"
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: up_in_a
+genes: [ISG15]

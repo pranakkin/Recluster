@@ -1,0 +1,2713 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recluster · FALSE: ISG15 differs in CD14+ monocytes between fake groups A and B (Kang ctrl only)</title>
+<style>
+:root { --ink:#1b1b1b; --muted:#5f5e58; --rule:#d8d6cf; --bg:#fbfaf7; --panel:#ffffff; --soft:#f3f1ea;
+        --accent:#1f4e79; --pass:#2f6b3a; --fail:#9b3b2e; --warn:#8a6a1e; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink);
+       font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+main { max-width: 960px; margin: 0 auto; padding: 36px 24px 72px; }
+.mono, code, td.num, .params { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.92em; }
+.eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+h1 { font-size: 27px; line-height: 1.25; font-weight: 650; letter-spacing: -0.01em; margin: 0 0 6px; }
+.sub { color: var(--muted); margin: 0 0 22px; }
+h2 { font-size: 17px; font-weight: 650; margin: 44px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+h3 { font-size: 14.5px; font-weight: 650; margin: 22px 0 8px; color: var(--muted); }
+p { margin: 8px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--panel); }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; background: var(--soft); }
+td.num, th.num { text-align: right; }
+.verdict { display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin: 18px 0 6px; }
+.badge { display:inline-flex; align-items:center; gap:12px; padding: 12px 18px; border: 2px solid; border-radius: 4px;
+         font-weight: 750; font-size: 20px; letter-spacing: .03em; background: var(--panel); }
+.badge .icon { font-size: 22px; line-height: 1; }
+.badge.robust { border-color: var(--pass); color: var(--pass); }
+.badge.fragile { border-color: var(--warn); color: var(--warn); border-style: dashed; }
+.badge.not-supported { border-color: var(--fail); color: var(--fail); }
+.verdict-text { flex: 1 1 420px; }
+.kv { display:grid; grid-template-columns: max-content 1fr; gap: 3px 18px; margin: 10px 0; font-size: 14px; }
+.kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.note { background: var(--panel); border-left: 3px solid var(--accent); padding: 10px 14px; margin: 14px 0; font-size: 14px; }
+.note.flag { border-left-color: var(--fail); }
+.pass::before { content: "✓ "; color: var(--pass); font-weight: 700; }
+.fail::before { content: "✕ "; color: var(--fail); font-weight: 700; }
+.na { color: var(--muted); }
+details { margin-top: 10px; }
+summary { cursor: pointer; color: var(--accent); }
+pre { background: var(--soft); padding: 12px 14px; font-size: 12.5px; overflow: auto; max-height: 520px; border: 1px solid var(--rule); }
+.legend { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.small { font-size: 13px; color: var(--muted); }
+svg { max-width: 100%; height: auto; }
+footer { margin-top: 56px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); }
+.llm { border: 1px dashed var(--rule); padding: 10px 14px; margin: 14px 0; background: var(--soft); }
+</style>
+</head>
+<body>
+<main>
+<div class="eyebrow">Recluster report · differential expression · run mode</div>
+<h1>FALSE: ISG15 differs in CD14+ monocytes between fake groups A and B (Kang ctrl only)</h1>
+<p class="sub">kang_fake_split_ctrl.h5ad · 12,315 cells × 15,706 genes · counts from <span class="mono">.X</span></p>
+
+<div class="verdict">
+  <div class="badge not-supported"><span class="icon">✕</span>NOT SUPPORTED</div>
+  <div class="verdict-text">
+    <p>The claim held in 1 of 21 runs (5%). It did not hold under the baseline pipeline. Cell-level statistics call the genes significant in most runs while replicate-aware statistics do not: this pattern is characteristic of pseudoreplication.</p>
+    <dl class="kv">
+      <dt>Survival</dt><dd class="mono">1 / 21 runs (5%)</dd>
+      
+      
+      <dt>Naive cell-level</dt><dd class="mono">81% of runs (not used for the verdict)</dd>
+      
+      <dt>Rule</dt><dd>ROBUST ≥ 80% · FRAGILE ≥ 20% · else NOT SUPPORTED</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="note flag"><strong>Pseudoreplication flag.</strong> Cell-level statistics support the claim in 81% of runs, but replicate-aware statistics support it in only 5%. Treating cells as independent replicates inflates significance (Squair et al., <em>Nat Commun</em> 2021;12:5692).</div>
+
+
+
+<h2>Claim</h2>
+<pre class="mono">claim_type: differential_expression
+name: &#39;FALSE: ISG15 differs in CD14+ monocytes between fake groups A and B (Kang ctrl
+  only)&#39;
+columns:
+  condition: fake_group
+  sample:
+  - replicate
+  - fake_group
+  labels: cell_type
+target:
+  markers:
+  - CD14
+  - LYZ
+  - S100A8
+  negative_markers: []
+  label_value: CD14+ Monocytes
+  min_cells: 20
+comparison:
+  group_a: A
+  group_b: B
+  direction: either
+genes:
+- ISG15
+require: all</pre>
+<p class="small">Reference cell set: cells labelled `CD14+ Monocytes` in `cell_type` (2932 cells).</p>
+
+<h2>Survival across the grid</h2>
+<p class="small">One square per run in grid order; the thick-bordered square is the baseline. Hover for the run's settings.</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 648 27" width="648" height="27" role="img" aria-label="survival strip"><defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="6" height="6" fill="#f6f4ee"/><line x1="0" y1="0" x2="0" y2="6" stroke="#9b3b2e" stroke-width="1.2" opacity="0.7"/></pattern></defs><g><title>run 0: baseline — failed</title><rect x="0" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#1b1b1b" stroke-width="2.5"/><text x="11.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 1: min_genes=100 — failed</title><rect x="27" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="38.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 2: min_genes=500 — failed</title><rect x="54" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="65.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 3: doublet_removal=False — failed</title><rect x="81" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="92.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 4: normalization=pearson — failed</title><rect x="108" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="119.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 5: n_hvgs=1000 — failed</title><rect x="135" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="146.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 6: n_hvgs=3000 — failed</title><rect x="162" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="173.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 7: n_pcs=20 — failed</title><rect x="189" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="200.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 8: n_pcs=50 — failed</title><rect x="216" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="227.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 9: resolution=0.3 — failed</title><rect x="243" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="254.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 10: resolution=0.5 — failed</title><rect x="270" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="281.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 11: resolution=1.5 — failed</title><rect x="297" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="308.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 12: resolution=2.0 — failed</title><rect x="324" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="335.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 13: seed=1 — failed</title><rect x="351" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="362.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 14: seed=2 — failed</title><rect x="378" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="389.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 15: min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 — failed</title><rect x="405" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="416.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 16: min_genes=100, doublet_removal=False, normalization=pearson, n_pcs=50, seed=1 — failed</title><rect x="432" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="443.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 17: min_genes=500, normalization=pearson, resolution=2.0 — failed</title><rect x="459" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="470.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 18: min_genes=500, n_pcs=50 — failed</title><rect x="486" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="497.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 19: min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 — held</title><rect x="513" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="524.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 20: min_genes=100, doublet_removal=False, n_hvgs=3000, resolution=1.5 — failed</title><rect x="540" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="551.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g></svg>
+<h3>By analysis choice</h3>
+<p class="small">Fraction of runs with that setting in which the claim held. ● marks the baseline value. Hatched = failed.</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 618" width="760" height="618" role="img" aria-label="survival by analysis choice"><defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="6" height="6" fill="#f6f4ee"/><line x1="0" y1="0" x2="0" y2="6" stroke="#9b3b2e" stroke-width="1.2" opacity="0.7"/></pattern></defs><text x="0" y="24" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">MIN_GENES</text><text x="16" y="48" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">100</text><rect x="250" y="37" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="48" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/3</text><text x="16" y="68" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">200  ●</text><rect x="250" y="57" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="68" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/13</text><text x="16" y="88" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">500</text><rect x="250" y="77" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="77" width="84.0" height="12" fill="#2f6b3a"/><text x="680" y="88" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/5</text><text x="0" y="110" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">DOUBLET_REMOVAL</text><text x="16" y="134" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">off</text><rect x="250" y="123" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="134" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/3</text><text x="16" y="154" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">on  ●</text><rect x="250" y="143" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="143" width="23.3" height="12" fill="#2f6b3a"/><text x="680" y="154" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/18</text><text x="0" y="176" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">NORMALIZATION</text><text x="16" y="200" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">log_total  ●</text><rect x="250" y="189" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="200" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/16</text><text x="16" y="220" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">pearson</text><rect x="250" y="209" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="209" width="84.0" height="12" fill="#2f6b3a"/><text x="680" y="220" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/5</text><text x="0" y="242" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">N_HVGS</text><text x="16" y="266" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1000</text><rect x="250" y="255" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="255" width="140.0" height="12" fill="#2f6b3a"/><text x="680" y="266" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/3</text><text x="16" y="286" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2000  ●</text><rect x="250" y="275" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="286" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/16</text><text x="16" y="306" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">3000</text><rect x="250" y="295" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="306" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/2</text><text x="0" y="328" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">N_PCS</text><text x="16" y="352" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">20</text><rect x="250" y="341" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="341" width="140.0" height="12" fill="#2f6b3a"/><text x="680" y="352" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/3</text><text x="16" y="372" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">30  ●</text><rect x="250" y="361" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="372" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/15</text><text x="16" y="392" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">50</text><rect x="250" y="381" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="392" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/3</text><text x="0" y="414" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">RESOLUTION</text><text x="16" y="438" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0.3</text><rect x="250" y="427" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="438" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/2</text><text x="16" y="458" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0.5</text><rect x="250" y="447" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="458" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/1</text><text x="16" y="478" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1  ●</text><rect x="250" y="467" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="478" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/13</text><text x="16" y="498" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1.5</text><rect x="250" y="487" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="498" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/2</text><text x="16" y="518" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2</text><rect x="250" y="507" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="507" width="140.0" height="12" fill="#2f6b3a"/><text x="680" y="518" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/3</text><text x="0" y="540" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">SEED</text><text x="16" y="564" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0  ●</text><rect x="250" y="553" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="553" width="23.3" height="12" fill="#2f6b3a"/><text x="680" y="564" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/18</text><text x="16" y="584" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1</text><rect x="250" y="573" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="584" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/2</text><text x="16" y="604" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2</text><rect x="250" y="593" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="604" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/1</text></svg>
+
+<h2>What broke it</h2>
+
+<p>No single one-at-a-time change flipped the baseline result.</p>
+
+
+<h3>Failure rate by setting</h3>
+<table><thead><tr><th>Axis</th><th>Value</th><th class="num">Runs</th><th class="num">Failed</th><th class="num">Fail rate</th></tr></thead><tbody>
+<tr><td class="mono">n_hvgs</td><td class="mono">2000 ●</td><td class="num">16</td><td class="num">16</td><td class="num">100%</td></tr><tr><td class="mono">normalization</td><td class="mono">log_total ●</td><td class="num">16</td><td class="num">16</td><td class="num">100%</td></tr><tr><td class="mono">n_pcs</td><td class="mono">30 ●</td><td class="num">15</td><td class="num">15</td><td class="num">100%</td></tr><tr><td class="mono">min_genes</td><td class="mono">200 ●</td><td class="num">13</td><td class="num">13</td><td class="num">100%</td></tr><tr><td class="mono">resolution</td><td class="mono">1 ●</td><td class="num">13</td><td class="num">13</td><td class="num">100%</td></tr><tr><td class="mono">doublet_removal</td><td class="mono">off</td><td class="num">3</td><td class="num">3</td><td class="num">100%</td></tr><tr><td class="mono">min_genes</td><td class="mono">100</td><td class="num">3</td><td class="num">3</td><td class="num">100%</td></tr><tr><td class="mono">n_pcs</td><td class="mono">50</td><td class="num">3</td><td class="num">3</td><td class="num">100%</td></tr><tr><td class="mono">n_hvgs</td><td class="mono">3000</td><td class="num">2</td><td class="num">2</td><td class="num">100%</td></tr><tr><td class="mono">resolution</td><td class="mono">0.3</td><td class="num">2</td><td class="num">2</td><td class="num">100%</td></tr><tr><td class="mono">resolution</td><td class="mono">1.5</td><td class="num">2</td><td class="num">2</td><td class="num">100%</td></tr><tr><td class="mono">seed</td><td class="mono">1</td><td class="num">2</td><td class="num">2</td><td class="num">100%</td></tr><tr><td class="mono">resolution</td><td class="mono">0.5</td><td class="num">1</td><td class="num">1</td><td class="num">100%</td></tr><tr><td class="mono">seed</td><td class="mono">2</td><td class="num">1</td><td class="num">1</td><td class="num">100%</td></tr><tr><td class="mono">doublet_removal</td><td class="mono">on ●</td><td class="num">18</td><td class="num">17</td><td class="num">94%</td></tr><tr><td class="mono">seed</td><td class="mono">0 ●</td><td class="num">18</td><td class="num">17</td><td class="num">94%</td></tr><tr><td class="mono">min_genes</td><td class="mono">500</td><td class="num">5</td><td class="num">4</td><td class="num">80%</td></tr><tr><td class="mono">normalization</td><td class="mono">pearson</td><td class="num">5</td><td class="num">4</td><td class="num">80%</td></tr><tr><td class="mono">n_hvgs</td><td class="mono">1000</td><td class="num">3</td><td class="num">2</td><td class="num">67%</td></tr><tr><td class="mono">n_pcs</td><td class="mono">20</td><td class="num">3</td><td class="num">2</td><td class="num">67%</td></tr><tr><td class="mono">resolution</td><td class="mono">2</td><td class="num">3</td><td class="num">2</td><td class="num">67%</td></tr>
+</tbody></table>
+
+
+<h2>Replicate-aware vs cell-level</h2>
+<h3>Baseline run</h3><table><thead><tr><th>Gene</th><th class='num'>Cell log2FC</th><th class='num'>Cell padj</th><th class='num'>Pseudobulk log2FC</th><th class='num'>Pseudobulk padj</th><th class='num'>Genome-wide padj</th><th>Agreement</th></tr></thead><tbody><tr><td class='mono'>ISG15</td><td class='num'>0.414</td><td class='num'>0.008</td><td class='num'>0.795</td><td class='num'>0.170</td><td class='num'>1.000</td><td><span class='fail'>cell-level only (pseudoreplication)</span></td></tr></tbody></table><p class='small'>1083 vs 1833 cells; 4 vs 4 pseudobulk replicates; 9103 genes in the DESeq2 model.</p><p class='small'>Across the grid the pseudobulk test held in 5% of runs and the cell-level test in 81%. Gene × run agreement counts: cell only: 17, neither: 3, pseudobulk only: 1.</p>
+
+
+<h2>As labelled</h2>
+<p class="small">The same test applied to the cells exactly as labelled in <span class="mono">cell_type</span> = <span class="mono">CD14+ Monocytes</span>, without re-clustering. This is the claim as the original analysis made it.</p>
+<h3>Using the labels as given</h3><table><thead><tr><th>Gene</th><th class='num'>Cell log2FC</th><th class='num'>Cell padj</th><th class='num'>Pseudobulk log2FC</th><th class='num'>Pseudobulk padj</th><th class='num'>Genome-wide padj</th><th>Agreement</th></tr></thead><tbody><tr><td class='mono'>ISG15</td><td class='num'>0.656</td><td class='num'>1.1e-05</td><td class='num'>1.219</td><td class='num'>0.142</td><td class='num'>0.999</td><td><span class='fail'>cell-level only (pseudoreplication)</span></td></tr></tbody></table><p class='small'>1131 vs 1801 cells; 4 vs 4 pseudobulk replicates; 8987 genes in the DESeq2 model.</p>
+
+
+<h2>All runs</h2>
+<table><thead><tr><th>#</th><th>Settings (differences from baseline)</th><th class="num">Cells</th><th class="num">Clusters</th><th>Population</th><th class="num">pb_log2fc</th><th class="num">pb_padj</th><th class="num">cell_padj</th><th>Result</th></tr></thead><tbody>
+<tr>
+<td class="num">0</td>
+<td class="params">baseline</td>
+<td class="num">12,238</td>
+<td class="num">18</td>
+<td class="mono" style="white-space:nowrap">2916 cells / 4 cl.</td>
+<td class="num">0.795</td><td class="num">0.170</td><td class="num">0.008</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">1</td>
+<td class="params">min_genes=100</td>
+<td class="num">12,240</td>
+<td class="num">18</td>
+<td class="mono" style="white-space:nowrap">3028 cells / 4 cl.</td>
+<td class="num">1.128</td><td class="num">0.154</td><td class="num">1.1e-07</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">2</td>
+<td class="params">min_genes=500</td>
+<td class="num">6,396</td>
+<td class="num">16</td>
+<td class="mono" style="white-space:nowrap">1720 cells / 2 cl.</td>
+<td class="num">0.633</td><td class="num">0.079</td><td class="num">0.067</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">3</td>
+<td class="params">doublet_removal=False</td>
+<td class="num">12,261</td>
+<td class="num">17</td>
+<td class="mono" style="white-space:nowrap">2891 cells / 4 cl.</td>
+<td class="num">0.920</td><td class="num">0.128</td><td class="num">0.002</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">4</td>
+<td class="params">normalization=pearson</td>
+<td class="num">12,238</td>
+<td class="num">23</td>
+<td class="mono" style="white-space:nowrap">1987 cells / 3 cl.</td>
+<td class="num">0.540</td><td class="num">0.188</td><td class="num">0.006</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">5</td>
+<td class="params">n_hvgs=1000</td>
+<td class="num">12,238</td>
+<td class="num">16</td>
+<td class="mono" style="white-space:nowrap">2840 cells / 2 cl.</td>
+<td class="num">0.792</td><td class="num">0.179</td><td class="num">0.004</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">6</td>
+<td class="params">n_hvgs=3000</td>
+<td class="num">12,238</td>
+<td class="num">17</td>
+<td class="mono" style="white-space:nowrap">3109 cells / 4 cl.</td>
+<td class="num">1.005</td><td class="num">0.222</td><td class="num">4.1e-06</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">7</td>
+<td class="params">n_pcs=20</td>
+<td class="num">12,238</td>
+<td class="num">17</td>
+<td class="mono" style="white-space:nowrap">3022 cells / 4 cl.</td>
+<td class="num">1.192</td><td class="num">0.172</td><td class="num">3.2e-06</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">8</td>
+<td class="params">n_pcs=50</td>
+<td class="num">12,238</td>
+<td class="num">14</td>
+<td class="mono" style="white-space:nowrap">2737 cells / 2 cl.</td>
+<td class="num">0.847</td><td class="num">0.147</td><td class="num">0.002</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">9</td>
+<td class="params">resolution=0.3</td>
+<td class="num">12,238</td>
+<td class="num">9</td>
+<td class="mono" style="white-space:nowrap">3055 cells / 1 cl.</td>
+<td class="num">1.250</td><td class="num">0.134</td><td class="num">2.5e-06</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">10</td>
+<td class="params">resolution=0.5</td>
+<td class="num">12,238</td>
+<td class="num">10</td>
+<td class="mono" style="white-space:nowrap">2869 cells / 1 cl.</td>
+<td class="num">0.818</td><td class="num">0.163</td><td class="num">0.003</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">11</td>
+<td class="params">resolution=1.5</td>
+<td class="num">12,238</td>
+<td class="num">19</td>
+<td class="mono" style="white-space:nowrap">2972 cells / 4 cl.</td>
+<td class="num">0.527</td><td class="num">0.162</td><td class="num">0.003</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">12</td>
+<td class="params">resolution=2.0</td>
+<td class="num">12,238</td>
+<td class="num">23</td>
+<td class="mono" style="white-space:nowrap">2679 cells / 5 cl.</td>
+<td class="num">1.043</td><td class="num">0.223</td><td class="num">3.6e-06</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">13</td>
+<td class="params">seed=1</td>
+<td class="num">12,238</td>
+<td class="num">17</td>
+<td class="mono" style="white-space:nowrap">3031 cells / 4 cl.</td>
+<td class="num">0.612</td><td class="num">0.119</td><td class="num">0.002</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">14</td>
+<td class="params">seed=2</td>
+<td class="num">12,238</td>
+<td class="num">17</td>
+<td class="mono" style="white-space:nowrap">3114 cells / 4 cl.</td>
+<td class="num">1.088</td><td class="num">0.167</td><td class="num">1.6e-06</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">15</td>
+<td class="params">min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3</td>
+<td class="num">6,396</td>
+<td class="num">9</td>
+<td class="mono" style="white-space:nowrap">2219 cells / 1 cl.</td>
+<td class="num">1.325</td><td class="num">0.123</td><td class="num">2.7e-04</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">16</td>
+<td class="params">min_genes=100, doublet_removal=False, normalization=pearson, n_pcs=50, seed=1</td>
+<td class="num">12,268</td>
+<td class="num">18</td>
+<td class="mono" style="white-space:nowrap">2880 cells / 3 cl.</td>
+<td class="num">1.255</td><td class="num">0.143</td><td class="num">2.1e-06</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">17</td>
+<td class="params">min_genes=500, normalization=pearson, resolution=2.0</td>
+<td class="num">6,396</td>
+<td class="num">29</td>
+<td class="mono" style="white-space:nowrap">1323 cells / 4 cl.</td>
+<td class="num">0.683</td><td class="num">0.269</td><td class="num">0.243</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">18</td>
+<td class="params">min_genes=500, n_pcs=50</td>
+<td class="num">6,396</td>
+<td class="num">13</td>
+<td class="mono" style="white-space:nowrap">1897 cells / 2 cl.</td>
+<td class="num">0.605</td><td class="num">0.112</td><td class="num">0.071</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">19</td>
+<td class="params">min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0</td>
+<td class="num">6,396</td>
+<td class="num">33</td>
+<td class="mono" style="white-space:nowrap">1073 cells / 4 cl.</td>
+<td class="num">0.906</td><td class="num">0.037</td><td class="num">0.097</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr><tr>
+<td class="num">20</td>
+<td class="params">min_genes=100, doublet_removal=False, n_hvgs=3000, resolution=1.5</td>
+<td class="num">12,268</td>
+<td class="num">19</td>
+<td class="mono" style="white-space:nowrap">2967 cells / 4 cl.</td>
+<td class="num">1.148</td><td class="num">0.193</td><td class="num">7.8e-06</td>
+<td><span class="fail">failed</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+</tr>
+</tbody></table>
+
+<h2>Methods</h2>
+<p>Raw counts for 12,315 cells and 15,706 genes were taken from .X of the input file (SHA-256 56873b6d08d3…). Each of 21 pipeline runs (1 baseline, 14 one-at-a-time variations and 6 seeded random combinations) re-derived clusters from these counts. Cells were kept if they expressed at least {100, 200*, 500} genes (the input has no mitochondrial genes, so the mitochondrial-fraction axis was not varied); genes detected in fewer than 3 cells were dropped. Doublets were scored with Scrublet (scanpy implementation, per sample, seed 0) and removed when the doublet_removal axis was on (baseline: on). Expression was normalised either by total-count scaling to 10,000 counts per cell followed by log1p and z-scaling of {1000, 2000*, 3000} highly variable genes (Seurat flavour), or by analytic Pearson residuals on the same number of genes (baseline: log_total). {20, 30*, 50} principal components (ARPACK, seeded) were computed; a 15-nearest-neighbour graph (exact search) was clustered with Leiden (igraph flavour, resolution {0.3, 0.5, 1.0*, 1.5, 2.0}, seeds {0*, 1, 2}). The target population was located in each run by marker enrichment: a per-cell score (mean CP10k-log1p expression of CD14, LYZ, S100A8, z-scored) was computed once from the raw counts, and clusters with at least 10 cells whose AUROC for that score versus all other cells was at least 0.8 were taken as the population. Overlap with the reference cell set (cells labelled `CD14+ Monocytes` in `cell_type` (2932 cells)) was measured by the Jaccard index over barcodes, counting cells removed by QC as absent. For each run, raw counts of cells in the population were summed per sample (`replicate`, `fake_group`; samples with fewer than 5 cells dropped) and tested for `A` versus `B` with DESeq2 (pydeseq2, design ~condition, genes with &gt;= 10 total counts). P-values for the 1 claimed gene(s) were Benjamini-Hochberg adjusted over the claimed genes (genome-wide adjusted values are also shown). The claim held when every claimed gene had adjusted p &lt; 0.05 with direction `either`. A cell-level two-sided Wilcoxon rank-sum test on CP10k-log1p values is reported alongside; a gene significant only at the cell level is flagged as likely pseudoreplication (Squair et al., Nat Commun 2021). Verdicts: ROBUST if the claim held in at least 80% of runs, FRAGILE if in at least 20%, otherwise NOT SUPPORTED. All thresholds are listed below and are configurable.</p>
+<p class="small">This paragraph is generated from a fixed template filled with the settings used. It is not written by a language model.</p>
+
+<h2>Thresholds</h2>
+<table><thead><tr><th>Setting</th><th>Value</th></tr></thead><tbody>
+<tr><td class="mono">robust_min_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">fragile_min_survival</td><td class="mono">0.2</td></tr><tr><td class="mono">alpha</td><td class="mono">0.05</td></tr><tr><td class="mono">marker_auroc_min</td><td class="mono">0.8</td></tr><tr><td class="mono">jaccard_min</td><td class="mono">0.5</td></tr><tr><td class="mono">label_precision_min</td><td class="mono">0.5</td></tr><tr><td class="mono">min_samples_present</td><td class="mono">2</td></tr><tr><td class="mono">min_cells_per_sample</td><td class="mono">5</td></tr><tr><td class="mono">min_cluster_size</td><td class="mono">10</td></tr><tr><td class="mono">composition_test</td><td class="mono">logit_t</td></tr><tr><td class="mono">pseudobulk_min_total_counts</td><td class="mono">10</td></tr><tr><td class="mono">pseudoreplication_cell_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">pseudoreplication_replicate_survival</td><td class="mono">0.5</td></tr>
+</tbody></table>
+
+<h2>Provenance</h2>
+<dl class="kv">
+  <dt>Input</dt><dd class="mono">data/kang_fake_split_ctrl.h5ad</dd>
+  <dt>SHA-256</dt><dd class="mono">56873b6d08d34cdff1ac3740438c23ca04f1e67bcaa2230a42c619535aec2f94</dd>
+  <dt>Recluster</dt><dd class="mono">0.1.0</dd>
+  <dt>Python</dt><dd class="mono">3.11.16 · macOS-26.6.2-arm64-arm-64bit</dd>
+  <dt>Key packages</dt><dd class="mono">scanpy 1.11.5 · anndata 0.12.19 · pydeseq2 0.5.4 · harmonypy 2.1.0</dd>
+  <dt>Started</dt><dd class="mono">2026-11-11T05:41:01+00:00</dd>
+  <dt>Total runtime</dt><dd class="mono">719.0 s</dd>
+</dl>
+<details><summary>Full provenance log (JSON)</summary><pre class="mono">{
+  &#34;started_at&#34;: &#34;2026-11-11T05:41:01+00:00&#34;,
+  &#34;finished_at&#34;: &#34;2026-11-11T05:53:00+00:00&#34;,
+  &#34;total_runtime_s&#34;: 719.019,
+  &#34;mode&#34;: &#34;run&#34;,
+  &#34;environment&#34;: {
+    &#34;python&#34;: &#34;3.11.16&#34;,
+    &#34;platform&#34;: &#34;macOS-26.6.2-arm64-arm-64bit&#34;,
+    &#34;machine&#34;: &#34;arm64&#34;,
+    &#34;packages&#34;: {
+      &#34;recluster&#34;: &#34;0.1.0&#34;,
+      &#34;scanpy&#34;: &#34;1.11.5&#34;,
+      &#34;anndata&#34;: &#34;0.12.19&#34;,
+      &#34;numpy&#34;: &#34;2.4.6&#34;,
+      &#34;scipy&#34;: &#34;1.17.1&#34;,
+      &#34;pandas&#34;: &#34;2.3.3&#34;,
+      &#34;scikit-learn&#34;: &#34;1.9.1&#34;,
+      &#34;igraph&#34;: &#34;1.0.0&#34;,
+      &#34;harmonypy&#34;: &#34;2.1.0&#34;,
+      &#34;pydeseq2&#34;: &#34;0.5.4&#34;,
+      &#34;scikit-image&#34;: &#34;0.26.0&#34;,
+      &#34;numba&#34;: &#34;0.68.1&#34;,
+      &#34;pydantic&#34;: &#34;2.14.3&#34;
+    }
+  },
+  &#34;input&#34;: {
+    &#34;path&#34;: &#34;data/kang_fake_split_ctrl.h5ad&#34;,
+    &#34;path_name&#34;: &#34;kang_fake_split_ctrl.h5ad&#34;,
+    &#34;sha256&#34;: &#34;56873b6d08d34cdff1ac3740438c23ca04f1e67bcaa2230a42c619535aec2f94&#34;,
+    &#34;n_cells&#34;: 12315,
+    &#34;n_genes&#34;: 15706,
+    &#34;counts_source&#34;: &#34;.X&#34;,
+    &#34;mito_prefix&#34;: null,
+    &#34;n_samples&#34;: 8,
+    &#34;conditions&#34;: [
+      &#34;A&#34;,
+      &#34;B&#34;
+    ],
+    &#34;n_batches&#34;: null
+  },
+  &#34;claim&#34;: {
+    &#34;claim_type&#34;: &#34;differential_expression&#34;,
+    &#34;name&#34;: &#34;FALSE: ISG15 differs in CD14+ monocytes between fake groups A and B (Kang ctrl only)&#34;,
+    &#34;columns&#34;: {
+      &#34;condition&#34;: &#34;fake_group&#34;,
+      &#34;sample&#34;: [
+        &#34;replicate&#34;,
+        &#34;fake_group&#34;
+      ],
+      &#34;labels&#34;: &#34;cell_type&#34;
+    },
+    &#34;target&#34;: {
+      &#34;markers&#34;: [
+        &#34;CD14&#34;,
+        &#34;LYZ&#34;,
+        &#34;S100A8&#34;
+      ],
+      &#34;negative_markers&#34;: [],
+      &#34;label_value&#34;: &#34;CD14+ Monocytes&#34;,
+      &#34;min_cells&#34;: 20
+    },
+    &#34;comparison&#34;: {
+      &#34;group_a&#34;: &#34;A&#34;,
+      &#34;group_b&#34;: &#34;B&#34;,
+      &#34;direction&#34;: &#34;either&#34;
+    },
+    &#34;genes&#34;: [
+      &#34;ISG15&#34;
+    ],
+    &#34;require&#34;: &#34;all&#34;
+  },
+  &#34;grid&#34;: {
+    &#34;baseline&#34;: {
+      &#34;min_genes&#34;: 200,
+      &#34;max_mito_pct&#34;: 10.0,
+      &#34;doublet_removal&#34;: true,
+      &#34;normalization&#34;: &#34;log_total&#34;,
+      &#34;n_hvgs&#34;: 2000,
+      &#34;n_pcs&#34;: 30,
+      &#34;resolution&#34;: 1.0,
+      &#34;batch_correction&#34;: true,
+      &#34;seed&#34;: 0
+    },
+    &#34;axes&#34;: {
+      &#34;min_genes&#34;: [
+        100,
+        200,
+        500
+      ],
+      &#34;max_mito_pct&#34;: [
+        5.0,
+        10.0,
+        20.0
+      ],
+      &#34;doublet_removal&#34;: [
+        false,
+        true
+      ],
+      &#34;normalization&#34;: [
+        &#34;log_total&#34;,
+        &#34;pearson&#34;
+      ],
+      &#34;n_hvgs&#34;: [
+        1000,
+        2000,
+        3000
+      ],
+      &#34;n_pcs&#34;: [
+        20,
+        30,
+        50
+      ],
+      &#34;resolution&#34;: [
+        0.3,
+        0.5,
+        1.0,
+        1.5,
+        2.0
+      ],
+      &#34;batch_correction&#34;: [
+        false,
+        true
+      ],
+      &#34;seed&#34;: [
+        0,
+        1,
+        2
+      ]
+    },
+    &#34;n_random&#34;: 6,
+    &#34;random_seed&#34;: 0,
+    &#34;n_neighbors&#34;: 15,
+    &#34;mito_prefix&#34;: &#34;auto&#34;,
+    &#34;scrublet_seed&#34;: 0,
+    &#34;max_runs&#34;: null,
+    &#34;n_cpus&#34;: 4
+  },
+  &#34;thresholds&#34;: {
+    &#34;robust_min_survival&#34;: 0.8,
+    &#34;fragile_min_survival&#34;: 0.2,
+    &#34;alpha&#34;: 0.05,
+    &#34;marker_auroc_min&#34;: 0.8,
+    &#34;jaccard_min&#34;: 0.5,
+    &#34;label_precision_min&#34;: 0.5,
+    &#34;min_samples_present&#34;: 2,
+    &#34;min_cells_per_sample&#34;: 5,
+    &#34;min_cluster_size&#34;: 10,
+    &#34;composition_test&#34;: &#34;logit_t&#34;,
+    &#34;pseudobulk_min_total_counts&#34;: 10,
+    &#34;pseudoreplication_cell_survival&#34;: 0.8,
+    &#34;pseudoreplication_replicate_survival&#34;: 0.5
+  },
+  &#34;grid_counts&#34;: {
+    &#34;total&#34;: 21,
+    &#34;baseline&#34;: 1,
+    &#34;one_at_a_time&#34;: 14,
+    &#34;random&#34;: 6
+  },
+  &#34;reference_source&#34;: &#34;cells labelled `CD14+ Monocytes` in `cell_type` (2932 cells)&#34;,
+  &#34;verdict&#34;: {
+    &#34;label&#34;: &#34;NOT SUPPORTED&#34;,
+    &#34;survival&#34;: 0.047619,
+    &#34;n_runs&#34;: 21,
+    &#34;n_holds&#34;: 1,
+    &#34;baseline_holds&#34;: false,
+    &#34;cell_level_survival&#34;: 0.809524,
+    &#34;recovered_survival&#34;: null,
+    &#34;pseudoreplication_flag&#34;: true,
+    &#34;by_choice&#34;: [
+      {
+        &#34;axis&#34;: &#34;min_genes&#34;,
+        &#34;value&#34;: 100,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;min_genes&#34;,
+        &#34;value&#34;: 200,
+        &#34;n_runs&#34;: 13,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;min_genes&#34;,
+        &#34;value&#34;: 500,
+        &#34;n_runs&#34;: 5,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;doublet_removal&#34;,
+        &#34;value&#34;: false,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;doublet_removal&#34;,
+        &#34;value&#34;: true,
+        &#34;n_runs&#34;: 18,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;normalization&#34;,
+        &#34;value&#34;: &#34;log_total&#34;,
+        &#34;n_runs&#34;: 16,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;normalization&#34;,
+        &#34;value&#34;: &#34;pearson&#34;,
+        &#34;n_runs&#34;: 5,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_hvgs&#34;,
+        &#34;value&#34;: 1000,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_hvgs&#34;,
+        &#34;value&#34;: 2000,
+        &#34;n_runs&#34;: 16,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;n_hvgs&#34;,
+        &#34;value&#34;: 3000,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_pcs&#34;,
+        &#34;value&#34;: 20,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_pcs&#34;,
+        &#34;value&#34;: 30,
+        &#34;n_runs&#34;: 15,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;n_pcs&#34;,
+        &#34;value&#34;: 50,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 0.3,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 0.5,
+        &#34;n_runs&#34;: 1,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 1.0,
+        &#34;n_runs&#34;: 13,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 1.5,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 2.0,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;seed&#34;,
+        &#34;value&#34;: 0,
+        &#34;n_runs&#34;: 18,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;seed&#34;,
+        &#34;value&#34;: 1,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;seed&#34;,
+        &#34;value&#34;: 2,
+        &#34;n_runs&#34;: 1,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      }
+    ],
+    &#34;breakers&#34;: [
+      {
+        &#34;axis&#34;: &#34;n_hvgs&#34;,
+        &#34;value&#34;: 2000,
+        &#34;n_runs&#34;: 16,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;normalization&#34;,
+        &#34;value&#34;: &#34;log_total&#34;,
+        &#34;n_runs&#34;: 16,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;n_pcs&#34;,
+        &#34;value&#34;: 30,
+        &#34;n_runs&#34;: 15,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;min_genes&#34;,
+        &#34;value&#34;: 200,
+        &#34;n_runs&#34;: 13,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 1.0,
+        &#34;n_runs&#34;: 13,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;doublet_removal&#34;,
+        &#34;value&#34;: false,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;min_genes&#34;,
+        &#34;value&#34;: 100,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_pcs&#34;,
+        &#34;value&#34;: 50,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_hvgs&#34;,
+        &#34;value&#34;: 3000,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 0.3,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 1.5,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;seed&#34;,
+        &#34;value&#34;: 1,
+        &#34;n_runs&#34;: 2,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 0.5,
+        &#34;n_runs&#34;: 1,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;seed&#34;,
+        &#34;value&#34;: 2,
+        &#34;n_runs&#34;: 1,
+        &#34;n_holds&#34;: 0,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;doublet_removal&#34;,
+        &#34;value&#34;: true,
+        &#34;n_runs&#34;: 18,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;seed&#34;,
+        &#34;value&#34;: 0,
+        &#34;n_runs&#34;: 18,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: true
+      },
+      {
+        &#34;axis&#34;: &#34;min_genes&#34;,
+        &#34;value&#34;: 500,
+        &#34;n_runs&#34;: 5,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;normalization&#34;,
+        &#34;value&#34;: &#34;pearson&#34;,
+        &#34;n_runs&#34;: 5,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_hvgs&#34;,
+        &#34;value&#34;: 1000,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;n_pcs&#34;,
+        &#34;value&#34;: 20,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: false
+      },
+      {
+        &#34;axis&#34;: &#34;resolution&#34;,
+        &#34;value&#34;: 2.0,
+        &#34;n_runs&#34;: 3,
+        &#34;n_holds&#34;: 1,
+        &#34;is_baseline&#34;: false
+      }
+    ],
+    &#34;oat_flips&#34;: [],
+    &#34;summary&#34;: &#34;The claim held in 1 of 21 runs (5%). It did not hold under the baseline pipeline. Cell-level statistics call the genes significant in most runs while replicate-aware statistics do not: this pattern is characteristic of pseudoreplication.&#34;
+  },
+  &#34;runs&#34;: [
+    {
+      &#34;index&#34;: 0,
+      &#34;label&#34;: &#34;baseline&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: true,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 18,
+      &#34;runtime_s&#34;: 55.996,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;1&#34;,
+          &#34;4&#34;,
+          &#34;13&#34;
+        ],
+        &#34;n_cells&#34;: 2916,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.90828,
+        &#34;marker_auroc&#34;: 0.966559,
+        &#34;jaccard&#34;: 0.899935,
+        &#34;precision&#34;: 0.949931,
+        &#34;recall&#34;: 0.944748,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.288409,
+        &#34;doublet_score_median&#34;: 0.0367133,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 0.795296,
+        &#34;pb_padj&#34;: 0.170349,
+        &#34;cell_padj&#34;: 0.00819683
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1083,
+        &#34;n_cells_b&#34;: 1833,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 9103,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 841,
+          &#34;patient_1016|A&#34;: 350,
+          &#34;patient_101|B&#34;: 217,
+          &#34;patient_1039|A&#34;: 121,
+          &#34;patient_107|A&#34;: 216,
+          &#34;patient_1244|B&#34;: 450,
+          &#34;patient_1256|A&#34;: 396,
+          &#34;patient_1488|B&#34;: 325
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.414316,
+            &#34;cell_p&#34;: 0.00819683,
+            &#34;pct_expressing_a&#34;: 0.297322,
+            &#34;pct_expressing_b&#34;: 0.258592,
+            &#34;cell_padj&#34;: 0.00819683,
+            &#34;pb_base_mean&#34;: 176.596,
+            &#34;pb_log2fc&#34;: 0.795296,
+            &#34;pb_p&#34;: 0.170349,
+            &#34;pb_padj_genomewide&#34;: 0.999979,
+            &#34;pb_padj&#34;: 0.170349,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 1,
+      &#34;label&#34;: &#34;min_genes=100&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 100,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12240,
+      &#34;n_removed_qc&#34;: 47,
+      &#34;n_removed_doublet&#34;: 28,
+      &#34;n_clusters&#34;: 18,
+      &#34;runtime_s&#34;: 75.388,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;2&#34;,
+          &#34;5&#34;,
+          &#34;15&#34;
+        ],
+        &#34;n_cells&#34;: 3028,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.961983,
+        &#34;marker_auroc&#34;: 0.977032,
+        &#34;jaccard&#34;: 0.842919,
+        &#34;precision&#34;: 0.900264,
+        &#34;recall&#34;: 0.929741,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.282034,
+        &#34;doublet_score_median&#34;: 0.0379747,
+        &#34;doublet_score_median_all&#34;: 0.0491196
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 1.12821,
+        &#34;pb_padj&#34;: 0.153505,
+        &#34;cell_padj&#34;: 1.13807e-07
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1134,
+        &#34;n_cells_b&#34;: 1894,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 9331,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 854,
+          &#34;patient_1016|A&#34;: 398,
+          &#34;patient_101|B&#34;: 235,
+          &#34;patient_1039|A&#34;: 118,
+          &#34;patient_107|A&#34;: 214,
+          &#34;patient_1244|B&#34;: 457,
+          &#34;patient_1256|A&#34;: 404,
+          &#34;patient_1488|B&#34;: 348
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.705974,
+            &#34;cell_p&#34;: 1.13807e-07,
+            &#34;pct_expressing_a&#34;: 0.353616,
+            &#34;pct_expressing_b&#34;: 0.277191,
+            &#34;cell_padj&#34;: 1.13807e-07,
+            &#34;pb_base_mean&#34;: 347.709,
+            &#34;pb_log2fc&#34;: 1.12821,
+            &#34;pb_p&#34;: 0.153505,
+            &#34;pb_padj_genomewide&#34;: 0.999844,
+            &#34;pb_padj&#34;: 0.153505,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 2,
+      &#34;label&#34;: &#34;min_genes=500&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 500,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 6396,
+      &#34;n_removed_qc&#34;: 5880,
+      &#34;n_removed_doublet&#34;: 39,
+      &#34;n_clusters&#34;: 16,
+      &#34;runtime_s&#34;: 42.204,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;1&#34;,
+          &#34;2&#34;
+        ],
+        &#34;n_cells&#34;: 1720,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.881587,
+        &#34;marker_auroc&#34;: 0.930241,
+        &#34;jaccard&#34;: 0.578019,
+        &#34;precision&#34;: 0.990698,
+        &#34;recall&#34;: 0.581173,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.25407,
+        &#34;doublet_score_median&#34;: 0.0486009,
+        &#34;doublet_score_median_all&#34;: 0.0486009
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 0.632924,
+        &#34;pb_padj&#34;: 0.0791263,
+        &#34;cell_padj&#34;: 0.0673082
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 678,
+        &#34;n_cells_b&#34;: 1042,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 8000,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 437,
+          &#34;patient_1016|A&#34;: 165,
+          &#34;patient_101|B&#34;: 162,
+          &#34;patient_1039|A&#34;: 82,
+          &#34;patient_107|A&#34;: 160,
+          &#34;patient_1244|B&#34;: 286,
+          &#34;patient_1256|A&#34;: 271,
+          &#34;patient_1488|B&#34;: 157
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.307237,
+            &#34;cell_p&#34;: 0.0673082,
+            &#34;pct_expressing_a&#34;: 0.265487,
+            &#34;pct_expressing_b&#34;: 0.227447,
+            &#34;cell_padj&#34;: 0.0673082,
+            &#34;pb_base_mean&#34;: 75.4162,
+            &#34;pb_log2fc&#34;: 0.632924,
+            &#34;pb_p&#34;: 0.0791263,
+            &#34;pb_padj_genomewide&#34;: 0.999754,
+            &#34;pb_padj&#34;: 0.0791263,
+            &#34;holds_cell&#34;: false,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;neither&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 3,
+      &#34;label&#34;: &#34;doublet_removal=False&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: false,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12261,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 0,
+      &#34;n_clusters&#34;: 17,
+      &#34;runtime_s&#34;: 40.135,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;2&#34;,
+          &#34;3&#34;,
+          &#34;11&#34;
+        ],
+        &#34;n_cells&#34;: 2891,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.924945,
+        &#34;marker_auroc&#34;: 0.965305,
+        &#34;jaccard&#34;: 0.923052,
+        &#34;precision&#34;: 0.966793,
+        &#34;recall&#34;: 0.953274,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.291595,
+        &#34;doublet_score_median&#34;: 0.0361261,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 0.919946,
+        &#34;pb_padj&#34;: 0.12818,
+        &#34;cell_padj&#34;: 0.00223841
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1090,
+        &#34;n_cells_b&#34;: 1801,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 9026,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 843,
+          &#34;patient_1016|A&#34;: 355,
+          &#34;patient_101|B&#34;: 210,
+          &#34;patient_1039|A&#34;: 121,
+          &#34;patient_107|A&#34;: 217,
+          &#34;patient_1244|B&#34;: 431,
+          &#34;patient_1256|A&#34;: 397,
+          &#34;patient_1488|B&#34;: 317
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.556201,
+            &#34;cell_p&#34;: 0.00223841,
+            &#34;pct_expressing_a&#34;: 0.305505,
+            &#34;pct_expressing_b&#34;: 0.260411,
+            &#34;cell_padj&#34;: 0.00223841,
+            &#34;pb_base_mean&#34;: 183.63,
+            &#34;pb_log2fc&#34;: 0.919946,
+            &#34;pb_p&#34;: 0.12818,
+            &#34;pb_padj_genomewide&#34;: 0.999949,
+            &#34;pb_padj&#34;: 0.12818,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 4,
+      &#34;label&#34;: &#34;normalization=pearson&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;pearson&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 23,
+      &#34;runtime_s&#34;: 41.649,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;2&#34;,
+          &#34;18&#34;,
+          &#34;19&#34;
+        ],
+        &#34;n_cells&#34;: 1987,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.959861,
+        &#34;marker_auroc&#34;: 0.962161,
+        &#34;jaccard&#34;: 0.561092,
+        &#34;precision&#34;: 0.889784,
+        &#34;recall&#34;: 0.603001,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.238551,
+        &#34;doublet_score_median&#34;: 0.0361261,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 0.540483,
+        &#34;pb_padj&#34;: 0.188238,
+        &#34;cell_padj&#34;: 0.00639869
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 709,
+        &#34;n_cells_b&#34;: 1278,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 8501,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 474,
+          &#34;patient_1016|A&#34;: 144,
+          &#34;patient_101|B&#34;: 185,
+          &#34;patient_1039|A&#34;: 76,
+          &#34;patient_107|A&#34;: 185,
+          &#34;patient_1244|B&#34;: 355,
+          &#34;patient_1256|A&#34;: 304,
+          &#34;patient_1488|B&#34;: 264
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.400111,
+            &#34;cell_p&#34;: 0.00639869,
+            &#34;pct_expressing_a&#34;: 0.282087,
+            &#34;pct_expressing_b&#34;: 0.230047,
+            &#34;cell_padj&#34;: 0.00639869,
+            &#34;pb_base_mean&#34;: 122.186,
+            &#34;pb_log2fc&#34;: 0.540483,
+            &#34;pb_p&#34;: 0.188238,
+            &#34;pb_padj_genomewide&#34;: 0.999739,
+            &#34;pb_padj&#34;: 0.188238,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 5,
+      &#34;label&#34;: &#34;n_hvgs=1000&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 1000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 16,
+      &#34;runtime_s&#34;: 32.244,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;1&#34;
+        ],
+        &#34;n_cells&#34;: 2840,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.914363,
+        &#34;marker_auroc&#34;: 0.96426,
+        &#34;jaccard&#34;: 0.894944,
+        &#34;precision&#34;: 0.959859,
+        &#34;recall&#34;: 0.929741,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.288028,
+        &#34;doublet_score_median&#34;: 0.0361261,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 0.791897,
+        &#34;pb_padj&#34;: 0.17857,
+        &#34;cell_padj&#34;: 0.00427962
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1072,
+        &#34;n_cells_b&#34;: 1768,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 8998,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 818,
+          &#34;patient_1016|A&#34;: 335,
+          &#34;patient_101|B&#34;: 210,
+          &#34;patient_1039|A&#34;: 119,
+          &#34;patient_107|A&#34;: 218,
+          &#34;patient_1244|B&#34;: 425,
+          &#34;patient_1256|A&#34;: 400,
+          &#34;patient_1488|B&#34;: 315
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.373632,
+            &#34;cell_p&#34;: 0.00427962,
+            &#34;pct_expressing_a&#34;: 0.29944,
+            &#34;pct_expressing_b&#34;: 0.255656,
+            &#34;cell_padj&#34;: 0.00427962,
+            &#34;pb_base_mean&#34;: 170.311,
+            &#34;pb_log2fc&#34;: 0.791897,
+            &#34;pb_p&#34;: 0.17857,
+            &#34;pb_padj_genomewide&#34;: 0.999945,
+            &#34;pb_padj&#34;: 0.17857,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 6,
+      &#34;label&#34;: &#34;n_hvgs=3000&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 3000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 17,
+      &#34;runtime_s&#34;: 33.956,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;1&#34;,
+          &#34;2&#34;,
+          &#34;5&#34;
+        ],
+        &#34;n_cells&#34;: 3109,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.934102,
+        &#34;marker_auroc&#34;: 0.969068,
+        &#34;jaccard&#34;: 0.899686,
+        &#34;precision&#34;: 0.920232,
+        &#34;recall&#34;: 0.975784,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.283693,
+        &#34;doublet_score_median&#34;: 0.0379747,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 1.00496,
+        &#34;pb_padj&#34;: 0.221627,
+        &#34;cell_padj&#34;: 4.08366e-06
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1184,
+        &#34;n_cells_b&#34;: 1925,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 9321,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 882,
+          &#34;patient_1016|A&#34;: 412,
+          &#34;patient_101|B&#34;: 226,
+          &#34;patient_1039|A&#34;: 133,
+          &#34;patient_107|A&#34;: 223,
+          &#34;patient_1244|B&#34;: 473,
+          &#34;patient_1256|A&#34;: 416,
+          &#34;patient_1488|B&#34;: 344
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.57009,
+            &#34;cell_p&#34;: 4.08366e-06,
+            &#34;pct_expressing_a&#34;: 0.342905,
+            &#34;pct_expressing_b&#34;: 0.277922,
+            &#34;cell_padj&#34;: 4.08366e-06,
+            &#34;pb_base_mean&#34;: 357.364,
+            &#34;pb_log2fc&#34;: 1.00496,
+            &#34;pb_p&#34;: 0.221627,
+            &#34;pb_padj_genomewide&#34;: 0.999686,
+            &#34;pb_padj&#34;: 0.221627,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 7,
+      &#34;label&#34;: &#34;n_pcs=20&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 20,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 17,
+      &#34;runtime_s&#34;: 31.433,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;2&#34;,
+          &#34;3&#34;,
+          &#34;12&#34;
+        ],
+        &#34;n_cells&#34;: 3022,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.929721,
+        &#34;marker_auroc&#34;: 0.967038,
+        &#34;jaccard&#34;: 0.940046,
+        &#34;precision&#34;: 0.954666,
+        &#34;recall&#34;: 0.98397,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.294176,
+        &#34;doublet_score_median&#34;: 0.037037,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 1.19171,
+        &#34;pb_padj&#34;: 0.172084,
+        &#34;cell_padj&#34;: 3.18054e-06
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1154,
+        &#34;n_cells_b&#34;: 1868,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 9115,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 889,
+          &#34;patient_1016|A&#34;: 406,
+          &#34;patient_101|B&#34;: 218,
+          &#34;patient_1039|A&#34;: 126,
+          &#34;patient_107|A&#34;: 220,
+          &#34;patient_1244|B&#34;: 431,
+          &#34;patient_1256|A&#34;: 402,
+          &#34;patient_1488|B&#34;: 330
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.599534,
+            &#34;cell_p&#34;: 3.18054e-06,
+            &#34;pct_expressing_a&#34;: 0.339688,
+            &#34;pct_expressing_b&#34;: 0.273019,
+            &#34;cell_padj&#34;: 3.18054e-06,
+            &#34;pb_base_mean&#34;: 332.038,
+            &#34;pb_log2fc&#34;: 1.19171,
+            &#34;pb_p&#34;: 0.172084,
+            &#34;pb_padj_genomewide&#34;: 0.999907,
+            &#34;pb_padj&#34;: 0.172084,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 8,
+      &#34;label&#34;: &#34;n_pcs=50&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 50,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 14,
+      &#34;runtime_s&#34;: 42.746,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;3&#34;
+        ],
+        &#34;n_cells&#34;: 2737,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.931752,
+        &#34;marker_auroc&#34;: 0.959471,
+        &#34;jaccard&#34;: 0.906828,
+        &#34;precision&#34;: 0.98502,
+        &#34;recall&#34;: 0.919509,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.29631,
+        &#34;doublet_score_median&#34;: 0.0357143,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 0.847438,
+        &#34;pb_padj&#34;: 0.147015,
+        &#34;cell_padj&#34;: 0.00213183
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1029,
+        &#34;n_cells_b&#34;: 1708,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 8809,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 811,
+          &#34;patient_1016|A&#34;: 327,
+          &#34;patient_101|B&#34;: 199,
+          &#34;patient_1039|A&#34;: 115,
+          &#34;patient_107|A&#34;: 204,
+          &#34;patient_1244|B&#34;: 391,
+          &#34;patient_1256|A&#34;: 383,
+          &#34;patient_1488|B&#34;: 307
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.421594,
+            &#34;cell_p&#34;: 0.00213183,
+            &#34;pct_expressing_a&#34;: 0.29932,
+            &#34;pct_expressing_b&#34;: 0.251171,
+            &#34;cell_padj&#34;: 0.00213183,
+            &#34;pb_base_mean&#34;: 163.493,
+            &#34;pb_log2fc&#34;: 0.847438,
+            &#34;pb_p&#34;: 0.147015,
+            &#34;pb_padj_genomewide&#34;: 0.99969,
+            &#34;pb_padj&#34;: 0.147015,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 9,
+      &#34;label&#34;: &#34;resolution=0.3&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 0.3,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 9,
+      &#34;runtime_s&#34;: 28.579,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;
+        ],
+        &#34;n_cells&#34;: 3055,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.969318,
+        &#34;marker_auroc&#34;: 0.969318,
+        &#34;jaccard&#34;: 0.933161,
+        &#34;precision&#34;: 0.94599,
+        &#34;recall&#34;: 0.985675,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.291653,
+        &#34;doublet_score_median&#34;: 0.0373333,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 1.25023,
+        &#34;pb_padj&#34;: 0.133863,
+        &#34;cell_padj&#34;: 2.47324e-06
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1161,
+        &#34;n_cells_b&#34;: 1894,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 9179,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 891,
+          &#34;patient_1016|A&#34;: 407,
+          &#34;patient_101|B&#34;: 219,
+          &#34;patient_1039|A&#34;: 128,
+          &#34;patient_107|A&#34;: 219,
+          &#34;patient_1244|B&#34;: 454,
+          &#34;patient_1256|A&#34;: 407,
+          &#34;patient_1488|B&#34;: 330
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.66574,
+            &#34;cell_p&#34;: 2.47324e-06,
+            &#34;pct_expressing_a&#34;: 0.339363,
+            &#34;pct_expressing_b&#34;: 0.272439,
+            &#34;cell_padj&#34;: 2.47324e-06,
+            &#34;pb_base_mean&#34;: 322.715,
+            &#34;pb_log2fc&#34;: 1.25023,
+            &#34;pb_p&#34;: 0.133863,
+            &#34;pb_padj_genomewide&#34;: 0.999891,
+            &#34;pb_padj&#34;: 0.133863,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 10,
+      &#34;label&#34;: &#34;resolution=0.5&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 0.5,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 10,
+      &#34;runtime_s&#34;: 32.393,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;
+        ],
+        &#34;n_cells&#34;: 2869,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.964392,
+        &#34;marker_auroc&#34;: 0.964392,
+        &#34;jaccard&#34;: 0.915786,
+        &#34;precision&#34;: 0.966539,
+        &#34;recall&#34;: 0.945771,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.292785,
+        &#34;doublet_score_median&#34;: 0.0361261,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 0.818221,
+        &#34;pb_padj&#34;: 0.163412,
+        &#34;cell_padj&#34;: 0.00287158
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1078,
+        &#34;n_cells_b&#34;: 1791,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 8989,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 840,
+          &#34;patient_1016|A&#34;: 350,
+          &#34;patient_101|B&#34;: 210,
+          &#34;patient_1039|A&#34;: 119,
+          &#34;patient_107|A&#34;: 214,
+          &#34;patient_1244|B&#34;: 425,
+          &#34;patient_1256|A&#34;: 395,
+          &#34;patient_1488|B&#34;: 316
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.507905,
+            &#34;cell_p&#34;: 0.00287158,
+            &#34;pct_expressing_a&#34;: 0.301484,
+            &#34;pct_expressing_b&#34;: 0.256281,
+            &#34;cell_padj&#34;: 0.00287158,
+            &#34;pb_base_mean&#34;: 171.682,
+            &#34;pb_log2fc&#34;: 0.818221,
+            &#34;pb_p&#34;: 0.163412,
+            &#34;pb_padj_genomewide&#34;: 0.999394,
+            &#34;pb_padj&#34;: 0.163412,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 11,
+      &#34;label&#34;: &#34;resolution=1.5&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.5,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 19,
+      &#34;runtime_s&#34;: 31.449,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;1&#34;,
+          &#34;3&#34;,
+          &#34;16&#34;
+        ],
+        &#34;n_cells&#34;: 2972,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.90861,
+        &#34;marker_auroc&#34;: 0.965726,
+        &#34;jaccard&#34;: 0.858942,
+        &#34;precision&#34;: 0.9179,
+        &#34;recall&#34;: 0.930423,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.280619,
+        &#34;doublet_score_median&#34;: 0.0373333,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 0.526544,
+        &#34;pb_padj&#34;: 0.162434,
+        &#34;cell_padj&#34;: 0.0025006
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1104,
+        &#34;n_cells_b&#34;: 1868,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 9242,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 834,
+          &#34;patient_1016|A&#34;: 349,
+          &#34;patient_101|B&#34;: 225,
+          &#34;patient_1039|A&#34;: 128,
+          &#34;patient_107|A&#34;: 219,
+          &#34;patient_1244|B&#34;: 465,
+          &#34;patient_1256|A&#34;: 408,
+          &#34;patient_1488|B&#34;: 344
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.338199,
+            &#34;cell_p&#34;: 0.0025006,
+            &#34;pct_expressing_a&#34;: 0.304348,
+            &#34;pct_expressing_b&#34;: 0.259101,
+            &#34;cell_padj&#34;: 0.0025006,
+            &#34;pb_base_mean&#34;: 189.161,
+            &#34;pb_log2fc&#34;: 0.526544,
+            &#34;pb_p&#34;: 0.162434,
+            &#34;pb_padj_genomewide&#34;: 0.99986,
+            &#34;pb_padj&#34;: 0.162434,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 12,
+      &#34;label&#34;: &#34;resolution=2.0&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 2.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 23,
+      &#34;runtime_s&#34;: 27.307,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;1&#34;,
+          &#34;2&#34;,
+          &#34;3&#34;,
+          &#34;6&#34;,
+          &#34;7&#34;
+        ],
+        &#34;n_cells&#34;: 2679,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.946006,
+        &#34;marker_auroc&#34;: 0.969126,
+        &#34;jaccard&#34;: 0.759486,
+        &#34;precision&#34;: 0.904069,
+        &#34;recall&#34;: 0.826057,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.265771,
+        &#34;doublet_score_median&#34;: 0.0379747,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 1.04271,
+        &#34;pb_padj&#34;: 0.223119,
+        &#34;cell_padj&#34;: 3.64662e-06
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1011,
+        &#34;n_cells_b&#34;: 1668,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 9178,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 712,
+          &#34;patient_1016|A&#34;: 309,
+          &#34;patient_101|B&#34;: 206,
+          &#34;patient_1039|A&#34;: 110,
+          &#34;patient_107|A&#34;: 206,
+          &#34;patient_1244|B&#34;: 436,
+          &#34;patient_1256|A&#34;: 386,
+          &#34;patient_1488|B&#34;: 314
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.576564,
+            &#34;cell_p&#34;: 3.64662e-06,
+            &#34;pct_expressing_a&#34;: 0.34817,
+            &#34;pct_expressing_b&#34;: 0.275779,
+            &#34;cell_padj&#34;: 3.64662e-06,
+            &#34;pb_base_mean&#34;: 335.07,
+            &#34;pb_log2fc&#34;: 1.04271,
+            &#34;pb_p&#34;: 0.223119,
+            &#34;pb_padj_genomewide&#34;: 0.999959,
+            &#34;pb_padj&#34;: 0.223119,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 13,
+      &#34;label&#34;: &#34;seed=1&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 1
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 17,
+      &#34;runtime_s&#34;: 34.557,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;1&#34;,
+          &#34;2&#34;,
+          &#34;3&#34;,
+          &#34;14&#34;
+        ],
+        &#34;n_cells&#34;: 3031,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.943695,
+        &#34;marker_auroc&#34;: 0.96732,
+        &#34;jaccard&#34;: 0.87339,
+        &#34;precision&#34;: 0.917189,
+        &#34;recall&#34;: 0.948158,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.284065,
+        &#34;doublet_score_median&#34;: 0.0379747,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 0.611615,
+        &#34;pb_padj&#34;: 0.118699,
+        &#34;cell_padj&#34;: 0.00193042
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1122,
+        &#34;n_cells_b&#34;: 1909,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 9277,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 861,
+          &#34;patient_1016|A&#34;: 364,
+          &#34;patient_101|B&#34;: 230,
+          &#34;patient_1039|A&#34;: 128,
+          &#34;patient_107|A&#34;: 221,
+          &#34;patient_1244|B&#34;: 470,
+          &#34;patient_1256|A&#34;: 409,
+          &#34;patient_1488|B&#34;: 348
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.488811,
+            &#34;cell_p&#34;: 0.00193042,
+            &#34;pct_expressing_a&#34;: 0.308378,
+            &#34;pct_expressing_b&#34;: 0.263489,
+            &#34;cell_padj&#34;: 0.00193042,
+            &#34;pb_base_mean&#34;: 198.49,
+            &#34;pb_log2fc&#34;: 0.611615,
+            &#34;pb_p&#34;: 0.118699,
+            &#34;pb_padj_genomewide&#34;: 0.999762,
+            &#34;pb_padj&#34;: 0.118699,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 14,
+      &#34;label&#34;: &#34;seed=2&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 2
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: true,
+      &#34;n_cells&#34;: 12238,
+      &#34;n_removed_qc&#34;: 54,
+      &#34;n_removed_doublet&#34;: 23,
+      &#34;n_clusters&#34;: 17,
+      &#34;runtime_s&#34;: 33.535,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;1&#34;,
+          &#34;2&#34;,
+          &#34;11&#34;,
+          &#34;14&#34;
+        ],
+        &#34;n_cells&#34;: 3114,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.923822,
+        &#34;marker_auroc&#34;: 0.969463,
+        &#34;jaccard&#34;: 0.897082,
+        &#34;precision&#34;: 0.918112,
+        &#34;recall&#34;: 0.975102,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.284522,
+        &#34;doublet_score_median&#34;: 0.0379747,
+        &#34;doublet_score_median_all&#34;: 0.0490094
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 1.08827,
+        &#34;pb_padj&#34;: 0.167248,
+        &#34;cell_padj&#34;: 1.58866e-06
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1179,
+        &#34;n_cells_b&#34;: 1935,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 9326,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 886,
+          &#34;patient_1016|A&#34;: 411,
+          &#34;patient_101|B&#34;: 229,
+          &#34;patient_1039|A&#34;: 132,
+          &#34;patient_107|A&#34;: 221,
+          &#34;patient_1244|B&#34;: 473,
+          &#34;patient_1256|A&#34;: 415,
+          &#34;patient_1488|B&#34;: 347
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.647083,
+            &#34;cell_p&#34;: 1.58866e-06,
+            &#34;pct_expressing_a&#34;: 0.342663,
+            &#34;pct_expressing_b&#34;: 0.274935,
+            &#34;cell_padj&#34;: 1.58866e-06,
+            &#34;pb_base_mean&#34;: 343.73,
+            &#34;pb_log2fc&#34;: 1.08827,
+            &#34;pb_p&#34;: 0.167248,
+            &#34;pb_padj_genomewide&#34;: 0.999962,
+            &#34;pb_padj&#34;: 0.167248,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 15,
+      &#34;label&#34;: &#34;min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 500,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;pearson&#34;,
+        &#34;n_hvgs&#34;: 1000,
+        &#34;n_pcs&#34;: 20,
+        &#34;resolution&#34;: 0.3,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 6396,
+      &#34;n_removed_qc&#34;: 5880,
+      &#34;n_removed_doublet&#34;: 39,
+      &#34;n_clusters&#34;: 9,
+      &#34;runtime_s&#34;: 21.998,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;
+        ],
+        &#34;n_cells&#34;: 2219,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.958076,
+        &#34;marker_auroc&#34;: 0.958076,
+        &#34;jaccard&#34;: 0.725628,
+        &#34;precision&#34;: 0.976115,
+        &#34;recall&#34;: 0.738745,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.28977,
+        &#34;doublet_score_median&#34;: 0.0527859,
+        &#34;doublet_score_median_all&#34;: 0.0486009
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 1.32499,
+        &#34;pb_padj&#34;: 0.123235,
+        &#34;cell_padj&#34;: 0.000273773
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 884,
+        &#34;n_cells_b&#34;: 1335,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 8765,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 643,
+          &#34;patient_1016|A&#34;: 290,
+          &#34;patient_101|B&#34;: 175,
+          &#34;patient_1039|A&#34;: 101,
+          &#34;patient_107|A&#34;: 171,
+          &#34;patient_1244|B&#34;: 329,
+          &#34;patient_1256|A&#34;: 322,
+          &#34;patient_1488|B&#34;: 188
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.774293,
+            &#34;cell_p&#34;: 0.000273773,
+            &#34;pct_expressing_a&#34;: 0.361991,
+            &#34;pct_expressing_b&#34;: 0.303371,
+            &#34;cell_padj&#34;: 0.000273773,
+            &#34;pb_base_mean&#34;: 280.182,
+            &#34;pb_log2fc&#34;: 1.32499,
+            &#34;pb_p&#34;: 0.123235,
+            &#34;pb_padj_genomewide&#34;: 0.999539,
+            &#34;pb_padj&#34;: 0.123235,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 16,
+      &#34;label&#34;: &#34;min_genes=100, doublet_removal=False, normalization=pearson, n_pcs=50, seed=1&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 100,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: false,
+        &#34;normalization&#34;: &#34;pearson&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 50,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 1
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 12268,
+      &#34;n_removed_qc&#34;: 47,
+      &#34;n_removed_doublet&#34;: 0,
+      &#34;n_clusters&#34;: 18,
+      &#34;runtime_s&#34;: 28.381,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;2&#34;,
+          &#34;14&#34;
+        ],
+        &#34;n_cells&#34;: 2880,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.895605,
+        &#34;marker_auroc&#34;: 0.962094,
+        &#34;jaccard&#34;: 0.95099,
+        &#34;precision&#34;: 0.983681,
+        &#34;recall&#34;: 0.966235,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.287847,
+        &#34;doublet_score_median&#34;: 0.0361261,
+        &#34;doublet_score_median_all&#34;: 0.0491196
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 1.25535,
+        &#34;pb_padj&#34;: 0.14307,
+        &#34;cell_padj&#34;: 2.14703e-06
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1117,
+        &#34;n_cells_b&#34;: 1763,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 8943,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 829,
+          &#34;patient_1016|A&#34;: 386,
+          &#34;patient_101|B&#34;: 204,
+          &#34;patient_1039|A&#34;: 125,
+          &#34;patient_107|A&#34;: 209,
+          &#34;patient_1244|B&#34;: 420,
+          &#34;patient_1256|A&#34;: 397,
+          &#34;patient_1488|B&#34;: 310
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.664425,
+            &#34;cell_p&#34;: 2.14703e-06,
+            &#34;pct_expressing_a&#34;: 0.33214,
+            &#34;pct_expressing_b&#34;: 0.262053,
+            &#34;cell_padj&#34;: 2.14703e-06,
+            &#34;pb_base_mean&#34;: 304.786,
+            &#34;pb_log2fc&#34;: 1.25535,
+            &#34;pb_p&#34;: 0.14307,
+            &#34;pb_padj_genomewide&#34;: 0.999718,
+            &#34;pb_padj&#34;: 0.14307,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 17,
+      &#34;label&#34;: &#34;min_genes=500, normalization=pearson, resolution=2.0&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 500,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;pearson&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 2.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 6396,
+      &#34;n_removed_qc&#34;: 5880,
+      &#34;n_removed_doublet&#34;: 39,
+      &#34;n_clusters&#34;: 29,
+      &#34;runtime_s&#34;: 16.446,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;1&#34;,
+          &#34;2&#34;,
+          &#34;8&#34;,
+          &#34;21&#34;
+        ],
+        &#34;n_cells&#34;: 1323,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.930504,
+        &#34;marker_auroc&#34;: 0.938932,
+        &#34;jaccard&#34;: 0.440908,
+        &#34;precision&#34;: 0.984127,
+        &#34;recall&#34;: 0.444065,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.238095,
+        &#34;doublet_score_median&#34;: 0.0480167,
+        &#34;doublet_score_median_all&#34;: 0.0486009
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 0.683233,
+        &#34;pb_padj&#34;: 0.268945,
+        &#34;cell_padj&#34;: 0.24259
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 499,
+        &#34;n_cells_b&#34;: 824,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 7527,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 315,
+          &#34;patient_1016|A&#34;: 78,
+          &#34;patient_101|B&#34;: 125,
+          &#34;patient_1039|A&#34;: 54,
+          &#34;patient_107|A&#34;: 147,
+          &#34;patient_1244|B&#34;: 252,
+          &#34;patient_1256|A&#34;: 220,
+          &#34;patient_1488|B&#34;: 132
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.312296,
+            &#34;cell_p&#34;: 0.24259,
+            &#34;pct_expressing_a&#34;: 0.274549,
+            &#34;pct_expressing_b&#34;: 0.247573,
+            &#34;cell_padj&#34;: 0.24259,
+            &#34;pb_base_mean&#34;: 77.5283,
+            &#34;pb_log2fc&#34;: 0.683233,
+            &#34;pb_p&#34;: 0.268945,
+            &#34;pb_padj_genomewide&#34;: 0.999552,
+            &#34;pb_padj&#34;: 0.268945,
+            &#34;holds_cell&#34;: false,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;neither&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 18,
+      &#34;label&#34;: &#34;min_genes=500, n_pcs=50&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 500,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 2000,
+        &#34;n_pcs&#34;: 50,
+        &#34;resolution&#34;: 1.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 6396,
+      &#34;n_removed_qc&#34;: 5880,
+      &#34;n_removed_doublet&#34;: 39,
+      &#34;n_clusters&#34;: 13,
+      &#34;runtime_s&#34;: 18.415,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;3&#34;
+        ],
+        &#34;n_cells&#34;: 1897,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.877524,
+        &#34;marker_auroc&#34;: 0.93406,
+        &#34;jaccard&#34;: 0.637504,
+        &#34;precision&#34;: 0.991038,
+        &#34;recall&#34;: 0.641201,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.275698,
+        &#34;doublet_score_median&#34;: 0.0523691,
+        &#34;doublet_score_median_all&#34;: 0.0486009
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 0.605365,
+        &#34;pb_padj&#34;: 0.112222,
+        &#34;cell_padj&#34;: 0.0707186
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 752,
+        &#34;n_cells_b&#34;: 1145,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 8385,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 523,
+          &#34;patient_1016|A&#34;: 215,
+          &#34;patient_101|B&#34;: 164,
+          &#34;patient_1039|A&#34;: 85,
+          &#34;patient_107|A&#34;: 156,
+          &#34;patient_1244|B&#34;: 282,
+          &#34;patient_1256|A&#34;: 296,
+          &#34;patient_1488|B&#34;: 176
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.329486,
+            &#34;cell_p&#34;: 0.0707186,
+            &#34;pct_expressing_a&#34;: 0.299202,
+            &#34;pct_expressing_b&#34;: 0.262882,
+            &#34;cell_padj&#34;: 0.0707186,
+            &#34;pb_base_mean&#34;: 99.061,
+            &#34;pb_log2fc&#34;: 0.605365,
+            &#34;pb_p&#34;: 0.112222,
+            &#34;pb_padj_genomewide&#34;: 0.999993,
+            &#34;pb_padj&#34;: 0.112222,
+            &#34;holds_cell&#34;: false,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;neither&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 19,
+      &#34;label&#34;: &#34;min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 500,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: true,
+        &#34;normalization&#34;: &#34;pearson&#34;,
+        &#34;n_hvgs&#34;: 1000,
+        &#34;n_pcs&#34;: 20,
+        &#34;resolution&#34;: 2.0,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 6396,
+      &#34;n_removed_qc&#34;: 5880,
+      &#34;n_removed_doublet&#34;: 39,
+      &#34;n_clusters&#34;: 33,
+      &#34;runtime_s&#34;: 11.341,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;7&#34;,
+          &#34;15&#34;,
+          &#34;18&#34;,
+          &#34;19&#34;
+        ],
+        &#34;n_cells&#34;: 1073,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.923808,
+        &#34;marker_auroc&#34;: 0.933391,
+        &#34;jaccard&#34;: 0.364566,
+        &#34;precision&#34;: 0.997204,
+        &#34;recall&#34;: 0.364939,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.214352,
+        &#34;doublet_score_median&#34;: 0.047619,
+        &#34;doublet_score_median_all&#34;: 0.0486009
+      },
+      &#34;holds&#34;: true,
+      &#34;holds_cell_level&#34;: false,
+      &#34;replicate_ok&#34;: true,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 0.905735,
+        &#34;pb_padj&#34;: 0.0371621,
+        &#34;cell_padj&#34;: 0.0967021
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 418,
+        &#34;n_cells_b&#34;: 655,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 6955,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 230,
+          &#34;patient_1016|A&#34;: 66,
+          &#34;patient_101|B&#34;: 122,
+          &#34;patient_1039|A&#34;: 47,
+          &#34;patient_107|A&#34;: 137,
+          &#34;patient_1244|B&#34;: 209,
+          &#34;patient_1256|A&#34;: 168,
+          &#34;patient_1488|B&#34;: 94
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.479756,
+            &#34;cell_p&#34;: 0.0967021,
+            &#34;pct_expressing_a&#34;: 0.255981,
+            &#34;pct_expressing_b&#34;: 0.216794,
+            &#34;cell_padj&#34;: 0.0967021,
+            &#34;pb_base_mean&#34;: 58.2017,
+            &#34;pb_log2fc&#34;: 0.905735,
+            &#34;pb_p&#34;: 0.0371621,
+            &#34;pb_padj_genomewide&#34;: 0.999441,
+            &#34;pb_padj&#34;: 0.0371621,
+            &#34;holds_cell&#34;: false,
+            &#34;holds_replicate&#34;: true,
+            &#34;agreement&#34;: &#34;pseudobulk_only&#34;
+          }
+        ]
+      }
+    },
+    {
+      &#34;index&#34;: 20,
+      &#34;label&#34;: &#34;min_genes=100, doublet_removal=False, n_hvgs=3000, resolution=1.5&#34;,
+      &#34;params&#34;: {
+        &#34;min_genes&#34;: 100,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;doublet_removal&#34;: false,
+        &#34;normalization&#34;: &#34;log_total&#34;,
+        &#34;n_hvgs&#34;: 3000,
+        &#34;n_pcs&#34;: 30,
+        &#34;resolution&#34;: 1.5,
+        &#34;batch_correction&#34;: false,
+        &#34;seed&#34;: 0
+      },
+      &#34;is_baseline&#34;: false,
+      &#34;is_one_at_a_time&#34;: false,
+      &#34;n_cells&#34;: 12268,
+      &#34;n_removed_qc&#34;: 47,
+      &#34;n_removed_doublet&#34;: 0,
+      &#34;n_clusters&#34;: 19,
+      &#34;runtime_s&#34;: 24.703,
+      &#34;warnings&#34;: [
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+      ],
+      &#34;match&#34;: {
+        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;clusters&#34;: [
+          &#34;0&#34;,
+          &#34;2&#34;,
+          &#34;3&#34;,
+          &#34;14&#34;
+        ],
+        &#34;n_cells&#34;: 2967,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.893092,
+        &#34;marker_auroc&#34;: 0.966205,
+        &#34;jaccard&#34;: 0.939822,
+        &#34;precision&#34;: 0.963263,
+        &#34;recall&#34;: 0.974761,
+        &#34;n_reference&#34;: 2932,
+        &#34;n_samples_present&#34;: 8,
+        &#34;max_sample_share&#34;: 0.288507,
+        &#34;doublet_score_median&#34;: 0.0362319,
+        &#34;doublet_score_median_all&#34;: 0.0491196
+      },
+      &#34;holds&#34;: false,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: false,
+      &#34;recovered&#34;: null,
+      &#34;key_stats&#34;: {
+        &#34;pb_log2fc&#34;: 1.14759,
+        &#34;pb_padj&#34;: 0.193294,
+        &#34;cell_padj&#34;: 7.83506e-06
+      },
+      &#34;details&#34;: {
+        &#34;n_cells_a&#34;: 1145,
+        &#34;n_cells_b&#34;: 1822,
+        &#34;n_samples_a&#34;: 4,
+        &#34;n_samples_b&#34;: 4,
+        &#34;n_genes_tested_pseudobulk&#34;: 9089,
+        &#34;cells_per_sample&#34;: {
+          &#34;patient_1015|B&#34;: 856,
+          &#34;patient_1016|A&#34;: 398,
+          &#34;patient_101|B&#34;: 208,
+          &#34;patient_1039|A&#34;: 128,
+          &#34;patient_107|A&#34;: 217,
+          &#34;patient_1244|B&#34;: 443,
+          &#34;patient_1256|A&#34;: 402,
+          &#34;patient_1488|B&#34;: 315
+        },
+        &#34;per_gene&#34;: [
+          {
+            &#34;gene&#34;: &#34;ISG15&#34;,
+            &#34;cell_log2fc&#34;: 0.566712,
+            &#34;cell_p&#34;: 7.83506e-06,
+            &#34;pct_expressing_a&#34;: 0.337991,
+            &#34;pct_expressing_b&#34;: 0.272777,
+            &#34;cell_padj&#34;: 7.83506e-06,
+            &#34;pb_base_mean&#34;: 327.097,
+            &#34;pb_log2fc&#34;: 1.14759,
+            &#34;pb_p&#34;: 0.193294,
+            &#34;pb_padj_genomewide&#34;: 0.999647,
+            &#34;pb_padj&#34;: 0.193294,
+            &#34;holds_cell&#34;: true,
+            &#34;holds_replicate&#34;: false,
+            &#34;agreement&#34;: &#34;cell_only&#34;
+          }
+        ]
+      }
+    }
+  ],
+  &#34;as_labelled&#34;: {
+    &#34;holds&#34;: false,
+    &#34;holds_cell_level&#34;: true,
+    &#34;replicate_ok&#34;: false,
+    &#34;n_cells_a&#34;: 1131,
+    &#34;n_cells_b&#34;: 1801,
+    &#34;n_samples_a&#34;: 4,
+    &#34;n_samples_b&#34;: 4,
+    &#34;n_genes_tested_pseudobulk&#34;: 8987,
+    &#34;cells_per_sample&#34;: {
+      &#34;patient_1015|B&#34;: 859,
+      &#34;patient_1016|A&#34;: 393,
+      &#34;patient_101|B&#34;: 207,
+      &#34;patient_1039|A&#34;: 126,
+      &#34;patient_107|A&#34;: 210,
+      &#34;patient_1244|B&#34;: 418,
+      &#34;patient_1256|A&#34;: 402,
+      &#34;patient_1488|B&#34;: 317
+    },
+    &#34;per_gene&#34;: [
+      {
+        &#34;gene&#34;: &#34;ISG15&#34;,
+        &#34;cell_log2fc&#34;: 0.655872,
+        &#34;cell_p&#34;: 1.09213e-05,
+        &#34;pct_expressing_a&#34;: 0.332449,
+        &#34;pct_expressing_b&#34;: 0.268184,
+        &#34;cell_padj&#34;: 1.09213e-05,
+        &#34;pb_base_mean&#34;: 301.465,
+        &#34;pb_log2fc&#34;: 1.21894,
+        &#34;pb_p&#34;: 0.14176,
+        &#34;pb_padj_genomewide&#34;: 0.99946,
+        &#34;pb_padj&#34;: 0.14176,
+        &#34;holds_cell&#34;: true,
+        &#34;holds_replicate&#34;: false,
+        &#34;agreement&#34;: &#34;cell_only&#34;
+      }
+    ],
+    &#34;warnings&#34;: [],
+    &#34;key_stats&#34;: {
+      &#34;pb_log2fc&#34;: 1.21894,
+      &#34;pb_padj&#34;: 0.14176,
+      &#34;cell_padj&#34;: 1.09213e-05
+    }
+  }
+}</pre></details>
+
+<footer>Recluster 0.1.0 · an independent stress test for single-cell RNA-seq claims · all numbers in this report were computed by deterministic code.</footer>
+</main>
+</body>
+</html>
