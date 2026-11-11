@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recluster · {{ spec.name }}</title>
+<style>
+:root { --ink:#1b1b1b; --muted:#5f5e58; --rule:#d8d6cf; --bg:#fbfaf7; --panel:#ffffff; --soft:#f3f1ea;
+        --accent:#1f4e79; --pass:#2f6b3a; --fail:#9b3b2e; --warn:#8a6a1e; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink);
+       font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+main { max-width: 960px; margin: 0 auto; padding: 36px 24px 72px; }
+.mono, code, td.num, .params { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.92em; }
+.eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+h1 { font-size: 27px; line-height: 1.25; font-weight: 650; letter-spacing: -0.01em; margin: 0 0 6px; }
+.sub { color: var(--muted); margin: 0 0 22px; }
+h2 { font-size: 17px; font-weight: 650; margin: 44px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+h3 { font-size: 14.5px; font-weight: 650; margin: 22px 0 8px; color: var(--muted); }
+p { margin: 8px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--panel); }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; background: var(--soft); }
+td.num, th.num { text-align: right; }
+.verdict { display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin: 18px 0 6px; }
+.badge { display:inline-flex; align-items:center; gap:12px; padding: 12px 18px; border: 2px solid; border-radius: 4px;
+         font-weight: 750; font-size: 20px; letter-spacing: .03em; background: var(--panel); }
+.badge .icon { font-size: 22px; line-height: 1; }
+.badge.robust { border-color: var(--pass); color: var(--pass); }
+.badge.fragile { border-color: var(--warn); color: var(--warn); border-style: dashed; }
+.badge.not-supported { border-color: var(--fail); color: var(--fail); }
+.verdict-text { flex: 1 1 420px; }
+.kv { display:grid; grid-template-columns: max-content 1fr; gap: 3px 18px; margin: 10px 0; font-size: 14px; }
+.kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.note { background: var(--panel); border-left: 3px solid var(--accent); padding: 10px 14px; margin: 14px 0; font-size: 14px; }
+.note.flag { border-left-color: var(--fail); }
+.pass::before { content: "✓ "; color: var(--pass); font-weight: 700; }
+.fail::before { content: "✕ "; color: var(--fail); font-weight: 700; }
+.na { color: var(--muted); }
+details { margin-top: 10px; }
+summary { cursor: pointer; color: var(--accent); }
+pre { background: var(--soft); padding: 12px 14px; font-size: 12.5px; overflow: auto; max-height: 520px; border: 1px solid var(--rule); }
+.legend { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.small { font-size: 13px; color: var(--muted); }
+svg { max-width: 100%; height: auto; }
+footer { margin-top: 56px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); }
+.llm { border: 1px dashed var(--rule); padding: 10px 14px; margin: 14px 0; background: var(--soft); }
+</style>
+</head>
+<body>
+<main>
+<div class="eyebrow">Recluster report · {{ spec.claim_type.replace('_', ' ') }} · {{ mode }} mode</div>
+<h1>{{ spec.name }}</h1>
+<p class="sub">{{ data.path_name }} · {{ data.n_cells | thousands }} cells × {{ data.n_genes | thousands }} genes · counts from <span class="mono">{{ data.counts_source }}</span></p>
+
+<div class="verdict">
+  <div class="badge {{ verdict.label | lower | replace(' ', '-') }}"><span class="icon">{{ verdict_icon }}</span>{{ verdict.label }}</div>
+  <div class="verdict-text">
+    <p>{{ verdict.summary }}</p>
+    <dl class="kv">
+      <dt>Survival</dt><dd class="mono">{{ verdict.n_holds }} / {{ verdict.n_runs }} runs ({{ (100 * verdict.survival) | round(0) | int }}%)</dd>
+      {% if verdict.recovered_survival is not none and spec.claim_type == 'population_exists' %}
+      <dt>Recovered as a cluster</dt><dd class="mono">{{ (100 * verdict.recovered_survival) | round(0) | int }}% of runs (before the replicate check)</dd>
+      {% endif %}
+      {% if verdict.cell_level_survival is not none and spec.claim_type != 'population_exists' %}
+      <dt>Naive cell-level</dt><dd class="mono">{{ (100 * verdict.cell_level_survival) | round(0) | int }}% of runs (not used for the verdict)</dd>
+      {% endif %}
+      <dt>Rule</dt><dd>ROBUST ≥ {{ (100 * thresholds.robust_min_survival) | int }}% · FRAGILE ≥ {{ (100 * thresholds.fragile_min_survival) | int }}% · else NOT SUPPORTED</dd>
+    </dl>
+  </div>
+</div>
+{% if verdict.pseudoreplication_flag %}
+<div class="note flag"><strong>Pseudoreplication flag.</strong> Cell-level statistics support the claim in {{ (100 * verdict.cell_level_survival) | round(0) | int }}% of runs, but replicate-aware statistics support it in only {{ (100 * verdict.survival) | round(0) | int }}%. Treating cells as independent replicates inflates significance (Squair et al., <em>Nat Commun</em> 2021;12:5692).</div>
+{% endif %}
+{% if llm_summary %}
+<div class="llm"><div class="eyebrow">LLM summary of computed results</div>{{ llm_summary }}</div>
+{% endif %}
+
+<h2>Claim</h2>
+<pre class="mono">{{ spec_yaml }}</pre>
+<p class="small">Reference cell set: {{ reference_source }}.</p>
+
+<h2>Survival across the grid</h2>
+<p class="small">One square per run in grid order; the thick-bordered square is the baseline. Hover for the run's settings.</p>
+{{ run_strip | safe }}
+<h3>By analysis choice</h3>
+<p class="small">Fraction of runs with that setting in which the claim held. ● marks the baseline value. Hatched = failed.</p>
+{{ by_choice_chart | safe }}
+
+<h2>What broke it</h2>
+{% if verdict.oat_flips %}
+<p>One-at-a-time changes from baseline that {{ 'broke' if verdict.baseline_holds else 'rescued' }} the claim:</p>
+<table><thead><tr><th>Change</th><th>Result</th></tr></thead><tbody>
+{% for f in verdict.oat_flips %}<tr><td class="params">{{ f.params_changed | params }}</td><td><span class="{{ 'pass' if f.holds else 'fail' }}">{{ 'held' if f.holds else 'failed' }}</span></td></tr>{% endfor %}
+</tbody></table>
+{% else %}
+<p>No single one-at-a-time change flipped the baseline result.</p>
+{% endif %}
+{% if verdict.breakers %}
+<h3>Failure rate by setting</h3>
+<table><thead><tr><th>Axis</th><th>Value</th><th class="num">Runs</th><th class="num">Failed</th><th class="num">Fail rate</th></tr></thead><tbody>
+{% for b in verdict.breakers %}<tr><td class="mono">{{ b.axis }}</td><td class="mono">{{ b.value | fmtval }}{% if b.is_baseline %} ●{% endif %}</td><td class="num">{{ b.n_runs }}</td><td class="num">{{ b.n_runs - b.n_holds }}</td><td class="num">{{ (100 * (b.n_runs - b.n_holds) / b.n_runs) | round(0) | int }}%</td></tr>{% endfor %}
+</tbody></table>
+{% else %}
+<p>The claim held in every run; no setting is associated with failure.</p>
+{% endif %}
+
+<h2>Replicate-aware vs cell-level</h2>
+{{ comparison_html | safe }}
+
+{% if as_labelled %}
+<h2>As labelled</h2>
+<p class="small">The same test applied to the cells exactly as labelled in <span class="mono">{{ spec.columns.labels }}</span> = <span class="mono">{{ spec.target.label_value }}</span>, without re-clustering. This is the claim as the original analysis made it.</p>
+{{ as_labelled_html | safe }}
+{% endif %}
+
+<h2>All runs</h2>
+<table><thead><tr><th>#</th><th>Settings (differences from baseline)</th><th class="num">Cells</th><th class="num">Clusters</th><th>Population</th>{% for k in key_stat_names %}<th class="num">{{ k }}</th>{% endfor %}<th>Result</th></tr></thead><tbody>
+{% for r in runs %}<tr>
+<td class="num">{{ r.index }}</td>
+<td class="params">{{ r.label }}</td>
+<td class="num">{{ r.n_cells | thousands }}</td>
+<td class="num">{{ r.n_clusters }}</td>
+<td class="mono" style="white-space:nowrap">{{ r.match.n_cells }} cells{% if r.match.clusters %} / {{ r.match.clusters | length }} cl.{% endif %}</td>
+{% for k in key_stat_names %}<td class="num">{{ r.key_stats[k] | fmtnum }}</td>{% endfor %}
+<td><span class="{{ 'pass' if r.holds else 'fail' }}">{{ 'held' if r.holds else 'failed' }}</span>{% if r.details.reasons %}<div class="small">{{ r.details.reasons | join('; ') }}</div>{% endif %}{% if r.warnings %}<div class="small">⚠ {{ r.warnings | join('; ') }}</div>{% endif %}</td>
+</tr>{% endfor %}
+</tbody></table>
+
+<h2>Methods</h2>
+<p>{{ methods }}</p>
+<p class="small">This paragraph is generated from a fixed template filled with the settings used. It is not written by a language model.</p>
+
+<h2>Thresholds</h2>
+<table><thead><tr><th>Setting</th><th>Value</th></tr></thead><tbody>
+{% for k, v in thresholds.model_dump().items() %}<tr><td class="mono">{{ k }}</td><td class="mono">{{ v }}</td></tr>{% endfor %}
+</tbody></table>
+
+<h2>Provenance</h2>
+<dl class="kv">
+  <dt>Input</dt><dd class="mono">{{ data.path }}</dd>
+  <dt>SHA-256</dt><dd class="mono">{{ data.sha256 }}</dd>
+  <dt>Recluster</dt><dd class="mono">{{ provenance.environment.packages.recluster }}</dd>
+  <dt>Python</dt><dd class="mono">{{ provenance.environment.python }} · {{ provenance.environment.platform }}</dd>
+  <dt>Key packages</dt><dd class="mono">scanpy {{ provenance.environment.packages.scanpy }} · anndata {{ provenance.environment.packages.anndata }} · pydeseq2 {{ provenance.environment.packages.pydeseq2 }} · harmonypy {{ provenance.environment.packages.harmonypy }}</dd>
+  <dt>Started</dt><dd class="mono">{{ provenance.started_at }}</dd>
+  <dt>Total runtime</dt><dd class="mono">{{ total_runtime_s | round(1) }} s</dd>
+</dl>
+<details><summary>Full provenance log (JSON)</summary><pre class="mono">{{ provenance_json }}</pre></details>
+
+<footer>Recluster {{ provenance.environment.packages.recluster }} · an independent stress test for single-cell RNA-seq claims · all numbers in this report were computed by deterministic code.</footer>
+</main>
+</body>
+</html>

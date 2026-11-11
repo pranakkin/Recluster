@@ -1,0 +1,32 @@
+# Changelog
+
+All notable changes to Recluster. Dates are when the work landed in this repository.
+
+## [0.1.0] — 2026-11-10 — Milestone 1: core engine
+
+### Added
+- Claim spec (`recluster/spec.py`): pydantic models for `population_exists`,
+  `composition_shift` and `differential_expression`, YAML loading, and validation against
+  the AnnData (columns, label values, condition groups, genes, replicate nesting).
+- Deterministic pipeline (`recluster/pipeline.py`): QC → Scrublet (per sample) → log-normalise
+  or Pearson residuals → HVG → PCA → optional Harmony → exact kNN → Leiden (igraph flavour).
+  QC + doublet stage cached per QC setting.
+- Perturbation grid (`recluster/grid.py`): baseline + one-at-a-time + seeded random
+  combinations over 9 axes; 24 runs by default; configurable from YAML.
+- Population matching (`recluster/matching.py`): marker AUROC per cluster, label-precision
+  matching, Jaccard against a reference set counting QC-removed cells as absent, sample spread.
+- Evaluators: population recovery with a multi-sample check; composition shift with a Welch
+  t-test on logit proportions and Mann-Whitney U across samples (plus the naive cell-level
+  chi-square for contrast); differential expression with cell-level Wilcoxon and donor-level
+  pseudobulk DESeq2 (pydeseq2), with per-gene agreement and a pseudoreplication flag.
+- Verdicts with explicit, configurable thresholds (`Thresholds`), per-axis failure rates and
+  one-at-a-time flips ("what broke it").
+- Provenance JSON per claim: package versions, platform, input SHA-256, grid, thresholds,
+  every run's parameters and outputs, runtime.
+- Self-contained HTML report with inline SVG survival strip and survival-by-choice chart,
+  replicate-aware vs cell-level panel, "as labelled" panel, deterministic methods paragraph.
+- CLI: `recluster run`, `recluster audit`, `recluster version`.
+- Synthetic data generator (`recluster/simulate.py`) with planted truth, used by the tests and
+  the example claims in `examples/claims/`.
+- 44 pytest tests: spec validation, each evaluator (true and false claims), grid and verdict
+  rules, pseudobulk aggregation, end-to-end engine run, determinism.

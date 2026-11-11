@@ -1,0 +1,206 @@
+# PLAN.md — Recluster v0
+
+Living build plan. Updated at every milestone. Decisions and deviations are recorded here, not hidden.
+
+## What we are building
+
+An independent stress test for single-cell RNA-seq claims. Input: an AnnData file plus a
+structured claim (YAML). Output: one self-contained HTML report per claim with a verdict
+(`ROBUST` / `FRAGILE` / `NOT SUPPORTED`), a survival chart across a grid of defensible
+analysis choices, the choices that broke the claim, a replicate-aware vs cell-level
+comparison, a deterministic methods paragraph, and a full provenance log.
+
+Hard rule: every number comes from deterministic code. An LLM may only (a) draft a claim
+spec from plain English and (b) summarize numbers the code already computed. Both are
+labelled as LLM output.
+
+## Environment
+
+- Python 3.11 (uv-managed interpreter `cpython-3.11.16`), `uv` for the venv and lockfile.
+- Machine used for development: Apple M5 Pro, 15 cores, 24 GB, arm64. Timings in this
+  repo were measured here unless stated otherwise.
+- All versions pinned in `pyproject.toml`; `uv.lock` committed.
+
+## Module layout
+
+```
+recluster/
+  __init__.py          version string
+  cli.py               typer CLI: run, audit, bench (M2), parse (M3)
+  spec.py              pydantic claim spec (3 claim types) + YAML loader + AnnData column check
+  config.py            GridConfig (axes, baseline, design) and Thresholds (verdict cutoffs), YAML-loadable
+  data.py              load AnnData, locate raw counts (.X / .raw / layers['counts']), sha256, obs validation
+  pipeline.py          one deterministic pipeline run: QC -> doublets -> norm -> HVG -> PCA -> (harmony) -> kNN -> leiden
+  grid.py              bounded design: baseline + one-at-a-time + seeded random combinations
+  matching.py          find the target population in a run (marker AUROC, cluster matching, Jaccard)
+  evaluators/
+    population.py      population_exists
+    composition.py     composition_shift (per-sample proportions, logit t-test + Mann-Whitney; naive chi-square for contrast)
+    de.py              differential_expression (cell-level Wilcoxon vs donor-level pseudobulk DESeq2)
+    pseudobulk.py      sum raw counts per sample within a cell set
+  verdict.py           survival fractions -> verdict with explicit, configurable thresholds; "what broke it" table
+  provenance.py        JSON log: params, package versions, seeds, input hash, runtime
+  report/
+    html.py            self-contained HTML (inline CSS, inline SVG chart; no JS, no external assets)
+    methods.py         deterministic methods paragraph from a template
+    templates/report.html.j2
+  engine.py            orchestrates load -> grid -> run -> evaluate -> verdict -> report
+  simulate.py          synthetic count generator (donors, conditions, planted effects) for tests and bench
+  llm/                 M3: parse.py (claim -> spec YAML), summarize.py (numbers -> prose)
+bench/                 M2: Kang 2018 real-data benchmark + planted errors on pbmc3k, RESULTS.md
+tests/                 pytest, offline, synthetic data only
+docs/                  GitHub Pages: index.html + benchmark reports + HOW_IT_WORKS.md
+```
+
+## Claim spec (YAML)
+
+```yaml
+claim_type: differential_expression        # population_exists | composition_shift | differential_expression
+name: "ISG15 up in CD14 monocytes after IFN-beta"
+columns:
+  condition: stim                          # required for composition_shift / differential_expression
+  sample: [ind, stim]                      # string or list; a list is joined into one replicate key
+  batch: null                              # optional; enables the batch-correction axis
+  labels: cell_type                        # optional; existing labels (required in audit mode)
+target:                                    # how to find the population
+  markers: [CD14, LYZ]                     # optional
+  negative_markers: []                     # optional
+  label_value: "CD14+ Monocytes"           # optional; value in columns.labels
+  min_cells: 20
+comparison:                                # composition_shift / differential_expression only
+  group_a: stim
+  group_b: ctrl
+  direction: up_in_a                       # population: n/a; composition: higher_in_a|lower_in_a|different; DE: up_in_a|down_in_a|either
+genes: [ISG15, IFI6]                       # differential_expression only
+require: all                               # all | any (multi-gene DE)
+```
+
+Validation: pydantic v2 models. `spec.check_against(adata)` verifies every named column and
+value exists and that each sample maps to exactly one condition (replicates must be nested
+in condition; otherwise the user is told to use a list key such as `[donor, condition]`).
+
+## Perturbation grid
+
+Each run is a `PipelineParams`:
+
+| axis | options (default) | baseline |
+|---|---|---|
+| `min_genes` | 100, 200, 500 | 200 |
+| `max_mito_pct` | 5, 10, 20 | 10 |
+| `doublet_removal` | off, on (scanpy's scrublet, per sample when a sample column exists) | on |
+| `normalization` | `log_total` (CP10k + log1p), `pearson` (analytic Pearson residuals) | `log_total` |
+| `n_hvgs` | 1000, 2000, 3000 | 2000 |
+| `n_pcs` | 20, 30, 50 | 30 |
+| `resolution` | 0.3, 0.5, 1.0, 1.5, 2.0 (leiden, igraph flavour) | 1.0 |
+| `batch_correction` | off, on (harmonypy on PCs) — only when a batch column exists | on if batch column |
+| `seed` | 0, 1, 2 | 0 |
+
+Design: baseline + one-at-a-time (every non-baseline value of every axis) + `n_random`
+seeded random combinations (default 6). Default grid is 24 runs without batch axis, 25 with.
+All of this is in `GridConfig` and overridable from YAML (`--grid`).
+
+Caching: QC + doublet scoring depends only on (`min_genes`, `max_mito_pct`), so that stage is
+computed once per distinct QC setting and reused. Everything downstream is recomputed.
+
+What the normalization axis does and does not change: it changes the representation used
+for HVG selection, PCA and clustering. Marker scoring and cell-level Wilcoxon always use
+CP10k log1p expression; pseudobulk always uses raw counts. This keeps the tests comparable
+across runs and is stated in the methods paragraph.
+
+## Finding the target population in a run (`matching.py`)
+
+- Per-cell marker score: mean CP10k-log1p expression of `markers` minus mean of
+  `negative_markers`, z-scored across cells.
+- Per-cluster marker AUROC: AUROC of the marker score for cells in the cluster vs all others.
+- Marker mode: candidate clusters = clusters with AUROC >= `marker_auroc_min` (0.80). The
+  matched set M is their union. This tolerates a population splitting into sub-clusters; a
+  population merged into a larger cluster lowers the AUROC and fails, which is the intent
+  ("exists as a distinct population").
+- Label mode (no markers): candidate clusters = clusters where >= 50 % of cells carry the
+  reference label. M = union.
+- Reference set R: labelled cells if `label_value` is given; otherwise M from the baseline run
+  (if the baseline fails to find it, the first run that finds it; recorded in provenance).
+- Jaccard(M, R) is computed over barcodes. Cells removed by QC in a run count as absent from M,
+  so a QC setting that deletes the population lowers Jaccard.
+- Sample spread: number of samples contributing >= `min_cells_per_sample` (5) cells to M, and
+  the largest single-sample share of M.
+
+## Evaluators and per-run `holds`
+
+**population_exists**
+- `recovered` = |M| >= `min_cells` and Jaccard >= `jaccard_min` (0.50) and (if markers) marker AUROC of M >= 0.80.
+- `replicate_ok` = samples contributing >= 5 cells >= `min_samples_present` (2) when a sample column exists; else true.
+- `holds` = recovered and replicate_ok.
+
+**composition_shift**
+- Per sample: proportion of that sample's cells that are in M.
+- Replicate-aware test: Welch t-test on logit((k+0.5)/(n+1)) across samples, plus Mann-Whitney U on raw proportions. Effect: difference in mean log-odds and ratio of mean proportions.
+- `holds` = replicate-aware p < `alpha` (0.05) and direction matches (`different` ignores direction).
+- For contrast only: naive cell-level chi-square on the 2x2 table of cells. Never used for the verdict.
+
+**differential_expression**
+- Cells in M, group_a vs group_b.
+- Cell-level: Wilcoxon rank-sum on CP10k-log1p per gene, BH-adjusted over the claimed genes; log2 fold change of mean normalised expression with pseudocount.
+- Replicate-aware: pseudobulk by summing raw counts per sample within M; pydeseq2 with design `~ condition` on genes passing a minimum count filter; report log2FC and BH padj for the claimed genes.
+- `holds` = pseudobulk padj < alpha and direction matches, combined over genes with `require`.
+- `holds_cell_level` recorded for the comparison panel. Pseudoreplication flag when cell-level survival >= 0.8 and replicate-aware survival < 0.5 (Squair et al. 2021, Nat Commun 12:5692).
+
+## Verdict (`verdict.py`)
+
+- survival = fraction of grid runs where `holds`.
+- `ROBUST` if survival >= `robust_min_survival` (0.80).
+- `FRAGILE` if `fragile_min_survival` (0.20) <= survival < 0.80. The report lists the axis values whose runs failed, with per-axis-value failure rates, and the one-at-a-time runs that flipped the result relative to baseline.
+- `NOT SUPPORTED` if survival < 0.20.
+- Thresholds live in `Thresholds` (pydantic), are printed in every report, and can be overridden with `--thresholds thresholds.yaml`.
+
+## Provenance
+
+Per claim: `provenance.json` with recluster version, timestamp, Python and package versions,
+platform, input path + sha256 + shape, the claim spec, grid config, thresholds, and for every
+run the params, seed, cell and cluster counts, wall time and evaluator outputs. Determinism:
+fixed seeds for scrublet, PCA (arpack), harmony, leiden; reported numbers rounded to 6
+significant digits; a test asserts two runs produce identical results.
+
+## Build order (Milestone 1)
+
+1. pyproject + uv venv; confirm scanpy, igraph, harmonypy, pydeseq2 import on arm64.
+2. `spec.py`, `config.py`.
+3. `data.py`, `simulate.py`.
+4. `pipeline.py`; smoke test on synthetic data and pbmc3k.
+5. `grid.py`.
+6. `matching.py`, `evaluators/*`.
+7. `verdict.py`, `provenance.py`.
+8. `report/*`.
+9. `engine.py`, `cli.py`.
+10. tests, end-to-end run, timing.
+
+## Milestone 1 status (2026-11-10): done
+
+- 44 tests pass (`uv run pytest`, ~45 s). ruff and mypy clean.
+- Full 24-run grid on the synthetic example (1,800 cells): ~30 s for population/composition
+  claims, ~45 s for DE claims (pydeseq2 adds ~1 s per run). Verdicts on the four synthetic
+  example claims match their construction: population ROBUST 24/24, composition ROBUST 24/24,
+  planted DE ROBUST 24/24, null DE NOT SUPPORTED 0/24.
+- Determinism verified by `tests/test_engine.py::test_determinism_same_config_same_numbers`
+  (two full runs produce identical provenance apart from timestamps and runtimes).
+- PBMC3k (2,700 cells, no replicates, 23-run grid, ~23 s each): CD14+ monocytes ROBUST 20/23
+  (fails only when resolution 0.3 merges them with FCGR3A+ monocytes); FCGR3A+ monocytes
+  FRAGILE 18/23 (broken by resolution 0.3/0.5 and 1000 HVGs); megakaryocytes (15 cells)
+  ROBUST 21/23, deleted by `min_genes=500`. These were not tuned; they are the first runs.
+- Not yet measured: runtime on a ~25k-cell dataset (Kang). Expect roughly 10x pbmc3k for
+  population/composition claims; DESeq2 on 16 pseudobulk samples x ~15k genes per run is the
+  unknown. If it exceeds the 10-minute budget, run grid points in parallel (joblib) before
+  reducing the grid.
+
+## Decisions and deviations log
+
+- 2026-11-10: Python 3.11 is not on PATH; using uv's managed 3.11.16.
+- 2026-11-10: Clustering uses scanpy's leiden with `flavor="igraph"` (faster, deterministic with a seed) rather than leidenalg.
+- 2026-11-10: Doublet detection uses `scanpy.pp.scrublet` (scanpy's native implementation of Scrublet) so no separate `scrublet` package is needed. Its automatic threshold needs `scikit-image`, which is therefore a pinned dependency.
+- 2026-11-10: Scrublet is run once per QC setting with a fixed seed (`scrublet_seed`), so the `doublet_removal` axis is purely on/off and the `seed` axis covers PCA, Harmony and Leiden only.
+- 2026-11-10: kNN uses the exact sklearn transformer rather than pynndescent, for determinism on any machine. Costs a few seconds on 25k cells.
+- 2026-11-10: The baseline turns batch correction on whenever a batch column is declared; `build_grid` forces it off (and drops the axis) when there is none.
+- 2026-11-10: DE multiplicity is adjusted over the claimed genes (a claim names genes a priori). The genome-wide BH value from DESeq2 is also reported. This choice is stated in the methods paragraph.
+- 2026-11-10: Composition verdict uses the Welch t-test on logit proportions by default (`Thresholds.composition_test`); Mann-Whitney is reported alongside and can be made decisive.
+- 2026-11-10: Reports use inline SVG and inline CSS only; `tests/test_engine.py` asserts no scripts, stylesheets or remote URLs.
+- 2026-11-10: macOS quirk: a `.venv` created inside `~/Desktop` gets the Finder "hidden" flag on every file, and CPython ≥ 3.11.16 / 3.12.x skips hidden `.pth` files, which breaks the editable install (`No module named recluster`). Fix: `chflags -R nohidden .venv`. Documented in README troubleshooting. Not a uv bug (a venv created elsewhere has no flag).

@@ -1,0 +1,16 @@
+# True by construction: DE_UP_* genes are planted 4x up in Mono under stim.
+claim_type: differential_expression
+name: "DE_UP genes up in Mono under stim (synthetic, true)"
+columns:
+  condition: condition
+  sample: [donor, condition]
+  batch: donor
+  labels: cell_type
+target:
+  markers: [Mono_marker_0, Mono_marker_1, Mono_marker_2, Mono_marker_3, Mono_marker_4]
+  label_value: Mono
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: up_in_a
+genes: [DE_UP_0, DE_UP_1, DE_UP_2]

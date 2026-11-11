@@ -1,0 +1,8 @@
+# PBMC3k (scanpy.datasets.pbmc3k). No sample/condition columns, so only population_exists
+# claims are possible and the replicate check does not apply.
+claim_type: population_exists
+name: "CD14+ monocytes exist (PBMC3k)"
+target:
+  markers: [CD14, LYZ, S100A8, S100A9]
+  negative_markers: [FCGR3A]
+  min_cells: 20

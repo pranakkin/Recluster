@@ -1,0 +1,15 @@
+# True by construction: Mono is planted at ~40% of cells in stim vs ~25% in ctrl.
+claim_type: composition_shift
+name: "Mono more abundant in stim than ctrl (synthetic)"
+columns:
+  condition: condition
+  sample: [donor, condition]
+  batch: donor
+  labels: cell_type
+target:
+  markers: [Mono_marker_0, Mono_marker_1, Mono_marker_2, Mono_marker_3, Mono_marker_4]
+  label_value: Mono
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: higher_in_a

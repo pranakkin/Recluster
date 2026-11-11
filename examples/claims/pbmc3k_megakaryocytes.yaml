@@ -1,0 +1,6 @@
+# Megakaryocytes / platelets: a very small population (~15 cells) in PBMC3k.
+claim_type: population_exists
+name: "Megakaryocytes exist as a distinct population (PBMC3k)"
+target:
+  markers: [PPBP, PF4]
+  min_cells: 10

@@ -1,0 +1,12 @@
+# Synthetic example (data/synthetic.h5ad from scripts/make_synthetic_example.py).
+# True by construction: the "Mono" population exists and is spread across all donors.
+claim_type: population_exists
+name: "Mono population exists (synthetic)"
+columns:
+  sample: [donor, condition]
+  batch: donor
+  labels: cell_type
+target:
+  markers: [Mono_marker_0, Mono_marker_1, Mono_marker_2, Mono_marker_3, Mono_marker_4]
+  label_value: Mono
+  min_cells: 20

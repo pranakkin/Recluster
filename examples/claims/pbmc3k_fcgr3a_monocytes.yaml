@@ -1,0 +1,7 @@
+# Non-classical monocytes are a small population that merges with CD14+ monocytes at low resolution.
+claim_type: population_exists
+name: "FCGR3A+ monocytes exist as a distinct population (PBMC3k)"
+target:
+  markers: [FCGR3A, MS4A7]
+  negative_markers: [CD14]
+  min_cells: 20

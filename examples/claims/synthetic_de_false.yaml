@@ -1,0 +1,16 @@
+# False by construction: NULL_* genes have no planted effect.
+claim_type: differential_expression
+name: "NULL genes change in Mono under stim (synthetic, false)"
+columns:
+  condition: condition
+  sample: [donor, condition]
+  batch: donor
+  labels: cell_type
+target:
+  markers: [Mono_marker_0, Mono_marker_1, Mono_marker_2, Mono_marker_3, Mono_marker_4]
+  label_value: Mono
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: either
+genes: [NULL_0, NULL_1, NULL_2]
