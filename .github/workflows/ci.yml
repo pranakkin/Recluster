@@ -1,0 +1,26 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install
+        run: uv sync --all-extras --group dev --frozen
+      - name: Lint
+        run: uv run ruff check recluster tests scripts
+      - name: Format
+        run: uv run ruff format --check recluster tests scripts
+      - name: Types
+        run: uv run mypy recluster
+      - name: Tests (offline, synthetic data only)
+        run: uv run pytest -q
