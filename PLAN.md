@@ -229,6 +229,10 @@ significant digits; a test asserts two runs produce identical results.
 ## Milestone 4 status (2026-11-11): done
 
 - CI on push (`.github/workflows/ci.yml`): ruff check + format, mypy, pytest; offline tests only.
+  The file exists locally but could not be pushed from this machine: GitHub refuses workflow
+  files from an OAuth token without the `workflow` scope, and two `gh auth refresh -s workflow`
+  device codes expired unused. It goes in via `gh auth refresh -h github.com -s workflow` followed
+  by a normal commit and push, or by pasting the file in the GitHub web editor.
 - `docs/`: `index.html` (static list of the 16 benchmark reports with verdicts), `reports/`,
   `HOW_IT_WORKS.md`, `report-screenshot.png` (headless Chrome render of a Kang report),
   `.nojekyll`. Built by `scripts/build_docs.py` from `bench/results.json`; committed, no build
