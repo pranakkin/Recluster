@@ -9,6 +9,9 @@ Verdict rule for all cases: ROBUST if the claim held in >= 80 % of grid runs, FR
 >= 20 %, otherwise NOT SUPPORTED. "Held" counts runs where the replicate-aware test passed.
 "Cell-level" is the share of runs where the naive cell-level statistic (Wilcoxon on cells, or
 chi-square on pooled cells) would have called the claim; it never enters the verdict.
+For population-existence claims the column is blank: there is no cell-level statistic for
+existence (the share of runs that recovered the cluster before the replicate check is in
+each report).
 
 ## Headline table
 
@@ -17,19 +20,19 @@ chi-square on pooled cells) would have called the claim; it never enters the ver
 | 1 | Kang: ISG15 up in CD14+ monocytes, stim vs ctrl | ROBUST | FRAGILE | 16/21 | 100 % | missed (see note A) |
 | 2 | Kang: ISG15, IFI6, IFIT3, MX1 all up in CD14+ monocytes | ROBUST | FRAGILE | 16/21 | 100 % | missed (note A) |
 | 3 | Kang: ISG15 up in CD4 T cells | ROBUST | FRAGILE | 15/21 | 81 % | missed (note B) |
-| 4 | Kang: CD14+ monocytes exist across donors | ROBUST | FRAGILE | 16/21 | 76 % | missed (note A) |
-| 5 | Kang: NK cells exist across donors | ROBUST | FRAGILE | 15/21 | 71 % | missed (note A) |
+| 4 | Kang: CD14+ monocytes exist across donors | ROBUST | FRAGILE | 16/21 | – | missed (note A) |
+| 5 | Kang: NK cells exist across donors | ROBUST | FRAGILE | 15/21 | – | missed (note A) |
 | 6 | Kang: CD14+ monocyte proportion differs stim vs ctrl (no known shift) | NOT SUPPORTED | FRAGILE | 8/21 | 100 % ⚑ | false alarm (note C) |
 | 7 | False: ISG15 differs between fake donor groups (ctrl only) | NOT SUPPORTED | NOT SUPPORTED | 1/21 | 81 % ⚑ | correct |
 | 8 | False: LYZ differs between fake donor groups (ctrl only) | NOT SUPPORTED | NOT SUPPORTED | 0/21 | 100 % ⚑ | correct |
 | 9 | False: monocyte proportion differs between fake donor groups | NOT SUPPORTED | NOT SUPPORTED | 0/21 | 19 % | correct |
 | 10 | False: ISG15 up in fake group A (condition shuffled at donor level) | NOT SUPPORTED | NOT SUPPORTED | 0/21 | 100 % ⚑ | correct |
-| 11 | Planted: 150 synthetic doublets as a fake population | not ROBUST, doublet axis breaks it | ROBUST | 23/23 | 100 % | **missed** (note D) |
-| 12 | Planted: over-clustering shard of CD4 T cells | not ROBUST | NOT SUPPORTED | 0/23 | 0 % | caught |
-| 13 | Control: a shard that is a whole population (B cells) | ROBUST | ROBUST | 23/23 | 100 % | control OK |
-| 14 | Planted: QC threshold deletes NK cells | failure table names max_mito_pct | NOT SUPPORTED | 4/23 | 17 % | caught |
-| 15 | Planted: batch artifact claimed as a CD4 T subtype | not ROBUST, batch axis breaks it | NOT SUPPORTED | 4/24 | 17 % | caught |
-| 16 | Control: the real CD4 T population under the batch effect | ROBUST | ROBUST | 24/24 | 100 % | control OK |
+| 11 | Planted: 150 synthetic doublets as a fake population | not ROBUST, doublet axis breaks it | ROBUST | 23/23 | – | **missed** (note D) |
+| 12 | Planted: over-clustering shard of CD4 T cells | not ROBUST | NOT SUPPORTED | 0/23 | – | caught |
+| 13 | Control: a shard that is a whole population (B cells) | ROBUST | ROBUST | 23/23 | – | control OK |
+| 14 | Planted: QC threshold deletes NK cells | failure table names max_mito_pct | NOT SUPPORTED | 4/23 | – | caught |
+| 15 | Planted: batch artifact claimed as a CD4 T subtype | not ROBUST, batch axis breaks it | NOT SUPPORTED | 4/24 | – | caught |
+| 16 | Control: the real CD4 T population under the batch effect | ROBUST | ROBUST | 24/24 | – | control OK |
 
 ⚑ = pseudoreplication flag raised by the report (cell-level statistics call it in >= 80 % of
 runs while replicate-aware statistics call it in < 50 %).
