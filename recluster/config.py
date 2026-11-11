@@ -92,6 +92,22 @@ class GridConfig(BaseModel):
             "doublets, the top expected fraction by score is called instead"
         ),
     )
+    doublet_cluster_removal: bool = Field(
+        default=True,
+        description=(
+            "in runs with doublet removal on, also remove clusters that a classifier cannot tell "
+            "apart from simulated doublets of two other cell types"
+        ),
+    )
+    doublet_cluster_auroc_max: float = Field(
+        default=0.80,
+        ge=0.5,
+        le=1,
+        description=(
+            "a cluster is removed as a doublet population when its out-of-fold AUROC against "
+            "simulated doublets (mean of 5 repetitions, minimum over 3 parent pairs) is below this"
+        ),
+    )
 
     @classmethod
     def from_yaml(cls, path: str | Path) -> GridConfig:

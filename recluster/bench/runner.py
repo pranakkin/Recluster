@@ -29,6 +29,7 @@ from recluster.bench.pbmc3k import load_pbmc3k, reference_labels
 from recluster.bench.planted import (
     plant_batch_effect,
     plant_doublets,
+    plant_held_out_doublets,
     plant_overclustering,
     plant_qc_deletion,
     scrublet_recall_on_injected,
@@ -90,6 +91,8 @@ def _run_one(job: dict[str, Any]) -> dict[str, Any]:
                 "params": r.params,
                 "holds": r.holds,
                 "holds_cell_level": r.holds_cell_level,
+                "n_removed_doublet": r.n_removed_doublet,
+                **_doublet_clusters_removed(r.effective_params),
             }
             for r in res.runs
         ],
@@ -98,6 +101,18 @@ def _run_one(job: dict[str, Any]) -> dict[str, Any]:
         "label_before_time_check": v.label_before_time_check,
         "report": str(Path(job["out_dir"]) / slugify(spec.name) / "report.html"),
         "runtime_s": round(time.perf_counter() - t0, 1),
+    }
+
+
+def _doublet_clusters_removed(effective: dict[str, Any]) -> dict[str, Any]:
+    """Clusters removed as doublet populations in one run; None when the step did not run."""
+    info = effective.get("doublet_clusters")
+    if not info:
+        return {"doublet_clusters_removed": None, "doublet_cluster_cells_removed": None}
+    stats = info.get("statistics") or {}
+    return {
+        "doublet_clusters_removed": {c: stats.get(c) for c in info.get("removed") or []},
+        "doublet_cluster_cells_removed": info.get("n_cells"),
     }
 
 
@@ -231,6 +246,12 @@ def build_planted_jobs(
     cases += plant_overclustering(adata, ref, seed=0)
     cases += plant_qc_deletion(adata, ref, seed=0)
     cases += plant_batch_effect(adata, ref, seed=0)
+    # pre-registered held-out cases for the doublet-population step (PLAN.md "v0.6 plan")
+    held_out = plant_held_out_doublets(adata, ref)
+    info["scrublet_on_injected_held_out"] = {
+        c.key: scrublet_recall_on_injected(c.adata) for c in held_out
+    }
+    cases += held_out
     planted_dir = data_dir / "planted"
     planted_dir.mkdir(parents=True, exist_ok=True)
     jobs, meta = [], {}

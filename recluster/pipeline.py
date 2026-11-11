@@ -1,8 +1,9 @@
 """One deterministic pipeline run, from raw counts to cluster labels.
 
 QC -> (doublet scoring, cached per QC setting) -> normalisation -> HVG -> PCA ->
-(harmony) -> kNN -> leiden. Only cluster assignments are kept per run; expression used by the
-evaluators is computed once, elsewhere, from the raw counts.
+(harmony) -> kNN -> leiden -> (removal of clusters that are doublet populations). Only cluster
+assignments are kept per run; expression used by the evaluators is computed once, elsewhere, from
+the raw counts.
 """
 
 from __future__ import annotations
@@ -19,6 +20,7 @@ import scipy.sparse as sp
 from anndata import AnnData
 
 from recluster.config import GridConfig, PipelineParams
+from recluster.evaluators.doublet_cluster import doublet_population_test
 
 log = logging.getLogger(__name__)
 
@@ -351,19 +353,72 @@ class Pipeline:
             )
         clusters = a.obs[CLUSTER_COL].astype(str)
         clusters.name = CLUSTER_COL
+        doublet_scores = a.obs["doublet_score"].astype(float)
         effective = {**stage.effective, "capped": capped}
+        n_removed_cluster = 0
+        if params.doublet_removal and self.cfg.doublet_cluster_removal:
+            n_before = len(clusters)
+            clusters, removed_info = self._remove_doublet_clusters(clusters, params.seed, warns)
+            n_removed_cluster = n_before - len(clusters)
+            doublet_scores = doublet_scores.loc[clusters.index]
+            effective["doublet_clusters"] = removed_info
         return RunResult(
             params=params,
             clusters=clusters,
             n_input=stage.n_input,
             n_removed_qc=stage.n_removed_qc,
-            n_removed_doublet=n_removed_doublet,
+            n_removed_doublet=n_removed_doublet + n_removed_cluster,
             n_clusters=int(clusters.nunique()),
             runtime_s=time.perf_counter() - t0,
-            doublet_scores=a.obs["doublet_score"].astype(float),
+            doublet_scores=doublet_scores,
             warnings=warns,
             effective=effective,
         )
+
+    def _remove_doublet_clusters(
+        self, clusters: pd.Series, seed: int, warns: list[str]
+    ) -> tuple[pd.Series, dict[str, object]]:
+        """Drop clusters the population-level doublet test flags.
+
+        The test reads the raw counts of the run's kept cells. Returns the remaining clusters and
+        a compact record: removed clusters, cells removed, the statistic of every tested cluster
+        (None when it had no pair of parent groups) and the parent groups of removed clusters.
+        """
+        res = doublet_population_test(
+            self.counts,
+            clusters,
+            seed=seed,
+            auroc_max=self.cfg.doublet_cluster_auroc_max,
+        )
+        stats = {
+            r.cluster: None if r.statistic is None else round(r.statistic, 4) for r in res.records
+        }
+        drop = clusters.isin(res.flagged).to_numpy()
+        info: dict[str, object] = {
+            "removed": list(res.flagged),
+            "n_cells": int(drop.sum()),
+            "auroc_max": res.auroc_max,
+            "statistics": stats,
+            "parents": {
+                r.cluster: [list(r.best_pair[0]), list(r.best_pair[1])]
+                for r in res.records
+                if r.flagged and r.best_pair is not None
+            },
+        }
+        if res.flagged:
+            parts = []
+            for r in res.records:
+                if r.flagged and r.best_pair is not None:
+                    pair = "+".join(",".join(side) for side in r.best_pair)
+                    parts.append(
+                        f"{r.cluster} ({r.size} cells, AUROC {r.statistic:.2f} vs doublets of "
+                        f"clusters {pair})"
+                    )
+            warns.append(
+                f"removed {len(res.flagged)} cluster(s) as doublet populations "
+                f"(AUROC below {res.auroc_max:.2f}): " + "; ".join(parts)
+            )
+        return clusters[~drop], info
 
     @staticmethod
     def _harmony(a: AnnData, seed: int, warns: list[str]) -> str:

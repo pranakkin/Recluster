@@ -59,6 +59,19 @@ def _top_breaker_axis(result: Any) -> str | None:
 # ------------------------------------------------------------ 1. doublets
 
 
+# names used in the case descriptions: (one cell, adjective for its markers)
+_TYPE_WORDS = {
+    "CD14 Mono": ("CD14 monocyte", "monocyte"),
+    "B": ("B cell", "B-cell"),
+    "NK": ("NK cell", "NK-cell"),
+    "CD8 T": ("CD8 T cell", "CD8 T-cell"),
+}
+
+
+def _type_words(cell_type: str) -> tuple[str, str]:
+    return _TYPE_WORDS.get(cell_type, (f"{cell_type} cell", cell_type))
+
+
 def plant_doublets(
     adata: AnnData,
     reference: pd.Series,
@@ -67,14 +80,23 @@ def plant_doublets(
     type_b: str = "B",
     n: int = 150,
     seed: int = 0,
+    markers: tuple[str, ...] = ("CD14", "LYZ", "MS4A1", "CD79A"),
+    key: str = "doublets",
+    name: str | None = None,
+    held_out: bool = False,
 ) -> list[PlantedCase]:
-    """Sum counts of random CD14-monocyte + B-cell pairs and append them as new "cells".
+    """Sum counts of random ``type_a`` + ``type_b`` pairs and append them as new "cells".
 
-    A naive analysis sees a CD14+ LYZ+ MS4A1+ CD79A+ cluster and calls it a population.
+    A naive analysis sees a cluster carrying both types' markers (by default CD14+ LYZ+ MS4A1+
+    CD79A+) and calls it a population. Each source cell is used at most once per type.
+    ``held_out`` marks the cases pre-registered in PLAN.md "v0.6 plan" (H1, H2).
     """
     rng = np.random.default_rng(seed)
     a_cells = reference.index[reference == type_a]
     b_cells = reference.index[reference == type_b]
+    for t, cells in ((type_a, a_cells), (type_b, b_cells)):
+        if len(cells) < n:
+            raise ValueError(f"{n} doublets need {n} '{t}' cells; the reference has {len(cells)}")
     pa = rng.choice(a_cells, size=n, replace=False)
     pb = rng.choice(b_cells, size=n, replace=False)
     x = sp.csr_matrix(adata.X)
@@ -87,22 +109,38 @@ def plant_doublets(
     out.obs_names = list(adata.obs_names) + list(new.obs_names)
     out.obs["injected_doublet"] = np.r_[np.zeros(adata.n_obs, bool), np.ones(n, bool)]
 
+    marker_text = " ".join(f"{g}+" for g in markers)
+    prefix = "Planted doublets (held out)" if held_out else "Planted doublets"
     spec = ClaimSpec.model_validate(
         {
             "claim_type": "population_exists",
-            "name": "Planted doublets: a CD14+ LYZ+ MS4A1+ CD79A+ population exists (PBMC3k)",
-            "target": {"markers": ["CD14", "LYZ", "MS4A1", "CD79A"], "min_cells": 20},
+            "name": name or f"{prefix}: a {marker_text} population exists (PBMC3k)",
+            "target": {"markers": list(markers), "min_cells": 20},
         }
     )
+    (cell_a, adj_a), (cell_b, adj_b) = _type_words(type_a), _type_words(type_b)
+    how_built = (
+        f"{n} synthetic doublets made by summing the raw counts of a random {cell_a} "
+        f"and a random {cell_b} (seed {seed}) were appended to PBMC3k. The claim asserts a "
+        f"population carrying both {adj_a} and {adj_b} markers."
+    )
+    title = "Injected synthetic doublets forming a fake population"
+    if held_out:
+        title += f" (held out: {type_a} + {type_b})"
+        how_built += (
+            " Held-out case: its construction, claim and rule were fixed in PLAN.md before the "
+            "doublet-population step was built, and it is run once with that step as adopted. "
+            "If the doublets never form a population in any run the case is uninformative, and "
+            "the rule scores it as missed."
+        )
+    extra: dict[str, Any] = {"n_injected": n}
+    if held_out:
+        extra.update({"held_out": True, "parent_types": [type_a, type_b], "seed": seed})
     return [
         PlantedCase(
-            key="doublets",
-            title="Injected synthetic doublets forming a fake population",
-            how_built=(
-                f"{n} synthetic doublets made by summing the raw counts of a random CD14 monocyte "
-                f"and a random B cell (seed {seed}) were appended to PBMC3k. The claim asserts a "
-                "population carrying both monocyte and B-cell markers."
-            ),
+            key=key,
+            title=title,
+            how_built=how_built,
             adata=out,
             spec=spec,
             audit=False,
@@ -114,9 +152,37 @@ def plant_doublets(
             caught=lambda r: (
                 r.verdict.label != "ROBUST" and _all_holding_runs_have(r, "doublet_removal", False)
             ),
-            extra={"n_injected": n},
+            extra=extra,
         )
     ]
+
+
+def plant_held_out_doublets(adata: AnnData, reference: pd.Series) -> list[PlantedCase]:
+    """The two held-out doublet cases pre-registered in PLAN.md "v0.6 plan".
+
+    H1: 150 NK + CD14 monocyte doublets (seed 11). H2: 150 CD8 T + B doublets (seed 12).
+    """
+    return plant_doublets(
+        adata,
+        reference,
+        type_a="NK",
+        type_b="CD14 Mono",
+        n=150,
+        seed=11,
+        markers=("GNLY", "NKG7", "CD14", "LYZ"),
+        key="doublets_nk_mono",
+        held_out=True,
+    ) + plant_doublets(
+        adata,
+        reference,
+        type_a="CD8 T",
+        type_b="B",
+        n=150,
+        seed=12,
+        markers=("CD8A", "CD8B", "MS4A1", "CD79A"),
+        key="doublets_cd8_b",
+        held_out=True,
+    )
 
 
 def scrublet_recall_on_injected(adata: AnnData) -> dict[str, float]:

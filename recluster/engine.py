@@ -197,6 +197,9 @@ def run_claim(
         match_info.update(_doublet_summary(rr.doublet_scores, m.cells))
         match_info["doublet_cluster"] = doublet_info
         effective = dict(getattr(rr, "effective", None) or {})
+        match_info["doublet_population"] = _doublet_population_summary(
+            effective.get("doublet_clusters"), m.clusters if m.found else []
+        )
         label = params.label(base_params)
         capped = effective.get("capped") or {}
         if capped:
@@ -452,6 +455,39 @@ def _doublet_summary(scores: pd.Series, cells: pd.Index) -> dict[str, float | No
     }
 
 
+def _doublet_population_summary(
+    info: dict[str, Any] | None, clusters: list[str]
+) -> dict[str, Any] | None:
+    """The doublet-population statistic of the matched clusters, when the step ran in this run.
+
+    Clusters below the test's minimum size have no statistic and are left out; a tested cluster
+    with no pair of parent groups maps to None.
+    """
+    if not info:
+        return None
+    stats = info.get("statistics") or {}
+    return {
+        "statistics": {c: stats[c] for c in clusters if c in stats},
+        "auroc_max": info.get("auroc_max"),
+    }
+
+
+def _removed_doublet_clusters(e: RunEvaluation) -> tuple[int | None, str]:
+    """Cells and clusters removed as doublet populations, for runs.csv.
+
+    Returns (cells, "cluster:statistic;...") or (None, "") when the step did not run.
+    """
+    info = e.effective_params.get("doublet_clusters")
+    if not info:
+        return None, ""
+    stats = info.get("statistics") or {}
+    parts = []
+    for c in info.get("removed") or []:
+        st = stats.get(c)
+        parts.append(f"{c}:{st:.4f}" if st is not None else str(c))
+    return int(info.get("n_cells") or 0), ";".join(parts)
+
+
 def _write_runs_csv(evaluations: list[RunEvaluation], path: Path) -> None:
     if not evaluations:
         return
@@ -466,6 +502,10 @@ def _write_runs_csv(evaluations: list[RunEvaluation], path: Path) -> None:
                 *param_keys,
                 "n_cells",
                 "n_clusters",
+                "n_removed_qc",
+                "n_removed_doublet",
+                "n_removed_doublet_cluster",
+                "doublet_clusters_removed",
                 "population_cells",
                 "jaccard",
                 "marker_auroc",
@@ -476,6 +516,7 @@ def _write_runs_csv(evaluations: list[RunEvaluation], path: Path) -> None:
             ]
         )
         for e in evaluations:
+            dc_cells, dc_removed = _removed_doublet_clusters(e)
             w.writerow(
                 [
                     e.index,
@@ -483,6 +524,10 @@ def _write_runs_csv(evaluations: list[RunEvaluation], path: Path) -> None:
                     *[e.params[k] for k in param_keys],
                     e.n_cells,
                     e.n_clusters,
+                    e.n_removed_qc,
+                    e.n_removed_doublet,
+                    dc_cells,
+                    dc_removed,
                     e.match.get("n_cells"),
                     e.match.get("jaccard"),
                     e.match.get("marker_auroc"),

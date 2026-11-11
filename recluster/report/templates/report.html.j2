@@ -141,6 +141,7 @@ footer { margin-top: 56px; padding-top: 14px; border-top: 1px solid var(--rule);
 {% for k, v in thresholds.model_dump().items() %}<tr><td class="mono">{{ k }}</td><td class="mono">{{ v }}</td></tr>{% endfor %}
 </tbody></table>
 <p class="small"><span class="mono">doublet_residual_ratio_max</span> and <span class="mono">doublet_libsize_ratio_min</span> are informational: they only label the cluster-level doublet check, and no verdict depends on them.</p>
+<p class="small">Doublet-population removal (grid setting): {% if grid.doublet_cluster_removal %}on in runs with doublet removal on; a cluster is removed when its AUROC against simulated doublets is below <span class="mono">doublet_cluster_auroc_max</span> = <span class="mono">{{ grid.doublet_cluster_auroc_max }}</span>{% else %}off (<span class="mono">doublet_cluster_removal</span> = false){% endif %}.</p>
 
 <h2>Provenance</h2>
 <dl class="kv">

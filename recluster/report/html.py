@@ -11,7 +11,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from recluster.provenance import json_default, round_floats
 from recluster.report.charts import run_strip_svg, survival_by_choice_svg
-from recluster.results import ClaimResult
+from recluster.results import ClaimResult, RunEvaluation
 
 TEMPLATES = Path(__file__).parent / "templates"
 ICONS = {"ROBUST": "✓", "FRAGILE": "◐", "NOT SUPPORTED": "✕"}
@@ -67,6 +67,7 @@ def render_report(result: ClaimResult, llm_summary: str | None = None) -> str:
         verdict_icon=ICONS[result.verdict.label],
         data=result.data_summary,
         thresholds=result.thresholds,
+        grid=result.grid,
         runs=runs,
         key_stat_names=key_stat_names,
         run_strip=run_strip_svg(runs),
@@ -125,7 +126,10 @@ def _comparison_html(result: ClaimResult) -> str:
             f"{_pct(result.verdict.recovered_survival)} vs "
             f"{_pct(result.verdict.survival)}.</p>"
         )
-        return f"<table><tbody>{body}</tbody></table>{note}{_doublet_cluster_html(m)}"
+        return (
+            f"<table><tbody>{body}</tbody></table>{note}{_doublet_cluster_html(m)}"
+            f"{_doublet_population_html(result, base)}"
+        )
     if ct == "composition_shift":
         return _composition_table(base.details, base.label) + _composition_grid_table(result)
     return _de_table(base.details, "Baseline run") + _de_grid_summary(result)
@@ -232,6 +236,95 @@ def _doublet_cluster_html(m: dict[str, Any]) -> str:
         "check never changes the verdict.</p>"
     )
     return "<h3>Cluster-level doublet check (baseline run)</h3>" + _kv_table(rows) + note
+
+
+def _doublet_population_html(result: ClaimResult, base: RunEvaluation) -> str:
+    """Clusters removed as doublet populations: the baseline run in detail, the grid in one line.
+
+    Reads the pipeline's record in ``effective_params["doublet_clusters"]`` (present only in runs
+    where the step ran) and the matched clusters' statistics the engine put in the match.
+    """
+    title = "<h3>Doublet-population removal (baseline run)</h3>"
+    info = base.effective_params.get("doublet_clusters")
+    if not info:
+        body = (
+            "<p class='small'>Not run in the baseline run: it runs only with doublet removal on "
+            "and <span class='mono'>doublet_cluster_removal</span> enabled.</p>"
+        )
+        return title + body + _doublet_population_grid_line(result)
+    auroc_max = info.get("auroc_max")
+    stats = info.get("statistics") or {}
+    removed = [str(c) for c in info.get("removed") or []]
+    pop = (base.match.get("doublet_population") or {}).get("statistics") or {}
+    matched = [str(c) for c in base.match.get("clusters") or []]
+    if not matched:
+        own = "– (population not found)"
+    else:
+        own = ", ".join(f"cluster {c}: {_population_stat(c, pop)}" for c in matched)
+    rows: list[tuple[str, Any]] = [
+        ("Matched population, AUROC vs simulated doublets", own),
+        ("Removal rule", f"AUROC below {fmtval(auroc_max)}"),
+        (
+            "Clusters removed (cells)",
+            f"{len(removed)} ({info.get('n_cells', 0)})" if removed else "none",
+        ),
+    ]
+    out = title + _kv_table(rows)
+    if removed:
+        parents = info.get("parents") or {}
+        body = "".join(
+            f"<tr><td class='mono'>{escape(c)}</td>"
+            f"<td class='num'>{fmtnum(stats.get(c))}</td>"
+            f"<td class='mono'>{escape(_parent_text(parents.get(c)))}</td></tr>"
+            for c in removed
+        )
+        out += (
+            "<table><thead><tr><th>Removed cluster</th><th class='num'>AUROC</th>"
+            "<th>Parent groups (clusters)</th></tr></thead>"
+            f"<tbody>{body}</tbody></table>"
+        )
+    out += (
+        "<p class='small'>Each cluster of at least 10 cells is compared with simulated doublets of "
+        "two other cell-type groups; a cross-validated classifier that cannot tell them apart "
+        "(low AUROC) marks a population made of doublets. Removed clusters are dropped before "
+        "the population is matched, and their cells are counted with the removed doublets.</p>"
+    )
+    return out + _doublet_population_grid_line(result)
+
+
+def _population_stat(cluster: str, stats: dict[str, Any]) -> str:
+    if cluster not in stats:
+        return "not tested (under 10 cells)"
+    if stats[cluster] is None:
+        return "not computed (fewer than two other cell-type groups)"
+    return fmtnum(stats[cluster])
+
+
+def _parent_text(pair: Any) -> str:
+    """'1,4 + 0' for parent groups given as two lists of member clusters."""
+    if not pair:
+        return "–"
+    return " + ".join(",".join(str(c) for c in side) for side in pair)
+
+
+def _doublet_population_grid_line(result: ClaimResult) -> str:
+    ran = [r for r in result.runs if r.effective_params.get("doublet_clusters")]
+    if not ran:
+        return ""
+    hits = [
+        (r.index, [str(c) for c in r.effective_params["doublet_clusters"].get("removed") or []])
+        for r in ran
+    ]
+    hits = [(i, cl) for i, cl in hits if cl]
+    detail = "; ".join(
+        f"run {i}: cluster{'s' if len(cl) > 1 else ''} {', '.join(cl)}" for i, cl in hits
+    )
+    return (
+        f"<p class='small'>Across the grid, clusters were removed as doublet populations in "
+        f"{len(hits)} of the {len(ran)} runs where the step ran"
+        + (f" ({escape(detail)})" if hits else "")
+        + ".</p>"
+    )
 
 
 def _composition_grid_table(result: ClaimResult) -> str:

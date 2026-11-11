@@ -62,6 +62,7 @@ def methods_paragraph(
         f"({grid.scrublet_expected_rate_per_1000:.1%} per 1,000 cells) the top expected "
         "fraction by score was called instead. Predicted doublets were removed when the "
         f"doublet_removal axis was on (baseline: {'on' if b.doublet_removal else 'off'})."
+        + _doublet_population_sentence(grid)
     )
     harmony = (
         f", optionally corrected for the batch column `{spec.columns.batch}` with Harmony "
@@ -228,6 +229,25 @@ def methods_paragraph(
         "All thresholds are listed below and are configurable."
     )
     return " ".join(p)
+
+
+def _doublet_population_sentence(grid: GridConfig) -> str:
+    """The cluster-level doublet removal that follows clustering in runs with doublet removal on.
+
+    The minimum of 10 cells is the default of ``doublet_population_test``, which the pipeline uses.
+    """
+    if not grid.doublet_cluster_removal:
+        return " Clusters were not tested as doublet populations (doublet_cluster_removal off)."
+    return (
+        " In those runs, after clustering, every cluster of at least 10 cells was compared with "
+        "simulated doublets of two other cell-type groups (the other clusters grouped by the "
+        "correlation of their mean expression; each doublet sums the raw counts of one random "
+        "cell from each group, for the 3 pairs of groups that best explain the cluster's mean "
+        "expression), and a cluster that a cross-validated logistic-regression classifier could "
+        "not separate from them (out-of-fold AUROC, mean of 5 repetitions, below "
+        f"{grid.doublet_cluster_auroc_max:.2f} for some pair) was removed as a doublet "
+        "population."
+    )
 
 
 def _opts(values: list[Any], baseline: Any) -> str:
