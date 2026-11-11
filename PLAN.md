@@ -300,6 +300,38 @@ A held-out block that never forms a population in any run is reported as uninfor
 strict rule scores it as missed). Non-regression: the 18 existing cases keep their outcome; the
 planted-doublet development case may change and is reported separately as a development result.
 
+### v0.6 round 1 (measured 2026-11-11): no candidate adopted
+
+All clusters of the cached grids were measured (Kang 427, PBMC3k 259, planted 250, GEO 115) and
+each result was re-computed independently.
+- Candidate 1 (two-sample test, parents = single subclusters): least doublet-like planted
+  cluster AUROC 0.838 vs most doublet-like real cluster 0.912 (15-cell platelet cluster); gap
+  0.074 < 0.10. Seed noise is of the same size: with other seeds the gap was 0.12-0.13 and the
+  outcome flipped. Not adopted.
+- Candidate 2 (simulated-doublet density): planted clusters tie with a 14-cell NK/T cluster of
+  PBMC3k (gap 0). Not adopted. Per cell it ranks doublets better than Scrublet (GEO AUROC 0.88
+  vs 0.76 on the baseline run; planted 0.97 vs 0.89).
+- Candidate 3 (per-cell classifier, call rule p > 0.5): calls 9 % of Kang singlets beyond
+  Scrublet (limit 1 %). Not adopted. Per cell it also ranks better than Scrublet on GEO
+  (AUROC 0.91 vs 0.86-0.88; recall 0.82 vs 0.53-0.55 at lower precision).
+Diagnostic from the planted data (development data): with whole cell types as parents instead of
+single subclusters the planted clusters' AUROC falls to 0.39-0.54, the value a doublet population
+should get, because a centroid-chosen subcluster parent (e.g. the high-depth part of the
+monocytes) gives simulated doublets larger than the real ones.
+
+### v0.6 round 2 (fixed before measuring): candidate 1 with cell-type groups as parents
+
+- Groups: the other clusters of the run joined by average-linkage clustering of their centroids
+  (per-gene z-scored log expression, 1 - Pearson correlation, cut at 1.0), as in round 1.
+- Parents: pairs of different groups; the 3 pairs whose group centroids best explain C's centroid
+  as a two-part mixture; simulated doublets sum a random cell of each group.
+- Statistic: mean over 5 seeded repetitions (new simulations and new folds each time) of the
+  out-of-fold AUROC, minimum over the 3 pairs. Everything else as round 1.
+- Same threshold rule and criteria; in addition the outcome must be the same for three master
+  seeds (0, 1, 2), since round 1 showed seed flips.
+- If round 2 fails, nothing is adopted; the per-cell ranking gain of candidates 2 and 3 is
+  recorded for later work and the planted-doublet case stays a miss.
+
 ## Milestone 4 status (2026-11-11): done
 
 - CI on push (`.github/workflows/ci.yml`): ruff check + format, mypy, pytest; offline tests only.
