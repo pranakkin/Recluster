@@ -344,6 +344,17 @@ Implementation threshold, fixed now: 0.80 (the seed-0 midpoint, rounded down, i.
 conservative of the three). The held-out cases H1 and H2 are built and run only after the
 implementation is finished.
 
+### v0.6 status (2026-11-11)
+
+- Implemented as fixed in round 2 (threshold 0.80) and committed before the held-out cases ran.
+- Benchmark, 20 cases: cases 1-18 keep their outcomes; the step removed no real cluster.
+  Development case: the Pearson doublet clusters are removed, but the claim now holds in the
+  `n_pcs=20` run (a 293-cell monocyte cluster, 42 % doublets, statistic 0.88) because the
+  marker-only claim's reference shifts to that run; still a miss.
+- Held-out H1 (NK + CD14 Mono): the block clusters on its own under Pearson residuals with
+  statistic 0.95; not removed; missed. H2 (CD8 T + B): merged into a 757-cell real cluster at
+  resolution 0.3; missed. Not used to change anything; new held-out cases would be needed.
+
 ## Milestone 4 status (2026-11-11): done
 
 - CI on push (`.github/workflows/ci.yml`): ruff check + format, mypy, pytest; offline tests only.

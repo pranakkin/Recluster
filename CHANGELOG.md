@@ -2,6 +2,25 @@
 
 All notable changes to Recluster. Dates are when the work landed in this repository.
 
+## [0.6.0] — 2026-11-11 — Doublet populations, reproducible design measurements
+
+### Added
+- A doublet-population step in each run with doublet removal on
+  (`evaluators/doublet_cluster.py: doublet_population_test`, `GridConfig.doublet_cluster_removal`,
+  `GridConfig.doublet_cluster_auroc_max = 0.80`): a cluster that a cross-validated classifier
+  cannot separate from simulated doublets of other cell-type groups is removed. Method and
+  threshold were pre-registered in PLAN.md and chosen over three other candidates on development
+  data; reports, runs.csv and provenance record removed clusters, statistics and parents.
+- Two held-out planted-doublet benchmark cases (NK + CD14 Mono, CD8 T + B), defined before the
+  step was built and run once: both missed (bench/RESULTS.md, "Doublet populations").
+- `scripts/design_measurements.py` recomputes the numbers behind earlier design decisions and
+  writes `bench/design_measurements.md` (22 rows, all agreeing with the cited values).
+
+### Changed
+- Three cited figures corrected to their reproducible values: the minimum-over-samples AUROC
+  rejects about 32 % (not 24 %) at true AUROC 0.90; CD4 T Jaccard 0.90-0.97 (not 0.91-0.96);
+  the planted SQSTM1 effect at half-amplitude 0.4 has padj 0.065 (not 0.07).
+
 ## [0.5.0] — 2026-11-11 — Robustness fixes from the first benchmark, and the time-of-day check
 
 ### Added

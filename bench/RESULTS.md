@@ -1,11 +1,14 @@
 # Benchmark results
 
-Measured on 2026-11-11 with Recluster 0.5.0, default grid and default thresholds, on an Apple
-M5 Pro laptop (`recluster bench --jobs 4`, 25 minutes wall time). Every number below is copied
+Measured on 2026-11-11 with Recluster 0.6.0, default grid and default thresholds, on an Apple
+M5 Pro laptop (`recluster bench --jobs 4`, 38 minutes wall time). Every number below is copied
 from `results.json`; the per-run numbers come from the `provenance.json` next to each report
 under `bench/out/`. Where the outcome is a miss or a false alarm, it says so.
 
-This is the second run of the benchmark. The first run (v0.1, 16 cases) is kept as
+This is the third run of the benchmark. Cases 1 to 18 are the second run's cases; their outcomes
+did not change between Recluster 0.5.0 and 0.6.0 except the held counts of case 13 (note C).
+Cases 19 and 20 are held-out planted-doublet cases added with the doublet-population step of
+0.6.0 (section "Doublet populations"). The second run The first run (v0.1, 16 cases) is kept as
 `results_v0.1_table.md` and `results_v0.1.json`, and its narrative is summarised in the last
 section; the changes made between the two runs, each with its reason and the measurement that
 motivated it, are listed under "What changed between the runs". The pass rule of every case
@@ -37,19 +40,22 @@ have no comparison and no time check.
 | 10 | False: ISG15 up in fake group A (condition shuffled at donor level) | NOT SUPPORTED | NOT SUPPORTED | 0/21 | 100 % ⚑ | none | correct |
 | 11 | Planted time effect claimed as a condition effect, collection times not given | held before the check, then flagged | FRAGILE (ROBUST before the check) | 21/21 | 100 % | POSSIBLE | caught (note D) |
 | 12 | The same planted effect with collection times given | held, then removed by adjustment | NOT SUPPORTED (ROBUST before the check) | 21/21 | 100 % | POSSIBLE | caught (note D) |
-| 13 | Planted: 150 synthetic doublets as a fake population | not ROBUST; holds only with doublet removal off | NOT SUPPORTED | 3/23 | – | – | **missed** (note C) |
+| 13 | Planted: 150 synthetic doublets as a fake population | not ROBUST; holds only with doublet removal off | NOT SUPPORTED | 1/23 | – | – | **missed** (note C) |
 | 14 | Planted: over-clustering shard of CD4 T cells | not ROBUST | NOT SUPPORTED | 0/23 | – | – | caught |
 | 15 | Control: a shard that is a whole population (B cells) | ROBUST | ROBUST | 23/23 | – | – | control OK |
 | 16 | Planted: QC threshold deletes NK cells | failure table names max_mito_pct | NOT SUPPORTED | 4/23 | – | – | caught |
 | 17 | Planted: batch artifact claimed as a CD4 T subtype | not ROBUST; holds only with batch correction off | NOT SUPPORTED | 4/24 | – | – | caught |
 | 18 | Control: the real CD4 T population under the batch effect | ROBUST | ROBUST | 24/24 | – | – | control OK |
+| 19 | Held out: 150 NK + CD14 monocyte doublets as a fake population | not ROBUST; holds only with doublet removal off | NOT SUPPORTED | 2/23 | – | – | **missed** (Doublet populations) |
+| 20 | Held out: 150 CD8 T + B doublets as a fake population | not ROBUST; holds only with doublet removal off | NOT SUPPORTED | 1/23 | – | – | **missed** (Doublet populations) |
 
 ⚑ = pseudoreplication flag raised by the report (cell-level statistics call it in >= 80 % of
 runs while replicate-aware statistics call it in < 50 %).
 
-Score by the pre-registered rules: 16 of 18 as expected (5 true claims ROBUST, 4 false claims
+Score by the pre-registered rules: 16 of 20 as expected (5 true claims ROBUST, 4 false claims
 NOT SUPPORTED, both planted time cases caught, 3 planted errors caught, 2 controls OK); 1 false
-alarm (case 6) and 1 miss (case 13). The time-of-day check raised no false alarm: on the 8
+alarm (case 6) and 3 misses, all three planted-doublet cases (13, 19, 20). All three doublet
+claims end NOT SUPPORTED, but the strict rule asks for more than that (note C). The time-of-day check raised no false alarm: on the 8
 comparison claims without a planted time effect its label was NO TIME CONFOUND DETECTED every
 time (clock-state index permutation p = 0.38 on the real IFN-β comparisons, 0.63 on the fake
 donor splits).
@@ -107,22 +113,21 @@ test is the right test for this design and is more sensitive than the unpaired o
 FRAGILE verdict with the breakers listed is the tool doing its job on a claim whose truth is not
 known.
 
-**C. The planted doublet population (case 13) is missed by the strict rule, while the fake
-population is now rejected.** The claim holds in 3 of 23 runs, all three with Pearson-residual
-normalisation, under which the 150 injected monocyte+B doublets form their own cluster of 74 to
-100 cells with all four markers enriched (per-marker AUROC 0.70 to 0.87, cluster AUROC 0.94 to
-0.95). Under log-normalisation they do not form a cluster at all: at the baseline 113 of them
-land in the CD14 monocyte cluster and 33 in the B cluster, no cluster carries more than half of
-the four markers, and the matched population is empty. Two of the three holding runs had doublet
-removal on, so the rule "holds only when doublet removal is off" is not met and the case counts
-as a miss: Scrublet (automatic threshold 0.26; fallback not triggered because the automatic
-threshold called 1.0 % of cells against an expected 2.3 %, above the 25 % trigger) flagged 0 of
-the 150 injected cells, exactly as in the first run. The verdict NOT SUPPORTED is right, but for
-the wrong reason: the fake population fails because it exists only under one normalisation, not
-because the doublets were removed. The cluster-level mixture diagnostic on the three Pearson
-clusters gives residual ratios of 0.58 to 0.68 and library-size ratios of 1.40 to 1.63; the
-cutoff analysis below had predicted that no cutoff separates such clusters with margin, and the
-report shows the diagnostic without acting on it.
+**C. The planted doublet population (case 13) is still missed by the strict rule.** The 150
+injected monocyte+B doublets form their own cluster only under Pearson residuals; under
+log-normalisation they are absorbed into the monocyte and B clusters and no cluster carries more
+than half of the four markers. Scrublet (automatic threshold 0.26; the fallback is not triggered
+because it called 1.0 % of cells against an expected 2.3 %) flags none of the injected cells.
+In 0.5.0 the claim held in 3 runs: the two Pearson runs with doublet removal on and one Pearson
+run with it off. In 0.6.0 the doublet-population step removes the Pearson doublet cluster in both
+runs with doublet removal on (AUROC against simulated doublets 0.65 and 0.67, below 0.80). That
+has a side effect on matching: the claim gives markers but no label, so the reference population
+is the first run's match with marker AUROC >= 0.80. With the Pearson clusters gone, that run is
+now `n_pcs=20`, whose match is a 293-cell monocyte cluster of which 42 % are injected doublets
+(statistic 0.88, so not removed). Measured against that reference, the claim holds in that run,
+with doublet removal on, and fails in the Pearson run with removal off. So the case holds in 1
+of 23 runs, with doublet removal on, and remains a miss. The verdict NOT SUPPORTED is correct;
+the doublet axis is not what produces it, which is what the rule asks.
 
 **D. The planted time-of-day effect (cases 11 and 12) is caught in both modes, and the naive
 analysis falls for it.** The construction (details below) gives 8 donors, 4 collected between
@@ -240,6 +245,52 @@ changed after seeing the second run's results.
     analysis calls the effect, is met; it is recorded here as such. The clock-gene amplitudes
     (0.2 to 0.7 log2) and peak hours were not changed.
 
+## Doublet populations (0.6.0): what was tried, what was adopted, how it did on held-out data
+
+The plan, the candidates, the adoption criteria and two held-out cases were written into
+`PLAN.md` (section "v0.6 plan") and committed before anything was measured. Three candidates
+were measured on every cluster of the benchmark grids on Kang (427 clusters), unmodified PBMC3k
+(251), the planted-doublet development data (245) and the two GEO lanes (115), and each result
+was re-computed independently:
+
+| Candidate | Result |
+|---|---|
+| Two-sample test, single subclusters as parents | gap 0.074 < 0.10, and the outcome flipped with the seed: not adopted |
+| Density of simulated heterotypic doublets | gap 0: not adopted (per cell it ranked doublets better than Scrublet) |
+| Per-cell classifier in the style of scDblFinder, call rule p > 0.5 | 9 % of Kang singlets called (limit 1 %): not adopted (per cell, GEO AUROC 0.91 vs Scrublet 0.86-0.88) |
+| Round 2: two-sample test, cell-type groups as parents, 5 repetitions | gap 0.25-0.28 for seeds 0, 1, 2; no cluster removed on Kang, GEO or unmodified PBMC3k: adopted, threshold 0.80 |
+
+The adopted step runs when `doublet_removal` is on: every cluster of at least 10 cells is
+compared with simulated doublets (summed raw counts) of the three pairs of other cell-type
+groups that best explain its centroid, and a cluster that a cross-validated logistic regression
+separates from them with AUROC below 0.80 is removed. Round 2 used a lesson from the development
+data (single subclusters as parents give doublets that are too large), which is why the
+held-out cases were kept aside.
+
+In this benchmark the step removed no cluster in any Kang case, in any of the PBMC3k controls or
+in any non-doublet planted case; no outcome of cases 1 to 18 changed. It removed the development
+doublet cluster where it forms with doublet removal on (note C).
+
+The held-out cases, run once with the step fixed, are both missed:
+- **Case 19, NK + CD14 monocyte doublets.** The block forms its own cluster under Pearson
+  residuals (101 cells in the run with doublet removal on, 116 with it off), with all four
+  markers enriched. Its statistic is 0.95, well above 0.80, so it is not removed: the step does
+  not recognise these doublets, and the claim holds in 2 runs, one with doublet removal on.
+  Scrublet flagged 1 of the 150 injected cells.
+- **Case 20, CD8 T + B doublets.** The block never forms a cluster of its own that the claim
+  matches. At resolution 0.3 it is merged into a 757-cell cluster that the four markers match by
+  majority (statistic 1.00, as expected for a cluster dominated by real cells); the claim holds
+  in that one run, with doublet removal on. Scrublet flagged 4 of the 150 injected cells.
+
+What this says: the step catches a doublet block that clusters on its own and resembles
+doublets of the cell-type groups the data defines, as in the development case, and it did not
+remove any of the 793 real clusters measured (Kang, PBMC3k, GEO) or any real cluster in this
+benchmark. It does not
+generalise to the NK + monocyte block, and no cluster-level test can catch doublets merged into
+a real cluster. These results were not used to change the step; the held-out cases are spent,
+and a future change would need new ones. Per-cell detection is the remaining weak point:
+Scrublet flags 0 to 3 % of each planted block.
+
 ## Doublets vs demuxlet (GEO GSE96583, batch 2)
 
 The processed object holds singlets only, so Scrublet was compared with demuxlet on the two
@@ -340,8 +391,9 @@ Reference labels come from Recluster's baseline pipeline at resolution 1.0, name
 - The Mode B rule (the clock-state index decides) was settled after the true IFN-β claims had
   been seen to move clock genes uniformly; the zero false-alarm count for Mode B should be read
   with that in mind.
-- The planted doublet block defeats both Scrublet and the mixture diagnostic; the case is a
-  miss, and the tool's correct NOT SUPPORTED on it comes from the population's fragility across
+- Planted doublet blocks defeat Scrublet; the doublet-population step catches the development
+  block where it clusters on its own but not the held-out NK + monocyte block; the cases are
+  misses, and the tool's correct NOT SUPPORTED on them comes from the population's fragility across
   normalisations, not from doublet detection.
 
 ## The first run (v0.1), in brief

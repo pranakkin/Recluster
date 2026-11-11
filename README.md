@@ -75,7 +75,7 @@ That downloads the Kang et al. 2018 PBMC dataset (38 MB, checksum verified) and 
 construction, and two with a planted time-of-day effect), runs each on the full grid in
 parallel, and writes `bench/results.json`, `bench/results_table.md` and a report per claim under
 `bench/out/`. About 20 minutes on a laptop; `--part all` adds the planted errors on PBMC3k (the whole
-benchmark took 25 minutes with 4 workers); `--max-runs 2` gives a short smoke version.
+benchmark took 38 minutes with 4 workers); `--max-runs 2` gives a short smoke version.
 
 To run one claim instead:
 
@@ -91,9 +91,9 @@ Open `results/<claim>/report.html`. A synthetic example that needs no download i
 
 ## Benchmark, exactly as measured
 
-Default grid, default thresholds. The pass rules were written before each case ran; the one
-rule and the handful of thresholds that changed between the first run and this one are listed
-with their reasons in [bench/RESULTS.md](bench/RESULTS.md), together with the first run's table.
+Default grid, default thresholds, 20 cases, 38 minutes with 4 workers. The pass rules were written
+before each case ran; the rule and thresholds that changed between runs are listed with their
+reasons in [bench/RESULTS.md](bench/RESULTS.md), together with the first run's table.
 
 | # | Case | Expected | Verdict | Held | Time check | Outcome |
 |---|---|---|---|---|---|---|
@@ -109,21 +109,26 @@ with their reasons in [bench/RESULTS.md](bench/RESULTS.md), together with the fi
 | 10 | False: ISG15 up in fake group A (donor-level shuffle) | NOT SUPPORTED | NOT SUPPORTED | 0/21 | none | correct |
 | 11 | Planted time-of-day effect claimed as a condition effect, times hidden | held, then flagged | FRAGILE (ROBUST before the time check) | 21/21 | POSSIBLE | caught |
 | 12 | The same planted effect with collection times given | held, then removed by adjustment | NOT SUPPORTED (ROBUST before the time check) | 21/21 | POSSIBLE | caught |
-| 13 | Planted: 150 synthetic doublets as a fake population | not ROBUST, doublet axis breaks it | NOT SUPPORTED | 3/23 | – | missed |
+| 13 | Planted: 150 synthetic doublets as a fake population | not ROBUST, doublet axis breaks it | NOT SUPPORTED | 1/23 | – | missed |
 | 14 | Planted: over-clustering shard of CD4 T cells | not ROBUST | NOT SUPPORTED | 0/23 | – | caught |
 | 15 | Control: a shard that is a whole population (B cells) | ROBUST | ROBUST | 23/23 | – | control OK |
 | 16 | Planted: QC threshold deletes NK cells | failure table names max_mito_pct | NOT SUPPORTED | 4/23 | – | caught |
 | 17 | Planted: batch artifact claimed as a CD4 T subtype | not ROBUST, batch axis breaks it | NOT SUPPORTED | 4/24 | – | caught |
 | 18 | Control: the real CD4 T population under the batch effect | ROBUST | ROBUST | 24/24 | – | control OK |
+| 19 | Held out: 150 NK + CD14 monocyte doublets as a fake population | not ROBUST, doublet axis breaks it | NOT SUPPORTED | 2/23 | – | missed |
+| 20 | Held out: 150 CD8 T + B doublets as a fake population | not ROBUST, doublet axis breaks it | NOT SUPPORTED | 1/23 | – | missed |
 
 Three things to read off this table. The replicate-aware tests do their job: every false claim is
 NOT SUPPORTED while the naive cell-level tests would have called three of the four in 100 % of
 runs. The planted time-of-day effect is caught in both modes, and the check raised no alarm on the
 claims without one. The two outcomes against the rules are spelled out in RESULTS.md: the null
 composition case is a FRAGILE false alarm because the paired test sees a small, consistent 1.6-point
-drop in the monocyte share after IFN-β (there is no ground truth for that case), and the planted
-doublet block is rejected for the wrong reason (it only clusters under one normalisation; Scrublet
-still flags none of the injected cells). Scrublet against demuxlet on the real lanes, with the
+drop in the monocyte share after IFN-β (there is no ground truth for that case), and all three
+planted doublet blocks end NOT SUPPORTED for the wrong reason (fragility across settings, not
+doublet removal). Version 0.6.0 added a step that removes clusters indistinguishable from
+simulated doublets; it was designed and fixed before two held-out doublet cases were built, it
+catches the development block where that block clusters on its own, removes no real cluster,
+and misses both held-out blocks. RESULTS.md has the full account. Scrublet against demuxlet on the real lanes, with the
 rate-based fallback: AUROC 0.87, precision 0.60, recall 0.54 (0.27 without the fallback).
 
 ## Writing a claim
@@ -210,9 +215,11 @@ code did not compute.
   tissue-specific; the `tissue` field is recorded, not used.
 - The expected doublet rate assumes each sample was captured on its own lane; for samples
   demultiplexed from a pooled lane the true expectation is the lane's.
-- Scrublet, with or without the fallback, does not catch a block of near-identical synthetic
-  doublets, and the cluster-level mixture diagnostic has no cutoff that separates doublet clusters
-  from genuine intermediate populations; it is shown in the report but never changes a verdict.
+- Doublets are the weakest point. Scrublet, with or without the fallback, flags 0 to 3 % of a
+  block of near-identical synthetic doublets. The doublet-population step removes a doublet
+  cluster that resembles doublets of the cell-type groups the data defines, but it missed one of
+  two held-out blocks that clustered on its own, and doublets merged into a real cluster are
+  beyond any cluster-level test.
 - Marker-based matching of CD4 T cells is weak at low clustering resolution; the labels, when a
   claim gives them, carry those runs.
 - Runs within a claim are sequential; the LLM layer's two live API calls were built against the
@@ -226,8 +233,9 @@ marker calls survive. Concretely, next:
 
 1. Per-condition population matching, so a treatment that remodels marker expression does not
    drop a population out of one condition.
-2. A lane column for the expected doublet rate, and a doublet check that works on a block of
-   identical doublets.
+2. Better per-cell doublet scoring (a classifier in the style of scDblFinder ranked GEO doublets
+   better than Scrublet in the 0.6.0 measurements, but called too many cells with a fixed cutoff),
+   and a lane column for the expected doublet rate.
 3. Tissue-specific rhythmic gene lists when a public per-tissue table becomes available, and a
    phase estimate only if a validated method for sparse data exists.
 4. Grid runs in parallel; an audit summary across all labels in an object, not one claim at a
@@ -242,7 +250,7 @@ bench/                benchmark runner outputs: RESULTS.md, results.json, result
 docs/                 GitHub Pages: index.html, reports/, HOW_IT_WORKS.md, report-screenshot.png
 examples/claims/      claim YAML examples (synthetic, PBMC3k, Kang)
 scripts/              make_synthetic_example.py, make_processed_example.py, download_kang.py, fetch_daynight_genes.py, build_docs.py
-tests/                180 offline tests on synthetic data
+tests/                195 offline tests on synthetic data
 ```
 
 ## Troubleshooting

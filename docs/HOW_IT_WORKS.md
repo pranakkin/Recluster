@@ -84,6 +84,22 @@ Every grid point is a `PipelineParams` object with nine fields. One run does, in
 6. **Neighbour graph**: 15 nearest neighbours, exact search, so results are bitwise reproducible
    across machines.
 7. **Leiden clustering** at `resolution`, igraph flavour, 2 iterations, seeded.
+8. **Doublet populations**, when `doublet_removal` is on and `doublet_cluster_removal` is set (the
+   default). Scrublet scores cells one at a time and misses doublets that are each other's
+   neighbours, for example many doublets of the same two cell types. This step asks of every
+   cluster of at least 10 cells whether it can be told apart from doublets of other cell types.
+   The other clusters are joined into cell-type groups (average-linkage on their centroids,
+   1 - Pearson correlation of per-gene z-scored log expression, cut at 1.0); the three pairs of
+   groups that best explain the cluster's centroid as a two-part mixture are the candidate
+   parents; for each, up to 500 doublets are simulated by summing the raw counts of a random cell
+   of each group, and a logistic regression on 20 principal components plus library size and
+   genes detected is asked to separate the cluster's cells from them (5-fold out-of-fold AUROC,
+   averaged over 5 repetitions). The statistic is the lowest AUROC over the three pairs; a cluster
+   below `doublet_cluster_auroc_max` (0.80) is removed and the run records which, with its
+   statistic and parents. The method and threshold were fixed before two held-out cases were
+   built; how it was chosen and how it did is in `bench/RESULTS.md` ("Doublet populations"): no
+   real cluster removed among 793 measured, the development doublet block removed where it forms
+   its own cluster, and both held-out blocks missed.
 
 Only the cluster assignment per cell is kept. Expression used by the evaluators is computed once
 from the raw counts and is the same in every run.
@@ -430,6 +446,9 @@ produces a number that appears in a verdict, a table or a chart.
   not modelled.
 - Runs within a claim are sequential; only the benchmark parallelises across claims.
 - The mixture-based doublet diagnostic has no reliable cutoff and is reported, not enforced.
+- Doublet detection is the weakest step: Scrublet flags almost none of a block of same-type
+  doublets, the doublet-population step missed one of two held-out blocks that clustered on its
+  own, and doublets merged into a real cluster are beyond a cluster-level test.
 
 ## 15. Glossary of thresholds (defaults)
 
@@ -459,5 +478,7 @@ produces a number that appears in a verdict, a table or a chart.
 | qc_max_cell_loss (grid) | 0.25 | QC threshold cap |
 | scrublet_expected_rate_per_1000 (grid) | 0.008 | Scrublet fallback (per scored subset) |
 | scrublet_fallback_trigger (grid) | 0.25 | Scrublet fallback |
+| doublet_cluster_removal (grid) | true | doublet-population step on when doublet_removal is on |
+| doublet_cluster_auroc_max (grid) | 0.80 | doublet-population step: remove clusters below this AUROC |
 | pseudoreplication_cell_survival | 0.80 | flag |
 | pseudoreplication_replicate_survival | 0.50 | flag |

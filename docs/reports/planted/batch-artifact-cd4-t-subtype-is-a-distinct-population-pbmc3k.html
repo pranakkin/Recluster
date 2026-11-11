@@ -110,7 +110,7 @@ require: all</pre>
 
 
 <h2>Replicate-aware vs cell-level</h2>
-<table><tbody><tr><td>Matched cells (baseline run)</td><td class='num'>0</td></tr><tr><td>Marker AUROC</td><td class='num'>–</td></tr><tr><td>Statistic that judged the candidate clusters</td><td class='num'>labels only</td></tr><tr><td>Jaccard vs reference</td><td class='num'>0.000</td></tr><tr><td>Samples with ≥ min cells</td><td class='num'>None</td></tr><tr><td>Largest single-sample share</td><td class='num'>–</td></tr><tr><td>Median Scrublet score, population vs all cells (informational)</td><td class='num'>– vs 0.040</td></tr></tbody></table><p class='small'>For a population claim the replicate-aware check is whether the population is present in several samples rather than driven by one. Recovered-as-a-cluster versus recovered-and-replicated across the grid: 17% vs 17%.</p>
+<table><tbody><tr><td>Matched cells (baseline run)</td><td class='num'>0</td></tr><tr><td>Marker AUROC</td><td class='num'>–</td></tr><tr><td>Statistic that judged the candidate clusters</td><td class='num'>labels only</td></tr><tr><td>Jaccard vs reference</td><td class='num'>0.000</td></tr><tr><td>Samples with ≥ min cells</td><td class='num'>None</td></tr><tr><td>Largest single-sample share</td><td class='num'>–</td></tr><tr><td>Median Scrublet score, population vs all cells (informational)</td><td class='num'>– vs 0.040</td></tr></tbody></table><p class='small'>For a population claim the replicate-aware check is whether the population is present in several samples rather than driven by one. Recovered-as-a-cluster versus recovered-and-replicated across the grid: 17% vs 17%.</p><h3>Doublet-population removal (baseline run)</h3><table><tbody><tr><td>Matched population, AUROC vs simulated doublets</td><td class='num'>– (population not found)</td></tr><tr><td>Removal rule</td><td class='num'>AUROC below 0.8</td></tr><tr><td>Clusters removed (cells)</td><td class='num'>none</td></tr></tbody></table><p class='small'>Each cluster of at least 10 cells is compared with simulated doublets of two other cell-type groups; a cross-validated classifier that cannot tell them apart (low AUROC) marks a population made of doublets. Removed clusters are dropped before the population is matched, and their cells are counted with the removed doublets.</p><p class='small'>Across the grid, clusters were removed as doublet populations in 0 of the 21 runs where the step ran.</p>
 
 <h2>Time-of-day check</h2>
 <p class='small'>Not applicable: this claim has no condition comparison, so there is no group contrast that collection time could confound.</p>
@@ -319,7 +319,7 @@ require: all</pre>
 </tbody></table>
 
 <h2>Methods</h2>
-<p>Raw counts for 2,700 cells and 32,738 genes were taken from layers[&#39;counts&#39;] of the input file (SHA-256 a2e28d1fd201…). Each of 24 pipeline runs (1 baseline, 17 one-at-a-time variations and 6 seeded random combinations) re-derived clusters from these counts. Cells were kept if they expressed at least {100, 200*, 500} genes and had at most {5.0, 10.0*, 20.0}% mitochondrial counts; a threshold that alone would remove more than 25% of the cells was pulled back to the value that removes exactly that fraction, and the run records both values. Genes detected in fewer than 3 cells were dropped. Doublets were scored with Scrublet (scanpy implementation, seed 0, exact neighbours); when its automatic threshold called fewer than 25% of the expected doublets (0.8% per 1,000 cells) the top expected fraction by score was called instead. Predicted doublets were removed when the doublet_removal axis was on (baseline: on). Expression was normalised either by total-count scaling to 10,000 counts per cell followed by log1p and z-scaling of {1000, 2000*, 3000} highly variable genes (Seurat flavour), or by analytic Pearson residuals on the same number of genes (baseline: log_total). {20, 30*, 50} principal components (ARPACK, seeded) were computed, optionally corrected for the batch column `batch` with Harmony (baseline: on); a 15-nearest-neighbour graph (exact search) was clustered with Leiden (igraph flavour, resolution {0.3, 0.5, 1.0*, 1.5, 2.0}, seeds {0*, 1, 2}). The target population was located in each run by label overlap: a cluster of at least 10 cells qualified when at least 50% of its cells carry `CD4 T subtype` in `tool_label`; the matched population is the union of qualifying clusters. Overlap with the reference cell set (cells labelled `CD4 T subtype` in `tool_label` (509 cells)) was measured by the Jaccard index over barcodes that passed the run&#39;s QC; the fraction of reference cells removed by QC is reported alongside. The claim held in a run when the matched population had at least 20 cells, Jaccard &gt;= 0.5. Verdicts: ROBUST if the claim held in at least 80% of runs, FRAGILE if in at least 20%, otherwise NOT SUPPORTED; a possible time confound lowers the verdict as described in the time-of-day section. All thresholds are listed below and are configurable.</p>
+<p>Raw counts for 2,700 cells and 32,738 genes were taken from layers[&#39;counts&#39;] of the input file (SHA-256 a2e28d1fd201…). Each of 24 pipeline runs (1 baseline, 17 one-at-a-time variations and 6 seeded random combinations) re-derived clusters from these counts. Cells were kept if they expressed at least {100, 200*, 500} genes and had at most {5.0, 10.0*, 20.0}% mitochondrial counts; a threshold that alone would remove more than 25% of the cells was pulled back to the value that removes exactly that fraction, and the run records both values. Genes detected in fewer than 3 cells were dropped. Doublets were scored with Scrublet (scanpy implementation, seed 0, exact neighbours); when its automatic threshold called fewer than 25% of the expected doublets (0.8% per 1,000 cells) the top expected fraction by score was called instead. Predicted doublets were removed when the doublet_removal axis was on (baseline: on). In those runs, after clustering, every cluster of at least 10 cells was compared with simulated doublets of two other cell-type groups (the other clusters grouped by the correlation of their mean expression; each doublet sums the raw counts of one random cell from each group, for the 3 pairs of groups that best explain the cluster&#39;s mean expression), and a cluster that a cross-validated logistic-regression classifier could not separate from them (out-of-fold AUROC, mean of 5 repetitions, below 0.80 for some pair) was removed as a doublet population. Expression was normalised either by total-count scaling to 10,000 counts per cell followed by log1p and z-scaling of {1000, 2000*, 3000} highly variable genes (Seurat flavour), or by analytic Pearson residuals on the same number of genes (baseline: log_total). {20, 30*, 50} principal components (ARPACK, seeded) were computed, optionally corrected for the batch column `batch` with Harmony (baseline: on); a 15-nearest-neighbour graph (exact search) was clustered with Leiden (igraph flavour, resolution {0.3, 0.5, 1.0*, 1.5, 2.0}, seeds {0*, 1, 2}). The target population was located in each run by label overlap: a cluster of at least 10 cells qualified when at least 50% of its cells carry `CD4 T subtype` in `tool_label`; the matched population is the union of qualifying clusters. Overlap with the reference cell set (cells labelled `CD4 T subtype` in `tool_label` (509 cells)) was measured by the Jaccard index over barcodes that passed the run&#39;s QC; the fraction of reference cells removed by QC is reported alongside. The claim held in a run when the matched population had at least 20 cells, Jaccard &gt;= 0.5. Verdicts: ROBUST if the claim held in at least 80% of runs, FRAGILE if in at least 20%, otherwise NOT SUPPORTED; a possible time confound lowers the verdict as described in the time-of-day section. All thresholds are listed below and are configurable.</p>
 <p class="small">This paragraph is generated from a fixed template filled with the settings used. It is not written by a language model.</p>
 
 <h2>Thresholds</h2>
@@ -327,28 +327,29 @@ require: all</pre>
 <tr><td class="mono">robust_min_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">fragile_min_survival</td><td class="mono">0.2</td></tr><tr><td class="mono">alpha</td><td class="mono">0.05</td></tr><tr><td class="mono">marker_auroc_min</td><td class="mono">0.8</td></tr><tr><td class="mono">jaccard_min</td><td class="mono">0.5</td></tr><tr><td class="mono">label_precision_min</td><td class="mono">0.5</td></tr><tr><td class="mono">min_samples_present</td><td class="mono">2</td></tr><tr><td class="mono">min_cells_per_sample</td><td class="mono">5</td></tr><tr><td class="mono">min_cluster_size</td><td class="mono">10</td></tr><tr><td class="mono">composition_test</td><td class="mono">logit_t</td></tr><tr><td class="mono">candidate_rule</td><td class="mono">either</td></tr><tr><td class="mono">marker_per_gene_auroc_min</td><td class="mono">0.6</td></tr><tr><td class="mono">marker_majority_min</td><td class="mono">0.5</td></tr><tr><td class="mono">jaccard_on_kept_cells</td><td class="mono">True</td></tr><tr><td class="mono">doublet_residual_ratio_max</td><td class="mono">0.6</td></tr><tr><td class="mono">doublet_libsize_ratio_min</td><td class="mono">1.5</td></tr><tr><td class="mono">pseudobulk_min_total_counts</td><td class="mono">10</td></tr><tr><td class="mono">time_min_gene_counts</td><td class="mono">10</td></tr><tr><td class="mono">time_min_panel_genes</td><td class="mono">5</td></tr><tr><td class="mono">time_shrink_flag</td><td class="mono">0.5</td></tr><tr><td class="mono">time_imbalance_hours</td><td class="mono">2.0</td></tr><tr><td class="mono">pseudoreplication_cell_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">pseudoreplication_replicate_survival</td><td class="mono">0.5</td></tr>
 </tbody></table>
 <p class="small"><span class="mono">doublet_residual_ratio_max</span> and <span class="mono">doublet_libsize_ratio_min</span> are informational: they only label the cluster-level doublet check, and no verdict depends on them.</p>
+<p class="small">Doublet-population removal (grid setting): on in runs with doublet removal on; a cluster is removed when its AUROC against simulated doublets is below <span class="mono">doublet_cluster_auroc_max</span> = <span class="mono">0.8</span>.</p>
 
 <h2>Provenance</h2>
 <dl class="kv">
   <dt>Input</dt><dd class="mono">data/planted/pbmc3k_batch_effect.h5ad</dd>
   <dt>SHA-256</dt><dd class="mono">a2e28d1fd2011623af99c6fc57f7eb4b05feaeef5dd67eccac8321fd386d6750</dd>
-  <dt>Recluster</dt><dd class="mono">0.5.0</dd>
+  <dt>Recluster</dt><dd class="mono">0.6.0</dd>
   <dt>Python</dt><dd class="mono">3.11.16 · macOS-26.6.2-arm64-arm-64bit</dd>
   <dt>Key packages</dt><dd class="mono">scanpy 1.11.5 · anndata 0.12.19 · pydeseq2 0.5.4 · harmonypy 2.1.0</dd>
-  <dt>Started</dt><dd class="mono">2026-11-11T10:41:22+00:00</dd>
-  <dt>Total runtime</dt><dd class="mono">47.7 s</dd>
+  <dt>Started</dt><dd class="mono">2026-11-11T17:34:53+00:00</dd>
+  <dt>Total runtime</dt><dd class="mono">188.4 s</dd>
 </dl>
 <details><summary>Full provenance log (JSON)</summary><pre class="mono">{
-  &#34;started_at&#34;: &#34;2026-11-11T10:41:22+00:00&#34;,
-  &#34;finished_at&#34;: &#34;2026-11-11T10:42:09+00:00&#34;,
-  &#34;total_runtime_s&#34;: 47.709,
+  &#34;started_at&#34;: &#34;2026-11-11T17:34:53+00:00&#34;,
+  &#34;finished_at&#34;: &#34;2026-11-11T17:38:02+00:00&#34;,
+  &#34;total_runtime_s&#34;: 188.402,
   &#34;mode&#34;: &#34;audit&#34;,
   &#34;environment&#34;: {
     &#34;python&#34;: &#34;3.11.16&#34;,
     &#34;platform&#34;: &#34;macOS-26.6.2-arm64-arm-64bit&#34;,
     &#34;machine&#34;: &#34;arm64&#34;,
     &#34;packages&#34;: {
-      &#34;recluster&#34;: &#34;0.5.0&#34;,
+      &#34;recluster&#34;: &#34;0.6.0&#34;,
       &#34;scanpy&#34;: &#34;1.11.5&#34;,
       &#34;anndata&#34;: &#34;0.12.19&#34;,
       &#34;numpy&#34;: &#34;2.4.6&#34;,
@@ -461,7 +462,9 @@ require: all</pre>
     &#34;n_cpus&#34;: 4,
     &#34;qc_max_cell_loss&#34;: 0.25,
     &#34;scrublet_expected_rate_per_1000&#34;: 0.008,
-    &#34;scrublet_fallback_trigger&#34;: 0.25
+    &#34;scrublet_fallback_trigger&#34;: 0.25,
+    &#34;doublet_cluster_removal&#34;: true,
+    &#34;doublet_cluster_auroc_max&#34;: 0.8
   },
   &#34;thresholds&#34;: {
     &#34;robust_min_survival&#34;: 0.8,
@@ -910,7 +913,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 4.308,
+      &#34;runtime_s&#34;: 10.707,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -935,7 +938,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0399348,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -955,7 +962,24 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9998,
+            &#34;1&#34;: 1.0,
+            &#34;2&#34;: 0.9999,
+            &#34;4&#34;: 0.9999,
+            &#34;5&#34;: 1.0,
+            &#34;6&#34;: 0.9999,
+            &#34;7&#34;: 0.9999,
+            &#34;8&#34;: 0.9999,
+            &#34;9&#34;: 0.9983
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -978,7 +1002,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 4.472,
+      &#34;runtime_s&#34;: 10.312,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1003,7 +1027,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0399348,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -1023,7 +1051,24 @@ require: all</pre>
         &#34;min_genes&#34;: 100,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9998,
+            &#34;1&#34;: 1.0,
+            &#34;2&#34;: 0.9999,
+            &#34;4&#34;: 0.9999,
+            &#34;5&#34;: 1.0,
+            &#34;6&#34;: 0.9999,
+            &#34;7&#34;: 0.9999,
+            &#34;8&#34;: 0.9999,
+            &#34;9&#34;: 0.9983
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -1046,7 +1091,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 232,
       &#34;n_removed_doublet&#34;: 49,
       &#34;n_clusters&#34;: 8,
-      &#34;runtime_s&#34;: 2.919,
+      &#34;runtime_s&#34;: 9.06,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1071,7 +1116,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0417391,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -1091,7 +1140,23 @@ require: all</pre>
         &#34;min_genes&#34;: 500,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 1.0,
+            &#34;1&#34;: 1.0,
+            &#34;2&#34;: 1.0,
+            &#34;3&#34;: 0.9991,
+            &#34;4&#34;: 1.0,
+            &#34;5&#34;: 0.9999,
+            &#34;6&#34;: 1.0,
+            &#34;7&#34;: 0.9968
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -1114,7 +1179,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 54,
       &#34;n_removed_doublet&#34;: 56,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 3.228,
+      &#34;runtime_s&#34;: 9.344,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1139,7 +1204,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0399348,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -1159,7 +1228,24 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 5.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 1.0,
+            &#34;1&#34;: 0.9999,
+            &#34;2&#34;: 1.0,
+            &#34;3&#34;: 0.9998,
+            &#34;4&#34;: 1.0,
+            &#34;5&#34;: 0.9969,
+            &#34;6&#34;: 0.9998,
+            &#34;7&#34;: 0.9927,
+            &#34;8&#34;: 0.988
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -1182,7 +1268,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 1,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 3.856,
+      &#34;runtime_s&#34;: 10.392,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1207,7 +1293,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0399348,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -1227,7 +1317,25 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 20.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9987,
+            &#34;1&#34;: 1.0,
+            &#34;2&#34;: 0.9965,
+            &#34;3&#34;: 0.9998,
+            &#34;4&#34;: 1.0,
+            &#34;5&#34;: 0.9999,
+            &#34;6&#34;: 1.0,
+            &#34;7&#34;: 0.9999,
+            &#34;8&#34;: 0.9964,
+            &#34;9&#34;: 0.9972
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -1250,7 +1358,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 0,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 1.651,
+      &#34;runtime_s&#34;: 0.85,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1275,7 +1383,8 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0399348,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: null
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -1318,7 +1427,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 14,
-      &#34;runtime_s&#34;: 1.199,
+      &#34;runtime_s&#34;: 10.511,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1361,6 +1470,12 @@ require: all</pre>
           &#34;libsize_ratio_vs_max&#34;: 0.415959,
           &#34;flagged&#34;: false,
           &#34;note&#34;: &#34;&#34;
+        },
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {
+            &#34;4&#34;: 1.0
+          },
+          &#34;auroc_max&#34;: 0.8
         }
       },
       &#34;holds&#34;: false,
@@ -1380,7 +1495,29 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9993,
+            &#34;1&#34;: 0.9953,
+            &#34;2&#34;: 0.9998,
+            &#34;3&#34;: 0.9998,
+            &#34;4&#34;: 1.0,
+            &#34;5&#34;: 0.9999,
+            &#34;6&#34;: 0.999,
+            &#34;7&#34;: 0.9997,
+            &#34;8&#34;: 1.0,
+            &#34;9&#34;: 0.9999,
+            &#34;10&#34;: 0.9752,
+            &#34;11&#34;: 0.9999,
+            &#34;12&#34;: 0.9995,
+            &#34;13&#34;: 0.9953
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -1403,7 +1540,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 8,
-      &#34;runtime_s&#34;: 1.064,
+      &#34;runtime_s&#34;: 6.819,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1446,6 +1583,12 @@ require: all</pre>
           &#34;libsize_ratio_vs_max&#34;: 0.591467,
           &#34;flagged&#34;: false,
           &#34;note&#34;: &#34;&#34;
+        },
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {
+            &#34;1&#34;: 0.9999
+          },
+          &#34;auroc_max&#34;: 0.8
         }
       },
       &#34;holds&#34;: false,
@@ -1465,7 +1608,23 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9983,
+            &#34;1&#34;: 0.9999,
+            &#34;2&#34;: 1.0,
+            &#34;3&#34;: 0.9925,
+            &#34;4&#34;: 0.9999,
+            &#34;5&#34;: 0.9994,
+            &#34;6&#34;: 0.9999,
+            &#34;7&#34;: 0.9645
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -1488,7 +1647,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 1.468,
+      &#34;runtime_s&#34;: 8.981,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1513,7 +1672,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0399348,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -1533,7 +1696,24 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 1.0,
+            &#34;1&#34;: 1.0,
+            &#34;2&#34;: 0.9997,
+            &#34;3&#34;: 1.0,
+            &#34;4&#34;: 0.9999,
+            &#34;5&#34;: 0.9998,
+            &#34;6&#34;: 0.9999,
+            &#34;7&#34;: 0.9979,
+            &#34;8&#34;: 0.9963
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -1556,7 +1736,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 1.244,
+      &#34;runtime_s&#34;: 8.311,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1581,7 +1761,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0399348,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -1601,7 +1785,24 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9984,
+            &#34;1&#34;: 1.0,
+            &#34;2&#34;: 1.0,
+            &#34;4&#34;: 1.0,
+            &#34;5&#34;: 0.9999,
+            &#34;6&#34;: 1.0,
+            &#34;7&#34;: 0.9999,
+            &#34;8&#34;: 0.9999,
+            &#34;9&#34;: 0.9876
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -1624,7 +1825,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 9,
-      &#34;runtime_s&#34;: 1.464,
+      &#34;runtime_s&#34;: 7.851,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1649,7 +1850,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0399348,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -1669,7 +1874,24 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9964,
+            &#34;1&#34;: 1.0,
+            &#34;2&#34;: 0.9995,
+            &#34;3&#34;: 1.0,
+            &#34;4&#34;: 1.0,
+            &#34;5&#34;: 0.9999,
+            &#34;6&#34;: 0.9986,
+            &#34;7&#34;: 0.9905,
+            &#34;8&#34;: 0.9996
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -1692,7 +1914,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 6,
-      &#34;runtime_s&#34;: 0.718,
+      &#34;runtime_s&#34;: 5.161,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1717,7 +1939,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0399348,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -1737,7 +1963,21 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 1.0,
+            &#34;1&#34;: 1.0,
+            &#34;2&#34;: 1.0,
+            &#34;3&#34;: 0.9487,
+            &#34;4&#34;: 1.0,
+            &#34;5&#34;: 0.9987
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -1760,7 +2000,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 7,
-      &#34;runtime_s&#34;: 1.183,
+      &#34;runtime_s&#34;: 5.987,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1785,7 +2025,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0399348,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -1805,7 +2049,21 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 1.0,
+            &#34;2&#34;: 1.0,
+            &#34;3&#34;: 1.0,
+            &#34;4&#34;: 1.0,
+            &#34;5&#34;: 0.9975,
+            &#34;6&#34;: 0.9998
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -1828,7 +2086,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 14,
-      &#34;runtime_s&#34;: 1.454,
+      &#34;runtime_s&#34;: 10.269,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1871,6 +2129,12 @@ require: all</pre>
           &#34;libsize_ratio_vs_max&#34;: 0.519206,
           &#34;flagged&#34;: false,
           &#34;note&#34;: &#34;&#34;
+        },
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {
+            &#34;10&#34;: 1.0
+          },
+          &#34;auroc_max&#34;: 0.8
         }
       },
       &#34;holds&#34;: false,
@@ -1890,7 +2154,29 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9996,
+            &#34;1&#34;: 0.9997,
+            &#34;2&#34;: 1.0,
+            &#34;3&#34;: 0.9996,
+            &#34;4&#34;: 0.9996,
+            &#34;5&#34;: 0.9995,
+            &#34;6&#34;: 0.9998,
+            &#34;7&#34;: 0.9995,
+            &#34;8&#34;: 0.9995,
+            &#34;9&#34;: 0.9998,
+            &#34;10&#34;: 1.0,
+            &#34;11&#34;: 0.9999,
+            &#34;12&#34;: 0.9995,
+            &#34;13&#34;: 0.9876
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -1913,7 +2199,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 18,
-      &#34;runtime_s&#34;: 1.154,
+      &#34;runtime_s&#34;: 11.202,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -1956,6 +2242,12 @@ require: all</pre>
           &#34;libsize_ratio_vs_max&#34;: 0.59052,
           &#34;flagged&#34;: false,
           &#34;note&#34;: &#34;&#34;
+        },
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {
+            &#34;11&#34;: 1.0
+          },
+          &#34;auroc_max&#34;: 0.8
         }
       },
       &#34;holds&#34;: false,
@@ -1975,7 +2267,33 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9999,
+            &#34;1&#34;: 0.9999,
+            &#34;2&#34;: 0.9999,
+            &#34;3&#34;: 1.0,
+            &#34;4&#34;: 1.0,
+            &#34;5&#34;: 0.9996,
+            &#34;6&#34;: 0.9996,
+            &#34;7&#34;: 0.9997,
+            &#34;8&#34;: 0.9999,
+            &#34;9&#34;: 1.0,
+            &#34;10&#34;: 0.9998,
+            &#34;11&#34;: 1.0,
+            &#34;12&#34;: 0.9999,
+            &#34;13&#34;: 0.9998,
+            &#34;14&#34;: 0.9998,
+            &#34;15&#34;: 1.0,
+            &#34;16&#34;: 0.9996,
+            &#34;17&#34;: 0.9903
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -1998,7 +2316,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 1.101,
+      &#34;runtime_s&#34;: 7.297,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -2041,6 +2359,12 @@ require: all</pre>
           &#34;libsize_ratio_vs_max&#34;: 0.995743,
           &#34;flagged&#34;: false,
           &#34;note&#34;: &#34;&#34;
+        },
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {
+            &#34;2&#34;: 1.0
+          },
+          &#34;auroc_max&#34;: 0.8
         }
       },
       &#34;holds&#34;: true,
@@ -2058,7 +2382,24 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 1.0,
+            &#34;1&#34;: 1.0,
+            &#34;2&#34;: 1.0,
+            &#34;3&#34;: 0.9994,
+            &#34;4&#34;: 0.9995,
+            &#34;5&#34;: 0.9996,
+            &#34;6&#34;: 0.9999,
+            &#34;7&#34;: 0.9999,
+            &#34;8&#34;: 0.994
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -2081,7 +2422,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 0.945,
+      &#34;runtime_s&#34;: 7.273,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -2106,7 +2447,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0399348,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -2126,7 +2471,24 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9999,
+            &#34;1&#34;: 0.9997,
+            &#34;2&#34;: 1.0,
+            &#34;3&#34;: 1.0,
+            &#34;4&#34;: 0.9999,
+            &#34;5&#34;: 0.9996,
+            &#34;6&#34;: 0.9999,
+            &#34;7&#34;: 0.9999,
+            &#34;8&#34;: 0.9907
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -2149,7 +2511,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 1.627,
+      &#34;runtime_s&#34;: 8.627,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -2174,7 +2536,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0399348,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -2194,7 +2560,25 @@ require: all</pre>
         &#34;min_genes&#34;: 200,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9997,
+            &#34;1&#34;: 1.0,
+            &#34;2&#34;: 1.0,
+            &#34;3&#34;: 0.9999,
+            &#34;4&#34;: 0.9999,
+            &#34;5&#34;: 1.0,
+            &#34;6&#34;: 1.0,
+            &#34;7&#34;: 0.9869,
+            &#34;8&#34;: 0.9689,
+            &#34;9&#34;: 0.9974
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -2217,7 +2601,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 232,
       &#34;n_removed_doublet&#34;: 49,
       &#34;n_clusters&#34;: 4,
-      &#34;runtime_s&#34;: 0.377,
+      &#34;runtime_s&#34;: 3.239,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -2242,7 +2626,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0417391,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -2262,7 +2650,19 @@ require: all</pre>
         &#34;min_genes&#34;: 500,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9999,
+            &#34;1&#34;: 1.0,
+            &#34;2&#34;: 1.0,
+            &#34;3&#34;: 1.0
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -2285,7 +2685,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 232,
       &#34;n_removed_doublet&#34;: 49,
       &#34;n_clusters&#34;: 16,
-      &#34;runtime_s&#34;: 1.416,
+      &#34;runtime_s&#34;: 10.962,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -2314,7 +2714,11 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.035686,
         &#34;doublet_score_median_all&#34;: 0.0417391,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {},
+          &#34;auroc_max&#34;: 0.8
+        }
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -2334,7 +2738,29 @@ require: all</pre>
         &#34;min_genes&#34;: 500,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9996,
+            &#34;1&#34;: 1.0,
+            &#34;2&#34;: 1.0,
+            &#34;3&#34;: 1.0,
+            &#34;5&#34;: 0.9999,
+            &#34;6&#34;: 1.0,
+            &#34;7&#34;: 1.0,
+            &#34;8&#34;: 0.9997,
+            &#34;9&#34;: 0.9999,
+            &#34;10&#34;: 0.9999,
+            &#34;11&#34;: 0.9998,
+            &#34;12&#34;: 0.9936,
+            &#34;13&#34;: 1.0,
+            &#34;14&#34;: 0.962
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -2357,7 +2783,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 1,
       &#34;n_removed_doublet&#34;: 0,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 1.446,
+      &#34;runtime_s&#34;: 0.773,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -2382,7 +2808,8 @@ require: all</pre>
         &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: null,
         &#34;doublet_score_median_all&#34;: 0.0399348,
-        &#34;doublet_cluster&#34;: null
+        &#34;doublet_cluster&#34;: null,
+        &#34;doublet_population&#34;: null
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
@@ -2425,7 +2852,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 1,
       &#34;n_removed_doublet&#34;: 58,
       &#34;n_clusters&#34;: 23,
-      &#34;runtime_s&#34;: 4.255,
+      &#34;runtime_s&#34;: 15.083,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -2474,6 +2901,15 @@ require: all</pre>
           &#34;libsize_ratio_vs_max&#34;: 1.05563,
           &#34;flagged&#34;: false,
           &#34;note&#34;: &#34;&#34;
+        },
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {
+            &#34;3&#34;: 1.0,
+            &#34;4&#34;: 0.9996,
+            &#34;7&#34;: 0.9999,
+            &#34;20&#34;: 1.0
+          },
+          &#34;auroc_max&#34;: 0.8
         }
       },
       &#34;holds&#34;: true,
@@ -2491,7 +2927,38 @@ require: all</pre>
         &#34;min_genes&#34;: 100,
         &#34;max_mito_pct&#34;: 20.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 0.9999,
+            &#34;1&#34;: 0.9999,
+            &#34;2&#34;: 0.997,
+            &#34;3&#34;: 1.0,
+            &#34;4&#34;: 0.9996,
+            &#34;5&#34;: 0.9997,
+            &#34;6&#34;: 1.0,
+            &#34;7&#34;: 0.9999,
+            &#34;8&#34;: 1.0,
+            &#34;9&#34;: 0.9997,
+            &#34;10&#34;: 0.9994,
+            &#34;11&#34;: 0.9998,
+            &#34;12&#34;: 0.9947,
+            &#34;13&#34;: 0.9999,
+            &#34;14&#34;: 0.999,
+            &#34;15&#34;: 0.9969,
+            &#34;16&#34;: 0.9987,
+            &#34;17&#34;: 1.0,
+            &#34;18&#34;: 0.9803,
+            &#34;19&#34;: 0.9961,
+            &#34;20&#34;: 1.0,
+            &#34;21&#34;: 0.9997,
+            &#34;22&#34;: 0.9753
+          },
+          &#34;parents&#34;: {}
+        }
       }
     },
     {
@@ -2514,7 +2981,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 54,
       &#34;n_removed_doublet&#34;: 0,
       &#34;n_clusters&#34;: 8,
-      &#34;runtime_s&#34;: 3.426,
+      &#34;runtime_s&#34;: 2.996,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -2557,7 +3024,8 @@ require: all</pre>
           &#34;libsize_ratio_vs_max&#34;: 1.01512,
           &#34;flagged&#34;: false,
           &#34;note&#34;: &#34;&#34;
-        }
+        },
+        &#34;doublet_population&#34;: null
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -2597,7 +3065,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 232,
       &#34;n_removed_doublet&#34;: 49,
       &#34;n_clusters&#34;: 6,
-      &#34;runtime_s&#34;: 1.418,
+      &#34;runtime_s&#34;: 6.231,
       &#34;warnings&#34;: [
         &#34;scrublet&#39;s automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
@@ -2640,6 +3108,12 @@ require: all</pre>
           &#34;libsize_ratio_vs_max&#34;: 1.00567,
           &#34;flagged&#34;: false,
           &#34;note&#34;: &#34;&#34;
+        },
+        &#34;doublet_population&#34;: {
+          &#34;statistics&#34;: {
+            &#34;1&#34;: 1.0
+          },
+          &#34;auroc_max&#34;: 0.8
         }
       },
       &#34;holds&#34;: true,
@@ -2657,7 +3131,21 @@ require: all</pre>
         &#34;min_genes&#34;: 500,
         &#34;max_mito_pct&#34;: 10.0,
         &#34;capped&#34;: {},
-        &#34;scrublet_fallback_subsets&#34;: 1
+        &#34;scrublet_fallback_subsets&#34;: 1,
+        &#34;doublet_clusters&#34;: {
+          &#34;removed&#34;: [],
+          &#34;n_cells&#34;: 0,
+          &#34;auroc_max&#34;: 0.8,
+          &#34;statistics&#34;: {
+            &#34;0&#34;: 1.0,
+            &#34;1&#34;: 1.0,
+            &#34;2&#34;: 1.0,
+            &#34;3&#34;: 1.0,
+            &#34;4&#34;: 1.0,
+            &#34;5&#34;: 0.9968
+          },
+          &#34;parents&#34;: {}
+        }
       }
     }
   ],
@@ -2666,7 +3154,7 @@ require: all</pre>
   }
 }</pre></details>
 
-<footer>Recluster 0.5.0 · an independent stress test for single-cell RNA-seq claims · all numbers in this report were computed by deterministic code.</footer>
+<footer>Recluster 0.6.0 · an independent stress test for single-cell RNA-seq claims · all numbers in this report were computed by deterministic code.</footer>
 </main>
 </body>
 </html>
