@@ -256,6 +256,50 @@ v0.5 status (2026-11-11):
 - Done: determinism tests that run the engine twice and compare the full provenance apart from timestamps and runtimes, for a population claim and for DE claims with and without collection times.
 - Documented as limitations: a condition-specific population cannot be tested as a composition shift; with ≤ 3 units per group the time permutation tests have no power (Mode A falls back to the hours rule, Mode B is NOT ASSESSABLE); Mode B separates a uniform clock-gene change from a time shift only through the antiphase index; the Scrublet expectation assumes one lane per scored subset.
 
+## v0.6 plan (2026-11-11): populations made of doublets, criteria fixed before measuring
+
+Problem. The planted-doublet case is still a miss. Scrublet flags none of the 150 injected
+CD14 monocyte + B cell doublets because they are each other's neighbours; they form their own
+cluster only under Pearson residuals (3 of 23 runs), and there the claim holds with doublet
+removal on. Goal: a doublet step that removes a population made of heterotypic doublets when
+`doublet_removal` is on, without removing real populations.
+
+Candidates, each prototyped and measured before any is adopted:
+1. Population-level two-sample test: every cluster of a run against simulated doublets (summed
+   raw counts) of candidate parent clusters of different cell types; cross-validated classifier
+   AUROC; a cluster that cannot be told apart from its parents' doublets is removed.
+2. Cluster-level density of simulated heterotypic doublets: Scrublet-style neighbourhoods with
+   simulations drawn only across clusters and library size kept, aggregated per cluster.
+3. Per-cell classifier in the style of scDblFinder (Germain et al., F1000Research 2021):
+   cluster-based artificial doublets, gradient boosting on neighbourhood, library-size and
+   expression features; called cells removed.
+
+Development data: the existing planted-doublet case (PBMC3k + 150 CD14 Mono + B doublets,
+seed 0); every cluster of the benchmark grids on Kang 2018 (singlets by demuxlet, 21 runs) and
+on unmodified PBMC3k (23 runs); the two Kang GEO lanes with demuxlet calls.
+
+Adoption criteria, fixed now:
+- Threshold for a cluster-level statistic: the midpoint between the most doublet-like value
+  among Kang and unmodified PBMC3k clusters and the least doublet-like value among planted
+  doublet clusters (>= 80 % injected, >= 20 cells), used only if the gap is at least 0.10 on
+  the statistic's scale. A per-cell candidate fixes its call rule before it is measured.
+- Kang (singlets): over the 21 runs, no cluster removed in at least 19 runs, and the new step
+  removes at most 1 % of cells in any run beyond what the current Scrublet rule removes.
+- Planted development case: the doublet cluster is removed in every run where it forms with
+  `doublet_removal` on.
+- GEO lanes: every removed cluster is at least 50 % demuxlet doublets (ambiguous excluded).
+- If no candidate meets all four, none is adopted and the attempt is reported as measured.
+
+Held-out evaluation, built only after a candidate and its threshold are fixed, run once and
+reported as measured. Two planted cases join the benchmark with the strict rule (caught if the
+verdict is not ROBUST, the claim held in at least one run, and every holding run had doublet
+removal off):
+- H1: 150 doublets of NK + CD14 Mono (seed 11); claim: a GNLY+ NKG7+ CD14+ LYZ+ population exists.
+- H2: 150 doublets of CD8 T + B (seed 12); claim: a CD8A+ CD8B+ MS4A1+ CD79A+ population exists.
+A held-out block that never forms a population in any run is reported as uninformative (the
+strict rule scores it as missed). Non-regression: the 18 existing cases keep their outcome; the
+planted-doublet development case may change and is reported separately as a development result.
+
 ## Milestone 4 status (2026-11-11): done
 
 - CI on push (`.github/workflows/ci.yml`): ruff check + format, mypy, pytest; offline tests only.
