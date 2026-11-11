@@ -44,10 +44,16 @@ errors caught, 2 controls OK, 1 more if the null composition case is read as "no
 five failing runs for cases 1, 2, 4 and 5 (and five of the six for case 5) has `min_genes=500`;
 all runs with 100 or 200 hold. Kang 2018 is shallow: the median cell has 519 detected genes,
 and a 500-gene filter keeps only 56 % of cells, unevenly by type (CD14+ monocytes 77 %, NK 34 %,
-CD8 T 23 %, megakaryocytes 10 %). Recluster's Jaccard rule counts cells removed by QC as
-absent from the population, so under that filter the matched monocyte set overlaps the
-reference by less than 50 % and the claim is scored as not holding, even though the
-pseudobulk test on the surviving cells still finds ISG15 up. Read as "the claim's survival
+CD8 T 23 %, megakaryocytes 10 %). Two things then go wrong at once. For monocytes, the baseline
+matches two clusters (control monocytes, marker AUROC 0.95; stimulated monocytes, 0.83,
+because IFN-β remodels their expression); under `min_genes=500` the stimulated cluster's AUROC
+falls to 0.79, just under the 0.80 cutoff, so only the control cluster is matched: 5,891 cells
+become 2,141, present in 8 of 16 samples, Jaccard 0.37. With no stimulated cells in the
+matched population the pseudobulk test has zero stim replicates and cannot run, so cases 1
+and 2 fail in exactly those runs; as labelled, all four genes hold with pseudobulk padj ≈ 0.
+For NK cells the mechanism is pure cell loss: their median is 457 to 468 genes, so the filter
+removes more than half, and the Jaccard rule, which counts QC-removed cells as absent, falls
+to 0.21 to 0.32. Read as "the claim's survival
 depends on QC" this is a true statement about the dataset; read against the pre-registered
 expectation (ROBUST) it is a miss, and it exposes two things worth fixing in v0.3:
 the fixed grid value 500 is not a defensible threshold for a dataset whose median is 519
@@ -67,22 +73,28 @@ tests (pseudobulk log2FC 4.9, padj 4e-99).
 labels as given there is no shift (logit t-test p = 0.67; Mann-Whitney p = 0.72; the pooled
 cell-level chi-square says p = 0.008, which is the pseudoreplication the benchmark is about).
 The 8 runs in which the claim held are the five `min_genes=500` runs plus `normalization=pearson`,
-`resolution=2.0` and one random combination. Under `min_genes=500` cell loss is
-type-dependent and slightly condition-dependent (52 % of ctrl vs 60 % of stim cells kept), and
-the monocyte share among retained cells becomes 37 % in ctrl vs 31 % in stim: a real
-compositional difference, created by the QC choice. Recluster reports it as FRAGILE with those
-runs listed, which is the right description of what happened, but the claim had no biological
-basis, so it is counted as a false alarm.
+`resolution=2.0` and one random combination. In the five `min_genes=500` runs only the
+control monocyte cluster is matched (note A), so the measured monocyte share is 0.1 % in stim
+versus 33 to 37 % in ctrl (p ≈ 1e-8): a shift manufactured entirely by matching failing in one
+condition. The `normalization=pearson` run is a partial version of the same thing (6 % vs
+25 %), and the remaining two runs are marginal (p = 0.034 and 0.042) with real proportions of
+17 to 19 % vs 25 to 27 %. The lesson is general: a treatment that changes marker expression
+can make a marker-defined population drop out of one condition and so fabricate a
+composition shift. A "population present in both groups" precondition would have refused
+to test those runs; it was not in place.
 
-**D. The planted doublet population was missed outright.** Scrublet flagged 0 of the 150
-injected cells at the baseline QC (false-positive rate on real cells 1.0 %), so no grid run
-removed them and the fake CD14+ LYZ+ MS4A1+ CD79A+ cluster held in all 23 runs. The
-mechanism is known: Scrublet scores a cell by whether its neighbours are simulated doublets,
-and 150 near-identical monocyte+B doublets are each other's neighbours. Their median
-Scrublet score is about twice the dataset median, which the report now shows as an
-informational number, but no verdict rule uses it. A heterotypic-marker test (a population
-co-expressing the defining markers of two established populations) is the obvious next check
-and is on the roadmap.
+**D. The planted doublet population was missed outright, for two independent reasons.**
+First, Scrublet flagged 0 of the 150 injected cells at the baseline QC (false-positive rate on
+real cells 1.0 %): it scores a cell by whether its neighbours are simulated doublets, and 150
+near-identical monocyte+B doublets are each other's neighbours (median score 0.10 vs 0.04,
+threshold 0.26). Second, and more damning for the claim evaluator, the population would have
+"existed" even with every doublet removed: the marker score is the mean of CD14, LYZ, MS4A1
+and CD79A, which an additive score cannot distinguish from "monocyte or B cell", so at
+baseline the matched population is 952 cells (433 CD14 monocytes, 328 B cells, 144 doublets,
+37 FCGR3A monocytes, 10 others) across two clusters, Jaccard 1.0 against itself. A
+co-expression score (minimum or geometric mean across markers) would have found no cluster
+once the doublets were gone; a heterotypic-marker check is the natural follow-up. Both are
+on the roadmap; neither was applied.
 
 ## How each case was built
 
@@ -163,6 +175,20 @@ Reference labels come from Recluster's baseline pipeline at resolution 1.0, name
 - Marker-based matching of CD4 T cells is weak at low resolution; label-mode matching would
   have been more stable but was not used for the true claims because the point was to find
   the population independently of the labels.
+- Multi-marker claims use an additive marker score, which cannot express co-expression
+  (note D).
+- Composition tests run even when matching found the population in only one condition
+  (note C).
+
+## Proposed changes, not applied (thresholds untouched in this milestone)
+
+- QC axes relative to the data (quantiles of genes per cell) instead of fixed counts.
+- Jaccard over QC-passing cells, with the QC-removed fraction reported separately.
+- Candidate matching seeded per condition, or by labels when they exist, so a treatment that
+  shifts marker expression does not drop one condition.
+- A co-expression marker score for multi-marker claims.
+- A Scrublet threshold fallback (expected-rate quantile) when the automatic threshold fails.
+- A "population present in both comparison groups" precondition for composition and DE tests.
 - Case 6 has no ground truth; its expectation is a judgment (same PBMCs, 6 h treatment), not a
   planted fact.
 - One run of each benchmark; Kang runs are deterministic (seeded), so repetition would
