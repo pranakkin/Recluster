@@ -72,6 +72,29 @@ genes: [ISG15]
 Grid axes and verdict thresholds are explicit and can be overridden with `--grid grid.yaml`
 and `--thresholds thresholds.yaml`; every report prints the values that were used.
 
+## Optional LLM layer
+
+Everything above works with hand-written YAML and no API key. Two conveniences use the
+Anthropic API when `ANTHROPIC_API_KEY` is set (in the environment or in a gitignored `.env`):
+
+```bash
+uv run recluster parse "ISG15 is up in CD14 monocytes after IFN-beta" --data data/kang_2018.h5ad --out claim.yaml
+```
+
+The model sees only the `.obs` column names and values and which gene symbols from your sentence
+exist in the data. Its proposal is validated and checked against the file, shown to you labelled as
+LLM output, and written only after you confirm (`--run` then runs it). No number anywhere in a
+report comes from the model.
+
+```bash
+uv run recluster run --data data/kang_2018.h5ad --claim claim.yaml --summarize
+```
+
+adds a paragraph headed "LLM summary of computed results" to the report, generated from the
+run's numbers. A guard discards any summary that contains a number not present in the computed
+results. `recluster summarize results/<claim>/provenance.json` does the same for a finished run.
+The default model is `claude-opus-5-5` (`--model` or `RECLUSTER_LLM_MODEL` to change it).
+
 ## Troubleshooting
 
 **`No module named recluster` on macOS after `uv sync`.** If the repository lives inside

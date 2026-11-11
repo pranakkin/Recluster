@@ -2,6 +2,23 @@
 
 All notable changes to Recluster. Dates are when the work landed in this repository.
 
+## [0.3.0] — 2026-11-11 — Milestone 3: optional LLM layer
+
+### Added
+- `recluster parse "<claim>" --data X.h5ad`: an LLM (Anthropic API, key from
+  `ANTHROPIC_API_KEY` or a gitignored `.env`) proposes a claim spec from plain English. The
+  model sees only the `.obs` columns with their values and which gene symbols from the claim
+  exist in `var_names`; its proposal is validated and checked against the AnnData, errors are
+  fed back once, and the YAML is shown for confirmation (labelled as LLM output) before it is
+  written or run (`--run`).
+- `--summarize` on `recluster run` / `audit`, and `recluster summarize provenance.json`: a
+  plain-English paragraph labelled "LLM summary of computed results", generated from a numeric
+  digest of the finished run. A guard rejects any summary containing a number that is not in
+  the digest, so the text can never introduce a figure the code did not compute.
+- Default model `claude-opus-5-5`, overridable with `--model` or `RECLUSTER_LLM_MODEL`.
+- Everything works without a key: the commands explain how to write the YAML by hand, and a
+  failed summary never touches the computed outputs.
+
 ## [0.2.0] — 2026-11-11 — Milestone 2: benchmark
 
 ### Added

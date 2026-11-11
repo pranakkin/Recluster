@@ -225,3 +225,30 @@ significant digits; a test asserts two runs produce identical results.
 - Probing the planted-doublet construction before the benchmark showed that 150 near-identical mono+B doublets evade Scrublet (they are each other's neighbours; median score 0.10 vs 0.04). Decided before the run: reports now show the matched population's median Scrublet score against all cells as an informational number. It does not enter the verdict. Thresholds unchanged.
 - PBMC3k reference labels for building planted errors use resolution 1.0 (0.5 merged CD8 T into NK).
 - Benchmark claims run in parallel worker processes (`--jobs`, default 4); the grid itself is still sequential within a claim.
+
+## Milestone 3 status (2026-11-11): done, live call unverified in this environment
+
+- `recluster/llm/`: `common.py` (client, `.env`, number extraction), `parse.py` (claim →
+  spec via structured output, data check, one feedback round), `summarize.py` (numeric digest →
+  paragraph with a numbers-only guard). CLI: `parse`, `summarize`, `--summarize`.
+- 13 tests with fake clients cover the data description, validation feedback, the number guard,
+  `.env` loading and the no-key paths. No API key was available in the build environment, so
+  the two live calls (`messages.parse` with the `ProposedClaim` schema, `messages.create` for
+  the summary) have not been exercised against the real API. First live run should confirm the
+  schema is accepted; if the structured-output endpoint rejects a field, the fallback is to
+  simplify `ProposedClaim` (all fields are already plain strings, lists and literals).
+
+### Milestone 3 decisions (2026-11-11)
+
+- The model never sees counts, only `.obs` column names and values (up to 20 per column) and
+  which gene symbols from the claim text exist in `var_names`. Genes it names that do not exist
+  are caught by `check_against` and fed back.
+- Structured output via `client.messages.parse(output_format=ProposedClaim)`: a flat schema of
+  strings and lists (empty string = not applicable) converted to `ClaimSpec`, rather than
+  exposing the nested `ClaimSpec` schema with unions to the API.
+- Summaries are generated from a text digest that contains every number the summary may use
+  (including derived counts such as runs failed). Numbers glued to letters (gene names) are not
+  counted. A violating summary is retried once with the offending numbers named, then discarded.
+- Default model `claude-opus-5-5` per the API reference available at build time; adaptive
+  thinking is the model default and is left on; no server-side fallback is configured (the
+  prompts are low-risk and the layer is optional).
