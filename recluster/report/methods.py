@@ -31,9 +31,17 @@ def methods_paragraph(
         f"one-at-a-time variations and {grid_counts['random']} seeded random combinations) "
         "re-derived clusters from these counts."
     )
+    mito = (
+        f"and had at most {_opts(ax.max_mito_pct, b.max_mito_pct)}% mitochondrial counts; "
+        if data.get("mito_prefix") is not None
+        else (
+            "(the input has no mitochondrial genes, so the mitochondrial-fraction axis "
+            "was not varied); "
+        )
+    )
     p.append(
         f"Cells were kept if they expressed at least {_opts(ax.min_genes, b.min_genes)} genes "
-        f"and had at most {_opts(ax.max_mito_pct, b.max_mito_pct)}% mitochondrial counts; "
+        f"{mito}"
         "genes detected in fewer than 3 cells were dropped. Doublets were scored with Scrublet "
         f"(scanpy implementation{', per sample' if has_sample else ''}, seed "
         f"{grid.scrublet_seed}) and removed when the doublet_removal axis was on "

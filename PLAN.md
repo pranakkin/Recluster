@@ -204,3 +204,24 @@ significant digits; a test asserts two runs produce identical results.
 - 2026-11-10: Composition verdict uses the Welch t-test on logit proportions by default (`Thresholds.composition_test`); Mann-Whitney is reported alongside and can be made decisive.
 - 2026-11-10: Reports use inline SVG and inline CSS only; `tests/test_engine.py` asserts no scripts, stylesheets or remote URLs.
 - 2026-11-10: macOS quirk: a `.venv` created inside `~/Desktop` gets the Finder "hidden" flag on every file, and CPython ≥ 3.11.16 / 3.12.x skips hidden `.pth` files, which breaks the editable install (`No module named recluster`). Fix: `chflags -R nohidden .venv`. Documented in README troubleshooting. Not a uv bug (a venv created elsewhere has no flag).
+
+## Milestone 2 status (2026-11-11): done, with honest misses
+
+- `recluster bench` reproduces everything in ~35 min (4 workers). Results in `bench/RESULTS.md`.
+- Score against pre-registered rules: 4/4 false claims correct (cell-level stats called 3 of
+  them in 81-100 % of runs), 3/4 planted errors caught, 2/2 controls OK, 5/5 true Kang claims
+  FRAGILE instead of ROBUST (all because `min_genes=500` removes 44 % of this shallow dataset),
+  1 planted error missed (block of identical doublets evades Scrublet), 1 false alarm (null
+  composition claim becomes FRAGILE under the same QC setting).
+- Candidate v0.3 fixes, not applied: data-relative QC axes; existence scored on kept cells;
+  Scrublet threshold from expected doublet rate; heterotypic-marker doublet check.
+
+### Milestone 2 decisions (2026-11-11)
+
+- Kang 2018 source: the pertpy-distributed object (`exampledata.scverse.org/pertpy/kang_2018.h5ad`, 38 MB, SHA-256 pinned in `recluster/bench/kang.py`), downloaded directly rather than installing pertpy. It has raw counts, `label`, `replicate`, `cell_type`. It has **no mitochondrial genes** (filtered upstream) and **no demuxlet multiplet column** (singlets only).
+- Because the object has no mito genes, `build_grid` now drops the `max_mito_pct` axis when the input has no mito genes (it would only duplicate runs). Kang therefore runs a 21-run grid (14 one-at-a-time + 6 random), PBMC3k 23 runs. The methods paragraph states this.
+- Doublet check: done against demuxlet on the two original 10x lanes from GEO (GSE96583 batch 2, six files, SHA-256 pinned in `recluster/bench/doublets.py`), not on the processed object. demuxlet only sees inter-individual doublets, so agreement is a lower bound.
+- scanpy's Scrublet failed with scipy 1.17 on large subsets (`csr_array has no attribute getnnz`, from its approximate-neighbour path). Scrublet is now run per sample by Recluster's own loop with `use_approx_neighbors=False`. Exact neighbours are deterministic and, on Kang, six times faster.
+- Probing the planted-doublet construction before the benchmark showed that 150 near-identical mono+B doublets evade Scrublet (they are each other's neighbours; median score 0.10 vs 0.04). Decided before the run: reports now show the matched population's median Scrublet score against all cells as an informational number. It does not enter the verdict. Thresholds unchanged.
+- PBMC3k reference labels for building planted errors use resolution 1.0 (0.5 merged CD8 T into NK).
+- Benchmark claims run in parallel worker processes (`--jobs`, default 4); the grid itself is still sequential within a claim.

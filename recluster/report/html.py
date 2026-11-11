@@ -105,6 +105,11 @@ def _comparison_html(result: ClaimResult) -> str:
             ("Jaccard vs reference", fmtnum(m.get("jaccard"))),
             ("Samples with ≥ min cells", m.get("n_samples_present")),
             ("Largest single-sample share", fmtnum(m.get("max_sample_share"))),
+            (
+                "Median Scrublet score, population vs all cells (informational)",
+                f"{fmtnum(m.get('doublet_score_median'))} vs "
+                f"{fmtnum(m.get('doublet_score_median_all'))}",
+            ),
         ]
         body = "".join(
             f"<tr><td>{escape(str(k))}</td><td class='num'>{escape(str(v))}</td></tr>"

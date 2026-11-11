@@ -108,7 +108,7 @@ def run_claim(
         )
 
     # ---------------------------------------------------------------- grid
-    runs_params = build_grid(grid, has_batch=batch is not None)
+    runs_params = build_grid(grid, has_batch=batch is not None, has_mito=mito_prefix is not None)
     grid_counts = describe_grid(runs_params)
     pipe = Pipeline(counts, grid, sample=sample, batch=batch, mito_prefix=mito_prefix)
     say(
@@ -147,6 +147,8 @@ def run_claim(
                 thr=thr,
             )
         ev = _evaluate(spec, m, rr, counts, lognorm, sample, condition, thr, grid)
+        match_info = m.to_dict()
+        match_info.update(_doublet_summary(rr.doublet_scores, m.cells))
         label = params.label(base_params)
         evaluations.append(
             RunEvaluation(
@@ -161,7 +163,7 @@ def run_claim(
                 n_clusters=rr.n_clusters,
                 runtime_s=round(time.perf_counter() - t0, 3),
                 warnings=rr.warnings + list(ev.get("warnings", [])),
-                match=m.to_dict(),
+                match=match_info,
                 holds=bool(ev["holds"]),
                 holds_cell_level=ev.get("holds_cell_level"),
                 replicate_ok=ev.get("replicate_ok"),
@@ -315,6 +317,17 @@ def _as_labelled(
         thr=thr,
         n_cpus=grid.n_cpus,
     )
+
+
+def _doublet_summary(scores: pd.Series, cells: pd.Index) -> dict[str, float | None]:
+    """Median Scrublet score of the matched population vs all kept cells (informational)."""
+    if scores.isna().all():
+        return {"doublet_score_median": None, "doublet_score_median_all": None}
+    pop = scores.loc[scores.index.intersection(cells)]
+    return {
+        "doublet_score_median": None if pop.empty else float(pop.median()),
+        "doublet_score_median_all": float(scores.median()),
+    }
 
 
 def _write_runs_csv(evaluations: list[RunEvaluation], path: Path) -> None:

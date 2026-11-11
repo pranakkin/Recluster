@@ -11,3 +11,4 @@ results/
 dist/
 build/
 .DS_Store
+bench/out/

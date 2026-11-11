@@ -15,6 +15,7 @@ from dataclasses import dataclass, field
 import numpy as np
 import pandas as pd
 import scanpy as sc
+import scipy.sparse as sp
 from anndata import AnnData
 
 from recluster.config import GridConfig, PipelineParams
@@ -48,6 +49,7 @@ class RunResult:
     n_removed_doublet: int
     n_clusters: int
     runtime_s: float
+    doublet_scores: pd.Series  # Scrublet score per kept cell (NaN if scoring failed)
     warnings: list[str] = field(default_factory=list)
 
     @property
@@ -96,7 +98,8 @@ class Pipeline:
             a.obs["pct_counts_mt"] = 0.0
 
     def qc_stage(self, params: PipelineParams) -> QCStage:
-        key = (int(params.min_genes), float(params.max_mito_pct))
+        mito_key = float(params.max_mito_pct) if self.mito_prefix is not None else float("inf")
+        key = (int(params.min_genes), mito_key)
         if key in self._qc_cache:
             return self._qc_cache[key]
         t0 = time.perf_counter()
@@ -121,32 +124,63 @@ class Pipeline:
         return stage
 
     def _score_doublets(self, a: AnnData, warns: list[str]) -> None:
-        """Scrublet per sample when possible; falls back to all cells together."""
-        batch_key = SAMPLE_COL if self.has_sample else None
-        if batch_key is not None:
-            sizes = a.obs[batch_key].value_counts()
+        """Scrublet per sample when every sample has >= 100 cells; otherwise all cells together.
+
+        Each sample is scored in its own call (doublets form within a 10x lane, not across
+        lanes). scanpy's ``batch_key`` loop is avoided on purpose: with scipy >= 1.17 it fails
+        on sparse arrays.
+        """
+        groups: np.ndarray | None = None
+        if self.has_sample:
+            sizes = a.obs[SAMPLE_COL].value_counts()
             if (sizes < 100).any():
                 warns.append(
                     f"{int((sizes < 100).sum())} sample(s) have <100 cells; "
                     "scrublet run on all cells together"
                 )
-                batch_key = None
+            else:
+                groups = a.obs[SAMPLE_COL].astype(str).to_numpy()
+        scores = np.full(a.n_obs, np.nan)
+        pred = np.zeros(a.n_obs, dtype=bool)
+        subsets = (
+            [np.arange(a.n_obs)]
+            if groups is None
+            else [np.flatnonzero(groups == g) for g in np.unique(groups)]
+        )
+        n_failed = n_no_threshold = 0
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            try:
-                sc.pp.scrublet(
-                    a, batch_key=batch_key, random_state=self.cfg.scrublet_seed, verbose=False
-                )
-            except Exception as exc:  # noqa: BLE001 - we want to keep going and report
-                warns.append(
-                    f"scrublet failed ({exc.__class__.__name__}: {exc}); no doublets called"
-                )
-                a.obs["doublet_score"] = np.nan
-                a.obs["predicted_doublet"] = False
-        pred = a.obs["predicted_doublet"]
-        if pred.isna().any():
-            warns.append("scrublet could not set a threshold for some cells; treated as singlets")
-        a.obs["predicted_doublet"] = pred.fillna(False).astype(bool)
+            for idx in subsets:
+                try:
+                    s, p, ok = self._scrublet_subset(a, idx)
+                except Exception as exc:  # noqa: BLE001 - keep going, report in provenance
+                    n_failed += 1
+                    warns.append(f"scrublet failed on one subset ({exc.__class__.__name__}: {exc})")
+                    continue
+                scores[idx], pred[idx] = s, p
+                n_no_threshold += 0 if ok else 1
+        if n_no_threshold:
+            warns.append(
+                f"scrublet could not set a doublet threshold for {n_no_threshold} subset(s); "
+                "those cells were treated as singlets"
+            )
+        a.obs["doublet_score"] = scores
+        a.obs["predicted_doublet"] = pred
+
+    def _scrublet_subset(self, a: AnnData, idx: np.ndarray) -> tuple[np.ndarray, np.ndarray, bool]:
+        sub = AnnData(
+            X=sp.csr_matrix(a.X[idx]), obs=a.obs.iloc[idx][[]].copy(), var=a.var[[]].copy()
+        )
+        sc.pp.scrublet(
+            sub,
+            random_state=self.cfg.scrublet_seed,
+            use_approx_neighbors=False,  # exact kNN: deterministic, and avoids a scanpy/scipy bug
+            verbose=False,
+        )
+        scores = sub.obs["doublet_score"].to_numpy(dtype=float)
+        pred_raw = sub.obs["predicted_doublet"]
+        ok = not pred_raw.isna().any()
+        return scores, pred_raw.fillna(False).astype(bool).to_numpy(), ok
 
     # ----------------------------------------------------------------- run
 
@@ -218,6 +252,7 @@ class Pipeline:
             n_removed_doublet=n_removed_doublet,
             n_clusters=int(clusters.nunique()),
             runtime_s=time.perf_counter() - t0,
+            doublet_scores=a.obs["doublet_score"].astype(float),
             warnings=warns,
         )
 

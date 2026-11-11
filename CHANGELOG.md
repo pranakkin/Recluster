@@ -2,6 +2,26 @@
 
 All notable changes to Recluster. Dates are when the work landed in this repository.
 
+## [0.2.0] — 2026-11-11 — Milestone 2: benchmark
+
+### Added
+- `recluster bench` and the `recluster.bench` package: Kang et al. 2018 real-data claims (five
+  true, one with no known effect, four false by construction via donor-level shuffles and a
+  within-condition donor split), four planted errors on PBMC3k with two controls, each with a
+  pre-registered pass/caught rule; results in `bench/results.json`, `bench/results_table.md`
+  and the narrative `bench/RESULTS.md`. Claims run in parallel worker processes (`--jobs`).
+- Doublet detection benchmark against demuxlet calls on the two original Kang 10x lanes from
+  GEO (GSE96583 batch 2), with per-lane precision, recall and AUROC.
+- Reports show the matched population's median Scrublet score next to the overall median
+  (informational; not part of the verdict).
+
+### Changed
+- Scrublet is run per sample by Recluster's own loop with exact neighbours; scanpy's
+  `batch_key` path fails with scipy 1.17 on large samples and was also slower.
+- The `max_mito_pct` axis is dropped from the grid when the input has no mitochondrial genes
+  (it would only duplicate runs); the methods paragraph says so.
+- `--max-runs` is accepted by `recluster bench` for quick reproductions.
+
 ## [0.1.0] — 2026-11-10 — Milestone 1: core engine
 
 ### Added

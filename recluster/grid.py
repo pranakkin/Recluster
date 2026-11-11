@@ -7,7 +7,7 @@ import numpy as np
 from recluster.config import GridConfig, PipelineParams
 
 
-def build_grid(cfg: GridConfig, *, has_batch: bool) -> list[PipelineParams]:
+def build_grid(cfg: GridConfig, *, has_batch: bool, has_mito: bool = True) -> list[PipelineParams]:
     """Return the ordered list of runs. The baseline is always first.
 
     One-at-a-time runs change exactly one axis from baseline, so a failure there is
@@ -19,6 +19,8 @@ def build_grid(cfg: GridConfig, *, has_batch: bool) -> list[PipelineParams]:
     axes: dict[str, list[object]] = dict(cfg.axes.model_dump())
     if not has_batch:
         axes.pop("batch_correction")
+    if not has_mito:  # no mitochondrial genes: the axis would only duplicate runs
+        axes.pop("max_mito_pct")
 
     runs: list[PipelineParams] = [base]
     for axis, values in axes.items():

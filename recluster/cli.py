@@ -110,6 +110,30 @@ def audit(
 
 
 @app.command()
+def bench(
+    data_dir: Annotated[
+        Path, typer.Option("--data-dir", help="where datasets are downloaded")
+    ] = Path("data"),
+    out: Annotated[Path, typer.Option("--out", help="where the benchmark reports go")] = Path(
+        "bench/out"
+    ),
+    part: Annotated[str, typer.Option("--part", help="kang | planted | all")] = "all",
+    jobs: Annotated[int, typer.Option("--jobs", help="claims run in parallel")] = 4,
+    max_runs: MaxRunsOpt = None,
+) -> None:
+    """Reproduce the benchmark: Kang 2018 real-data claims and planted errors on PBMC3k."""
+    from recluster.bench.runner import run_bench
+    from recluster.config import GridConfig
+
+    if part not in ("kang", "planted", "all"):
+        typer.secho("--part must be kang, planted or all", err=True, fg="red")
+        raise typer.Exit(2)
+    parts = ("kang", "planted") if part == "all" else (part,)
+    grid = GridConfig(max_runs=max_runs) if max_runs is not None else None
+    run_bench(data_dir=data_dir, out_dir=out, parts=parts, jobs=jobs, grid=grid)
+
+
+@app.command()
 def version() -> None:
     """Print the version."""
     typer.echo(__version__)
