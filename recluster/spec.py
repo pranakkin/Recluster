@@ -38,6 +38,10 @@ class Columns(BaseModel):
     sample: str | list[str] | None = None
     batch: str | None = None
     labels: str | None = None
+    collection_time: str | None = Field(
+        default=None,
+        description="column with the collection time of each sample (hours 0-24 or 'HH:MM')",
+    )
 
     @property
     def sample_key(self) -> list[str] | None:
@@ -54,6 +58,13 @@ class Target(BaseModel):
 
     markers: list[str] = Field(default_factory=list)
     negative_markers: list[str] = Field(default_factory=list)
+    marker_logic: Literal["any", "all"] = Field(
+        default="any",
+        description=(
+            "'any': markers are alternative evidence for one type (mean score); "
+            "'all': the population co-expresses every marker (minimum score)"
+        ),
+    )
     label_value: str | None = None
     min_cells: int = Field(default=20, ge=1)
 
@@ -95,6 +106,10 @@ class ClaimSpec(BaseModel):
     comparison: Comparison | None = None
     genes: list[str] = Field(default_factory=list)
     require: Literal["all", "any"] = "all"
+    tissue: str | None = Field(
+        default=None,
+        description="tissue name for the public day-night gene list (e.g. 'Whole Blood')",
+    )
 
     @model_validator(mode="after")
     def _consistent(self) -> ClaimSpec:
@@ -171,6 +186,17 @@ class ClaimSpec(BaseModel):
                 problems.append(
                     f"columns.sample={col!r} not in .obs (have: {_preview(obs.columns)})"
                 )
+        if cols.collection_time is not None:
+            if cols.collection_time not in obs.columns:
+                problems.append(f"columns.collection_time={cols.collection_time!r} not in .obs")
+            else:
+                from recluster.hours import parse_hours
+
+                bad = parse_hours(obs[cols.collection_time]).isna().mean()
+                if bad > 0:
+                    problems.append(
+                        f"{bad:.0%} of collection_time values could not be read as hours or HH:MM"
+                    )
 
         if (
             cols.labels is not None

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-11T01:00:58-0500",
-  "total_runtime_s": 2106.9,
+  "generated_at": "2026-11-11T05:48:57-0500",
+  "total_runtime_s": 1448.1,
   "grid": {
     "baseline": {
       "min_genes": 200,
@@ -65,7 +65,10 @@
     "mito_prefix": "auto",
     "scrublet_seed": 0,
     "max_runs": null,
-    "n_cpus": 4
+    "n_cpus": 4,
+    "qc_max_cell_loss": 0.25,
+    "scrublet_expected_rate_per_1000": 0.008,
+    "scrublet_fallback_trigger": 0.25
   },
   "thresholds": {
     "robust_min_survival": 0.8,
@@ -78,7 +81,17 @@
     "min_cells_per_sample": 5,
     "min_cluster_size": 10,
     "composition_test": "logit_t",
+    "candidate_rule": "either",
+    "marker_per_gene_auroc_min": 0.6,
+    "marker_majority_min": 0.5,
+    "jaccard_on_kept_cells": true,
+    "doublet_residual_ratio_max": 0.6,
+    "doublet_libsize_ratio_min": 1.5,
     "pseudobulk_min_total_counts": 10,
+    "time_min_gene_counts": 10,
+    "time_min_panel_genes": 5,
+    "time_shrink_flag": 0.5,
+    "time_imbalance_hours": 2.0,
     "pseudoreplication_cell_survival": 0.8,
     "pseudoreplication_replicate_survival": 0.5
   },
@@ -144,6 +157,42 @@
         "patient_101|stim": "B",
         "patient_1039|stim": "B"
       },
+      "planted_time": {
+        "groups": {
+          "patient_1016": "A",
+          "patient_107": "A",
+          "patient_1039": "A",
+          "patient_1256": "A",
+          "patient_1244": "B",
+          "patient_101": "B",
+          "patient_1015": "B",
+          "patient_1488": "B"
+        },
+        "collection_time_by_donor": {
+          "patient_1016": 8.0,
+          "patient_107": 9.0,
+          "patient_1039": 10.5,
+          "patient_1256": 12.0,
+          "patient_1244": 13.0,
+          "patient_101": 15.0,
+          "patient_1015": 16.5,
+          "patient_1488": 18.0
+        },
+        "genes": [
+          "ARNTL",
+          "CLOCK",
+          "CRY1",
+          "CRY2",
+          "DBP",
+          "NR1D1",
+          "NR1D2",
+          "PER1",
+          "PER2",
+          "PER3",
+          "SQSTM1",
+          "TEF"
+        ]
+      },
       "doublet_check": {
         "n_barcodes": 29065,
         "n_after_qc": 28871,
@@ -154,20 +203,21 @@
           "NaN": 313
         },
         "warnings": [
-          "no mitochondrial genes found; max_mito_pct has no effect"
+          "no mitochondrial genes found; max_mito_pct has no effect",
+          "scrublet's automatic threshold called almost no doublets in 1 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)"
         ],
         "note": "demuxlet detects only inter-individual doublets (~7/8 of doublets with 8 donors); 'ambs' barcodes are excluded from precision/recall",
         "per_lane": {
           "all": {
             "n_cells": 27406,
             "demuxlet_doublet_rate": 0.1152,
-            "scrublet_called_rate": 0.0462,
-            "tp": 843,
-            "fp": 422,
-            "fn": 2313,
-            "tn": 23828,
-            "precision": 0.6664,
-            "recall": 0.2671,
+            "scrublet_called_rate": 0.1029,
+            "tp": 1700,
+            "fp": 1119,
+            "fn": 1456,
+            "tn": 23131,
+            "precision": 0.6031,
+            "recall": 0.5387,
             "auroc_of_score": 0.8661,
             "ambiguous_excluded": 1153
           },
@@ -187,13 +237,13 @@
           "stim": {
             "n_cells": 13553,
             "demuxlet_doublet_rate": 0.1154,
-            "scrublet_called_rate": 0.0,
-            "tp": 0,
-            "fp": 0,
-            "fn": 1564,
-            "tn": 11989,
-            "precision": null,
-            "recall": 0.0,
+            "scrublet_called_rate": 0.1147,
+            "tp": 857,
+            "fp": 697,
+            "fn": 707,
+            "tn": 11292,
+            "precision": 0.5515,
+            "recall": 0.548,
             "auroc_of_score": 0.8557,
             "ambiguous_excluded": 480
           }
@@ -226,41 +276,21 @@
       "role": "true",
       "title": "ISG15 up in CD14+ monocytes after IFN-beta",
       "claim": "ISG15 up in CD14+ monocytes, stim vs ctrl (Kang 2018)",
+      "claim_type": "differential_expression",
       "how_built": "Unmodified Kang 2018 object; condition = label (stim vs ctrl), replicate = donor x condition (16 samples).",
       "expected": "ROBUST",
       "rule": "verdict is ROBUST",
-      "passes": false,
+      "passes": true,
       "extra": {},
-      "verdict": "FRAGILE",
-      "n_holds": 16,
+      "verdict": "ROBUST",
+      "n_holds": 21,
       "n_runs": 21,
-      "survival": 0.7619,
+      "survival": 1.0,
       "cell_level_survival": 1.0,
       "pseudoreplication_flag": false,
       "baseline_holds": true,
-      "top_breakers": [
-        {
-          "axis": "min_genes",
-          "value": 500,
-          "failed": 5,
-          "runs": 5
-        },
-        {
-          "axis": "n_hvgs",
-          "value": 1000,
-          "failed": 2,
-          "runs": 3
-        },
-        {
-          "axis": "n_pcs",
-          "value": 20,
-          "failed": 2,
-          "runs": 3
-        }
-      ],
-      "oat_flips": [
-        "min_genes=500"
-      ],
+      "top_breakers": [],
+      "oat_flips": [],
       "holding_runs_params": [
         {
           "min_genes": 200,
@@ -275,6 +305,17 @@
         },
         {
           "min_genes": 100,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
           "max_mito_pct": 10.0,
           "doublet_removal": true,
           "normalization": "log_total",
@@ -417,6 +458,17 @@
           "seed": 2
         },
         {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 1000,
+          "n_pcs": 20,
+          "resolution": 0.3,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
           "min_genes": 100,
           "max_mito_pct": 10.0,
           "doublet_removal": false,
@@ -426,6 +478,39 @@
           "resolution": 1.0,
           "batch_correction": false,
           "seed": 1
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 2.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 50,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 1000,
+          "n_pcs": 20,
+          "resolution": 2.0,
+          "batch_correction": false,
+          "seed": 0
         },
         {
           "min_genes": 100,
@@ -476,7 +561,7 @@
         },
         {
           "index": 2,
-          "label": "min_genes=500",
+          "label": "min_genes=500 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -488,7 +573,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -697,7 +782,7 @@
         },
         {
           "index": 15,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -709,7 +794,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -731,7 +816,7 @@
         },
         {
           "index": 17,
-          "label": "min_genes=500, normalization=pearson, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -743,12 +828,12 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
           "index": 18,
-          "label": "min_genes=500, n_pcs=50",
+          "label": "min_genes=500, n_pcs=50 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -760,12 +845,12 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
           "index": 19,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -777,7 +862,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -807,15 +892,37 @@
           {
             "gene": "ISG15",
             "cell_padj": 0.0,
-            "pb_padj": 2.1791884445000124e-54,
+            "pb_padj": 2.1626077152391408e-61,
             "cell_log2fc": 6.26225465326129,
-            "pb_log2fc": 7.195155815317496,
+            "pb_log2fc": 7.714178051618866,
             "agreement": "both"
           }
         ]
       },
+      "time_check": {
+        "mode": "B",
+        "label": "NO TIME CONFOUND DETECTED",
+        "effect_removed": false,
+        "effect_shrunk": false,
+        "reasons": [
+          "2 of 11 clock genes differ between groups gene by gene (CRY1, DBP), but not in the antiphase pattern a collection-time difference produces (index p = 0.381); consistent with a direct effect on clock genes, which this screen cannot distinguish from time"
+        ],
+        "balance_p": null,
+        "balance_difference_hours": null,
+        "balance_unit_column": null,
+        "imbalanced": null,
+        "imbalance_basis": null,
+        "index_p": 0.3808857808857809,
+        "panel_genes_usable": 11,
+        "panel_genes_different": 2,
+        "panel_unit_column": null,
+        "held_unadjusted": null,
+        "estimable": null,
+        "adjustment_per_gene": null
+      },
+      "label_before_time_check": "ROBUST",
       "report": "bench/out/kang/isg15-up-in-cd14-monocytes-stim-vs-ctrl-kang-2018/report.html",
-      "runtime_s": 777.0
+      "runtime_s": 491.8
     },
     {
       "key": "kang_isgs_mono",
@@ -823,41 +930,21 @@
       "role": "true",
       "title": "Four interferon-stimulated genes up in CD14+ monocytes",
       "claim": "ISG15, IFI6, IFIT3 and MX1 all up in CD14+ monocytes, stim vs ctrl (Kang 2018)",
+      "claim_type": "differential_expression",
       "how_built": "Unmodified Kang 2018 object; condition = label (stim vs ctrl), replicate = donor x condition (16 samples).",
       "expected": "ROBUST",
       "rule": "verdict is ROBUST",
-      "passes": false,
+      "passes": true,
       "extra": {},
-      "verdict": "FRAGILE",
-      "n_holds": 16,
+      "verdict": "ROBUST",
+      "n_holds": 21,
       "n_runs": 21,
-      "survival": 0.7619,
+      "survival": 1.0,
       "cell_level_survival": 1.0,
       "pseudoreplication_flag": false,
       "baseline_holds": true,
-      "top_breakers": [
-        {
-          "axis": "min_genes",
-          "value": 500,
-          "failed": 5,
-          "runs": 5
-        },
-        {
-          "axis": "n_hvgs",
-          "value": 1000,
-          "failed": 2,
-          "runs": 3
-        },
-        {
-          "axis": "n_pcs",
-          "value": 20,
-          "failed": 2,
-          "runs": 3
-        }
-      ],
-      "oat_flips": [
-        "min_genes=500"
-      ],
+      "top_breakers": [],
+      "oat_flips": [],
       "holding_runs_params": [
         {
           "min_genes": 200,
@@ -872,6 +959,17 @@
         },
         {
           "min_genes": 100,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
           "max_mito_pct": 10.0,
           "doublet_removal": true,
           "normalization": "log_total",
@@ -1014,6 +1112,17 @@
           "seed": 2
         },
         {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 1000,
+          "n_pcs": 20,
+          "resolution": 0.3,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
           "min_genes": 100,
           "max_mito_pct": 10.0,
           "doublet_removal": false,
@@ -1023,6 +1132,39 @@
           "resolution": 1.0,
           "batch_correction": false,
           "seed": 1
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 2.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 50,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 1000,
+          "n_pcs": 20,
+          "resolution": 2.0,
+          "batch_correction": false,
+          "seed": 0
         },
         {
           "min_genes": 100,
@@ -1073,7 +1215,7 @@
         },
         {
           "index": 2,
-          "label": "min_genes=500",
+          "label": "min_genes=500 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -1085,7 +1227,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -1294,7 +1436,7 @@
         },
         {
           "index": 15,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -1306,7 +1448,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -1328,7 +1470,7 @@
         },
         {
           "index": 17,
-          "label": "min_genes=500, normalization=pearson, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -1340,12 +1482,12 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
           "index": 18,
-          "label": "min_genes=500, n_pcs=50",
+          "label": "min_genes=500, n_pcs=50 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -1357,12 +1499,12 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
           "index": 19,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -1374,7 +1516,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -1404,39 +1546,61 @@
           {
             "gene": "ISG15",
             "cell_padj": 0.0,
-            "pb_padj": 4.358376889000025e-54,
+            "pb_padj": 4.3252154304782815e-61,
             "cell_log2fc": 6.26225465326129,
-            "pb_log2fc": 7.195155815317496,
+            "pb_log2fc": 7.714178051618866,
             "agreement": "both"
           },
           {
             "gene": "IFI6",
             "cell_padj": 0.0,
-            "pb_padj": 1.1282444987935187e-24,
+            "pb_padj": 3.8815499924987747e-26,
             "cell_log2fc": 3.357422597463804,
-            "pb_log2fc": 4.528192566379425,
+            "pb_log2fc": 5.001025695459105,
             "agreement": "both"
           },
           {
             "gene": "IFIT3",
             "cell_padj": 0.0,
-            "pb_padj": 6.161944307488744e-72,
+            "pb_padj": 2.0066579824404677e-90,
             "cell_log2fc": 4.846343647250849,
-            "pb_log2fc": 7.363632053892924,
+            "pb_log2fc": 7.730883094122833,
             "agreement": "both"
           },
           {
             "gene": "MX1",
             "cell_padj": 0.0,
-            "pb_padj": 6.359124189869981e-39,
+            "pb_padj": 3.4071067441880656e-38,
             "cell_log2fc": 3.5874433482980033,
-            "pb_log2fc": 5.728985158933688,
+            "pb_log2fc": 6.18877681054969,
             "agreement": "both"
           }
         ]
       },
+      "time_check": {
+        "mode": "B",
+        "label": "NO TIME CONFOUND DETECTED",
+        "effect_removed": false,
+        "effect_shrunk": false,
+        "reasons": [
+          "2 of 11 clock genes differ between groups gene by gene (CRY1, DBP), but not in the antiphase pattern a collection-time difference produces (index p = 0.381); consistent with a direct effect on clock genes, which this screen cannot distinguish from time"
+        ],
+        "balance_p": null,
+        "balance_difference_hours": null,
+        "balance_unit_column": null,
+        "imbalanced": null,
+        "imbalance_basis": null,
+        "index_p": 0.3808857808857809,
+        "panel_genes_usable": 11,
+        "panel_genes_different": 2,
+        "panel_unit_column": null,
+        "held_unadjusted": null,
+        "estimable": null,
+        "adjustment_per_gene": null
+      },
+      "label_before_time_check": "ROBUST",
       "report": "bench/out/kang/isg15-ifi6-ifit3-and-mx1-all-up-in-cd14-monocytes-stim-vs-ct/report.html",
-      "runtime_s": 809.2
+      "runtime_s": 499.0
     },
     {
       "key": "kang_isg15_cd4t",
@@ -1444,45 +1608,21 @@
       "role": "true",
       "title": "ISG15 up in CD4 T cells after IFN-beta",
       "claim": "ISG15 up in CD4 T cells, stim vs ctrl (Kang 2018)",
+      "claim_type": "differential_expression",
       "how_built": "Unmodified Kang 2018 object; condition = label (stim vs ctrl), replicate = donor x condition (16 samples).",
       "expected": "ROBUST",
       "rule": "verdict is ROBUST",
-      "passes": false,
+      "passes": true,
       "extra": {},
-      "verdict": "FRAGILE",
-      "n_holds": 15,
+      "verdict": "ROBUST",
+      "n_holds": 21,
       "n_runs": 21,
-      "survival": 0.7143,
-      "cell_level_survival": 0.8095,
+      "survival": 1.0,
+      "cell_level_survival": 1.0,
       "pseudoreplication_flag": false,
       "baseline_holds": true,
-      "top_breakers": [
-        {
-          "axis": "resolution",
-          "value": 0.5,
-          "failed": 1,
-          "runs": 1
-        },
-        {
-          "axis": "doublet_removal",
-          "value": false,
-          "failed": 2,
-          "runs": 3
-        },
-        {
-          "axis": "resolution",
-          "value": 0.3,
-          "failed": 1,
-          "runs": 2
-        }
-      ],
-      "oat_flips": [
-        "doublet_removal=False",
-        "normalization=pearson",
-        "n_hvgs=1000",
-        "resolution=0.3",
-        "resolution=0.5"
-      ],
+      "top_breakers": [],
+      "oat_flips": [],
       "holding_runs_params": [
         {
           "min_genes": 200,
@@ -1520,6 +1660,39 @@
         {
           "min_genes": 200,
           "max_mito_pct": 10.0,
+          "doublet_removal": false,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 1000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
           "doublet_removal": true,
           "normalization": "log_total",
           "n_hvgs": 3000,
@@ -1547,6 +1720,28 @@
           "n_hvgs": 2000,
           "n_pcs": 50,
           "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 0.3,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 0.5,
           "batch_correction": false,
           "seed": 0
         },
@@ -1604,6 +1799,17 @@
           "resolution": 0.3,
           "batch_correction": false,
           "seed": 0
+        },
+        {
+          "min_genes": 100,
+          "max_mito_pct": 10.0,
+          "doublet_removal": false,
+          "normalization": "pearson",
+          "n_hvgs": 2000,
+          "n_pcs": 50,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 1
         },
         {
           "min_genes": 500,
@@ -1687,7 +1893,7 @@
         },
         {
           "index": 2,
-          "label": "min_genes=500",
+          "label": "min_genes=500 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -1716,8 +1922,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
-          "holds_cell_level": false
+          "holds": true,
+          "holds_cell_level": true
         },
         {
           "index": 4,
@@ -1733,7 +1939,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -1750,8 +1956,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
-          "holds_cell_level": false
+          "holds": true,
+          "holds_cell_level": true
         },
         {
           "index": 6,
@@ -1818,8 +2024,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
-          "holds_cell_level": false
+          "holds": true,
+          "holds_cell_level": true
         },
         {
           "index": 10,
@@ -1835,8 +2041,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
-          "holds_cell_level": false
+          "holds": true,
+          "holds_cell_level": true
         },
         {
           "index": 11,
@@ -1908,7 +2114,7 @@
         },
         {
           "index": 15,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -1937,12 +2143,12 @@
             "batch_correction": false,
             "seed": 1
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
           "index": 17,
-          "label": "min_genes=500, normalization=pearson, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -1959,7 +2165,7 @@
         },
         {
           "index": 18,
-          "label": "min_genes=500, n_pcs=50",
+          "label": "min_genes=500, n_pcs=50 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -1976,7 +2182,7 @@
         },
         {
           "index": 19,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -2018,15 +2224,37 @@
           {
             "gene": "ISG15",
             "cell_padj": 0.0,
-            "pb_padj": 4.1793949970972075e-99,
+            "pb_padj": 1.5210953288512315e-100,
             "cell_log2fc": 4.32617863660602,
-            "pb_log2fc": 4.9161381004164975,
+            "pb_log2fc": 5.066179138811341,
             "agreement": "both"
           }
         ]
       },
+      "time_check": {
+        "mode": "B",
+        "label": "NO TIME CONFOUND DETECTED",
+        "effect_removed": false,
+        "effect_shrunk": false,
+        "reasons": [
+          "2 of 11 clock genes differ between groups gene by gene (CRY1, DBP), but not in the antiphase pattern a collection-time difference produces (index p = 0.381); consistent with a direct effect on clock genes, which this screen cannot distinguish from time"
+        ],
+        "balance_p": null,
+        "balance_difference_hours": null,
+        "balance_unit_column": null,
+        "imbalanced": null,
+        "imbalance_basis": null,
+        "index_p": 0.3808857808857809,
+        "panel_genes_usable": 11,
+        "panel_genes_different": 2,
+        "panel_unit_column": null,
+        "held_unadjusted": null,
+        "estimable": null,
+        "adjustment_per_gene": null
+      },
+      "label_before_time_check": "ROBUST",
       "report": "bench/out/kang/isg15-up-in-cd4-t-cells-stim-vs-ctrl-kang-2018/report.html",
-      "runtime_s": 718.9
+      "runtime_s": 509.9
     },
     {
       "key": "kang_mono_exists",
@@ -2034,41 +2262,21 @@
       "role": "true",
       "title": "CD14+ monocytes exist across donors",
       "claim": "CD14+ monocytes exist (Kang 2018)",
+      "claim_type": "population_exists",
       "how_built": "Unmodified Kang 2018 object; condition = label (stim vs ctrl), replicate = donor x condition (16 samples).",
       "expected": "ROBUST",
       "rule": "verdict is ROBUST",
-      "passes": false,
+      "passes": true,
       "extra": {},
-      "verdict": "FRAGILE",
-      "n_holds": 16,
+      "verdict": "ROBUST",
+      "n_holds": 21,
       "n_runs": 21,
-      "survival": 0.7619,
-      "cell_level_survival": 0.7619,
+      "survival": 1.0,
+      "cell_level_survival": 1.0,
       "pseudoreplication_flag": false,
       "baseline_holds": true,
-      "top_breakers": [
-        {
-          "axis": "min_genes",
-          "value": 500,
-          "failed": 5,
-          "runs": 5
-        },
-        {
-          "axis": "n_hvgs",
-          "value": 1000,
-          "failed": 2,
-          "runs": 3
-        },
-        {
-          "axis": "n_pcs",
-          "value": 20,
-          "failed": 2,
-          "runs": 3
-        }
-      ],
-      "oat_flips": [
-        "min_genes=500"
-      ],
+      "top_breakers": [],
+      "oat_flips": [],
       "holding_runs_params": [
         {
           "min_genes": 200,
@@ -2083,6 +2291,655 @@
         },
         {
           "min_genes": 100,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": false,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 1000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 3000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 20,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 50,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 0.3,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 0.5,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.5,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 2.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 1
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 2
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 1000,
+          "n_pcs": 20,
+          "resolution": 0.3,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 100,
+          "max_mito_pct": 10.0,
+          "doublet_removal": false,
+          "normalization": "pearson",
+          "n_hvgs": 2000,
+          "n_pcs": 50,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 1
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 2.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 50,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 1000,
+          "n_pcs": 20,
+          "resolution": 2.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 100,
+          "max_mito_pct": 10.0,
+          "doublet_removal": false,
+          "normalization": "log_total",
+          "n_hvgs": 3000,
+          "n_pcs": 30,
+          "resolution": 1.5,
+          "batch_correction": false,
+          "seed": 0
+        }
+      ],
+      "runs": [
+        {
+          "index": 0,
+          "label": "baseline",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 1,
+          "label": "min_genes=100",
+          "params": {
+            "min_genes": 100,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 2,
+          "label": "min_genes=500 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 3,
+          "label": "doublet_removal=False",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": false,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 4,
+          "label": "normalization=pearson",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "pearson",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 5,
+          "label": "n_hvgs=1000",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 1000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 6,
+          "label": "n_hvgs=3000",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 3000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 7,
+          "label": "n_pcs=20",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 20,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 8,
+          "label": "n_pcs=50",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 50,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 9,
+          "label": "resolution=0.3",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 0.3,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 10,
+          "label": "resolution=0.5",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 0.5,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 11,
+          "label": "resolution=1.5",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.5,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 12,
+          "label": "resolution=2.0",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 2.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 13,
+          "label": "seed=1",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 1
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 14,
+          "label": "seed=2",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 2
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 15,
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "pearson",
+            "n_hvgs": 1000,
+            "n_pcs": 20,
+            "resolution": 0.3,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 16,
+          "label": "min_genes=100, doublet_removal=False, normalization=pearson, n_pcs=50, seed=1",
+          "params": {
+            "min_genes": 100,
+            "max_mito_pct": 10.0,
+            "doublet_removal": false,
+            "normalization": "pearson",
+            "n_hvgs": 2000,
+            "n_pcs": 50,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 1
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 17,
+          "label": "min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "pearson",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 2.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 18,
+          "label": "min_genes=500, n_pcs=50 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 50,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 19,
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "pearson",
+            "n_hvgs": 1000,
+            "n_pcs": 20,
+            "resolution": 2.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 20,
+          "label": "min_genes=100, doublet_removal=False, n_hvgs=3000, resolution=1.5",
+          "params": {
+            "min_genes": 100,
+            "max_mito_pct": 10.0,
+            "doublet_removal": false,
+            "normalization": "log_total",
+            "n_hvgs": 3000,
+            "n_pcs": 30,
+            "resolution": 1.5,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        }
+      ],
+      "as_labelled": {},
+      "time_check": null,
+      "label_before_time_check": null,
+      "report": "bench/out/kang/cd14-monocytes-exist-kang-2018/report.html",
+      "runtime_s": 242.3
+    },
+    {
+      "key": "kang_nk_exists",
+      "part": "kang",
+      "role": "true",
+      "title": "NK cells exist across donors",
+      "claim": "NK cells exist (Kang 2018)",
+      "claim_type": "population_exists",
+      "how_built": "Unmodified Kang 2018 object; condition = label (stim vs ctrl), replicate = donor x condition (16 samples).",
+      "expected": "ROBUST",
+      "rule": "verdict is ROBUST",
+      "passes": true,
+      "extra": {},
+      "verdict": "ROBUST",
+      "n_holds": 20,
+      "n_runs": 21,
+      "survival": 0.9524,
+      "cell_level_survival": 0.9524,
+      "pseudoreplication_flag": false,
+      "baseline_holds": true,
+      "top_breakers": [
+        {
+          "axis": "resolution",
+          "value": 0.3,
+          "failed": 1,
+          "runs": 2
+        },
+        {
+          "axis": "n_hvgs",
+          "value": 1000,
+          "failed": 1,
+          "runs": 3
+        },
+        {
+          "axis": "n_pcs",
+          "value": 20,
+          "failed": 1,
+          "runs": 3
+        }
+      ],
+      "oat_flips": [],
+      "holding_runs_params": [
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 100,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
           "max_mito_pct": 10.0,
           "doublet_removal": true,
           "normalization": "log_total",
@@ -2236,538 +3093,10 @@
           "seed": 1
         },
         {
-          "min_genes": 100,
-          "max_mito_pct": 10.0,
-          "doublet_removal": false,
-          "normalization": "log_total",
-          "n_hvgs": 3000,
-          "n_pcs": 30,
-          "resolution": 1.5,
-          "batch_correction": false,
-          "seed": 0
-        }
-      ],
-      "runs": [
-        {
-          "index": 0,
-          "label": "baseline",
-          "params": {
-            "min_genes": 200,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 2000,
-            "n_pcs": 30,
-            "resolution": 1.0,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 1,
-          "label": "min_genes=100",
-          "params": {
-            "min_genes": 100,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 2000,
-            "n_pcs": 30,
-            "resolution": 1.0,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 2,
-          "label": "min_genes=500",
-          "params": {
-            "min_genes": 500,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 2000,
-            "n_pcs": 30,
-            "resolution": 1.0,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": false,
-          "holds_cell_level": false
-        },
-        {
-          "index": 3,
-          "label": "doublet_removal=False",
-          "params": {
-            "min_genes": 200,
-            "max_mito_pct": 10.0,
-            "doublet_removal": false,
-            "normalization": "log_total",
-            "n_hvgs": 2000,
-            "n_pcs": 30,
-            "resolution": 1.0,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 4,
-          "label": "normalization=pearson",
-          "params": {
-            "min_genes": 200,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "pearson",
-            "n_hvgs": 2000,
-            "n_pcs": 30,
-            "resolution": 1.0,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 5,
-          "label": "n_hvgs=1000",
-          "params": {
-            "min_genes": 200,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 1000,
-            "n_pcs": 30,
-            "resolution": 1.0,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 6,
-          "label": "n_hvgs=3000",
-          "params": {
-            "min_genes": 200,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 3000,
-            "n_pcs": 30,
-            "resolution": 1.0,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 7,
-          "label": "n_pcs=20",
-          "params": {
-            "min_genes": 200,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 2000,
-            "n_pcs": 20,
-            "resolution": 1.0,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 8,
-          "label": "n_pcs=50",
-          "params": {
-            "min_genes": 200,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 2000,
-            "n_pcs": 50,
-            "resolution": 1.0,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 9,
-          "label": "resolution=0.3",
-          "params": {
-            "min_genes": 200,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 2000,
-            "n_pcs": 30,
-            "resolution": 0.3,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 10,
-          "label": "resolution=0.5",
-          "params": {
-            "min_genes": 200,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 2000,
-            "n_pcs": 30,
-            "resolution": 0.5,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 11,
-          "label": "resolution=1.5",
-          "params": {
-            "min_genes": 200,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 2000,
-            "n_pcs": 30,
-            "resolution": 1.5,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 12,
-          "label": "resolution=2.0",
-          "params": {
-            "min_genes": 200,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 2000,
-            "n_pcs": 30,
-            "resolution": 2.0,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 13,
-          "label": "seed=1",
-          "params": {
-            "min_genes": 200,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 2000,
-            "n_pcs": 30,
-            "resolution": 1.0,
-            "batch_correction": false,
-            "seed": 1
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 14,
-          "label": "seed=2",
-          "params": {
-            "min_genes": 200,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 2000,
-            "n_pcs": 30,
-            "resolution": 1.0,
-            "batch_correction": false,
-            "seed": 2
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 15,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3",
-          "params": {
-            "min_genes": 500,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "pearson",
-            "n_hvgs": 1000,
-            "n_pcs": 20,
-            "resolution": 0.3,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": false,
-          "holds_cell_level": false
-        },
-        {
-          "index": 16,
-          "label": "min_genes=100, doublet_removal=False, normalization=pearson, n_pcs=50, seed=1",
-          "params": {
-            "min_genes": 100,
-            "max_mito_pct": 10.0,
-            "doublet_removal": false,
-            "normalization": "pearson",
-            "n_hvgs": 2000,
-            "n_pcs": 50,
-            "resolution": 1.0,
-            "batch_correction": false,
-            "seed": 1
-          },
-          "holds": true,
-          "holds_cell_level": true
-        },
-        {
-          "index": 17,
-          "label": "min_genes=500, normalization=pearson, resolution=2.0",
-          "params": {
-            "min_genes": 500,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "pearson",
-            "n_hvgs": 2000,
-            "n_pcs": 30,
-            "resolution": 2.0,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": false,
-          "holds_cell_level": false
-        },
-        {
-          "index": 18,
-          "label": "min_genes=500, n_pcs=50",
-          "params": {
-            "min_genes": 500,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "log_total",
-            "n_hvgs": 2000,
-            "n_pcs": 50,
-            "resolution": 1.0,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": false,
-          "holds_cell_level": false
-        },
-        {
-          "index": 19,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0",
-          "params": {
-            "min_genes": 500,
-            "max_mito_pct": 10.0,
-            "doublet_removal": true,
-            "normalization": "pearson",
-            "n_hvgs": 1000,
-            "n_pcs": 20,
-            "resolution": 2.0,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": false,
-          "holds_cell_level": false
-        },
-        {
-          "index": 20,
-          "label": "min_genes=100, doublet_removal=False, n_hvgs=3000, resolution=1.5",
-          "params": {
-            "min_genes": 100,
-            "max_mito_pct": 10.0,
-            "doublet_removal": false,
-            "normalization": "log_total",
-            "n_hvgs": 3000,
-            "n_pcs": 30,
-            "resolution": 1.5,
-            "batch_correction": false,
-            "seed": 0
-          },
-          "holds": true,
-          "holds_cell_level": true
-        }
-      ],
-      "as_labelled": {},
-      "report": "bench/out/kang/cd14-monocytes-exist-kang-2018/report.html",
-      "runtime_s": 357.0
-    },
-    {
-      "key": "kang_nk_exists",
-      "part": "kang",
-      "role": "true",
-      "title": "NK cells exist across donors",
-      "claim": "NK cells exist (Kang 2018)",
-      "how_built": "Unmodified Kang 2018 object; condition = label (stim vs ctrl), replicate = donor x condition (16 samples).",
-      "expected": "ROBUST",
-      "rule": "verdict is ROBUST",
-      "passes": false,
-      "extra": {},
-      "verdict": "FRAGILE",
-      "n_holds": 15,
-      "n_runs": 21,
-      "survival": 0.7143,
-      "cell_level_survival": 0.7143,
-      "pseudoreplication_flag": false,
-      "baseline_holds": true,
-      "top_breakers": [
-        {
-          "axis": "min_genes",
-          "value": 500,
-          "failed": 5,
-          "runs": 5
-        },
-        {
-          "axis": "resolution",
-          "value": 0.3,
-          "failed": 2,
-          "runs": 2
-        },
-        {
-          "axis": "n_hvgs",
-          "value": 1000,
-          "failed": 2,
-          "runs": 3
-        }
-      ],
-      "oat_flips": [
-        "min_genes=500",
-        "resolution=0.3"
-      ],
-      "holding_runs_params": [
-        {
-          "min_genes": 200,
-          "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "log_total",
-          "n_hvgs": 2000,
-          "n_pcs": 30,
-          "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 100,
-          "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "log_total",
-          "n_hvgs": 2000,
-          "n_pcs": 30,
-          "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 200,
-          "max_mito_pct": 10.0,
-          "doublet_removal": false,
-          "normalization": "log_total",
-          "n_hvgs": 2000,
-          "n_pcs": 30,
-          "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 200,
+          "min_genes": 500,
           "max_mito_pct": 10.0,
           "doublet_removal": true,
           "normalization": "pearson",
-          "n_hvgs": 2000,
-          "n_pcs": 30,
-          "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 200,
-          "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "log_total",
-          "n_hvgs": 1000,
-          "n_pcs": 30,
-          "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 200,
-          "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "log_total",
-          "n_hvgs": 3000,
-          "n_pcs": 30,
-          "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 200,
-          "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "log_total",
-          "n_hvgs": 2000,
-          "n_pcs": 20,
-          "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 200,
-          "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "log_total",
-          "n_hvgs": 2000,
-          "n_pcs": 50,
-          "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 200,
-          "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "log_total",
-          "n_hvgs": 2000,
-          "n_pcs": 30,
-          "resolution": 0.5,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 200,
-          "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "log_total",
-          "n_hvgs": 2000,
-          "n_pcs": 30,
-          "resolution": 1.5,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 200,
-          "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "log_total",
           "n_hvgs": 2000,
           "n_pcs": 30,
           "resolution": 2.0,
@@ -2775,37 +3104,26 @@
           "seed": 0
         },
         {
-          "min_genes": 200,
+          "min_genes": 500,
           "max_mito_pct": 10.0,
           "doublet_removal": true,
           "normalization": "log_total",
-          "n_hvgs": 2000,
-          "n_pcs": 30,
-          "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 1
-        },
-        {
-          "min_genes": 200,
-          "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "log_total",
-          "n_hvgs": 2000,
-          "n_pcs": 30,
-          "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 2
-        },
-        {
-          "min_genes": 100,
-          "max_mito_pct": 10.0,
-          "doublet_removal": false,
-          "normalization": "pearson",
           "n_hvgs": 2000,
           "n_pcs": 50,
           "resolution": 1.0,
           "batch_correction": false,
-          "seed": 1
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 1000,
+          "n_pcs": 20,
+          "resolution": 2.0,
+          "batch_correction": false,
+          "seed": 0
         },
         {
           "min_genes": 100,
@@ -2856,7 +3174,7 @@
         },
         {
           "index": 2,
-          "label": "min_genes=500",
+          "label": "min_genes=500 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -2868,8 +3186,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
-          "holds_cell_level": false
+          "holds": true,
+          "holds_cell_level": true
         },
         {
           "index": 3,
@@ -2987,8 +3305,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
-          "holds_cell_level": false
+          "holds": true,
+          "holds_cell_level": true
         },
         {
           "index": 10,
@@ -3077,7 +3395,7 @@
         },
         {
           "index": 15,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -3111,7 +3429,7 @@
         },
         {
           "index": 17,
-          "label": "min_genes=500, normalization=pearson, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -3123,12 +3441,12 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
-          "holds_cell_level": false
+          "holds": true,
+          "holds_cell_level": true
         },
         {
           "index": 18,
-          "label": "min_genes=500, n_pcs=50",
+          "label": "min_genes=500, n_pcs=50 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -3140,12 +3458,12 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
-          "holds_cell_level": false
+          "holds": true,
+          "holds_cell_level": true
         },
         {
           "index": 19,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -3157,8 +3475,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
-          "holds_cell_level": false
+          "holds": true,
+          "holds_cell_level": true
         },
         {
           "index": 20,
@@ -3179,8 +3497,10 @@
         }
       ],
       "as_labelled": {},
+      "time_check": null,
+      "label_before_time_check": null,
       "report": "bench/out/kang/nk-cells-exist-kang-2018/report.html",
-      "runtime_s": 387.1
+      "runtime_s": 271.2
     },
     {
       "key": "kang_mono_composition",
@@ -3188,30 +3508,31 @@
       "role": "null",
       "title": "CD14+ monocyte proportion differs stim vs ctrl",
       "claim": "CD14+ monocytes differ in abundance, stim vs ctrl (Kang 2018)",
+      "claim_type": "composition_shift",
       "how_built": "Unmodified Kang 2018 object; condition = label (stim vs ctrl), replicate = donor x condition (16 samples). No compositional change is planted or known: the same donors' PBMCs were split and one half stimulated for 6 h.",
       "expected": "NOT SUPPORTED (no known shift; reported as measured)",
       "rule": "verdict is NOT SUPPORTED",
       "passes": false,
       "extra": {},
       "verdict": "FRAGILE",
-      "n_holds": 8,
+      "n_holds": 11,
       "n_runs": 21,
-      "survival": 0.381,
-      "cell_level_survival": 1.0,
-      "pseudoreplication_flag": true,
+      "survival": 0.5238,
+      "cell_level_survival": 0.7143,
+      "pseudoreplication_flag": false,
       "baseline_holds": false,
       "top_breakers": [
         {
-          "axis": "seed",
-          "value": 1,
-          "failed": 2,
-          "runs": 2
+          "axis": "normalization",
+          "value": "pearson",
+          "failed": 5,
+          "runs": 5
         },
         {
-          "axis": "resolution",
-          "value": 0.5,
-          "failed": 1,
-          "runs": 1
+          "axis": "min_genes",
+          "value": 100,
+          "failed": 3,
+          "runs": 3
         },
         {
           "axis": "seed",
@@ -3221,9 +3542,16 @@
         }
       ],
       "oat_flips": [
-        "min_genes=500",
-        "normalization=pearson",
-        "resolution=2.0"
+        "min_genes=500 [min_genes capped to 441]",
+        "doublet_removal=False",
+        "n_hvgs=1000",
+        "n_hvgs=3000",
+        "n_pcs=20",
+        "resolution=0.3",
+        "resolution=0.5",
+        "resolution=1.5",
+        "resolution=2.0",
+        "seed=1"
       ],
       "holding_runs_params": [
         {
@@ -3240,11 +3568,77 @@
         {
           "min_genes": 200,
           "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "pearson",
+          "doublet_removal": false,
+          "normalization": "log_total",
           "n_hvgs": 2000,
           "n_pcs": 30,
           "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 1000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 3000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 20,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 0.3,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 0.5,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.5,
           "batch_correction": false,
           "seed": 0
         },
@@ -3260,26 +3654,15 @@
           "seed": 0
         },
         {
-          "min_genes": 500,
+          "min_genes": 200,
           "max_mito_pct": 10.0,
           "doublet_removal": true,
-          "normalization": "pearson",
-          "n_hvgs": 1000,
-          "n_pcs": 20,
-          "resolution": 0.3,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 500,
-          "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "pearson",
+          "normalization": "log_total",
           "n_hvgs": 2000,
           "n_pcs": 30,
-          "resolution": 2.0,
+          "resolution": 1.0,
           "batch_correction": false,
-          "seed": 0
+          "seed": 1
         },
         {
           "min_genes": 500,
@@ -3289,28 +3672,6 @@
           "n_hvgs": 2000,
           "n_pcs": 50,
           "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 500,
-          "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "pearson",
-          "n_hvgs": 1000,
-          "n_pcs": 20,
-          "resolution": 2.0,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 100,
-          "max_mito_pct": 10.0,
-          "doublet_removal": false,
-          "normalization": "log_total",
-          "n_hvgs": 3000,
-          "n_pcs": 30,
-          "resolution": 1.5,
           "batch_correction": false,
           "seed": 0
         }
@@ -3331,7 +3692,7 @@
             "seed": 0
           },
           "holds": false,
-          "holds_cell_level": true
+          "holds_cell_level": false
         },
         {
           "index": 1,
@@ -3352,7 +3713,7 @@
         },
         {
           "index": 2,
-          "label": "min_genes=500",
+          "label": "min_genes=500 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -3381,7 +3742,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -3398,8 +3759,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 5,
@@ -3415,7 +3776,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -3432,7 +3793,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -3449,7 +3810,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -3467,7 +3828,7 @@
             "seed": 0
           },
           "holds": false,
-          "holds_cell_level": true
+          "holds_cell_level": false
         },
         {
           "index": 9,
@@ -3483,7 +3844,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -3500,7 +3861,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -3517,7 +3878,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -3551,7 +3912,7 @@
             "batch_correction": false,
             "seed": 1
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -3573,7 +3934,7 @@
         },
         {
           "index": 15,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -3585,7 +3946,7 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
+          "holds": false,
           "holds_cell_level": true
         },
         {
@@ -3603,11 +3964,11 @@
             "seed": 1
           },
           "holds": false,
-          "holds_cell_level": true
+          "holds_cell_level": false
         },
         {
           "index": 17,
-          "label": "min_genes=500, normalization=pearson, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -3619,12 +3980,12 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
+          "holds": false,
           "holds_cell_level": true
         },
         {
           "index": 18,
-          "label": "min_genes=500, n_pcs=50",
+          "label": "min_genes=500, n_pcs=50 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -3641,7 +4002,7 @@
         },
         {
           "index": 19,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -3653,8 +4014,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 20,
@@ -3670,21 +4031,43 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         }
       ],
       "as_labelled": {
-        "holds": false,
+        "holds": true,
         "holds_cell_level": true,
-        "p_logit_ttest": 0.6698691847452055,
-        "p_mannwhitney": 0.7209013209013208,
+        "p_logit_ttest": 0.03452796266148075,
+        "p_mannwhitney": 0.015625,
         "p_cell_level_chi2": 0.007865168463904787,
         "n_samples_a": 8,
         "n_samples_b": 8
       },
+      "time_check": {
+        "mode": "B",
+        "label": "NO TIME CONFOUND DETECTED",
+        "effect_removed": false,
+        "effect_shrunk": false,
+        "reasons": [
+          "2 of 11 clock genes differ between groups gene by gene (CRY1, DBP), but not in the antiphase pattern a collection-time difference produces (index p = 0.381); consistent with a direct effect on clock genes, which this screen cannot distinguish from time"
+        ],
+        "balance_p": null,
+        "balance_difference_hours": null,
+        "balance_unit_column": null,
+        "imbalanced": null,
+        "imbalance_basis": null,
+        "index_p": 0.3808857808857809,
+        "panel_genes_usable": 11,
+        "panel_genes_different": 2,
+        "panel_unit_column": null,
+        "held_unadjusted": null,
+        "estimable": null,
+        "adjustment_per_gene": null
+      },
+      "label_before_time_check": "FRAGILE",
       "report": "bench/out/kang/cd14-monocytes-differ-in-abundance-stim-vs-ctrl-kang-2018/report.html",
-      "runtime_s": 539.3
+      "runtime_s": 205.0
     },
     {
       "key": "fake_split_isg15",
@@ -3692,6 +4075,7 @@
       "role": "false",
       "title": "False: ISG15 differs between fake donor groups (control cells only)",
       "claim": "FALSE: ISG15 differs in CD14+ monocytes between fake groups A and B (Kang ctrl only)",
+      "claim_type": "differential_expression",
       "how_built": "Control cells only. Donors shuffled with seed 0 and split into fake groups A = patient_1016, patient_1039, patient_107, patient_1256 and B = patient_101, patient_1015, patient_1244, patient_1488; replicate = donor. No treatment differs between A and B, so any claimed difference is false by construction.",
       "expected": "NOT SUPPORTED",
       "rule": "verdict is NOT SUPPORTED",
@@ -3701,41 +4085,43 @@
       "n_holds": 1,
       "n_runs": 21,
       "survival": 0.0476,
-      "cell_level_survival": 0.8095,
+      "cell_level_survival": 1.0,
       "pseudoreplication_flag": true,
       "baseline_holds": false,
       "top_breakers": [
         {
-          "axis": "n_hvgs",
-          "value": 2000,
-          "failed": 16,
-          "runs": 16
+          "axis": "seed",
+          "value": 0,
+          "failed": 18,
+          "runs": 18
+        },
+        {
+          "axis": "min_genes",
+          "value": 500,
+          "failed": 5,
+          "runs": 5
         },
         {
           "axis": "normalization",
-          "value": "log_total",
-          "failed": 16,
-          "runs": 16
-        },
-        {
-          "axis": "n_pcs",
-          "value": 30,
-          "failed": 15,
-          "runs": 15
+          "value": "pearson",
+          "failed": 5,
+          "runs": 5
         }
       ],
-      "oat_flips": [],
+      "oat_flips": [
+        "seed=1"
+      ],
       "holding_runs_params": [
         {
-          "min_genes": 500,
+          "min_genes": 200,
           "max_mito_pct": 10.0,
           "doublet_removal": true,
-          "normalization": "pearson",
-          "n_hvgs": 1000,
-          "n_pcs": 20,
-          "resolution": 2.0,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
           "batch_correction": false,
-          "seed": 0
+          "seed": 1
         }
       ],
       "runs": [
@@ -3775,7 +4161,7 @@
         },
         {
           "index": 2,
-          "label": "min_genes=500",
+          "label": "min_genes=500 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -3788,7 +4174,7 @@
             "seed": 0
           },
           "holds": false,
-          "holds_cell_level": false
+          "holds_cell_level": true
         },
         {
           "index": 3,
@@ -3974,7 +4360,7 @@
             "batch_correction": false,
             "seed": 1
           },
-          "holds": false,
+          "holds": true,
           "holds_cell_level": true
         },
         {
@@ -3996,7 +4382,7 @@
         },
         {
           "index": 15,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4030,7 +4416,7 @@
         },
         {
           "index": 17,
-          "label": "min_genes=500, normalization=pearson, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4043,11 +4429,11 @@
             "seed": 0
           },
           "holds": false,
-          "holds_cell_level": false
+          "holds_cell_level": true
         },
         {
           "index": 18,
-          "label": "min_genes=500, n_pcs=50",
+          "label": "min_genes=500, n_pcs=50 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4060,11 +4446,11 @@
             "seed": 0
           },
           "holds": false,
-          "holds_cell_level": false
+          "holds_cell_level": true
         },
         {
           "index": 19,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4076,8 +4462,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": false
+          "holds": false,
+          "holds_cell_level": true
         },
         {
           "index": 20,
@@ -4113,8 +4499,30 @@
           }
         ]
       },
+      "time_check": {
+        "mode": "B",
+        "label": "NO TIME CONFOUND DETECTED",
+        "effect_removed": false,
+        "effect_shrunk": false,
+        "reasons": [
+          "no clock-gene difference between groups at the sample level"
+        ],
+        "balance_p": null,
+        "balance_difference_hours": null,
+        "balance_unit_column": null,
+        "imbalanced": null,
+        "imbalance_basis": null,
+        "index_p": 0.6285714285714286,
+        "panel_genes_usable": 10,
+        "panel_genes_different": 0,
+        "panel_unit_column": null,
+        "held_unadjusted": null,
+        "estimable": null,
+        "adjustment_per_gene": null
+      },
+      "label_before_time_check": "NOT SUPPORTED",
       "report": "bench/out/kang/false-isg15-differs-in-cd14-monocytes-between-fake-groups-a-/report.html",
-      "runtime_s": 685.7
+      "runtime_s": 291.7
     },
     {
       "key": "fake_split_lyz",
@@ -4122,6 +4530,7 @@
       "role": "false",
       "title": "False: LYZ differs between fake donor groups (control cells only)",
       "claim": "FALSE: LYZ differs in CD14+ monocytes between fake groups A and B (Kang ctrl only)",
+      "claim_type": "differential_expression",
       "how_built": "Control cells only. Donors shuffled with seed 0 and split into fake groups A = patient_1016, patient_1039, patient_107, patient_1256 and B = patient_101, patient_1015, patient_1244, patient_1488; replicate = donor. No treatment differs between A and B, so any claimed difference is false by construction.",
       "expected": "NOT SUPPORTED",
       "rule": "verdict is NOT SUPPORTED",
@@ -4193,7 +4602,7 @@
         },
         {
           "index": 2,
-          "label": "min_genes=500",
+          "label": "min_genes=500 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4414,7 +4823,7 @@
         },
         {
           "index": 15,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4448,7 +4857,7 @@
         },
         {
           "index": 17,
-          "label": "min_genes=500, normalization=pearson, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4465,7 +4874,7 @@
         },
         {
           "index": 18,
-          "label": "min_genes=500, n_pcs=50",
+          "label": "min_genes=500, n_pcs=50 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4482,7 +4891,7 @@
         },
         {
           "index": 19,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4531,8 +4940,30 @@
           }
         ]
       },
+      "time_check": {
+        "mode": "B",
+        "label": "NO TIME CONFOUND DETECTED",
+        "effect_removed": false,
+        "effect_shrunk": false,
+        "reasons": [
+          "no clock-gene difference between groups at the sample level"
+        ],
+        "balance_p": null,
+        "balance_difference_hours": null,
+        "balance_unit_column": null,
+        "imbalanced": null,
+        "imbalance_basis": null,
+        "index_p": 0.6285714285714286,
+        "panel_genes_usable": 10,
+        "panel_genes_different": 0,
+        "panel_unit_column": null,
+        "held_unadjusted": null,
+        "estimable": null,
+        "adjustment_per_gene": null
+      },
+      "label_before_time_check": "NOT SUPPORTED",
       "report": "bench/out/kang/false-lyz-differs-in-cd14-monocytes-between-fake-groups-a-an/report.html",
-      "runtime_s": 708.1
+      "runtime_s": 284.3
     },
     {
       "key": "fake_split_composition",
@@ -4540,6 +4971,7 @@
       "role": "false",
       "title": "False: CD14+ monocyte proportion differs between fake donor groups",
       "claim": "FALSE: CD14+ monocyte proportion differs between fake groups A and B (Kang ctrl only)",
+      "claim_type": "composition_shift",
       "how_built": "Control cells only. Donors shuffled with seed 0 and split into fake groups A = patient_1016, patient_1039, patient_107, patient_1256 and B = patient_101, patient_1015, patient_1244, patient_1488; replicate = donor. No treatment differs between A and B, so any claimed difference is false by construction.",
       "expected": "NOT SUPPORTED",
       "rule": "verdict is NOT SUPPORTED",
@@ -4549,7 +4981,7 @@
       "n_holds": 0,
       "n_runs": 21,
       "survival": 0.0,
-      "cell_level_survival": 0.1905,
+      "cell_level_survival": 0.2381,
       "pseudoreplication_flag": false,
       "baseline_holds": false,
       "top_breakers": [
@@ -4590,7 +5022,7 @@
             "seed": 0
           },
           "holds": false,
-          "holds_cell_level": true
+          "holds_cell_level": false
         },
         {
           "index": 1,
@@ -4611,7 +5043,7 @@
         },
         {
           "index": 2,
-          "label": "min_genes=500",
+          "label": "min_genes=500 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4624,7 +5056,7 @@
             "seed": 0
           },
           "holds": false,
-          "holds_cell_level": false
+          "holds_cell_level": true
         },
         {
           "index": 3,
@@ -4658,7 +5090,7 @@
             "seed": 0
           },
           "holds": false,
-          "holds_cell_level": true
+          "holds_cell_level": false
         },
         {
           "index": 5,
@@ -4777,7 +5209,7 @@
             "seed": 0
           },
           "holds": false,
-          "holds_cell_level": true
+          "holds_cell_level": false
         },
         {
           "index": 12,
@@ -4811,7 +5243,7 @@
             "seed": 1
           },
           "holds": false,
-          "holds_cell_level": true
+          "holds_cell_level": false
         },
         {
           "index": 14,
@@ -4832,7 +5264,7 @@
         },
         {
           "index": 15,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4845,7 +5277,7 @@
             "seed": 0
           },
           "holds": false,
-          "holds_cell_level": false
+          "holds_cell_level": true
         },
         {
           "index": 16,
@@ -4866,7 +5298,7 @@
         },
         {
           "index": 17,
-          "label": "min_genes=500, normalization=pearson, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4879,11 +5311,11 @@
             "seed": 0
           },
           "holds": false,
-          "holds_cell_level": false
+          "holds_cell_level": true
         },
         {
           "index": 18,
-          "label": "min_genes=500, n_pcs=50",
+          "label": "min_genes=500, n_pcs=50 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4896,11 +5328,11 @@
             "seed": 0
           },
           "holds": false,
-          "holds_cell_level": false
+          "holds_cell_level": true
         },
         {
           "index": 19,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 434]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -4913,7 +5345,7 @@
             "seed": 0
           },
           "holds": false,
-          "holds_cell_level": false
+          "holds_cell_level": true
         },
         {
           "index": 20,
@@ -4942,8 +5374,30 @@
         "n_samples_a": 4,
         "n_samples_b": 4
       },
+      "time_check": {
+        "mode": "B",
+        "label": "NO TIME CONFOUND DETECTED",
+        "effect_removed": false,
+        "effect_shrunk": false,
+        "reasons": [
+          "no clock-gene difference between groups at the sample level"
+        ],
+        "balance_p": null,
+        "balance_difference_hours": null,
+        "balance_unit_column": null,
+        "imbalanced": null,
+        "imbalance_basis": null,
+        "index_p": 0.6285714285714286,
+        "panel_genes_usable": 10,
+        "panel_genes_different": 0,
+        "panel_unit_column": null,
+        "held_unadjusted": null,
+        "estimable": null,
+        "adjustment_per_gene": null
+      },
+      "label_before_time_check": "NOT SUPPORTED",
       "report": "bench/out/kang/false-cd14-monocyte-proportion-differs-between-fake-groups-a/report.html",
-      "runtime_s": 312.1
+      "runtime_s": 117.4
     },
     {
       "key": "fake_shuffle_isg15",
@@ -4951,6 +5405,7 @@
       "role": "false",
       "title": "False: ISG15 up in fake group A (condition shuffled at donor level)",
       "claim": "FALSE: ISG15 up in CD14+ monocytes in fake group A vs B (Kang, donor-level shuffle)",
+      "claim_type": "differential_expression",
       "how_built": "All cells. Each of the 16 donor x condition samples was assigned a fake group so that A and B each contain 4 ctrl and 4 stim samples (seed 0). Condition is balanced across the fake groups, so claimed differences between A and B are false by construction.",
       "expected": "NOT SUPPORTED",
       "rule": "verdict is NOT SUPPORTED",
@@ -5022,7 +5477,7 @@
         },
         {
           "index": 2,
-          "label": "min_genes=500",
+          "label": "min_genes=500 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -5243,7 +5698,7 @@
         },
         {
           "index": 15,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -5277,7 +5732,7 @@
         },
         {
           "index": 17,
-          "label": "min_genes=500, normalization=pearson, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -5294,7 +5749,7 @@
         },
         {
           "index": 18,
-          "label": "min_genes=500, n_pcs=50",
+          "label": "min_genes=500, n_pcs=50 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -5311,7 +5766,7 @@
         },
         {
           "index": 19,
-          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0",
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -5360,25 +5815,46 @@
           }
         ]
       },
+      "time_check": {
+        "mode": "B",
+        "label": "NO TIME CONFOUND DETECTED",
+        "effect_removed": false,
+        "effect_shrunk": false,
+        "reasons": [
+          "no clock-gene difference between groups at the sample level"
+        ],
+        "balance_p": null,
+        "balance_difference_hours": null,
+        "balance_unit_column": null,
+        "imbalanced": null,
+        "imbalance_basis": null,
+        "index_p": 0.6268842268842268,
+        "panel_genes_usable": 11,
+        "panel_genes_different": 0,
+        "panel_unit_column": null,
+        "held_unadjusted": null,
+        "estimable": null,
+        "adjustment_per_gene": null
+      },
+      "label_before_time_check": "NOT SUPPORTED",
       "report": "bench/out/kang/false-isg15-up-in-cd14-monocytes-in-fake-group-a-vs-b-kang-d/report.html",
-      "runtime_s": 654.9
+      "runtime_s": 417.9
     },
     {
-      "key": "doublets",
-      "part": "planted",
-      "role": "planted",
-      "title": "Injected synthetic doublets forming a fake population",
-      "claim": "Planted doublets: a CD14+ LYZ+ MS4A1+ CD79A+ population exists (PBMC3k)",
-      "how_built": "150 synthetic doublets made by summing the raw counts of a random CD14 monocyte and a random B cell (seed 0) were appended to PBMC3k. The claim asserts a population carrying both monocyte and B-cell markers.",
-      "expected": "not ROBUST; holds only when doublet removal is off",
-      "rule": "verdict is not ROBUST AND every run in which the claim held had doublet_removal=off",
-      "passes": false,
-      "extra": {
-        "n_injected": 150
-      },
-      "verdict": "ROBUST",
-      "n_holds": 23,
-      "n_runs": 23,
+      "key": "time_mode_b",
+      "part": "kang",
+      "role": "planted_time",
+      "title": "Planted time-of-day effect claimed as a condition effect (times unknown)",
+      "claim": "PLANTED TIME, times unknown: SQSTM1 up in CD14+ monocytes, afternoon group B vs morning group A (Kang)",
+      "claim_type": "differential_expression",
+      "how_built": "All cells. The 8 donors were split (seed 0) into fake groups A = patient_1016, patient_1039, patient_107, patient_1256 (collected 08:00-12:00) and B = patient_101, patient_1015, patient_1244, patient_1488 (13:00-18:00), 4 vs 4. Each donor is one sample: its ctrl and stim cells are pooled (they were processed together and share one collection time), so the analysis has 8 units, not 16. Counts of 13 core clock genes and of SQSTM1 (higher by night in 6 of 6 GTEx tissues, Wucher 2023) were multiplied per donor by 2^(a cos(2\u03c0(t - peak)/24)) with the documented peaks and half-amplitudes (0.2-0.7 log2) and Poisson-resampled, so the only difference between A and B is a time-of-day effect. IFN-beta status is balanced within every donor and cannot confound the fake groups.",
+      "expected": "label before the time check ROBUST; time check POSSIBLE TIME CONFOUND; final verdict not ROBUST",
+      "rule": "label_before_time_check is ROBUST (the replicate-aware analysis called the planted effect) AND the time-check label is POSSIBLE TIME CONFOUND AND the final verdict is not ROBUST",
+      "passes": true,
+      "extra": {},
+      "verdict": "FRAGILE",
+      "n_holds": 21,
+      "n_runs": 21,
       "survival": 1.0,
       "cell_level_survival": 1.0,
       "pseudoreplication_flag": false,
@@ -5411,28 +5887,6 @@
         {
           "min_genes": 500,
           "max_mito_pct": 10.0,
-          "doublet_removal": true,
-          "normalization": "log_total",
-          "n_hvgs": 2000,
-          "n_pcs": 30,
-          "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 200,
-          "max_mito_pct": 5.0,
-          "doublet_removal": true,
-          "normalization": "log_total",
-          "n_hvgs": 2000,
-          "n_pcs": 30,
-          "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 0
-        },
-        {
-          "min_genes": 200,
-          "max_mito_pct": 20.0,
           "doublet_removal": true,
           "normalization": "log_total",
           "n_hvgs": 2000,
@@ -5577,7 +6031,7 @@
           "min_genes": 500,
           "max_mito_pct": 10.0,
           "doublet_removal": true,
-          "normalization": "log_total",
+          "normalization": "pearson",
           "n_hvgs": 1000,
           "n_pcs": 20,
           "resolution": 0.3,
@@ -5586,58 +6040,58 @@
         },
         {
           "min_genes": 100,
-          "max_mito_pct": 20.0,
+          "max_mito_pct": 10.0,
+          "doublet_removal": false,
+          "normalization": "pearson",
+          "n_hvgs": 2000,
+          "n_pcs": 50,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 1
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
           "doublet_removal": true,
           "normalization": "pearson",
           "n_hvgs": 2000,
           "n_pcs": 30,
           "resolution": 2.0,
           "batch_correction": false,
-          "seed": 2
+          "seed": 0
         },
         {
-          "min_genes": 200,
+          "min_genes": 500,
           "max_mito_pct": 10.0,
           "doublet_removal": true,
-          "normalization": "pearson",
-          "n_hvgs": 1000,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
           "n_pcs": 50,
-          "resolution": 1.5,
+          "resolution": 1.0,
           "batch_correction": false,
           "seed": 0
         },
         {
-          "min_genes": 200,
-          "max_mito_pct": 20.0,
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
           "doublet_removal": true,
-          "normalization": "log_total",
-          "n_hvgs": 3000,
-          "n_pcs": 50,
+          "normalization": "pearson",
+          "n_hvgs": 1000,
+          "n_pcs": 20,
           "resolution": 2.0,
           "batch_correction": false,
           "seed": 0
         },
         {
           "min_genes": 100,
-          "max_mito_pct": 20.0,
-          "doublet_removal": false,
-          "normalization": "pearson",
-          "n_hvgs": 1000,
-          "n_pcs": 20,
-          "resolution": 1.0,
-          "batch_correction": false,
-          "seed": 1
-        },
-        {
-          "min_genes": 200,
-          "max_mito_pct": 5.0,
+          "max_mito_pct": 10.0,
           "doublet_removal": false,
           "normalization": "log_total",
-          "n_hvgs": 1000,
-          "n_pcs": 50,
-          "resolution": 1.0,
+          "n_hvgs": 3000,
+          "n_pcs": 30,
+          "resolution": 1.5,
           "batch_correction": false,
-          "seed": 1
+          "seed": 0
         }
       ],
       "runs": [
@@ -5677,7 +6131,7 @@
         },
         {
           "index": 2,
-          "label": "min_genes=500",
+          "label": "min_genes=500 [min_genes capped to 441]",
           "params": {
             "min_genes": 500,
             "max_mito_pct": 10.0,
@@ -5694,6 +6148,1153 @@
         },
         {
           "index": 3,
+          "label": "doublet_removal=False",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": false,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 4,
+          "label": "normalization=pearson",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "pearson",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 5,
+          "label": "n_hvgs=1000",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 1000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 6,
+          "label": "n_hvgs=3000",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 3000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 7,
+          "label": "n_pcs=20",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 20,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 8,
+          "label": "n_pcs=50",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 50,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 9,
+          "label": "resolution=0.3",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 0.3,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 10,
+          "label": "resolution=0.5",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 0.5,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 11,
+          "label": "resolution=1.5",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.5,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 12,
+          "label": "resolution=2.0",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 2.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 13,
+          "label": "seed=1",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 1
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 14,
+          "label": "seed=2",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 2
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 15,
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "pearson",
+            "n_hvgs": 1000,
+            "n_pcs": 20,
+            "resolution": 0.3,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 16,
+          "label": "min_genes=100, doublet_removal=False, normalization=pearson, n_pcs=50, seed=1",
+          "params": {
+            "min_genes": 100,
+            "max_mito_pct": 10.0,
+            "doublet_removal": false,
+            "normalization": "pearson",
+            "n_hvgs": 2000,
+            "n_pcs": 50,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 1
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 17,
+          "label": "min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "pearson",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 2.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 18,
+          "label": "min_genes=500, n_pcs=50 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 50,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 19,
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "pearson",
+            "n_hvgs": 1000,
+            "n_pcs": 20,
+            "resolution": 2.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 20,
+          "label": "min_genes=100, doublet_removal=False, n_hvgs=3000, resolution=1.5",
+          "params": {
+            "min_genes": 100,
+            "max_mito_pct": 10.0,
+            "doublet_removal": false,
+            "normalization": "log_total",
+            "n_hvgs": 3000,
+            "n_pcs": 30,
+            "resolution": 1.5,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        }
+      ],
+      "as_labelled": {
+        "holds": true,
+        "holds_cell_level": true,
+        "n_samples_a": 4,
+        "n_samples_b": 4,
+        "per_gene": [
+          {
+            "gene": "SQSTM1",
+            "cell_padj": 2.8328953766143528e-11,
+            "pb_padj": 0.007016676299061203,
+            "cell_log2fc": 0.5774211663487024,
+            "pb_log2fc": 0.6590138180849481,
+            "agreement": "both"
+          }
+        ]
+      },
+      "time_check": {
+        "mode": "B",
+        "label": "POSSIBLE TIME CONFOUND",
+        "effect_removed": false,
+        "effect_shrunk": false,
+        "reasons": [
+          "clock-gene state differs between groups, so a time-of-collection or circadian confound is possible (clock-state index differs, permutation p = 0.0286; 0 of 11 panel genes differ gene by gene)"
+        ],
+        "balance_p": null,
+        "balance_difference_hours": null,
+        "balance_unit_column": null,
+        "imbalanced": null,
+        "imbalance_basis": null,
+        "index_p": 0.02857142857142857,
+        "panel_genes_usable": 11,
+        "panel_genes_different": 0,
+        "panel_unit_column": null,
+        "held_unadjusted": null,
+        "estimable": null,
+        "adjustment_per_gene": null
+      },
+      "label_before_time_check": "ROBUST",
+      "report": "bench/out/kang/planted-time-times-unknown-sqstm1-up-in-cd14-monocytes-after/report.html",
+      "runtime_s": 379.4
+    },
+    {
+      "key": "time_mode_a",
+      "part": "kang",
+      "role": "planted_time",
+      "title": "Same planted effect with collection times given",
+      "claim": "PLANTED TIME, times given: SQSTM1 up in CD14+ monocytes, afternoon group B vs morning group A (Kang)",
+      "claim_type": "differential_expression",
+      "how_built": "All cells. The 8 donors were split (seed 0) into fake groups A = patient_1016, patient_1039, patient_107, patient_1256 (collected 08:00-12:00) and B = patient_101, patient_1015, patient_1244, patient_1488 (13:00-18:00), 4 vs 4. Each donor is one sample: its ctrl and stim cells are pooled (they were processed together and share one collection time), so the analysis has 8 units, not 16. Counts of 13 core clock genes and of SQSTM1 (higher by night in 6 of 6 GTEx tissues, Wucher 2023) were multiplied per donor by 2^(a cos(2\u03c0(t - peak)/24)) with the documented peaks and half-amplitudes (0.2-0.7 log2) and Poisson-resampled, so the only difference between A and B is a time-of-day effect. IFN-beta status is balanced within every donor and cannot confound the fake groups. Collection times are passed to Recluster.",
+      "expected": "claim held before adjustment; effect removed by the time adjustment; verdict NOT SUPPORTED",
+      "rule": "the time check's adjustment has held_unadjusted True (the claim held before adjusting for collection time) AND effect_removed True (it is not significant after adjusting) AND the verdict is NOT SUPPORTED",
+      "passes": true,
+      "extra": {},
+      "verdict": "NOT SUPPORTED",
+      "n_holds": 21,
+      "n_runs": 21,
+      "survival": 1.0,
+      "cell_level_survival": 1.0,
+      "pseudoreplication_flag": false,
+      "baseline_holds": true,
+      "top_breakers": [],
+      "oat_flips": [],
+      "holding_runs_params": [
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 100,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": false,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 1000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 3000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 20,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 50,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 0.3,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 0.5,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.5,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 2.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 1
+        },
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 2
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 1000,
+          "n_pcs": 20,
+          "resolution": 0.3,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 100,
+          "max_mito_pct": 10.0,
+          "doublet_removal": false,
+          "normalization": "pearson",
+          "n_hvgs": 2000,
+          "n_pcs": 50,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 1
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 2.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "log_total",
+          "n_hvgs": 2000,
+          "n_pcs": 50,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 500,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 1000,
+          "n_pcs": 20,
+          "resolution": 2.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 100,
+          "max_mito_pct": 10.0,
+          "doublet_removal": false,
+          "normalization": "log_total",
+          "n_hvgs": 3000,
+          "n_pcs": 30,
+          "resolution": 1.5,
+          "batch_correction": false,
+          "seed": 0
+        }
+      ],
+      "runs": [
+        {
+          "index": 0,
+          "label": "baseline",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 1,
+          "label": "min_genes=100",
+          "params": {
+            "min_genes": 100,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 2,
+          "label": "min_genes=500 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 3,
+          "label": "doublet_removal=False",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": false,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 4,
+          "label": "normalization=pearson",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "pearson",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 5,
+          "label": "n_hvgs=1000",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 1000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 6,
+          "label": "n_hvgs=3000",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 3000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 7,
+          "label": "n_pcs=20",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 20,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 8,
+          "label": "n_pcs=50",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 50,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 9,
+          "label": "resolution=0.3",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 0.3,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 10,
+          "label": "resolution=0.5",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 0.5,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 11,
+          "label": "resolution=1.5",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.5,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 12,
+          "label": "resolution=2.0",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 2.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 13,
+          "label": "seed=1",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 1
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 14,
+          "label": "seed=2",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 2
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 15,
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "pearson",
+            "n_hvgs": 1000,
+            "n_pcs": 20,
+            "resolution": 0.3,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 16,
+          "label": "min_genes=100, doublet_removal=False, normalization=pearson, n_pcs=50, seed=1",
+          "params": {
+            "min_genes": 100,
+            "max_mito_pct": 10.0,
+            "doublet_removal": false,
+            "normalization": "pearson",
+            "n_hvgs": 2000,
+            "n_pcs": 50,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 1
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 17,
+          "label": "min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "pearson",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 2.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 18,
+          "label": "min_genes=500, n_pcs=50 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 50,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 19,
+          "label": "min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 441]",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "pearson",
+            "n_hvgs": 1000,
+            "n_pcs": 20,
+            "resolution": 2.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        },
+        {
+          "index": 20,
+          "label": "min_genes=100, doublet_removal=False, n_hvgs=3000, resolution=1.5",
+          "params": {
+            "min_genes": 100,
+            "max_mito_pct": 10.0,
+            "doublet_removal": false,
+            "normalization": "log_total",
+            "n_hvgs": 3000,
+            "n_pcs": 30,
+            "resolution": 1.5,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": true,
+          "holds_cell_level": true
+        }
+      ],
+      "as_labelled": {
+        "holds": true,
+        "holds_cell_level": true,
+        "n_samples_a": 4,
+        "n_samples_b": 4,
+        "per_gene": [
+          {
+            "gene": "SQSTM1",
+            "cell_padj": 2.8328953766143528e-11,
+            "pb_padj": 0.007016676299061203,
+            "cell_log2fc": 0.5774211663487024,
+            "pb_log2fc": 0.6590138180849481,
+            "agreement": "both"
+          }
+        ]
+      },
+      "time_check": {
+        "mode": "A",
+        "label": "POSSIBLE TIME CONFOUND",
+        "effect_removed": true,
+        "effect_shrunk": false,
+        "reasons": [
+          "circular mean collection times differ by +5.8 h (A minus B); permutation p = 0.0286",
+          "collection time is associated with the groups (permutation test and mean difference of at least 2 h)",
+          "after adjusting for cos/sin of collection time the effect is no longer significant and its direction flips: the claimed effect is explained by time"
+        ],
+        "balance_p": 0.02857142857142857,
+        "balance_difference_hours": 5.77,
+        "balance_unit_column": null,
+        "imbalanced": true,
+        "imbalance_basis": "permutation test and mean difference of at least 2 h",
+        "index_p": null,
+        "panel_genes_usable": 0,
+        "panel_genes_different": null,
+        "panel_unit_column": null,
+        "held_unadjusted": true,
+        "estimable": true,
+        "adjustment_per_gene": [
+          {
+            "gene": "SQSTM1",
+            "lfc_unadjusted": 0.6584198506973873,
+            "padj_unadjusted": 0.007344860254032064,
+            "lfc_adjusted": -0.5485008480746708,
+            "padj_adjusted": 0.16955334424085156,
+            "shrinkage": 0.1669436340752669,
+            "direction_flipped": true,
+            "survives": false,
+            "held_unadjusted": true
+          }
+        ]
+      },
+      "label_before_time_check": "ROBUST",
+      "report": "bench/out/kang/planted-time-times-given-sqstm1-up-in-cd14-monocytes-afterno/report.html",
+      "runtime_s": 323.6
+    },
+    {
+      "key": "doublets",
+      "part": "planted",
+      "role": "planted",
+      "title": "Injected synthetic doublets forming a fake population",
+      "claim": "Planted doublets: a CD14+ LYZ+ MS4A1+ CD79A+ population exists (PBMC3k)",
+      "claim_type": "population_exists",
+      "how_built": "150 synthetic doublets made by summing the raw counts of a random CD14 monocyte and a random B cell (seed 0) were appended to PBMC3k. The claim asserts a population carrying both monocyte and B-cell markers.",
+      "expected": "not ROBUST; holds only when doublet removal is off",
+      "rule": "verdict is not ROBUST AND the claim held in at least one run AND every run in which it held had doublet_removal=off",
+      "passes": false,
+      "extra": {
+        "n_injected": 150
+      },
+      "verdict": "NOT SUPPORTED",
+      "n_holds": 3,
+      "n_runs": 23,
+      "survival": 0.1304,
+      "cell_level_survival": 0.1304,
+      "pseudoreplication_flag": false,
+      "baseline_holds": false,
+      "top_breakers": [
+        {
+          "axis": "normalization",
+          "value": "log_total",
+          "failed": 19,
+          "runs": 19
+        },
+        {
+          "axis": "n_pcs",
+          "value": 50,
+          "failed": 4,
+          "runs": 4
+        },
+        {
+          "axis": "max_mito_pct",
+          "value": 5.0,
+          "failed": 2,
+          "runs": 2
+        }
+      ],
+      "oat_flips": [
+        "normalization=pearson"
+      ],
+      "holding_runs_params": [
+        {
+          "min_genes": 200,
+          "max_mito_pct": 10.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 0
+        },
+        {
+          "min_genes": 100,
+          "max_mito_pct": 20.0,
+          "doublet_removal": true,
+          "normalization": "pearson",
+          "n_hvgs": 2000,
+          "n_pcs": 30,
+          "resolution": 2.0,
+          "batch_correction": false,
+          "seed": 2
+        },
+        {
+          "min_genes": 100,
+          "max_mito_pct": 20.0,
+          "doublet_removal": false,
+          "normalization": "pearson",
+          "n_hvgs": 1000,
+          "n_pcs": 20,
+          "resolution": 1.0,
+          "batch_correction": false,
+          "seed": 1
+        }
+      ],
+      "runs": [
+        {
+          "index": 0,
+          "label": "baseline",
+          "params": {
+            "min_genes": 200,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": false,
+          "holds_cell_level": false
+        },
+        {
+          "index": 1,
+          "label": "min_genes=100",
+          "params": {
+            "min_genes": 100,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": false,
+          "holds_cell_level": false
+        },
+        {
+          "index": 2,
+          "label": "min_genes=500",
+          "params": {
+            "min_genes": 500,
+            "max_mito_pct": 10.0,
+            "doublet_removal": true,
+            "normalization": "log_total",
+            "n_hvgs": 2000,
+            "n_pcs": 30,
+            "resolution": 1.0,
+            "batch_correction": false,
+            "seed": 0
+          },
+          "holds": false,
+          "holds_cell_level": false
+        },
+        {
+          "index": 3,
           "label": "max_mito_pct=5.0",
           "params": {
             "min_genes": 200,
@@ -5706,8 +7307,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 4,
@@ -5723,8 +7324,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 5,
@@ -5740,8 +7341,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 6,
@@ -5774,8 +7375,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 8,
@@ -5791,8 +7392,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 9,
@@ -5808,8 +7409,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 10,
@@ -5825,8 +7426,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 11,
@@ -5842,8 +7443,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 12,
@@ -5859,8 +7460,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 13,
@@ -5876,8 +7477,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 14,
@@ -5893,8 +7494,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 15,
@@ -5910,8 +7511,8 @@
             "batch_correction": false,
             "seed": 1
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 16,
@@ -5927,8 +7528,8 @@
             "batch_correction": false,
             "seed": 2
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 17,
@@ -5944,8 +7545,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 18,
@@ -5978,8 +7579,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 20,
@@ -5995,8 +7596,8 @@
             "batch_correction": false,
             "seed": 0
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         },
         {
           "index": 21,
@@ -6029,13 +7630,15 @@
             "batch_correction": false,
             "seed": 1
           },
-          "holds": true,
-          "holds_cell_level": true
+          "holds": false,
+          "holds_cell_level": false
         }
       ],
       "as_labelled": null,
+      "time_check": null,
+      "label_before_time_check": null,
       "report": "bench/out/planted/planted-doublets-a-cd14-lyz-ms4a1-cd79a-population-exists-pb/report.html",
-      "runtime_s": 104.8
+      "runtime_s": 41.0
     },
     {
       "key": "overclustering",
@@ -6043,6 +7646,7 @@
       "role": "planted",
       "title": "Over-clustering that creates a spurious population",
       "claim": "Over-clustering: cluster_14 is a distinct population (PBMC3k)",
+      "claim_type": "population_exists",
       "how_built": "PBMC3k clustered with the baseline pipeline at Leiden resolution 3.0 gives 30 clusters. Reference population 'CD4 T' is split into 16 shards; the largest shard (cluster_14, 116 cells, 99% 'CD4 T') is claimed as a population. Control: cluster_2 (328 cells), which coincides with reference population 'B' (Jaccard 0.99).",
       "expected": "not ROBUST",
       "rule": "verdict is not ROBUST",
@@ -6475,8 +8079,10 @@
         }
       ],
       "as_labelled": {},
+      "time_check": null,
+      "label_before_time_check": null,
       "report": "bench/out/planted/over-clustering-cluster-14-is-a-distinct-population-pbmc3k/report.html",
-      "runtime_s": 102.0
+      "runtime_s": 40.8
     },
     {
       "key": "overclustering_control",
@@ -6484,6 +8090,7 @@
       "role": "control",
       "title": "Control for over-clustering: a shard that is a whole population",
       "claim": "Over-clustering control: cluster_2 is a distinct population (PBMC3k)",
+      "claim_type": "population_exists",
       "how_built": "Same object; cluster_2 \u2248 reference 'B'.",
       "expected": "ROBUST",
       "rule": "control passes if verdict is ROBUST",
@@ -7151,8 +8758,10 @@
         }
       ],
       "as_labelled": {},
+      "time_check": null,
+      "label_before_time_check": null,
       "report": "bench/out/planted/over-clustering-control-cluster-2-is-a-distinct-population-p/report.html",
-      "runtime_s": 87.3
+      "runtime_s": 44.5
     },
     {
       "key": "qc_deletion",
@@ -7160,6 +8769,7 @@
       "role": "planted",
       "title": "A QC threshold that silently deletes a real population",
       "claim": "QC deletion: NK cells (GNLY+ NKG7+) exist (PBMC3k)",
+      "claim_type": "population_exists",
       "how_built": "Mitochondrial counts of the 160 reference NK cells were rescaled so each cell's mito fraction is uniform in [12%, 16%] (seed 0); all other counts untouched. The baseline max_mito_pct=10 removes every one of them.",
       "expected": "not ROBUST; the failure table names max_mito_pct",
       "rule": "top entry of the failure-rate table is the max_mito_pct axis",
@@ -7637,8 +9247,10 @@
         }
       ],
       "as_labelled": null,
+      "time_check": null,
+      "label_before_time_check": null,
       "report": "bench/out/planted/qc-deletion-nk-cells-gnly-nkg7-exist-pbmc3k/report.html",
-      "runtime_s": 91.0
+      "runtime_s": 39.7
     },
     {
       "key": "batch_effect",
@@ -7646,13 +9258,14 @@
       "role": "planted",
       "title": "A fake batch effect confounded with a subset of cells",
       "claim": "Batch artifact: 'CD4 T subtype' is a distinct population (PBMC3k)",
-      "how_built": "A random 40% of cells (seed 0) were assigned to 'batch2'; in those cells 300 random expressed genes were multiplied by 2.5 and 300 others divided by 2.5 (rounded). Clustering without correction yields cluster 1 (450 cells, 98% batch2, mostly 'CD4 T'), labelled 'CD4 T subtype' and claimed as a population. Control: the reference 'CD4 T' population itself.",
+      "claim_type": "population_exists",
+      "how_built": "A random 40% of cells (seed 0) were assigned to 'batch2'; in those cells 300 random expressed genes were multiplied by 2.5 and 300 others divided by 2.5 (rounded). Clustering without correction yields cluster 2 (509 cells, 93% batch2, mostly 'CD4 T'), labelled 'CD4 T subtype' and claimed as a population. Control: the reference 'CD4 T' population itself.",
       "expected": "not ROBUST; holds only when batch correction is off",
       "rule": "verdict is not ROBUST AND every run in which the claim held had batch_correction=off",
       "passes": true,
       "extra": {
-        "artifact_cluster": "1",
-        "n_cells": 450,
+        "artifact_cluster": "2",
+        "n_cells": 509,
         "parent": "CD4 T"
       },
       "verdict": "NOT SUPPORTED",
@@ -8142,8 +9755,10 @@
         }
       ],
       "as_labelled": {},
+      "time_check": null,
+      "label_before_time_check": null,
       "report": "bench/out/planted/batch-artifact-cd4-t-subtype-is-a-distinct-population-pbmc3k/report.html",
-      "runtime_s": 101.6
+      "runtime_s": 47.8
     },
     {
       "key": "batch_effect_control",
@@ -8151,6 +9766,7 @@
       "role": "control",
       "title": "Control for the batch effect: the real parent population",
       "claim": "Batch control: 'CD4 T' is a distinct population (PBMC3k)",
+      "claim_type": "population_exists",
       "how_built": "Same object; the reference 'CD4 T' cells as labelled.",
       "expected": "ROBUST",
       "rule": "control passes if verdict is ROBUST",
@@ -8844,8 +10460,10 @@
         }
       ],
       "as_labelled": {},
+      "time_check": null,
+      "label_before_time_check": null,
       "report": "bench/out/planted/batch-control-cd4-t-is-a-distinct-population-pbmc3k/report.html",
-      "runtime_s": 82.3
+      "runtime_s": 47.6
     }
   ]
 }

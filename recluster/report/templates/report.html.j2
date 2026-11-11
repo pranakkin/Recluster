@@ -29,6 +29,8 @@ td.num, th.num { text-align: right; }
 .badge.robust { border-color: var(--pass); color: var(--pass); }
 .badge.fragile { border-color: var(--warn); color: var(--warn); border-style: dashed; }
 .badge.not-supported { border-color: var(--fail); color: var(--fail); }
+.badge.neutral { border-color: var(--rule); color: var(--muted); }
+.badge.small-badge { font-size: 15px; padding: 8px 12px; }
 .verdict-text { flex: 1 1 420px; }
 .kv { display:grid; grid-template-columns: max-content 1fr; gap: 3px 18px; margin: 10px 0; font-size: 14px; }
 .kv dt { color: var(--muted); } .kv dd { margin: 0; }
@@ -108,6 +110,9 @@ footer { margin-top: 56px; padding-top: 14px; border-top: 1px solid var(--rule);
 <h2>Replicate-aware vs cell-level</h2>
 {{ comparison_html | safe }}
 
+<h2>Time-of-day check</h2>
+{{ time_html | safe }}
+
 {% if as_labelled %}
 <h2>As labelled</h2>
 <p class="small">The same test applied to the cells exactly as labelled in <span class="mono">{{ spec.columns.labels }}</span> = <span class="mono">{{ spec.target.label_value }}</span>, without re-clustering. This is the claim as the original analysis made it.</p>
@@ -135,6 +140,7 @@ footer { margin-top: 56px; padding-top: 14px; border-top: 1px solid var(--rule);
 <table><thead><tr><th>Setting</th><th>Value</th></tr></thead><tbody>
 {% for k, v in thresholds.model_dump().items() %}<tr><td class="mono">{{ k }}</td><td class="mono">{{ v }}</td></tr>{% endfor %}
 </tbody></table>
+<p class="small"><span class="mono">doublet_residual_ratio_max</span> and <span class="mono">doublet_libsize_ratio_min</span> are informational: they only label the cluster-level doublet check, and no verdict depends on them.</p>
 
 <h2>Provenance</h2>
 <dl class="kv">

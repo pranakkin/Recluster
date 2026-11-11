@@ -29,6 +29,8 @@ td.num, th.num { text-align: right; }
 .badge.robust { border-color: var(--pass); color: var(--pass); }
 .badge.fragile { border-color: var(--warn); color: var(--warn); border-style: dashed; }
 .badge.not-supported { border-color: var(--fail); color: var(--fail); }
+.badge.neutral { border-color: var(--rule); color: var(--muted); }
+.badge.small-badge { font-size: 15px; padding: 8px 12px; }
 .verdict-text { flex: 1 1 420px; }
 .kv { display:grid; grid-template-columns: max-content 1fr; gap: 3px 18px; margin: 10px 0; font-size: 14px; }
 .kv dt { color: var(--muted); } .kv dd { margin: 0; }
@@ -54,13 +56,13 @@ footer { margin-top: 56px; padding-top: 14px; border-top: 1px solid var(--rule);
 <p class="sub">kang_2018.h5ad · 24,673 cells × 15,706 genes · counts from <span class="mono">.X</span></p>
 
 <div class="verdict">
-  <div class="badge fragile"><span class="icon">◐</span>FRAGILE</div>
+  <div class="badge robust"><span class="icon">✓</span>ROBUST</div>
   <div class="verdict-text">
-    <p>The claim held in 15 of 21 runs (71%). It held under the baseline pipeline. Single changes that broke it: min_genes=500; resolution=0.3.</p>
+    <p>The claim held in 20 of 21 runs (95%). It held under the baseline pipeline.</p>
     <dl class="kv">
-      <dt>Survival</dt><dd class="mono">15 / 21 runs (71%)</dd>
+      <dt>Survival</dt><dd class="mono">20 / 21 runs (95%)</dd>
       
-      <dt>Recovered as a cluster</dt><dd class="mono">71% of runs (before the replicate check)</dd>
+      <dt>Recovered as a cluster</dt><dd class="mono">95% of runs (before the replicate check)</dd>
       
       
       <dt>Rule</dt><dd>ROBUST ≥ 80% · FRAGILE ≥ 20% · else NOT SUPPORTED</dd>
@@ -85,6 +87,7 @@ target:
   - KLRD1
   negative_markers:
   - CD3D
+  marker_logic: any
   label_value: NK cells
   min_cells: 20
 genes: []
@@ -93,27 +96,27 @@ require: all</pre>
 
 <h2>Survival across the grid</h2>
 <p class="small">One square per run in grid order; the thick-bordered square is the baseline. Hover for the run's settings.</p>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 648 27" width="648" height="27" role="img" aria-label="survival strip"><defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="6" height="6" fill="#f6f4ee"/><line x1="0" y1="0" x2="0" y2="6" stroke="#9b3b2e" stroke-width="1.2" opacity="0.7"/></pattern></defs><g><title>run 0: baseline — held</title><rect x="0" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#1b1b1b" stroke-width="2.5"/><text x="11.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 1: min_genes=100 — held</title><rect x="27" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="38.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 2: min_genes=500 — failed</title><rect x="54" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="65.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 3: doublet_removal=False — held</title><rect x="81" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="92.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 4: normalization=pearson — held</title><rect x="108" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="119.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 5: n_hvgs=1000 — held</title><rect x="135" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="146.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 6: n_hvgs=3000 — held</title><rect x="162" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="173.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 7: n_pcs=20 — held</title><rect x="189" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="200.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 8: n_pcs=50 — held</title><rect x="216" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="227.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 9: resolution=0.3 — failed</title><rect x="243" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="254.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 10: resolution=0.5 — held</title><rect x="270" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="281.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 11: resolution=1.5 — held</title><rect x="297" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="308.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 12: resolution=2.0 — held</title><rect x="324" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="335.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 13: seed=1 — held</title><rect x="351" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="362.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 14: seed=2 — held</title><rect x="378" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="389.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 15: min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 — failed</title><rect x="405" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="416.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 16: min_genes=100, doublet_removal=False, normalization=pearson, n_pcs=50, seed=1 — held</title><rect x="432" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="443.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 17: min_genes=500, normalization=pearson, resolution=2.0 — failed</title><rect x="459" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="470.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 18: min_genes=500, n_pcs=50 — failed</title><rect x="486" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="497.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 19: min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 — failed</title><rect x="513" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="524.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 20: min_genes=100, doublet_removal=False, n_hvgs=3000, resolution=1.5 — held</title><rect x="540" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="551.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 648 27" width="648" height="27" role="img" aria-label="survival strip"><defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="6" height="6" fill="#f6f4ee"/><line x1="0" y1="0" x2="0" y2="6" stroke="#9b3b2e" stroke-width="1.2" opacity="0.7"/></pattern></defs><g><title>run 0: baseline — held</title><rect x="0" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#1b1b1b" stroke-width="2.5"/><text x="11.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 1: min_genes=100 — held</title><rect x="27" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="38.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 2: min_genes=500 [min_genes capped to 441] — held</title><rect x="54" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="65.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 3: doublet_removal=False — held</title><rect x="81" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="92.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 4: normalization=pearson — held</title><rect x="108" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="119.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 5: n_hvgs=1000 — held</title><rect x="135" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="146.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 6: n_hvgs=3000 — held</title><rect x="162" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="173.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 7: n_pcs=20 — held</title><rect x="189" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="200.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 8: n_pcs=50 — held</title><rect x="216" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="227.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 9: resolution=0.3 — held</title><rect x="243" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="254.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 10: resolution=0.5 — held</title><rect x="270" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="281.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 11: resolution=1.5 — held</title><rect x="297" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="308.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 12: resolution=2.0 — held</title><rect x="324" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="335.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 13: seed=1 — held</title><rect x="351" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="362.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 14: seed=2 — held</title><rect x="378" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="389.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 15: min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 441] — failed</title><rect x="405" y="0" width="22" height="22" rx="2" fill="url(#hatch)" stroke="#9b3b2e" stroke-width="1"/><text x="416.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#9b3b2e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✕</text></g><g><title>run 16: min_genes=100, doublet_removal=False, normalization=pearson, n_pcs=50, seed=1 — held</title><rect x="432" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="443.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 17: min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 441] — held</title><rect x="459" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="470.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 18: min_genes=500, n_pcs=50 [min_genes capped to 441] — held</title><rect x="486" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="497.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 19: min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 441] — held</title><rect x="513" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="524.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g><g><title>run 20: min_genes=100, doublet_removal=False, n_hvgs=3000, resolution=1.5 — held</title><rect x="540" y="0" width="22" height="22" rx="2" fill="#2f6b3a" stroke="#2f6b3a" stroke-width="1"/><text x="551.0" y="16.0" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">✓</text></g></svg>
 <h3>By analysis choice</h3>
 <p class="small">Fraction of runs with that setting in which the claim held. ● marks the baseline value. Hatched = failed.</p>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 618" width="760" height="618" role="img" aria-label="survival by analysis choice"><defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="6" height="6" fill="#f6f4ee"/><line x1="0" y1="0" x2="0" y2="6" stroke="#9b3b2e" stroke-width="1.2" opacity="0.7"/></pattern></defs><text x="0" y="24" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">MIN_GENES</text><text x="16" y="48" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">100</text><rect x="250" y="37" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="37" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="48" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">3/3</text><text x="16" y="68" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">200  ●</text><rect x="250" y="57" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="57" width="387.7" height="12" fill="#2f6b3a"/><text x="680" y="68" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">12/13</text><text x="16" y="88" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">500</text><rect x="250" y="77" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="88" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/5</text><text x="0" y="110" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">DOUBLET_REMOVAL</text><text x="16" y="134" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">off</text><rect x="250" y="123" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="123" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="134" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">3/3</text><text x="16" y="154" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">on  ●</text><rect x="250" y="143" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="143" width="280.0" height="12" fill="#2f6b3a"/><text x="680" y="154" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">12/18</text><text x="0" y="176" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">NORMALIZATION</text><text x="16" y="200" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">log_total  ●</text><rect x="250" y="189" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="189" width="341.2" height="12" fill="#2f6b3a"/><text x="680" y="200" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">13/16</text><text x="16" y="220" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">pearson</text><rect x="250" y="209" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="209" width="168.0" height="12" fill="#2f6b3a"/><text x="680" y="220" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2/5</text><text x="0" y="242" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">N_HVGS</text><text x="16" y="266" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1000</text><rect x="250" y="255" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="255" width="140.0" height="12" fill="#2f6b3a"/><text x="680" y="266" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/3</text><text x="16" y="286" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2000  ●</text><rect x="250" y="275" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="275" width="315.0" height="12" fill="#2f6b3a"/><text x="680" y="286" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">12/16</text><text x="16" y="306" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">3000</text><rect x="250" y="295" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="295" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="306" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2/2</text><text x="0" y="328" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">N_PCS</text><text x="16" y="352" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">20</text><rect x="250" y="341" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="341" width="140.0" height="12" fill="#2f6b3a"/><text x="680" y="352" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/3</text><text x="16" y="372" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">30  ●</text><rect x="250" y="361" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="361" width="336.0" height="12" fill="#2f6b3a"/><text x="680" y="372" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">12/15</text><text x="16" y="392" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">50</text><rect x="250" y="381" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="381" width="280.0" height="12" fill="#2f6b3a"/><text x="680" y="392" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2/3</text><text x="0" y="414" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">RESOLUTION</text><text x="16" y="438" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0.3</text><rect x="250" y="427" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><text x="680" y="438" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0/2</text><text x="16" y="458" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0.5</text><rect x="250" y="447" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="447" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="458" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/1</text><text x="16" y="478" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1  ●</text><rect x="250" y="467" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="467" width="355.4" height="12" fill="#2f6b3a"/><text x="680" y="478" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">11/13</text><text x="16" y="498" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1.5</text><rect x="250" y="487" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="487" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="498" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2/2</text><text x="16" y="518" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2</text><rect x="250" y="507" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="507" width="140.0" height="12" fill="#2f6b3a"/><text x="680" y="518" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/3</text><text x="0" y="540" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">SEED</text><text x="16" y="564" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0  ●</text><rect x="250" y="553" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="553" width="280.0" height="12" fill="#2f6b3a"/><text x="680" y="564" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">12/18</text><text x="16" y="584" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1</text><rect x="250" y="573" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="573" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="584" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2/2</text><text x="16" y="604" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2</text><rect x="250" y="593" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="593" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="604" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/1</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 618" width="760" height="618" role="img" aria-label="survival by analysis choice"><defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="6" height="6" fill="#f6f4ee"/><line x1="0" y1="0" x2="0" y2="6" stroke="#9b3b2e" stroke-width="1.2" opacity="0.7"/></pattern></defs><text x="0" y="24" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">MIN_GENES</text><text x="16" y="48" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">100</text><rect x="250" y="37" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="37" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="48" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">3/3</text><text x="16" y="68" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">200  ●</text><rect x="250" y="57" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="57" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="68" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">13/13</text><text x="16" y="88" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">500</text><rect x="250" y="77" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="77" width="336.0" height="12" fill="#2f6b3a"/><text x="680" y="88" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">4/5</text><text x="0" y="110" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">DOUBLET_REMOVAL</text><text x="16" y="134" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">off</text><rect x="250" y="123" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="123" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="134" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">3/3</text><text x="16" y="154" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">on  ●</text><rect x="250" y="143" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="143" width="396.7" height="12" fill="#2f6b3a"/><text x="680" y="154" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">17/18</text><text x="0" y="176" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">NORMALIZATION</text><text x="16" y="200" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">log_total  ●</text><rect x="250" y="189" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="189" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="200" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">16/16</text><text x="16" y="220" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">pearson</text><rect x="250" y="209" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="209" width="336.0" height="12" fill="#2f6b3a"/><text x="680" y="220" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">4/5</text><text x="0" y="242" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">N_HVGS</text><text x="16" y="266" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1000</text><rect x="250" y="255" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="255" width="280.0" height="12" fill="#2f6b3a"/><text x="680" y="266" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2/3</text><text x="16" y="286" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2000  ●</text><rect x="250" y="275" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="275" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="286" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">16/16</text><text x="16" y="306" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">3000</text><rect x="250" y="295" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="295" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="306" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2/2</text><text x="0" y="328" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">N_PCS</text><text x="16" y="352" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">20</text><rect x="250" y="341" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="341" width="280.0" height="12" fill="#2f6b3a"/><text x="680" y="352" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2/3</text><text x="16" y="372" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">30  ●</text><rect x="250" y="361" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="361" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="372" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">15/15</text><text x="16" y="392" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">50</text><rect x="250" y="381" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="381" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="392" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">3/3</text><text x="0" y="414" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">RESOLUTION</text><text x="16" y="438" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0.3</text><rect x="250" y="427" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="427" width="210.0" height="12" fill="#2f6b3a"/><text x="680" y="438" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/2</text><text x="16" y="458" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0.5</text><rect x="250" y="447" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="447" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="458" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/1</text><text x="16" y="478" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1  ●</text><rect x="250" y="467" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="467" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="478" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">13/13</text><text x="16" y="498" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1.5</text><rect x="250" y="487" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="487" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="498" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2/2</text><text x="16" y="518" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2</text><rect x="250" y="507" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="507" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="518" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">3/3</text><text x="0" y="540" font-size="12.5" font-weight="600" fill="#6b6b6b" font-family="-apple-system, Helvetica, Arial, sans-serif" letter-spacing="0.04em">SEED</text><text x="16" y="564" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">0  ●</text><rect x="250" y="553" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="553" width="396.7" height="12" fill="#2f6b3a"/><text x="680" y="564" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">17/18</text><text x="16" y="584" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1</text><rect x="250" y="573" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="573" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="584" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2/2</text><text x="16" y="604" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">2</text><rect x="250" y="593" width="420" height="12" fill="url(#hatch)" stroke="#d8d6cf" stroke-width="0.5"/><rect x="250" y="593" width="420.0" height="12" fill="#2f6b3a"/><text x="680" y="604" font-size="13" fill="#1b1b1b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">1/1</text></svg>
 
 <h2>What broke it</h2>
 
-<p>One-at-a-time changes from baseline that broke the claim:</p>
-<table><thead><tr><th>Change</th><th>Result</th></tr></thead><tbody>
-<tr><td class="params">min_genes=500</td><td><span class="fail">failed</span></td></tr><tr><td class="params">resolution=0.3</td><td><span class="fail">failed</span></td></tr>
-</tbody></table>
+<p>No single one-at-a-time change flipped the baseline result.</p>
 
 
 <h3>Failure rate by setting</h3>
 <table><thead><tr><th>Axis</th><th>Value</th><th class="num">Runs</th><th class="num">Failed</th><th class="num">Fail rate</th></tr></thead><tbody>
-<tr><td class="mono">min_genes</td><td class="mono">500</td><td class="num">5</td><td class="num">5</td><td class="num">100%</td></tr><tr><td class="mono">resolution</td><td class="mono">0.3</td><td class="num">2</td><td class="num">2</td><td class="num">100%</td></tr><tr><td class="mono">n_hvgs</td><td class="mono">1000</td><td class="num">3</td><td class="num">2</td><td class="num">67%</td></tr><tr><td class="mono">n_pcs</td><td class="mono">20</td><td class="num">3</td><td class="num">2</td><td class="num">67%</td></tr><tr><td class="mono">resolution</td><td class="mono">2</td><td class="num">3</td><td class="num">2</td><td class="num">67%</td></tr><tr><td class="mono">normalization</td><td class="mono">pearson</td><td class="num">5</td><td class="num">3</td><td class="num">60%</td></tr><tr><td class="mono">doublet_removal</td><td class="mono">on ●</td><td class="num">18</td><td class="num">6</td><td class="num">33%</td></tr><tr><td class="mono">seed</td><td class="mono">0 ●</td><td class="num">18</td><td class="num">6</td><td class="num">33%</td></tr><tr><td class="mono">n_pcs</td><td class="mono">50</td><td class="num">3</td><td class="num">1</td><td class="num">33%</td></tr><tr><td class="mono">n_hvgs</td><td class="mono">2000 ●</td><td class="num">16</td><td class="num">4</td><td class="num">25%</td></tr><tr><td class="mono">n_pcs</td><td class="mono">30 ●</td><td class="num">15</td><td class="num">3</td><td class="num">20%</td></tr><tr><td class="mono">normalization</td><td class="mono">log_total ●</td><td class="num">16</td><td class="num">3</td><td class="num">19%</td></tr><tr><td class="mono">resolution</td><td class="mono">1 ●</td><td class="num">13</td><td class="num">2</td><td class="num">15%</td></tr><tr><td class="mono">min_genes</td><td class="mono">200 ●</td><td class="num">13</td><td class="num">1</td><td class="num">8%</td></tr>
+<tr><td class="mono">resolution</td><td class="mono">0.3</td><td class="num">2</td><td class="num">1</td><td class="num">50%</td></tr><tr><td class="mono">n_hvgs</td><td class="mono">1000</td><td class="num">3</td><td class="num">1</td><td class="num">33%</td></tr><tr><td class="mono">n_pcs</td><td class="mono">20</td><td class="num">3</td><td class="num">1</td><td class="num">33%</td></tr><tr><td class="mono">min_genes</td><td class="mono">500</td><td class="num">5</td><td class="num">1</td><td class="num">20%</td></tr><tr><td class="mono">normalization</td><td class="mono">pearson</td><td class="num">5</td><td class="num">1</td><td class="num">20%</td></tr><tr><td class="mono">doublet_removal</td><td class="mono">on ●</td><td class="num">18</td><td class="num">1</td><td class="num">6%</td></tr><tr><td class="mono">seed</td><td class="mono">0 ●</td><td class="num">18</td><td class="num">1</td><td class="num">6%</td></tr>
 </tbody></table>
 
 
 <h2>Replicate-aware vs cell-level</h2>
-<table><tbody><tr><td>Matched cells (baseline run)</td><td class='num'>1760</td></tr><tr><td>Marker AUROC</td><td class='num'>0.982</td></tr><tr><td>Jaccard vs reference</td><td class='num'>0.875</td></tr><tr><td>Samples with ≥ min cells</td><td class='num'>16</td></tr><tr><td>Largest single-sample share</td><td class='num'>0.136</td></tr><tr><td>Median Scrublet score, population vs all cells (informational)</td><td class='num'>0.045 vs 0.049</td></tr></tbody></table><p class='small'>For a population claim the replicate-aware check is whether the population is present in several samples rather than driven by one. Recovered-as-a-cluster versus recovered-and-replicated across the grid: 71% vs 71%.</p>
+<table><tbody><tr><td>Matched cells (baseline run)</td><td class='num'>1719</td></tr><tr><td>Marker AUROC</td><td class='num'>0.985</td></tr><tr><td>Statistic that judged the candidate clusters</td><td class='num'>stratified within-sample AUROC</td></tr><tr><td>Jaccard vs reference</td><td class='num'>0.880</td></tr><tr><td>Samples with ≥ min cells</td><td class='num'>16</td></tr><tr><td>Largest single-sample share</td><td class='num'>0.136</td></tr><tr><td>Median Scrublet score, population vs all cells (informational)</td><td class='num'>0.044 vs 0.049</td></tr></tbody></table><p class='small'>For a population claim the replicate-aware check is whether the population is present in several samples rather than driven by one. Recovered-as-a-cluster versus recovered-and-replicated across the grid: 95% vs 95%.</p><h3>Cluster-level doublet check (baseline run)</h3><table><tbody><tr><td>Best explaining pair (weights)</td><td class='num'>16 (0.033) + 6 (0.967)</td></tr><tr><td>Residual ratio, mixture vs best single cluster</td><td class='num'>0.993</td></tr><tr><td>Library-size ratio, population vs mixture</td><td class='num'>0.920</td></tr><tr><td>Within both cutoffs</td><td class='num'>no</td></tr></tbody></table><p class='small'>Informational: no cutoff on the residual ratio or the library-size ratio separates doublet clusters from intermediate populations with margin, so this check never changes the verdict.</p>
+
+<h2>Time-of-day check</h2>
+<p class='small'>Not applicable: this claim has no condition comparison, so there is no group contrast that collection time could confound.</p>
 
 
 <h2>As labelled</h2>
@@ -126,27 +129,27 @@ require: all</pre>
 <tr>
 <td class="num">0</td>
 <td class="params">baseline</td>
-<td class="num">24,512</td>
-<td class="num">20</td>
-<td class="mono" style="white-space:nowrap">1760 cells / 1 cl.</td>
-<td class="num">0.875</td><td class="num">0.982</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="num">24,213</td>
+<td class="num">18</td>
+<td class="mono" style="white-space:nowrap">1719 cells / 1 cl.</td>
+<td class="num">0.880</td><td class="num">0.985</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">1</td>
 <td class="params">min_genes=100</td>
-<td class="num">24,521</td>
-<td class="num">19</td>
-<td class="mono" style="white-space:nowrap">1766 cells / 1 cl.</td>
-<td class="num">0.878</td><td class="num">0.982</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="num">24,226</td>
+<td class="num">18</td>
+<td class="mono" style="white-space:nowrap">1725 cells / 1 cl.</td>
+<td class="num">0.883</td><td class="num">0.983</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">2</td>
-<td class="params">min_genes=500</td>
-<td class="num">13,726</td>
-<td class="num">17</td>
-<td class="mono" style="white-space:nowrap">624 cells / 1 cl.</td>
-<td class="num">0.316</td><td class="num">0.976</td>
-<td><span class="fail">failed</span><div class="small">Jaccard 0.32 &lt; 0.5</div><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="params">min_genes=500 [min_genes capped to 441]</td>
+<td class="num">18,445</td>
+<td class="num">20</td>
+<td class="mono" style="white-space:nowrap">1065 cells / 1 cl.</td>
+<td class="num">0.879</td><td class="num">0.982</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 4 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells); min_genes=500 would remove more than 25% of cells; capped to 441</div></td>
 </tr><tr>
 <td class="num">3</td>
 <td class="params">doublet_removal=False</td>
@@ -154,103 +157,103 @@ require: all</pre>
 <td class="num">18</td>
 <td class="mono" style="white-space:nowrap">1765 cells / 1 cl.</td>
 <td class="num">0.880</td><td class="num">0.980</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">4</td>
 <td class="params">normalization=pearson</td>
-<td class="num">24,512</td>
-<td class="num">24</td>
-<td class="mono" style="white-space:nowrap">1658 cells / 1 cl.</td>
-<td class="num">0.810</td><td class="num">0.973</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="num">24,213</td>
+<td class="num">23</td>
+<td class="mono" style="white-space:nowrap">1798 cells / 1 cl.</td>
+<td class="num">0.824</td><td class="num">0.966</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">5</td>
 <td class="params">n_hvgs=1000</td>
-<td class="num">24,512</td>
+<td class="num">24,213</td>
 <td class="num">16</td>
-<td class="mono" style="white-space:nowrap">1727 cells / 1 cl.</td>
-<td class="num">0.844</td><td class="num">0.975</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="mono" style="white-space:nowrap">1684 cells / 1 cl.</td>
+<td class="num">0.867</td><td class="num">0.981</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">6</td>
 <td class="params">n_hvgs=3000</td>
-<td class="num">24,512</td>
-<td class="num">19</td>
-<td class="mono" style="white-space:nowrap">1757 cells / 1 cl.</td>
-<td class="num">0.883</td><td class="num">0.982</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="num">24,213</td>
+<td class="num">20</td>
+<td class="mono" style="white-space:nowrap">1734 cells / 1 cl.</td>
+<td class="num">0.891</td><td class="num">0.986</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">7</td>
 <td class="params">n_pcs=20</td>
-<td class="num">24,512</td>
-<td class="num">19</td>
-<td class="mono" style="white-space:nowrap">1761 cells / 1 cl.</td>
-<td class="num">0.878</td><td class="num">0.980</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="num">24,213</td>
+<td class="num">20</td>
+<td class="mono" style="white-space:nowrap">1712 cells / 1 cl.</td>
+<td class="num">0.892</td><td class="num">0.985</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">8</td>
 <td class="params">n_pcs=50</td>
-<td class="num">24,512</td>
-<td class="num">17</td>
-<td class="mono" style="white-space:nowrap">1732 cells / 1 cl.</td>
-<td class="num">0.864</td><td class="num">0.981</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="num">24,213</td>
+<td class="num">16</td>
+<td class="mono" style="white-space:nowrap">1695 cells / 1 cl.</td>
+<td class="num">0.872</td><td class="num">0.984</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">9</td>
 <td class="params">resolution=0.3</td>
-<td class="num">24,512</td>
+<td class="num">24,213</td>
 <td class="num">11</td>
-<td class="mono" style="white-space:nowrap">0 cells</td>
-<td class="num">0.000</td><td class="num">–</td>
-<td><span class="fail">failed</span><div class="small">only 0 matched cells; Jaccard 0.00 &lt; 0.5; present in 0 sample(s) &lt; 2</div><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="mono" style="white-space:nowrap">3295 cells / 1 cl.</td>
+<td class="num">0.505</td><td class="num">0.816</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">10</td>
 <td class="params">resolution=0.5</td>
-<td class="num">24,512</td>
+<td class="num">24,213</td>
 <td class="num">14</td>
-<td class="mono" style="white-space:nowrap">1765 cells / 1 cl.</td>
-<td class="num">0.875</td><td class="num">0.982</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="mono" style="white-space:nowrap">1708 cells / 1 cl.</td>
+<td class="num">0.878</td><td class="num">0.985</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">11</td>
 <td class="params">resolution=1.5</td>
-<td class="num">24,512</td>
+<td class="num">24,213</td>
 <td class="num">20</td>
-<td class="mono" style="white-space:nowrap">1749 cells / 1 cl.</td>
-<td class="num">0.876</td><td class="num">0.982</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="mono" style="white-space:nowrap">1691 cells / 1 cl.</td>
+<td class="num">0.880</td><td class="num">0.985</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">12</td>
 <td class="params">resolution=2.0</td>
-<td class="num">24,512</td>
-<td class="num">28</td>
-<td class="mono" style="white-space:nowrap">1789 cells / 2 cl.</td>
-<td class="num">0.871</td><td class="num">0.980</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="num">24,213</td>
+<td class="num">26</td>
+<td class="mono" style="white-space:nowrap">1690 cells / 2 cl.</td>
+<td class="num">0.870</td><td class="num">0.982</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">13</td>
 <td class="params">seed=1</td>
-<td class="num">24,512</td>
+<td class="num">24,213</td>
 <td class="num">19</td>
-<td class="mono" style="white-space:nowrap">1780 cells / 1 cl.</td>
-<td class="num">0.875</td><td class="num">0.981</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="mono" style="white-space:nowrap">1723 cells / 1 cl.</td>
+<td class="num">0.878</td><td class="num">0.984</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">14</td>
 <td class="params">seed=2</td>
-<td class="num">24,512</td>
+<td class="num">24,213</td>
 <td class="num">20</td>
-<td class="mono" style="white-space:nowrap">1772 cells / 1 cl.</td>
-<td class="num">0.876</td><td class="num">0.981</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="mono" style="white-space:nowrap">1703 cells / 1 cl.</td>
+<td class="num">0.878</td><td class="num">0.985</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">15</td>
-<td class="params">min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3</td>
-<td class="num">13,726</td>
-<td class="num">14</td>
-<td class="mono" style="white-space:nowrap">993 cells / 1 cl.</td>
-<td class="num">0.272</td><td class="num">0.839</td>
-<td><span class="fail">failed</span><div class="small">Jaccard 0.27 &lt; 0.5</div><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="params">min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 441]</td>
+<td class="num">18,445</td>
+<td class="num">11</td>
+<td class="mono" style="white-space:nowrap">0 cells</td>
+<td class="num">0.000</td><td class="num">–</td>
+<td><span class="fail">failed</span><div class="small">only 0 matched cells; Jaccard 0.00 &lt; 0.5; present in 0 sample(s) &lt; 2</div><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 4 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells); min_genes=500 would remove more than 25% of cells; capped to 441</div></td>
 </tr><tr>
 <td class="num">16</td>
 <td class="params">min_genes=100, doublet_removal=False, normalization=pearson, n_pcs=50, seed=1</td>
@@ -258,31 +261,31 @@ require: all</pre>
 <td class="num">21</td>
 <td class="mono" style="white-space:nowrap">1810 cells / 1 cl.</td>
 <td class="num">0.859</td><td class="num">0.974</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr><tr>
 <td class="num">17</td>
-<td class="params">min_genes=500, normalization=pearson, resolution=2.0</td>
-<td class="num">13,726</td>
-<td class="num">36</td>
-<td class="mono" style="white-space:nowrap">433 cells / 1 cl.</td>
-<td class="num">0.213</td><td class="num">0.970</td>
-<td><span class="fail">failed</span><div class="small">Jaccard 0.21 &lt; 0.5</div><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="params">min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 441]</td>
+<td class="num">18,445</td>
+<td class="num">37</td>
+<td class="mono" style="white-space:nowrap">1002 cells / 3 cl.</td>
+<td class="num">0.795</td><td class="num">0.968</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 4 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells); min_genes=500 would remove more than 25% of cells; capped to 441</div></td>
 </tr><tr>
 <td class="num">18</td>
-<td class="params">min_genes=500, n_pcs=50</td>
-<td class="num">13,726</td>
-<td class="num">17</td>
-<td class="mono" style="white-space:nowrap">617 cells / 1 cl.</td>
-<td class="num">0.313</td><td class="num">0.980</td>
-<td><span class="fail">failed</span><div class="small">Jaccard 0.31 &lt; 0.5</div><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="params">min_genes=500, n_pcs=50 [min_genes capped to 441]</td>
+<td class="num">18,445</td>
+<td class="num">18</td>
+<td class="mono" style="white-space:nowrap">1057 cells / 1 cl.</td>
+<td class="num">0.878</td><td class="num">0.981</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 4 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells); min_genes=500 would remove more than 25% of cells; capped to 441</div></td>
 </tr><tr>
 <td class="num">19</td>
-<td class="params">min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0</td>
-<td class="num">13,726</td>
-<td class="num">36</td>
-<td class="mono" style="white-space:nowrap">671 cells / 2 cl.</td>
-<td class="num">0.278</td><td class="num">0.952</td>
-<td><span class="fail">failed</span><div class="small">Jaccard 0.28 &lt; 0.5</div><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td class="params">min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 441]</td>
+<td class="num">18,445</td>
+<td class="num">38</td>
+<td class="mono" style="white-space:nowrap">1122 cells / 3 cl.</td>
+<td class="num">0.759</td><td class="num">0.956</td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 4 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells); min_genes=500 would remove more than 25% of cells; capped to 441</div></td>
 </tr><tr>
 <td class="num">20</td>
 <td class="params">min_genes=100, doublet_removal=False, n_hvgs=3000, resolution=1.5</td>
@@ -290,40 +293,41 @@ require: all</pre>
 <td class="num">23</td>
 <td class="mono" style="white-space:nowrap">1772 cells / 1 cl.</td>
 <td class="num">0.878</td><td class="num">0.981</td>
-<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect</div></td>
+<td><span class="pass">held</span><div class="small">⚠ no mitochondrial genes found; max_mito_pct has no effect; scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)</div></td>
 </tr>
 </tbody></table>
 
 <h2>Methods</h2>
-<p>Raw counts for 24,673 cells and 15,706 genes were taken from .X of the input file (SHA-256 e6a5adac64dc…). Each of 21 pipeline runs (1 baseline, 14 one-at-a-time variations and 6 seeded random combinations) re-derived clusters from these counts. Cells were kept if they expressed at least {100, 200*, 500} genes (the input has no mitochondrial genes, so the mitochondrial-fraction axis was not varied); genes detected in fewer than 3 cells were dropped. Doublets were scored with Scrublet (scanpy implementation, per sample, seed 0) and removed when the doublet_removal axis was on (baseline: on). Expression was normalised either by total-count scaling to 10,000 counts per cell followed by log1p and z-scaling of {1000, 2000*, 3000} highly variable genes (Seurat flavour), or by analytic Pearson residuals on the same number of genes (baseline: log_total). {20, 30*, 50} principal components (ARPACK, seeded) were computed; a 15-nearest-neighbour graph (exact search) was clustered with Leiden (igraph flavour, resolution {0.3, 0.5, 1.0*, 1.5, 2.0}, seeds {0*, 1, 2}). The target population was located in each run by marker enrichment: a per-cell score (mean CP10k-log1p expression of GNLY, NKG7, KLRD1 minus that of CD3D, z-scored) was computed once from the raw counts, and clusters with at least 10 cells whose AUROC for that score versus all other cells was at least 0.8 were taken as the population. Overlap with the reference cell set (cells labelled `NK cells` in `cell_type` (1716 cells)) was measured by the Jaccard index over barcodes, counting cells removed by QC as absent. The claim held in a run when the matched population had at least 20 cells, Jaccard &gt;= 0.5, marker AUROC &gt;= 0.8, and at least 5 cells in each of at least 2 samples. Verdicts: ROBUST if the claim held in at least 80% of runs, FRAGILE if in at least 20%, otherwise NOT SUPPORTED. All thresholds are listed below and are configurable.</p>
+<p>Raw counts for 24,673 cells and 15,706 genes were taken from .X of the input file (SHA-256 e6a5adac64dc…). Each of 21 pipeline runs (1 baseline, 14 one-at-a-time variations and 6 seeded random combinations) re-derived clusters from these counts. Cells were kept if they expressed at least {100, 200*, 500} genes (the input has no mitochondrial genes, so the mitochondrial-fraction axis was not varied); a threshold that alone would remove more than 25% of the cells was pulled back to the value that removes exactly that fraction, and the run records both values. Genes detected in fewer than 3 cells were dropped. Doublets were scored with Scrublet (scanpy implementation, per sample, seed 0, exact neighbours); when its automatic threshold called fewer than 25% of the expected doublets (0.8% per 1,000 cells) the top expected fraction by score was called instead. Predicted doublets were removed when the doublet_removal axis was on (baseline: on). Expression was normalised either by total-count scaling to 10,000 counts per cell followed by log1p and z-scaling of {1000, 2000*, 3000} highly variable genes (Seurat flavour), or by analytic Pearson residuals on the same number of genes (baseline: log_total). {20, 30*, 50} principal components (ARPACK, seeded) were computed; a 15-nearest-neighbour graph (exact search) was clustered with Leiden (igraph flavour, resolution {0.3, 0.5, 1.0*, 1.5, 2.0}, seeds {0*, 1, 2}). The target population was located in each run by marker enrichment: a per-cell score (the mean CP10k-log1p expression of GNLY, NKG7, KLRD1 minus that of CD3D, z-scored) was computed once from the raw counts, and a cluster of at least 10 cells qualified when its AUROC for that score was at least 0.8 within samples (a stratified within-sample AUROC: the Mann-Whitney U statistics of all samples pooled, so that the mix of other cell types a QC setting keeps cannot move it) and more than 50% of the markers were individually enriched (per-marker AUROC at least 0.6) or by label overlap: a cluster of at least 10 cells qualified when at least 50% of its cells carry `NK cells` in `cell_type`; the matched population is the union of qualifying clusters. Overlap with the reference cell set (cells labelled `NK cells` in `cell_type` (1716 cells)) was measured by the Jaccard index over barcodes that passed the run&#39;s QC; the fraction of reference cells removed by QC is reported alongside. The claim held in a run when the matched population had at least 20 cells, Jaccard &gt;= 0.5, marker AUROC &gt;= 0.8, and at least 5 cells in each of at least 2 samples. Verdicts: ROBUST if the claim held in at least 80% of runs, FRAGILE if in at least 20%, otherwise NOT SUPPORTED; a possible time confound lowers the verdict as described in the time-of-day section. All thresholds are listed below and are configurable.</p>
 <p class="small">This paragraph is generated from a fixed template filled with the settings used. It is not written by a language model.</p>
 
 <h2>Thresholds</h2>
 <table><thead><tr><th>Setting</th><th>Value</th></tr></thead><tbody>
-<tr><td class="mono">robust_min_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">fragile_min_survival</td><td class="mono">0.2</td></tr><tr><td class="mono">alpha</td><td class="mono">0.05</td></tr><tr><td class="mono">marker_auroc_min</td><td class="mono">0.8</td></tr><tr><td class="mono">jaccard_min</td><td class="mono">0.5</td></tr><tr><td class="mono">label_precision_min</td><td class="mono">0.5</td></tr><tr><td class="mono">min_samples_present</td><td class="mono">2</td></tr><tr><td class="mono">min_cells_per_sample</td><td class="mono">5</td></tr><tr><td class="mono">min_cluster_size</td><td class="mono">10</td></tr><tr><td class="mono">composition_test</td><td class="mono">logit_t</td></tr><tr><td class="mono">pseudobulk_min_total_counts</td><td class="mono">10</td></tr><tr><td class="mono">pseudoreplication_cell_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">pseudoreplication_replicate_survival</td><td class="mono">0.5</td></tr>
+<tr><td class="mono">robust_min_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">fragile_min_survival</td><td class="mono">0.2</td></tr><tr><td class="mono">alpha</td><td class="mono">0.05</td></tr><tr><td class="mono">marker_auroc_min</td><td class="mono">0.8</td></tr><tr><td class="mono">jaccard_min</td><td class="mono">0.5</td></tr><tr><td class="mono">label_precision_min</td><td class="mono">0.5</td></tr><tr><td class="mono">min_samples_present</td><td class="mono">2</td></tr><tr><td class="mono">min_cells_per_sample</td><td class="mono">5</td></tr><tr><td class="mono">min_cluster_size</td><td class="mono">10</td></tr><tr><td class="mono">composition_test</td><td class="mono">logit_t</td></tr><tr><td class="mono">candidate_rule</td><td class="mono">either</td></tr><tr><td class="mono">marker_per_gene_auroc_min</td><td class="mono">0.6</td></tr><tr><td class="mono">marker_majority_min</td><td class="mono">0.5</td></tr><tr><td class="mono">jaccard_on_kept_cells</td><td class="mono">True</td></tr><tr><td class="mono">doublet_residual_ratio_max</td><td class="mono">0.6</td></tr><tr><td class="mono">doublet_libsize_ratio_min</td><td class="mono">1.5</td></tr><tr><td class="mono">pseudobulk_min_total_counts</td><td class="mono">10</td></tr><tr><td class="mono">time_min_gene_counts</td><td class="mono">10</td></tr><tr><td class="mono">time_min_panel_genes</td><td class="mono">5</td></tr><tr><td class="mono">time_shrink_flag</td><td class="mono">0.5</td></tr><tr><td class="mono">time_imbalance_hours</td><td class="mono">2.0</td></tr><tr><td class="mono">pseudoreplication_cell_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">pseudoreplication_replicate_survival</td><td class="mono">0.5</td></tr>
 </tbody></table>
+<p class="small"><span class="mono">doublet_residual_ratio_max</span> and <span class="mono">doublet_libsize_ratio_min</span> are informational: they only label the cluster-level doublet check, and no verdict depends on them.</p>
 
 <h2>Provenance</h2>
 <dl class="kv">
   <dt>Input</dt><dd class="mono">data/kang_2018.h5ad</dd>
   <dt>SHA-256</dt><dd class="mono">e6a5adac64dcdeb36eaba27db49b63e0c64bb0ed4a64c6705971506b41c39830</dd>
-  <dt>Recluster</dt><dd class="mono">0.1.0</dd>
+  <dt>Recluster</dt><dd class="mono">0.5.0</dd>
   <dt>Python</dt><dd class="mono">3.11.16 · macOS-26.6.2-arm64-arm-64bit</dd>
   <dt>Key packages</dt><dd class="mono">scanpy 1.11.5 · anndata 0.12.19 · pydeseq2 0.5.4 · harmonypy 2.1.0</dd>
-  <dt>Started</dt><dd class="mono">2026-11-11T05:36:26+00:00</dd>
-  <dt>Total runtime</dt><dd class="mono">490.5 s</dd>
+  <dt>Started</dt><dd class="mono">2026-11-11T10:29:24+00:00</dd>
+  <dt>Total runtime</dt><dd class="mono">271.2 s</dd>
 </dl>
 <details><summary>Full provenance log (JSON)</summary><pre class="mono">{
-  &#34;started_at&#34;: &#34;2026-11-11T05:36:26+00:00&#34;,
-  &#34;finished_at&#34;: &#34;2026-11-11T05:44:36+00:00&#34;,
-  &#34;total_runtime_s&#34;: 490.509,
+  &#34;started_at&#34;: &#34;2026-11-11T10:29:24+00:00&#34;,
+  &#34;finished_at&#34;: &#34;2026-11-11T10:33:55+00:00&#34;,
+  &#34;total_runtime_s&#34;: 271.159,
   &#34;mode&#34;: &#34;run&#34;,
   &#34;environment&#34;: {
     &#34;python&#34;: &#34;3.11.16&#34;,
     &#34;platform&#34;: &#34;macOS-26.6.2-arm64-arm-64bit&#34;,
     &#34;machine&#34;: &#34;arm64&#34;,
     &#34;packages&#34;: {
-      &#34;recluster&#34;: &#34;0.1.0&#34;,
+      &#34;recluster&#34;: &#34;0.5.0&#34;,
       &#34;scanpy&#34;: &#34;1.11.5&#34;,
       &#34;anndata&#34;: &#34;0.12.19&#34;,
       &#34;numpy&#34;: &#34;2.4.6&#34;,
@@ -348,7 +352,9 @@ require: all</pre>
     &#34;mito_prefix&#34;: null,
     &#34;n_samples&#34;: 16,
     &#34;conditions&#34;: null,
-    &#34;n_batches&#34;: null
+    &#34;n_batches&#34;: null,
+    &#34;paired_design&#34;: false,
+    &#34;n_pairs&#34;: null
   },
   &#34;claim&#34;: {
     &#34;claim_type&#34;: &#34;population_exists&#34;,
@@ -369,6 +375,7 @@ require: all</pre>
       &#34;negative_markers&#34;: [
         &#34;CD3D&#34;
       ],
+      &#34;marker_logic&#34;: &#34;any&#34;,
       &#34;label_value&#34;: &#34;NK cells&#34;,
       &#34;min_cells&#34;: 20
     },
@@ -439,7 +446,10 @@ require: all</pre>
     &#34;mito_prefix&#34;: &#34;auto&#34;,
     &#34;scrublet_seed&#34;: 0,
     &#34;max_runs&#34;: null,
-    &#34;n_cpus&#34;: 4
+    &#34;n_cpus&#34;: 4,
+    &#34;qc_max_cell_loss&#34;: 0.25,
+    &#34;scrublet_expected_rate_per_1000&#34;: 0.008,
+    &#34;scrublet_fallback_trigger&#34;: 0.25
   },
   &#34;thresholds&#34;: {
     &#34;robust_min_survival&#34;: 0.8,
@@ -452,7 +462,17 @@ require: all</pre>
     &#34;min_cells_per_sample&#34;: 5,
     &#34;min_cluster_size&#34;: 10,
     &#34;composition_test&#34;: &#34;logit_t&#34;,
+    &#34;candidate_rule&#34;: &#34;either&#34;,
+    &#34;marker_per_gene_auroc_min&#34;: 0.6,
+    &#34;marker_majority_min&#34;: 0.5,
+    &#34;jaccard_on_kept_cells&#34;: true,
+    &#34;doublet_residual_ratio_max&#34;: 0.6,
+    &#34;doublet_libsize_ratio_min&#34;: 1.5,
     &#34;pseudobulk_min_total_counts&#34;: 10,
+    &#34;time_min_gene_counts&#34;: 10,
+    &#34;time_min_panel_genes&#34;: 5,
+    &#34;time_shrink_flag&#34;: 0.5,
+    &#34;time_imbalance_hours&#34;: 2.0,
     &#34;pseudoreplication_cell_survival&#34;: 0.8,
     &#34;pseudoreplication_replicate_survival&#34;: 0.5
   },
@@ -460,17 +480,19 @@ require: all</pre>
     &#34;total&#34;: 21,
     &#34;baseline&#34;: 1,
     &#34;one_at_a_time&#34;: 14,
-    &#34;random&#34;: 6
+    &#34;random&#34;: 6,
+    &#34;merged_after_capping&#34;: 0
   },
+  &#34;merged_runs&#34;: [],
   &#34;reference_source&#34;: &#34;cells labelled `NK cells` in `cell_type` (1716 cells)&#34;,
   &#34;verdict&#34;: {
-    &#34;label&#34;: &#34;FRAGILE&#34;,
-    &#34;survival&#34;: 0.714286,
+    &#34;label&#34;: &#34;ROBUST&#34;,
+    &#34;survival&#34;: 0.952381,
     &#34;n_runs&#34;: 21,
-    &#34;n_holds&#34;: 15,
+    &#34;n_holds&#34;: 20,
     &#34;baseline_holds&#34;: true,
-    &#34;cell_level_survival&#34;: 0.714286,
-    &#34;recovered_survival&#34;: 0.714286,
+    &#34;cell_level_survival&#34;: 0.952381,
+    &#34;recovered_survival&#34;: 0.952381,
     &#34;pseudoreplication_flag&#34;: false,
     &#34;by_choice&#34;: [
       {
@@ -484,14 +506,14 @@ require: all</pre>
         &#34;axis&#34;: &#34;min_genes&#34;,
         &#34;value&#34;: 200,
         &#34;n_runs&#34;: 13,
-        &#34;n_holds&#34;: 12,
+        &#34;n_holds&#34;: 13,
         &#34;is_baseline&#34;: true
       },
       {
         &#34;axis&#34;: &#34;min_genes&#34;,
         &#34;value&#34;: 500,
         &#34;n_runs&#34;: 5,
-        &#34;n_holds&#34;: 0,
+        &#34;n_holds&#34;: 4,
         &#34;is_baseline&#34;: false
       },
       {
@@ -505,35 +527,35 @@ require: all</pre>
         &#34;axis&#34;: &#34;doublet_removal&#34;,
         &#34;value&#34;: true,
         &#34;n_runs&#34;: 18,
-        &#34;n_holds&#34;: 12,
+        &#34;n_holds&#34;: 17,
         &#34;is_baseline&#34;: true
       },
       {
         &#34;axis&#34;: &#34;normalization&#34;,
         &#34;value&#34;: &#34;log_total&#34;,
         &#34;n_runs&#34;: 16,
-        &#34;n_holds&#34;: 13,
+        &#34;n_holds&#34;: 16,
         &#34;is_baseline&#34;: true
       },
       {
         &#34;axis&#34;: &#34;normalization&#34;,
         &#34;value&#34;: &#34;pearson&#34;,
         &#34;n_runs&#34;: 5,
-        &#34;n_holds&#34;: 2,
+        &#34;n_holds&#34;: 4,
         &#34;is_baseline&#34;: false
       },
       {
         &#34;axis&#34;: &#34;n_hvgs&#34;,
         &#34;value&#34;: 1000,
         &#34;n_runs&#34;: 3,
-        &#34;n_holds&#34;: 1,
+        &#34;n_holds&#34;: 2,
         &#34;is_baseline&#34;: false
       },
       {
         &#34;axis&#34;: &#34;n_hvgs&#34;,
         &#34;value&#34;: 2000,
         &#34;n_runs&#34;: 16,
-        &#34;n_holds&#34;: 12,
+        &#34;n_holds&#34;: 16,
         &#34;is_baseline&#34;: true
       },
       {
@@ -547,28 +569,28 @@ require: all</pre>
         &#34;axis&#34;: &#34;n_pcs&#34;,
         &#34;value&#34;: 20,
         &#34;n_runs&#34;: 3,
-        &#34;n_holds&#34;: 1,
+        &#34;n_holds&#34;: 2,
         &#34;is_baseline&#34;: false
       },
       {
         &#34;axis&#34;: &#34;n_pcs&#34;,
         &#34;value&#34;: 30,
         &#34;n_runs&#34;: 15,
-        &#34;n_holds&#34;: 12,
+        &#34;n_holds&#34;: 15,
         &#34;is_baseline&#34;: true
       },
       {
         &#34;axis&#34;: &#34;n_pcs&#34;,
         &#34;value&#34;: 50,
         &#34;n_runs&#34;: 3,
-        &#34;n_holds&#34;: 2,
+        &#34;n_holds&#34;: 3,
         &#34;is_baseline&#34;: false
       },
       {
         &#34;axis&#34;: &#34;resolution&#34;,
         &#34;value&#34;: 0.3,
         &#34;n_runs&#34;: 2,
-        &#34;n_holds&#34;: 0,
+        &#34;n_holds&#34;: 1,
         &#34;is_baseline&#34;: false
       },
       {
@@ -582,7 +604,7 @@ require: all</pre>
         &#34;axis&#34;: &#34;resolution&#34;,
         &#34;value&#34;: 1.0,
         &#34;n_runs&#34;: 13,
-        &#34;n_holds&#34;: 11,
+        &#34;n_holds&#34;: 13,
         &#34;is_baseline&#34;: true
       },
       {
@@ -596,14 +618,14 @@ require: all</pre>
         &#34;axis&#34;: &#34;resolution&#34;,
         &#34;value&#34;: 2.0,
         &#34;n_runs&#34;: 3,
-        &#34;n_holds&#34;: 1,
+        &#34;n_holds&#34;: 3,
         &#34;is_baseline&#34;: false
       },
       {
         &#34;axis&#34;: &#34;seed&#34;,
         &#34;value&#34;: 0,
         &#34;n_runs&#34;: 18,
-        &#34;n_holds&#34;: 12,
+        &#34;n_holds&#34;: 17,
         &#34;is_baseline&#34;: true
       },
       {
@@ -623,122 +645,62 @@ require: all</pre>
     ],
     &#34;breakers&#34;: [
       {
-        &#34;axis&#34;: &#34;min_genes&#34;,
-        &#34;value&#34;: 500,
-        &#34;n_runs&#34;: 5,
-        &#34;n_holds&#34;: 0,
-        &#34;is_baseline&#34;: false
-      },
-      {
         &#34;axis&#34;: &#34;resolution&#34;,
         &#34;value&#34;: 0.3,
         &#34;n_runs&#34;: 2,
-        &#34;n_holds&#34;: 0,
+        &#34;n_holds&#34;: 1,
         &#34;is_baseline&#34;: false
       },
       {
         &#34;axis&#34;: &#34;n_hvgs&#34;,
         &#34;value&#34;: 1000,
         &#34;n_runs&#34;: 3,
-        &#34;n_holds&#34;: 1,
+        &#34;n_holds&#34;: 2,
         &#34;is_baseline&#34;: false
       },
       {
         &#34;axis&#34;: &#34;n_pcs&#34;,
         &#34;value&#34;: 20,
         &#34;n_runs&#34;: 3,
-        &#34;n_holds&#34;: 1,
+        &#34;n_holds&#34;: 2,
         &#34;is_baseline&#34;: false
       },
       {
-        &#34;axis&#34;: &#34;resolution&#34;,
-        &#34;value&#34;: 2.0,
-        &#34;n_runs&#34;: 3,
-        &#34;n_holds&#34;: 1,
+        &#34;axis&#34;: &#34;min_genes&#34;,
+        &#34;value&#34;: 500,
+        &#34;n_runs&#34;: 5,
+        &#34;n_holds&#34;: 4,
         &#34;is_baseline&#34;: false
       },
       {
         &#34;axis&#34;: &#34;normalization&#34;,
         &#34;value&#34;: &#34;pearson&#34;,
         &#34;n_runs&#34;: 5,
-        &#34;n_holds&#34;: 2,
+        &#34;n_holds&#34;: 4,
         &#34;is_baseline&#34;: false
       },
       {
         &#34;axis&#34;: &#34;doublet_removal&#34;,
         &#34;value&#34;: true,
         &#34;n_runs&#34;: 18,
-        &#34;n_holds&#34;: 12,
+        &#34;n_holds&#34;: 17,
         &#34;is_baseline&#34;: true
       },
       {
         &#34;axis&#34;: &#34;seed&#34;,
         &#34;value&#34;: 0,
         &#34;n_runs&#34;: 18,
-        &#34;n_holds&#34;: 12,
-        &#34;is_baseline&#34;: true
-      },
-      {
-        &#34;axis&#34;: &#34;n_pcs&#34;,
-        &#34;value&#34;: 50,
-        &#34;n_runs&#34;: 3,
-        &#34;n_holds&#34;: 2,
-        &#34;is_baseline&#34;: false
-      },
-      {
-        &#34;axis&#34;: &#34;n_hvgs&#34;,
-        &#34;value&#34;: 2000,
-        &#34;n_runs&#34;: 16,
-        &#34;n_holds&#34;: 12,
-        &#34;is_baseline&#34;: true
-      },
-      {
-        &#34;axis&#34;: &#34;n_pcs&#34;,
-        &#34;value&#34;: 30,
-        &#34;n_runs&#34;: 15,
-        &#34;n_holds&#34;: 12,
-        &#34;is_baseline&#34;: true
-      },
-      {
-        &#34;axis&#34;: &#34;normalization&#34;,
-        &#34;value&#34;: &#34;log_total&#34;,
-        &#34;n_runs&#34;: 16,
-        &#34;n_holds&#34;: 13,
-        &#34;is_baseline&#34;: true
-      },
-      {
-        &#34;axis&#34;: &#34;resolution&#34;,
-        &#34;value&#34;: 1.0,
-        &#34;n_runs&#34;: 13,
-        &#34;n_holds&#34;: 11,
-        &#34;is_baseline&#34;: true
-      },
-      {
-        &#34;axis&#34;: &#34;min_genes&#34;,
-        &#34;value&#34;: 200,
-        &#34;n_runs&#34;: 13,
-        &#34;n_holds&#34;: 12,
+        &#34;n_holds&#34;: 17,
         &#34;is_baseline&#34;: true
       }
     ],
-    &#34;oat_flips&#34;: [
-      {
-        &#34;label&#34;: &#34;min_genes=500&#34;,
-        &#34;holds&#34;: false,
-        &#34;params_changed&#34;: {
-          &#34;min_genes&#34;: 500
-        }
-      },
-      {
-        &#34;label&#34;: &#34;resolution=0.3&#34;,
-        &#34;holds&#34;: false,
-        &#34;params_changed&#34;: {
-          &#34;resolution&#34;: 0.3
-        }
-      }
-    ],
-    &#34;summary&#34;: &#34;The claim held in 15 of 21 runs (71%). It held under the baseline pipeline. Single changes that broke it: min_genes=500; resolution=0.3.&#34;
+    &#34;oat_flips&#34;: [],
+    &#34;summary&#34;: &#34;The claim held in 20 of 21 runs (95%). It held under the baseline pipeline.&#34;,
+    &#34;time_check_label&#34;: null,
+    &#34;label_before_time_check&#34;: null,
+    &#34;n_not_testable&#34;: 0
   },
+  &#34;time_check&#34;: null,
   &#34;runs&#34;: [
     {
       &#34;index&#34;: 0,
@@ -756,42 +718,78 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: true,
       &#34;is_one_at_a_time&#34;: false,
-      &#34;n_cells&#34;: 24512,
+      &#34;n_cells&#34;: 24213,
       &#34;n_removed_qc&#34;: 111,
-      &#34;n_removed_doublet&#34;: 50,
-      &#34;n_clusters&#34;: 20,
-      &#34;runtime_s&#34;: 65.604,
+      &#34;n_removed_doublet&#34;: 349,
+      &#34;n_clusters&#34;: 18,
+      &#34;runtime_s&#34;: 38.619,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;6&#34;
+          &#34;5&#34;
         ],
-        &#34;n_cells&#34;: 1760,
+        &#34;n_cells&#34;: 1719,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.98236,
-        &#34;marker_auroc&#34;: 0.98236,
-        &#34;jaccard&#34;: 0.874865,
-        &#34;precision&#34;: 0.921591,
-        &#34;recall&#34;: 0.945221,
+        &#34;best_cluster_auroc&#34;: 0.985158,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.985201,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.965544,
+          &#34;NKG7&#34;: 0.943931,
+          &#34;KLRD1&#34;: 0.72847
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.880266,
+        &#34;precision&#34;: 0.923793,
+        &#34;recall&#34;: 0.949193,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0250583,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.136364,
-        &#34;doublet_score_median&#34;: 0.0449735,
-        &#34;doublet_score_median_all&#34;: 0.049049
+        &#34;max_sample_share&#34;: 0.135544,
+        &#34;candidate_by&#34;: {
+          &#34;5&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;5&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0435624,
+        &#34;doublet_score_median_all&#34;: 0.0490094,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;6&#34;,
+          &#34;single_residual&#34;: 5.17367,
+          &#34;best_pair&#34;: [
+            &#34;16&#34;,
+            &#34;6&#34;
+          ],
+          &#34;pair_weight&#34;: 0.0328558,
+          &#34;pair_residual&#34;: 5.13493,
+          &#34;residual_ratio&#34;: 0.992511,
+          &#34;libsize_ratio&#34;: 0.920078,
+          &#34;libsize_ratio_vs_max&#34;: 0.321068,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.874865,
-        &#34;marker_auroc&#34;: 0.98236
+        &#34;jaccard&#34;: 0.880266,
+        &#34;marker_auroc&#34;: 0.985201
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
@@ -810,47 +808,83 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: true,
-      &#34;n_cells&#34;: 24521,
+      &#34;n_cells&#34;: 24226,
       &#34;n_removed_qc&#34;: 97,
-      &#34;n_removed_doublet&#34;: 55,
-      &#34;n_clusters&#34;: 19,
-      &#34;runtime_s&#34;: 53.549,
+      &#34;n_removed_doublet&#34;: 350,
+      &#34;n_clusters&#34;: 18,
+      &#34;runtime_s&#34;: 38.416,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;9&#34;
+          &#34;10&#34;
         ],
-        &#34;n_cells&#34;: 1766,
+        &#34;n_cells&#34;: 1725,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.982239,
-        &#34;marker_auroc&#34;: 0.982239,
-        &#34;jaccard&#34;: 0.878101,
-        &#34;precision&#34;: 0.921857,
-        &#34;recall&#34;: 0.948718,
+        &#34;best_cluster_auroc&#34;: 0.9832,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.983278,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.965586,
+          &#34;NKG7&#34;: 0.944252,
+          &#34;KLRD1&#34;: 0.729131
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.882614,
+        &#34;precision&#34;: 0.924058,
+        &#34;recall&#34;: 0.951642,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0238928,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.137033,
-        &#34;doublet_score_median&#34;: 0.0442324,
-        &#34;doublet_score_median_all&#34;: 0.0490857
+        &#34;max_sample_share&#34;: 0.135652,
+        &#34;candidate_by&#34;: {
+          &#34;10&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;10&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0435624,
+        &#34;doublet_score_median_all&#34;: 0.049049,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;9&#34;,
+          &#34;single_residual&#34;: 5.18812,
+          &#34;best_pair&#34;: [
+            &#34;14&#34;,
+            &#34;9&#34;
+          ],
+          &#34;pair_weight&#34;: 0.0282568,
+          &#34;pair_residual&#34;: 5.15826,
+          &#34;residual_ratio&#34;: 0.994245,
+          &#34;libsize_ratio&#34;: 0.920589,
+          &#34;libsize_ratio_vs_max&#34;: 0.320173,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.878101,
-        &#34;marker_auroc&#34;: 0.982239
+        &#34;jaccard&#34;: 0.882614,
+        &#34;marker_auroc&#34;: 0.983278
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 100,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
       &#34;index&#34;: 2,
-      &#34;label&#34;: &#34;min_genes=500&#34;,
+      &#34;label&#34;: &#34;min_genes=500 [min_genes capped to 441]&#34;,
       &#34;params&#34;: {
         &#34;min_genes&#34;: 500,
         &#34;max_mito_pct&#34;: 10.0,
@@ -864,44 +898,81 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: true,
-      &#34;n_cells&#34;: 13726,
-      &#34;n_removed_qc&#34;: 10880,
-      &#34;n_removed_doublet&#34;: 67,
-      &#34;n_clusters&#34;: 17,
-      &#34;runtime_s&#34;: 35.906,
+      &#34;n_cells&#34;: 18445,
+      &#34;n_removed_qc&#34;: 6094,
+      &#34;n_removed_doublet&#34;: 134,
+      &#34;n_clusters&#34;: 20,
+      &#34;runtime_s&#34;: 24.101,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 4 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;,
+        &#34;min_genes=500 would remove more than 25% of cells; capped to 441&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;11&#34;
+          &#34;8&#34;
         ],
-        &#34;n_cells&#34;: 624,
+        &#34;n_cells&#34;: 1065,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.975602,
-        &#34;marker_auroc&#34;: 0.975602,
-        &#34;jaccard&#34;: 0.316085,
-        &#34;precision&#34;: 0.900641,
-        &#34;recall&#34;: 0.327506,
+        &#34;best_cluster_auroc&#34;: 0.982558,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.981738,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.966157,
+          &#34;NKG7&#34;: 0.962345,
+          &#34;KLRD1&#34;: 0.743779
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.878597,
+        &#34;precision&#34;: 0.917371,
+        &#34;recall&#34;: 0.954102,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.403263,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.169872,
-        &#34;doublet_score_median&#34;: 0.0488677,
-        &#34;doublet_score_median_all&#34;: 0.0486009
+        &#34;max_sample_share&#34;: 0.13615,
+        &#34;candidate_by&#34;: {
+          &#34;8&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;8&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0480167,
+        &#34;doublet_score_median_all&#34;: 0.0488677,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;5&#34;,
+          &#34;single_residual&#34;: 6.57626,
+          &#34;best_pair&#34;: [
+            &#34;16&#34;,
+            &#34;5&#34;
+          ],
+          &#34;pair_weight&#34;: 0.0351028,
+          &#34;pair_residual&#34;: 6.54224,
+          &#34;residual_ratio&#34;: 0.994827,
+          &#34;libsize_ratio&#34;: 0.889667,
+          &#34;libsize_ratio_vs_max&#34;: 0.358719,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
-      &#34;holds&#34;: false,
-      &#34;holds_cell_level&#34;: false,
+      &#34;holds&#34;: true,
+      &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
-      &#34;recovered&#34;: false,
+      &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.316085,
-        &#34;marker_auroc&#34;: 0.975602
+        &#34;jaccard&#34;: 0.878597,
+        &#34;marker_auroc&#34;: 0.981738
       },
       &#34;details&#34;: {
-        &#34;reasons&#34;: [
-          &#34;Jaccard 0.32 &lt; 0.5&#34;
-        ]
+        &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 441,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {
+          &#34;min_genes&#34;: 441
+        },
+        &#34;scrublet_fallback_subsets&#34;: 4
       }
     },
     {
@@ -924,27 +995,57 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 111,
       &#34;n_removed_doublet&#34;: 0,
       &#34;n_clusters&#34;: 18,
-      &#34;runtime_s&#34;: 19.333,
+      &#34;runtime_s&#34;: 11.371,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
           &#34;7&#34;
         ],
         &#34;n_cells&#34;: 1765,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.979775,
+        &#34;best_cluster_auroc&#34;: 0.979172,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
         &#34;marker_auroc&#34;: 0.979775,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.965135,
+          &#34;NKG7&#34;: 0.943934,
+          &#34;KLRD1&#34;: 0.72632
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
         &#34;jaccard&#34;: 0.87959,
         &#34;precision&#34;: 0.922946,
         &#34;recall&#34;: 0.949301,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: 16,
         &#34;max_sample_share&#34;: 0.136544,
+        &#34;candidate_by&#34;: {
+          &#34;7&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;7&#34;: &#34;within-sample&#34;
+        },
         &#34;doublet_score_median&#34;: 0.0454545,
-        &#34;doublet_score_median_all&#34;: 0.0490857
+        &#34;doublet_score_median_all&#34;: 0.0490857,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;5&#34;,
+          &#34;single_residual&#34;: 5.1586,
+          &#34;best_pair&#34;: [
+            &#34;14&#34;,
+            &#34;5&#34;
+          ],
+          &#34;pair_weight&#34;: 0.0311953,
+          &#34;pair_residual&#34;: 5.12338,
+          &#34;residual_ratio&#34;: 0.993173,
+          &#34;libsize_ratio&#34;: 0.924364,
+          &#34;libsize_ratio_vs_max&#34;: 0.322441,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -956,6 +1057,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
@@ -974,42 +1081,78 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: true,
-      &#34;n_cells&#34;: 24512,
+      &#34;n_cells&#34;: 24213,
       &#34;n_removed_qc&#34;: 111,
-      &#34;n_removed_doublet&#34;: 50,
-      &#34;n_clusters&#34;: 24,
-      &#34;runtime_s&#34;: 13.447,
+      &#34;n_removed_doublet&#34;: 349,
+      &#34;n_clusters&#34;: 23,
+      &#34;runtime_s&#34;: 8.925,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;10&#34;
+          &#34;9&#34;
         ],
-        &#34;n_cells&#34;: 1658,
+        &#34;n_cells&#34;: 1798,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.973436,
-        &#34;marker_auroc&#34;: 0.973436,
-        &#34;jaccard&#34;: 0.810086,
-        &#34;precision&#34;: 0.910736,
-        &#34;recall&#34;: 0.879953,
+        &#34;best_cluster_auroc&#34;: 0.965511,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.965889,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.974022,
+          &#34;NKG7&#34;: 0.943306,
+          &#34;KLRD1&#34;: 0.727823
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.823962,
+        &#34;precision&#34;: 0.87208,
+        &#34;recall&#34;: 0.937238,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0250583,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.123643,
-        &#34;doublet_score_median&#34;: 0.0435624,
-        &#34;doublet_score_median_all&#34;: 0.049049
+        &#34;max_sample_share&#34;: 0.128476,
+        &#34;candidate_by&#34;: {
+          &#34;9&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;9&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0456621,
+        &#34;doublet_score_median_all&#34;: 0.0490094,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;11&#34;,
+          &#34;single_residual&#34;: 5.44828,
+          &#34;best_pair&#34;: [
+            &#34;10&#34;,
+            &#34;11&#34;
+          ],
+          &#34;pair_weight&#34;: 0.354105,
+          &#34;pair_residual&#34;: 4.97822,
+          &#34;residual_ratio&#34;: 0.913724,
+          &#34;libsize_ratio&#34;: 0.96574,
+          &#34;libsize_ratio_vs_max&#34;: 0.946561,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.810086,
-        &#34;marker_auroc&#34;: 0.973436
+        &#34;jaccard&#34;: 0.823962,
+        &#34;marker_auroc&#34;: 0.965889
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
@@ -1028,42 +1171,78 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: true,
-      &#34;n_cells&#34;: 24512,
+      &#34;n_cells&#34;: 24213,
       &#34;n_removed_qc&#34;: 111,
-      &#34;n_removed_doublet&#34;: 50,
+      &#34;n_removed_doublet&#34;: 349,
       &#34;n_clusters&#34;: 16,
-      &#34;runtime_s&#34;: 9.637,
+      &#34;runtime_s&#34;: 6.555,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
           &#34;9&#34;
         ],
-        &#34;n_cells&#34;: 1727,
+        &#34;n_cells&#34;: 1684,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.975461,
-        &#34;marker_auroc&#34;: 0.975461,
-        &#34;jaccard&#34;: 0.844135,
-        &#34;precision&#34;: 0.912565,
-        &#34;recall&#34;: 0.918415,
+        &#34;best_cluster_auroc&#34;: 0.981319,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.981159,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.965215,
+          &#34;NKG7&#34;: 0.944656,
+          &#34;KLRD1&#34;: 0.732002
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.867075,
+        &#34;precision&#34;: 0.925772,
+        &#34;recall&#34;: 0.931859,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0250583,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.135495,
-        &#34;doublet_score_median&#34;: 0.0443787,
-        &#34;doublet_score_median_all&#34;: 0.049049
+        &#34;max_sample_share&#34;: 0.135986,
+        &#34;candidate_by&#34;: {
+          &#34;9&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;9&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0435624,
+        &#34;doublet_score_median_all&#34;: 0.0490094,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;3&#34;,
+          &#34;single_residual&#34;: 5.92313,
+          &#34;best_pair&#34;: [
+            &#34;15&#34;,
+            &#34;3&#34;
+          ],
+          &#34;pair_weight&#34;: 0.0133427,
+          &#34;pair_residual&#34;: 5.9179,
+          &#34;residual_ratio&#34;: 0.999117,
+          &#34;libsize_ratio&#34;: 0.915495,
+          &#34;libsize_ratio_vs_max&#34;: 0.322126,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.844135,
-        &#34;marker_auroc&#34;: 0.975461
+        &#34;jaccard&#34;: 0.867075,
+        &#34;marker_auroc&#34;: 0.981159
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
@@ -1082,42 +1261,78 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: true,
-      &#34;n_cells&#34;: 24512,
+      &#34;n_cells&#34;: 24213,
       &#34;n_removed_qc&#34;: 111,
-      &#34;n_removed_doublet&#34;: 50,
-      &#34;n_clusters&#34;: 19,
-      &#34;runtime_s&#34;: 16.067,
+      &#34;n_removed_doublet&#34;: 349,
+      &#34;n_clusters&#34;: 20,
+      &#34;runtime_s&#34;: 14.122,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;8&#34;
+          &#34;10&#34;
         ],
-        &#34;n_cells&#34;: 1757,
+        &#34;n_cells&#34;: 1734,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.981782,
-        &#34;marker_auroc&#34;: 0.981782,
-        &#34;jaccard&#34;: 0.883406,
-        &#34;precision&#34;: 0.927149,
-        &#34;recall&#34;: 0.949301,
+        &#34;best_cluster_auroc&#34;: 0.985386,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.986036,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.966922,
+          &#34;NKG7&#34;: 0.945097,
+          &#34;KLRD1&#34;: 0.730765
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.890677,
+        &#34;precision&#34;: 0.925606,
+        &#34;recall&#34;: 0.959354,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0250583,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.139442,
-        &#34;doublet_score_median&#34;: 0.0443787,
-        &#34;doublet_score_median_all&#34;: 0.049049
+        &#34;max_sample_share&#34;: 0.134948,
+        &#34;candidate_by&#34;: {
+          &#34;10&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;10&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0435624,
+        &#34;doublet_score_median_all&#34;: 0.0490094,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;13&#34;,
+          &#34;single_residual&#34;: 5.19772,
+          &#34;best_pair&#34;: [
+            &#34;13&#34;,
+            &#34;17&#34;
+          ],
+          &#34;pair_weight&#34;: 0.964613,
+          &#34;pair_residual&#34;: 5.15249,
+          &#34;residual_ratio&#34;: 0.991299,
+          &#34;libsize_ratio&#34;: 0.916004,
+          &#34;libsize_ratio_vs_max&#34;: 0.317872,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.883406,
-        &#34;marker_auroc&#34;: 0.981782
+        &#34;jaccard&#34;: 0.890677,
+        &#34;marker_auroc&#34;: 0.986036
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
@@ -1136,42 +1351,78 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: true,
-      &#34;n_cells&#34;: 24512,
+      &#34;n_cells&#34;: 24213,
       &#34;n_removed_qc&#34;: 111,
-      &#34;n_removed_doublet&#34;: 50,
-      &#34;n_clusters&#34;: 19,
-      &#34;runtime_s&#34;: 15.344,
+      &#34;n_removed_doublet&#34;: 349,
+      &#34;n_clusters&#34;: 20,
+      &#34;runtime_s&#34;: 8.424,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;6&#34;
+          &#34;5&#34;
         ],
-        &#34;n_cells&#34;: 1761,
+        &#34;n_cells&#34;: 1712,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.980011,
-        &#34;marker_auroc&#34;: 0.980011,
-        &#34;jaccard&#34;: 0.878444,
-        &#34;precision&#34;: 0.923339,
-        &#34;recall&#34;: 0.947552,
+        &#34;best_cluster_auroc&#34;: 0.984843,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.985027,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.966261,
+          &#34;NKG7&#34;: 0.945517,
+          &#34;KLRD1&#34;: 0.728554
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.892119,
+        &#34;precision&#34;: 0.932243,
+        &#34;recall&#34;: 0.953975,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0250583,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.13799,
-        &#34;doublet_score_median&#34;: 0.0449735,
-        &#34;doublet_score_median_all&#34;: 0.049049
+        &#34;max_sample_share&#34;: 0.136682,
+        &#34;candidate_by&#34;: {
+          &#34;5&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;5&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0435624,
+        &#34;doublet_score_median_all&#34;: 0.0490094,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;8&#34;,
+          &#34;single_residual&#34;: 5.17854,
+          &#34;best_pair&#34;: [
+            &#34;17&#34;,
+            &#34;8&#34;
+          ],
+          &#34;pair_weight&#34;: 0.0313708,
+          &#34;pair_residual&#34;: 5.14317,
+          &#34;residual_ratio&#34;: 0.99317,
+          &#34;libsize_ratio&#34;: 0.920179,
+          &#34;libsize_ratio_vs_max&#34;: 0.320245,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.878444,
-        &#34;marker_auroc&#34;: 0.980011
+        &#34;jaccard&#34;: 0.892119,
+        &#34;marker_auroc&#34;: 0.985027
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
@@ -1190,42 +1441,78 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: true,
-      &#34;n_cells&#34;: 24512,
+      &#34;n_cells&#34;: 24213,
       &#34;n_removed_qc&#34;: 111,
-      &#34;n_removed_doublet&#34;: 50,
-      &#34;n_clusters&#34;: 17,
-      &#34;runtime_s&#34;: 22.511,
+      &#34;n_removed_doublet&#34;: 349,
+      &#34;n_clusters&#34;: 16,
+      &#34;runtime_s&#34;: 16.393,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;4&#34;
+          &#34;7&#34;
         ],
-        &#34;n_cells&#34;: 1732,
+        &#34;n_cells&#34;: 1695,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.98082,
-        &#34;marker_auroc&#34;: 0.98082,
-        &#34;jaccard&#34;: 0.863784,
-        &#34;precision&#34;: 0.922633,
-        &#34;recall&#34;: 0.931235,
+        &#34;best_cluster_auroc&#34;: 0.983368,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.983998,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.966183,
+          &#34;NKG7&#34;: 0.943987,
+          &#34;KLRD1&#34;: 0.73006
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.872151,
+        &#34;precision&#34;: 0.925664,
+        &#34;recall&#34;: 0.937836,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0250583,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.137413,
-        &#34;doublet_score_median&#34;: 0.0443787,
-        &#34;doublet_score_median_all&#34;: 0.049049
+        &#34;max_sample_share&#34;: 0.133923,
+        &#34;candidate_by&#34;: {
+          &#34;7&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;7&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0435624,
+        &#34;doublet_score_median_all&#34;: 0.0490094,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;5&#34;,
+          &#34;single_residual&#34;: 5.81572,
+          &#34;best_pair&#34;: [
+            &#34;12&#34;,
+            &#34;5&#34;
+          ],
+          &#34;pair_weight&#34;: 0.0169477,
+          &#34;pair_residual&#34;: 5.80705,
+          &#34;residual_ratio&#34;: 0.99851,
+          &#34;libsize_ratio&#34;: 0.909016,
+          &#34;libsize_ratio_vs_max&#34;: 0.32036,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.863784,
-        &#34;marker_auroc&#34;: 0.98082
+        &#34;jaccard&#34;: 0.872151,
+        &#34;marker_auroc&#34;: 0.983998
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
@@ -1244,44 +1531,78 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: true,
-      &#34;n_cells&#34;: 24512,
+      &#34;n_cells&#34;: 24213,
       &#34;n_removed_qc&#34;: 111,
-      &#34;n_removed_doublet&#34;: 50,
+      &#34;n_removed_doublet&#34;: 349,
       &#34;n_clusters&#34;: 11,
-      &#34;runtime_s&#34;: 13.038,
+      &#34;runtime_s&#34;: 9.701,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
-        &#34;clusters&#34;: [],
-        &#34;n_cells&#34;: 0,
-        &#34;found&#34;: false,
-        &#34;best_cluster_auroc&#34;: 0.752743,
-        &#34;marker_auroc&#34;: null,
-        &#34;jaccard&#34;: 0.0,
-        &#34;precision&#34;: 0.0,
-        &#34;recall&#34;: 0.0,
+        &#34;mode&#34;: &#34;either&#34;,
+        &#34;clusters&#34;: [
+          &#34;5&#34;
+        ],
+        &#34;n_cells&#34;: 3295,
+        &#34;found&#34;: true,
+        &#34;best_cluster_auroc&#34;: 0.826797,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.815778,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.905287,
+          &#34;NKG7&#34;: 0.950653,
+          &#34;KLRD1&#34;: 0.713146
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.504998,
+        &#34;precision&#34;: 0.505918,
+        &#34;recall&#34;: 0.996414,
         &#34;n_reference&#34;: 1716,
-        &#34;n_samples_present&#34;: 0,
-        &#34;max_sample_share&#34;: null,
-        &#34;doublet_score_median&#34;: null,
-        &#34;doublet_score_median_all&#34;: 0.049049
+        &#34;reference_qc_removed&#34;: 0.0250583,
+        &#34;n_samples_present&#34;: 16,
+        &#34;max_sample_share&#34;: 0.191502,
+        &#34;candidate_by&#34;: {
+          &#34;5&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;5&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0547264,
+        &#34;doublet_score_median_all&#34;: 0.0490094,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;4&#34;,
+          &#34;single_residual&#34;: 9.18469,
+          &#34;best_pair&#34;: [
+            &#34;2&#34;,
+            &#34;4&#34;
+          ],
+          &#34;pair_weight&#34;: 0.174504,
+          &#34;pair_residual&#34;: 8.89513,
+          &#34;residual_ratio&#34;: 0.968474,
+          &#34;libsize_ratio&#34;: 0.617882,
+          &#34;libsize_ratio_vs_max&#34;: 0.353358,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
-      &#34;holds&#34;: false,
-      &#34;holds_cell_level&#34;: false,
-      &#34;replicate_ok&#34;: false,
-      &#34;recovered&#34;: false,
+      &#34;holds&#34;: true,
+      &#34;holds_cell_level&#34;: true,
+      &#34;replicate_ok&#34;: true,
+      &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.0,
-        &#34;marker_auroc&#34;: null
+        &#34;jaccard&#34;: 0.504998,
+        &#34;marker_auroc&#34;: 0.815778
       },
       &#34;details&#34;: {
-        &#34;reasons&#34;: [
-          &#34;only 0 matched cells&#34;,
-          &#34;Jaccard 0.00 &lt; 0.5&#34;,
-          &#34;present in 0 sample(s) &lt; 2&#34;
-        ]
+        &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
@@ -1300,42 +1621,78 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: true,
-      &#34;n_cells&#34;: 24512,
+      &#34;n_cells&#34;: 24213,
       &#34;n_removed_qc&#34;: 111,
-      &#34;n_removed_doublet&#34;: 50,
+      &#34;n_removed_doublet&#34;: 349,
       &#34;n_clusters&#34;: 14,
-      &#34;runtime_s&#34;: 12.904,
+      &#34;runtime_s&#34;: 11.373,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;5&#34;
+          &#34;7&#34;
         ],
-        &#34;n_cells&#34;: 1765,
+        &#34;n_cells&#34;: 1708,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.98177,
-        &#34;marker_auroc&#34;: 0.98177,
-        &#34;jaccard&#34;: 0.874529,
-        &#34;precision&#34;: 0.920113,
-        &#34;recall&#34;: 0.946387,
+        &#34;best_cluster_auroc&#34;: 0.985501,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.985304,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.965489,
+          &#34;NKG7&#34;: 0.943675,
+          &#34;KLRD1&#34;: 0.728759
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.878333,
+        &#34;precision&#34;: 0.925644,
+        &#34;recall&#34;: 0.945009,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0250583,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.135977,
-        &#34;doublet_score_median&#34;: 0.0454545,
-        &#34;doublet_score_median_all&#34;: 0.049049
+        &#34;max_sample_share&#34;: 0.135246,
+        &#34;candidate_by&#34;: {
+          &#34;7&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;7&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0435624,
+        &#34;doublet_score_median_all&#34;: 0.0490094,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;6&#34;,
+          &#34;single_residual&#34;: 5.17416,
+          &#34;best_pair&#34;: [
+            &#34;12&#34;,
+            &#34;6&#34;
+          ],
+          &#34;pair_weight&#34;: 0.0314332,
+          &#34;pair_residual&#34;: 5.13885,
+          &#34;residual_ratio&#34;: 0.993175,
+          &#34;libsize_ratio&#34;: 0.92272,
+          &#34;libsize_ratio_vs_max&#34;: 0.321429,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.874529,
-        &#34;marker_auroc&#34;: 0.98177
+        &#34;jaccard&#34;: 0.878333,
+        &#34;marker_auroc&#34;: 0.985304
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
@@ -1354,42 +1711,78 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: true,
-      &#34;n_cells&#34;: 24512,
+      &#34;n_cells&#34;: 24213,
       &#34;n_removed_qc&#34;: 111,
-      &#34;n_removed_doublet&#34;: 50,
+      &#34;n_removed_doublet&#34;: 349,
       &#34;n_clusters&#34;: 20,
-      &#34;runtime_s&#34;: 13.843,
+      &#34;runtime_s&#34;: 9.789,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;9&#34;
+          &#34;7&#34;
         ],
-        &#34;n_cells&#34;: 1749,
+        &#34;n_cells&#34;: 1691,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.981789,
-        &#34;marker_auroc&#34;: 0.981789,
-        &#34;jaccard&#34;: 0.876015,
-        &#34;precision&#34;: 0.9251,
-        &#34;recall&#34;: 0.94289,
+        &#34;best_cluster_auroc&#34;: 0.98517,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.985164,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.965525,
+          &#34;NKG7&#34;: 0.943779,
+          &#34;KLRD1&#34;: 0.729387
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.88038,
+        &#34;precision&#34;: 0.931402,
+        &#34;recall&#34;: 0.941423,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0250583,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.136078,
-        &#34;doublet_score_median&#34;: 0.0449735,
-        &#34;doublet_score_median_all&#34;: 0.049049
+        &#34;max_sample_share&#34;: 0.135423,
+        &#34;candidate_by&#34;: {
+          &#34;7&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;7&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0435624,
+        &#34;doublet_score_median_all&#34;: 0.0490094,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;11&#34;,
+          &#34;single_residual&#34;: 5.17731,
+          &#34;best_pair&#34;: [
+            &#34;11&#34;,
+            &#34;17&#34;
+          ],
+          &#34;pair_weight&#34;: 0.967866,
+          &#34;pair_residual&#34;: 5.14022,
+          &#34;residual_ratio&#34;: 0.992836,
+          &#34;libsize_ratio&#34;: 0.924065,
+          &#34;libsize_ratio_vs_max&#34;: 0.320734,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.876015,
-        &#34;marker_auroc&#34;: 0.981789
+        &#34;jaccard&#34;: 0.88038,
+        &#34;marker_auroc&#34;: 0.985164
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
@@ -1408,43 +1801,81 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: true,
-      &#34;n_cells&#34;: 24512,
+      &#34;n_cells&#34;: 24213,
       &#34;n_removed_qc&#34;: 111,
-      &#34;n_removed_doublet&#34;: 50,
-      &#34;n_clusters&#34;: 28,
-      &#34;runtime_s&#34;: 18.693,
+      &#34;n_removed_doublet&#34;: 349,
+      &#34;n_clusters&#34;: 26,
+      &#34;runtime_s&#34;: 9.555,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;9&#34;,
-          &#34;12&#34;
+          &#34;10&#34;,
+          &#34;13&#34;
         ],
-        &#34;n_cells&#34;: 1789,
+        &#34;n_cells&#34;: 1690,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.967132,
-        &#34;marker_auroc&#34;: 0.979624,
-        &#34;jaccard&#34;: 0.871329,
-        &#34;precision&#34;: 0.912241,
-        &#34;recall&#34;: 0.951049,
+        &#34;best_cluster_auroc&#34;: 0.97579,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.982313,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.964029,
+          &#34;NKG7&#34;: 0.943187,
+          &#34;KLRD1&#34;: 0.72794
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.870412,
+        &#34;precision&#34;: 0.926036,
+        &#34;recall&#34;: 0.935445,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0250583,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.137507,
-        &#34;doublet_score_median&#34;: 0.0454545,
-        &#34;doublet_score_median_all&#34;: 0.049049
+        &#34;max_sample_share&#34;: 0.135503,
+        &#34;candidate_by&#34;: {
+          &#34;10&#34;: &#34;both&#34;,
+          &#34;13&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;10&#34;: &#34;within-sample&#34;,
+          &#34;13&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0435624,
+        &#34;doublet_score_median_all&#34;: 0.0490094,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;12&#34;,
+          &#34;single_residual&#34;: 5.13687,
+          &#34;best_pair&#34;: [
+            &#34;12&#34;,
+            &#34;22&#34;
+          ],
+          &#34;pair_weight&#34;: 0.967006,
+          &#34;pair_residual&#34;: 5.09741,
+          &#34;residual_ratio&#34;: 0.992317,
+          &#34;libsize_ratio&#34;: 0.918956,
+          &#34;libsize_ratio_vs_max&#34;: 0.321287,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.871329,
-        &#34;marker_auroc&#34;: 0.979624
+        &#34;jaccard&#34;: 0.870412,
+        &#34;marker_auroc&#34;: 0.982313
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
@@ -1463,42 +1894,78 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: true,
-      &#34;n_cells&#34;: 24512,
+      &#34;n_cells&#34;: 24213,
       &#34;n_removed_qc&#34;: 111,
-      &#34;n_removed_doublet&#34;: 50,
+      &#34;n_removed_doublet&#34;: 349,
       &#34;n_clusters&#34;: 19,
-      &#34;runtime_s&#34;: 32.781,
+      &#34;runtime_s&#34;: 9.201,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
           &#34;7&#34;
         ],
-        &#34;n_cells&#34;: 1780,
+        &#34;n_cells&#34;: 1723,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.981335,
-        &#34;marker_auroc&#34;: 0.981335,
-        &#34;jaccard&#34;: 0.874531,
-        &#34;precision&#34;: 0.916292,
-        &#34;recall&#34;: 0.950466,
+        &#34;best_cluster_auroc&#34;: 0.983537,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.983753,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.964961,
+          &#34;NKG7&#34;: 0.944678,
+          &#34;KLRD1&#34;: 0.727581
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.878319,
+        &#34;precision&#34;: 0.921648,
+        &#34;recall&#34;: 0.949193,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0250583,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.136517,
-        &#34;doublet_score_median&#34;: 0.0454545,
-        &#34;doublet_score_median_all&#34;: 0.049049
+        &#34;max_sample_share&#34;: 0.134649,
+        &#34;candidate_by&#34;: {
+          &#34;7&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;7&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0435624,
+        &#34;doublet_score_median_all&#34;: 0.0490094,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;10&#34;,
+          &#34;single_residual&#34;: 5.17765,
+          &#34;best_pair&#34;: [
+            &#34;10&#34;,
+            &#34;17&#34;
+          ],
+          &#34;pair_weight&#34;: 0.965247,
+          &#34;pair_residual&#34;: 5.13418,
+          &#34;residual_ratio&#34;: 0.991605,
+          &#34;libsize_ratio&#34;: 0.917487,
+          &#34;libsize_ratio_vs_max&#34;: 0.320547,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.874531,
-        &#34;marker_auroc&#34;: 0.981335
+        &#34;jaccard&#34;: 0.878319,
+        &#34;marker_auroc&#34;: 0.983753
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
@@ -1517,47 +1984,83 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: true,
-      &#34;n_cells&#34;: 24512,
+      &#34;n_cells&#34;: 24213,
       &#34;n_removed_qc&#34;: 111,
-      &#34;n_removed_doublet&#34;: 50,
+      &#34;n_removed_doublet&#34;: 349,
       &#34;n_clusters&#34;: 20,
-      &#34;runtime_s&#34;: 22.285,
+      &#34;runtime_s&#34;: 10.666,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;9&#34;
+          &#34;8&#34;
         ],
-        &#34;n_cells&#34;: 1772,
+        &#34;n_cells&#34;: 1703,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.98053,
-        &#34;marker_auroc&#34;: 0.98053,
-        &#34;jaccard&#34;: 0.876278,
-        &#34;precision&#34;: 0.9193,
-        &#34;recall&#34;: 0.949301,
+        &#34;best_cluster_auroc&#34;: 0.985187,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.985101,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.965381,
+          &#34;NKG7&#34;: 0.944208,
+          &#34;KLRD1&#34;: 0.729201
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.877642,
+        &#34;precision&#34;: 0.9266,
+        &#34;recall&#34;: 0.943216,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0250583,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.137133,
-        &#34;doublet_score_median&#34;: 0.045214,
-        &#34;doublet_score_median_all&#34;: 0.049049
+        &#34;max_sample_share&#34;: 0.135643,
+        &#34;candidate_by&#34;: {
+          &#34;8&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;8&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0435624,
+        &#34;doublet_score_median_all&#34;: 0.0490094,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;10&#34;,
+          &#34;single_residual&#34;: 5.17742,
+          &#34;best_pair&#34;: [
+            &#34;10&#34;,
+            &#34;18&#34;
+          ],
+          &#34;pair_weight&#34;: 0.965302,
+          &#34;pair_residual&#34;: 5.13407,
+          &#34;residual_ratio&#34;: 0.991627,
+          &#34;libsize_ratio&#34;: 0.920088,
+          &#34;libsize_ratio_vs_max&#34;: 0.321255,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.876278,
-        &#34;marker_auroc&#34;: 0.98053
+        &#34;jaccard&#34;: 0.877642,
+        &#34;marker_auroc&#34;: 0.985101
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
       &#34;index&#34;: 15,
-      &#34;label&#34;: &#34;min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3&#34;,
+      &#34;label&#34;: &#34;min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=0.3 [min_genes capped to 441]&#34;,
       &#34;params&#34;: {
         &#34;min_genes&#34;: 500,
         &#34;max_mito_pct&#34;: 10.0,
@@ -1571,44 +2074,61 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: false,
-      &#34;n_cells&#34;: 13726,
-      &#34;n_removed_qc&#34;: 10880,
-      &#34;n_removed_doublet&#34;: 67,
-      &#34;n_clusters&#34;: 14,
-      &#34;runtime_s&#34;: 10.098,
+      &#34;n_cells&#34;: 18445,
+      &#34;n_removed_qc&#34;: 6094,
+      &#34;n_removed_doublet&#34;: 134,
+      &#34;n_clusters&#34;: 11,
+      &#34;runtime_s&#34;: 3.469,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 4 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;,
+        &#34;min_genes=500 would remove more than 25% of cells; capped to 441&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
-        &#34;clusters&#34;: [
-          &#34;7&#34;
-        ],
-        &#34;n_cells&#34;: 993,
-        &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.839025,
-        &#34;marker_auroc&#34;: 0.839025,
-        &#34;jaccard&#34;: 0.271831,
-        &#34;precision&#34;: 0.583082,
-        &#34;recall&#34;: 0.337413,
+        &#34;mode&#34;: &#34;either&#34;,
+        &#34;clusters&#34;: [],
+        &#34;n_cells&#34;: 0,
+        &#34;found&#34;: false,
+        &#34;best_cluster_auroc&#34;: 0.779004,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
+        &#34;jaccard&#34;: 0.0,
+        &#34;precision&#34;: 0.0,
+        &#34;recall&#34;: 0.0,
         &#34;n_reference&#34;: 1716,
-        &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.140987,
-        &#34;doublet_score_median&#34;: 0.0488677,
-        &#34;doublet_score_median_all&#34;: 0.0486009
+        &#34;reference_qc_removed&#34;: 0.403263,
+        &#34;n_samples_present&#34;: 0,
+        &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {},
+        &#34;judged_by&#34;: {},
+        &#34;doublet_score_median&#34;: null,
+        &#34;doublet_score_median_all&#34;: 0.0488677,
+        &#34;doublet_cluster&#34;: null
       },
       &#34;holds&#34;: false,
       &#34;holds_cell_level&#34;: false,
-      &#34;replicate_ok&#34;: true,
+      &#34;replicate_ok&#34;: false,
       &#34;recovered&#34;: false,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.271831,
-        &#34;marker_auroc&#34;: 0.839025
+        &#34;jaccard&#34;: 0.0,
+        &#34;marker_auroc&#34;: null
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: [
-          &#34;Jaccard 0.27 &lt; 0.5&#34;
+          &#34;only 0 matched cells&#34;,
+          &#34;Jaccard 0.00 &lt; 0.5&#34;,
+          &#34;present in 0 sample(s) &lt; 2&#34;
         ]
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 441,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {
+          &#34;min_genes&#34;: 441
+        },
+        &#34;scrublet_fallback_subsets&#34;: 4
       }
     },
     {
@@ -1631,27 +2151,57 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 97,
       &#34;n_removed_doublet&#34;: 0,
       &#34;n_clusters&#34;: 21,
-      &#34;runtime_s&#34;: 32.651,
+      &#34;runtime_s&#34;: 10.415,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
           &#34;10&#34;
         ],
         &#34;n_cells&#34;: 1810,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.973885,
+        &#34;best_cluster_auroc&#34;: 0.974634,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
         &#34;marker_auroc&#34;: 0.973885,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.968307,
+          &#34;NKG7&#34;: 0.94105,
+          &#34;KLRD1&#34;: 0.723002
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
         &#34;jaccard&#34;: 0.858724,
         &#34;precision&#34;: 0.9,
         &#34;recall&#34;: 0.949301,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: 16,
         &#34;max_sample_share&#34;: 0.129834,
+        &#34;candidate_by&#34;: {
+          &#34;10&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;10&#34;: &#34;within-sample&#34;
+        },
         &#34;doublet_score_median&#34;: 0.0456621,
-        &#34;doublet_score_median_all&#34;: 0.0491026
+        &#34;doublet_score_median_all&#34;: 0.0491026,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;7&#34;,
+          &#34;single_residual&#34;: 5.13719,
+          &#34;best_pair&#34;: [
+            &#34;17&#34;,
+            &#34;7&#34;
+          ],
+          &#34;pair_weight&#34;: 0.0199777,
+          &#34;pair_residual&#34;: 5.12247,
+          &#34;residual_ratio&#34;: 0.997135,
+          &#34;libsize_ratio&#34;: 0.935158,
+          &#34;libsize_ratio_vs_max&#34;: 0.322849,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1663,11 +2213,17 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 100,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     },
     {
       &#34;index&#34;: 17,
-      &#34;label&#34;: &#34;min_genes=500, normalization=pearson, resolution=2.0&#34;,
+      &#34;label&#34;: &#34;min_genes=500, normalization=pearson, resolution=2.0 [min_genes capped to 441]&#34;,
       &#34;params&#34;: {
         &#34;min_genes&#34;: 500,
         &#34;max_mito_pct&#34;: 10.0,
@@ -1681,49 +2237,92 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: false,
-      &#34;n_cells&#34;: 13726,
-      &#34;n_removed_qc&#34;: 10880,
-      &#34;n_removed_doublet&#34;: 67,
-      &#34;n_clusters&#34;: 36,
-      &#34;runtime_s&#34;: 13.347,
+      &#34;n_cells&#34;: 18445,
+      &#34;n_removed_qc&#34;: 6094,
+      &#34;n_removed_doublet&#34;: 134,
+      &#34;n_clusters&#34;: 37,
+      &#34;runtime_s&#34;: 5.292,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 4 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;,
+        &#34;min_genes=500 would remove more than 25% of cells; capped to 441&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;23&#34;
+          &#34;9&#34;,
+          &#34;24&#34;,
+          &#34;25&#34;
         ],
-        &#34;n_cells&#34;: 433,
+        &#34;n_cells&#34;: 1002,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.97016,
-        &#34;marker_auroc&#34;: 0.97016,
-        &#34;jaccard&#34;: 0.213439,
-        &#34;precision&#34;: 0.872979,
-        &#34;recall&#34;: 0.22028,
+        &#34;best_cluster_auroc&#34;: 0.980343,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.968383,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.979468,
+          &#34;NKG7&#34;: 0.963733,
+          &#34;KLRD1&#34;: 0.743116
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.794508,
+        &#34;precision&#34;: 0.89521,
+        &#34;recall&#34;: 0.875977,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.403263,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.207852,
-        &#34;doublet_score_median&#34;: 0.0486787,
-        &#34;doublet_score_median_all&#34;: 0.0486009
+        &#34;max_sample_share&#34;: 0.139721,
+        &#34;candidate_by&#34;: {
+          &#34;9&#34;: &#34;both&#34;,
+          &#34;24&#34;: &#34;both&#34;,
+          &#34;25&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;9&#34;: &#34;within-sample&#34;,
+          &#34;24&#34;: &#34;within-sample&#34;,
+          &#34;25&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0449735,
+        &#34;doublet_score_median_all&#34;: 0.0488677,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;17&#34;,
+          &#34;single_residual&#34;: 5.74195,
+          &#34;best_pair&#34;: [
+            &#34;17&#34;,
+            &#34;8&#34;
+          ],
+          &#34;pair_weight&#34;: 0.710343,
+          &#34;pair_residual&#34;: 5.43115,
+          &#34;residual_ratio&#34;: 0.945872,
+          &#34;libsize_ratio&#34;: 0.960208,
+          &#34;libsize_ratio_vs_max&#34;: 0.951796,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
-      &#34;holds&#34;: false,
-      &#34;holds_cell_level&#34;: false,
+      &#34;holds&#34;: true,
+      &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
-      &#34;recovered&#34;: false,
+      &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.213439,
-        &#34;marker_auroc&#34;: 0.97016
+        &#34;jaccard&#34;: 0.794508,
+        &#34;marker_auroc&#34;: 0.968383
       },
       &#34;details&#34;: {
-        &#34;reasons&#34;: [
-          &#34;Jaccard 0.21 &lt; 0.5&#34;
-        ]
+        &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 441,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {
+          &#34;min_genes&#34;: 441
+        },
+        &#34;scrublet_fallback_subsets&#34;: 4
       }
     },
     {
       &#34;index&#34;: 18,
-      &#34;label&#34;: &#34;min_genes=500, n_pcs=50&#34;,
+      &#34;label&#34;: &#34;min_genes=500, n_pcs=50 [min_genes capped to 441]&#34;,
       &#34;params&#34;: {
         &#34;min_genes&#34;: 500,
         &#34;max_mito_pct&#34;: 10.0,
@@ -1737,49 +2336,86 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: false,
-      &#34;n_cells&#34;: 13726,
-      &#34;n_removed_qc&#34;: 10880,
-      &#34;n_removed_doublet&#34;: 67,
-      &#34;n_clusters&#34;: 17,
-      &#34;runtime_s&#34;: 18.402,
+      &#34;n_cells&#34;: 18445,
+      &#34;n_removed_qc&#34;: 6094,
+      &#34;n_removed_doublet&#34;: 134,
+      &#34;n_clusters&#34;: 18,
+      &#34;runtime_s&#34;: 8.425,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 4 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;,
+        &#34;min_genes=500 would remove more than 25% of cells; capped to 441&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;11&#34;
+          &#34;3&#34;
         ],
-        &#34;n_cells&#34;: 617,
+        &#34;n_cells&#34;: 1057,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.979988,
-        &#34;marker_auroc&#34;: 0.979988,
-        &#34;jaccard&#34;: 0.312887,
-        &#34;precision&#34;: 0.901135,
-        &#34;recall&#34;: 0.324009,
+        &#34;best_cluster_auroc&#34;: 0.981349,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.981389,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.965574,
+          &#34;NKG7&#34;: 0.960233,
+          &#34;KLRD1&#34;: 0.741744
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.878159,
+        &#34;precision&#34;: 0.92053,
+        &#34;recall&#34;: 0.950195,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.403263,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.171799,
-        &#34;doublet_score_median&#34;: 0.0488677,
-        &#34;doublet_score_median_all&#34;: 0.0486009
+        &#34;max_sample_share&#34;: 0.139073,
+        &#34;candidate_by&#34;: {
+          &#34;3&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;3&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.047836,
+        &#34;doublet_score_median_all&#34;: 0.0488677,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;7&#34;,
+          &#34;single_residual&#34;: 5.85498,
+          &#34;best_pair&#34;: [
+            &#34;13&#34;,
+            &#34;7&#34;
+          ],
+          &#34;pair_weight&#34;: 0.0460654,
+          &#34;pair_residual&#34;: 5.78544,
+          &#34;residual_ratio&#34;: 0.988124,
+          &#34;libsize_ratio&#34;: 0.911528,
+          &#34;libsize_ratio_vs_max&#34;: 0.357371,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
-      &#34;holds&#34;: false,
-      &#34;holds_cell_level&#34;: false,
+      &#34;holds&#34;: true,
+      &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
-      &#34;recovered&#34;: false,
+      &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.312887,
-        &#34;marker_auroc&#34;: 0.979988
+        &#34;jaccard&#34;: 0.878159,
+        &#34;marker_auroc&#34;: 0.981389
       },
       &#34;details&#34;: {
-        &#34;reasons&#34;: [
-          &#34;Jaccard 0.31 &lt; 0.5&#34;
-        ]
+        &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 441,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {
+          &#34;min_genes&#34;: 441
+        },
+        &#34;scrublet_fallback_subsets&#34;: 4
       }
     },
     {
       &#34;index&#34;: 19,
-      &#34;label&#34;: &#34;min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0&#34;,
+      &#34;label&#34;: &#34;min_genes=500, normalization=pearson, n_hvgs=1000, n_pcs=20, resolution=2.0 [min_genes capped to 441]&#34;,
       &#34;params&#34;: {
         &#34;min_genes&#34;: 500,
         &#34;max_mito_pct&#34;: 10.0,
@@ -1793,45 +2429,87 @@ require: all</pre>
       },
       &#34;is_baseline&#34;: false,
       &#34;is_one_at_a_time&#34;: false,
-      &#34;n_cells&#34;: 13726,
-      &#34;n_removed_qc&#34;: 10880,
-      &#34;n_removed_doublet&#34;: 67,
-      &#34;n_clusters&#34;: 36,
-      &#34;runtime_s&#34;: 10.329,
+      &#34;n_cells&#34;: 18445,
+      &#34;n_removed_qc&#34;: 6094,
+      &#34;n_removed_doublet&#34;: 134,
+      &#34;n_clusters&#34;: 38,
+      &#34;runtime_s&#34;: 3.396,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 4 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;,
+        &#34;min_genes=500 would remove more than 25% of cells; capped to 441&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
-          &#34;21&#34;,
-          &#34;24&#34;
+          &#34;10&#34;,
+          &#34;18&#34;,
+          &#34;23&#34;
         ],
-        &#34;n_cells&#34;: 671,
+        &#34;n_cells&#34;: 1122,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.986828,
-        &#34;marker_auroc&#34;: 0.952392,
-        &#34;jaccard&#34;: 0.277837,
-        &#34;precision&#34;: 0.773472,
-        &#34;recall&#34;: 0.302448,
+        &#34;best_cluster_auroc&#34;: 0.976256,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
+        &#34;marker_auroc&#34;: 0.956262,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.98606,
+          &#34;NKG7&#34;: 0.957552,
+          &#34;KLRD1&#34;: 0.743392
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
+        &#34;jaccard&#34;: 0.759016,
+        &#34;precision&#34;: 0.825312,
+        &#34;recall&#34;: 0.904297,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.403263,
         &#34;n_samples_present&#34;: 16,
-        &#34;max_sample_share&#34;: 0.169896,
-        &#34;doublet_score_median&#34;: 0.048811,
-        &#34;doublet_score_median_all&#34;: 0.0486009
+        &#34;max_sample_share&#34;: 0.129234,
+        &#34;candidate_by&#34;: {
+          &#34;10&#34;: &#34;both&#34;,
+          &#34;18&#34;: &#34;both&#34;,
+          &#34;23&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;10&#34;: &#34;within-sample&#34;,
+          &#34;18&#34;: &#34;within-sample&#34;,
+          &#34;23&#34;: &#34;within-sample&#34;
+        },
+        &#34;doublet_score_median&#34;: 0.0480167,
+        &#34;doublet_score_median_all&#34;: 0.0488677,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;14&#34;,
+          &#34;single_residual&#34;: 5.75265,
+          &#34;best_pair&#34;: [
+            &#34;14&#34;,
+            &#34;24&#34;
+          ],
+          &#34;pair_weight&#34;: 0.651639,
+          &#34;pair_residual&#34;: 5.45745,
+          &#34;residual_ratio&#34;: 0.948685,
+          &#34;libsize_ratio&#34;: 0.987958,
+          &#34;libsize_ratio_vs_max&#34;: 0.93871,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
-      &#34;holds&#34;: false,
-      &#34;holds_cell_level&#34;: false,
+      &#34;holds&#34;: true,
+      &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
-      &#34;recovered&#34;: false,
+      &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.277837,
-        &#34;marker_auroc&#34;: 0.952392
+        &#34;jaccard&#34;: 0.759016,
+        &#34;marker_auroc&#34;: 0.956262
       },
       &#34;details&#34;: {
-        &#34;reasons&#34;: [
-          &#34;Jaccard 0.28 &lt; 0.5&#34;
-        ]
+        &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 441,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {
+          &#34;min_genes&#34;: 441
+        },
+        &#34;scrublet_fallback_subsets&#34;: 4
       }
     },
     {
@@ -1854,27 +2532,57 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 97,
       &#34;n_removed_doublet&#34;: 0,
       &#34;n_clusters&#34;: 23,
-      &#34;runtime_s&#34;: 37.683,
+      &#34;runtime_s&#34;: 11.57,
       &#34;warnings&#34;: [
-        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;
+        &#34;no mitochondrial genes found; max_mito_pct has no effect&#34;,
+        &#34;scrublet&#39;s automatic threshold called almost no doublets in 12 subset(s); the top expected fraction by score was called instead (expected rate 0.8% per 1,000 cells)&#34;
       ],
       &#34;match&#34;: {
-        &#34;mode&#34;: &#34;markers&#34;,
+        &#34;mode&#34;: &#34;either&#34;,
         &#34;clusters&#34;: [
           &#34;7&#34;
         ],
         &#34;n_cells&#34;: 1772,
         &#34;found&#34;: true,
-        &#34;best_cluster_auroc&#34;: 0.981262,
+        &#34;best_cluster_auroc&#34;: 0.980404,
+        &#34;marker_basis&#34;: &#34;within-sample&#34;,
         &#34;marker_auroc&#34;: 0.981262,
+        &#34;per_marker_auroc&#34;: {
+          &#34;GNLY&#34;: 0.966669,
+          &#34;NKG7&#34;: 0.945488,
+          &#34;KLRD1&#34;: 0.72809
+        },
+        &#34;markers_enriched&#34;: &#34;3/3&#34;,
         &#34;jaccard&#34;: 0.878298,
         &#34;precision&#34;: 0.920429,
         &#34;recall&#34;: 0.950466,
         &#34;n_reference&#34;: 1716,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: 16,
         &#34;max_sample_share&#34;: 0.13544,
+        &#34;candidate_by&#34;: {
+          &#34;7&#34;: &#34;both&#34;
+        },
+        &#34;judged_by&#34;: {
+          &#34;7&#34;: &#34;within-sample&#34;
+        },
         &#34;doublet_score_median&#34;: 0.0449735,
-        &#34;doublet_score_median_all&#34;: 0.0491026
+        &#34;doublet_score_median_all&#34;: 0.0491026,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;8&#34;,
+          &#34;single_residual&#34;: 5.17929,
+          &#34;best_pair&#34;: [
+            &#34;20&#34;,
+            &#34;8&#34;
+          ],
+          &#34;pair_weight&#34;: 0.0306284,
+          &#34;pair_residual&#34;: 5.14357,
+          &#34;residual_ratio&#34;: 0.993103,
+          &#34;libsize_ratio&#34;: 0.93048,
+          &#34;libsize_ratio_vs_max&#34;: 0.322186,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1886,6 +2594,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 100,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 12
       }
     }
   ],
@@ -1896,7 +2610,7 @@ require: all</pre>
   }
 }</pre></details>
 
-<footer>Recluster 0.1.0 · an independent stress test for single-cell RNA-seq claims · all numbers in this report were computed by deterministic code.</footer>
+<footer>Recluster 0.5.0 · an independent stress test for single-cell RNA-seq claims · all numbers in this report were computed by deterministic code.</footer>
 </main>
 </body>
 </html>

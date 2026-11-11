@@ -31,6 +31,7 @@ class RunEvaluation:
     recovered: bool | None
     key_stats: dict[str, float | None]
     details: dict[str, Any] = field(default_factory=dict)
+    effective_params: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -50,6 +51,15 @@ class Verdict:
     breakers: list[dict[str, Any]]  # subset of by_choice with failures, sorted
     oat_flips: list[dict[str, Any]]  # one-at-a-time runs that disagree with baseline
     summary: str
+    time_check_label: str | None = None
+    label_before_time_check: str | None = None
+    n_not_testable: int = 0  # runs where the population was absent from a group
+
+    @property
+    def changed_by_time_check(self) -> bool:
+        return (
+            self.label_before_time_check is not None and self.label_before_time_check != self.label
+        )
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -69,3 +79,4 @@ class ClaimResult:
     provenance: dict[str, Any]
     methods: str
     total_runtime_s: float
+    time_check: dict[str, Any] | None = None

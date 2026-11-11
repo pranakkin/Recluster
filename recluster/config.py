@@ -69,6 +69,29 @@ class GridConfig(BaseModel):
     scrublet_seed: int = Field(default=0, description="fixed so the doublet axis is purely on/off")
     max_runs: int | None = Field(default=None, description="hard cap on grid size, for quick runs")
     n_cpus: int = Field(default=4, ge=1, description="threads for pydeseq2")
+    qc_max_cell_loss: float = Field(
+        default=0.25,
+        ge=0,
+        le=1,
+        description=(
+            "a QC threshold that alone would remove more than this fraction of cells is pulled "
+            "back to the value that removes exactly this fraction; the run records both values"
+        ),
+    )
+    scrublet_expected_rate_per_1000: float = Field(
+        default=0.008,
+        ge=0,
+        description="expected doublet rate per 1,000 cells recovered (10x rule of thumb)",
+    )
+    scrublet_fallback_trigger: float = Field(
+        default=0.25,
+        ge=0,
+        le=1,
+        description=(
+            "when Scrublet's automatic threshold calls fewer than this fraction of the expected "
+            "doublets, the top expected fraction by score is called instead"
+        ),
+    )
 
     @classmethod
     def from_yaml(cls, path: str | Path) -> GridConfig:
@@ -93,7 +116,76 @@ class Thresholds(BaseModel):
         default=10, ge=1, description="clusters smaller than this are never candidates"
     )
     composition_test: Literal["logit_t", "mannwhitney"] = "logit_t"
+    candidate_rule: Literal["either", "markers", "labels"] = Field(
+        default="either",
+        description=(
+            "when a claim gives both markers and a label, a cluster qualifies by either "
+            "criterion ('either'), by markers only, or by labels only"
+        ),
+    )
+    marker_per_gene_auroc_min: float = Field(
+        default=0.60,
+        ge=0.5,
+        le=1,
+        description="a single marker counts as enriched in a cluster at or above this AUROC",
+    )
+    marker_majority_min: float = Field(
+        default=0.50,
+        ge=0,
+        le=1,
+        description=(
+            "more than this fraction of the markers must be individually enriched for a "
+            "cluster to qualify by markers (rejects sets carried by one gene)"
+        ),
+    )
+    jaccard_on_kept_cells: bool = Field(
+        default=True,
+        description=(
+            "Jaccard against the reference is computed over cells that passed the run's QC; "
+            "the fraction of reference cells QC removed is reported separately"
+        ),
+    )
+    doublet_residual_ratio_max: float = Field(
+        default=0.60,
+        ge=0,
+        le=1,
+        description=(
+            "cluster-level doublet check: flag when the population centroid is explained by a "
+            "two-cluster mixture at most this fraction as well as by the best single cluster"
+        ),
+    )
+    doublet_libsize_ratio_min: float = Field(
+        default=1.50,
+        ge=1,
+        description=(
+            "cluster-level doublet check: and its median library size is at least this many "
+            "times the mixture's"
+        ),
+    )
     pseudobulk_min_total_counts: int = Field(default=10, ge=0)
+    time_min_gene_counts: int = Field(
+        default=10, ge=0, description="a clock-panel gene is usable with at least this many counts"
+    )
+    time_min_panel_genes: int = Field(
+        default=5, ge=1, description="usable clock-panel genes needed for Mode B to be assessable"
+    )
+    time_shrink_flag: float = Field(
+        default=0.50,
+        ge=0,
+        le=1,
+        description=(
+            "Mode A: flag when the effect shrinks by at least this fraction after adjustment"
+        ),
+    )
+    time_imbalance_hours: float = Field(
+        default=2.0,
+        ge=0,
+        description=(
+            "Mode A: the groups count as imbalanced in collection time when their circular mean "
+            "times differ by at least this many hours, whether or not the permutation test "
+            "(which cannot reach alpha with three or fewer samples per group) is significant"
+        ),
+    )
     pseudoreplication_cell_survival: float = Field(default=0.80, ge=0, le=1)
     pseudoreplication_replicate_survival: float = Field(default=0.50, ge=0, le=1)
 

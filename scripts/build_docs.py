@@ -41,7 +41,7 @@ ICON = {"ROBUST": "✓", "FRAGILE": "◐", "NOT SUPPORTED": "✕"}
 def outcome_text(c: dict) -> str:
     if c["role"] == "control":
         return "control OK" if c["passes"] else "control failed"
-    if c["part"] == "planted":
+    if c["part"] == "planted" or c["role"] == "planted_time":
         return "caught" if c["passes"] else "missed"
     if c["role"] in ("false", "null"):
         return "correct" if c["passes"] else "false alarm"
@@ -105,7 +105,8 @@ measured on {escape(results["generated_at"][:10])}; the narrative with every mis
             "kang",
             "Real data with real ground truth: Kang et al. 2018",
             "PBMCs from 8 lupus patients, IFN-β vs control. True claims, a claim with no known effect, "
-            "and claims that are false by construction (fake donor groups, donor-level label shuffles).",
+            "claims that are false by construction (fake donor groups, donor-level label shuffles), "
+            "and a planted time-of-day effect claimed as a condition effect.",
         )
     }
 {

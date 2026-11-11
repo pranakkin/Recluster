@@ -2,6 +2,72 @@
 
 All notable changes to Recluster. Dates are when the work landed in this repository.
 
+## [0.5.0] — 2026-11-11 — Robustness fixes from the first benchmark, and the time-of-day check
+
+### Added
+- Time-of-day confound check (`recluster/time_confound.py`) on every comparison claim, at the
+  level of the sample or, when samples nest in a sample-key column whose levels each sit in one
+  condition (and one collection time) and hold several samples, that level (for example the
+  donor). Mode A (collection times given): permutation balance test on the groups' mean
+  (cos, sin) vectors (exact up to 20,000 label assignments, otherwise 5,000 seeded draws) with
+  the smallest attainable p reported; the groups count as imbalanced when the test is
+  significant or the circular means differ by at least `Thresholds.time_imbalance_hours`
+  (2.0 h), because with three or fewer units per group the test cannot reach alpha. Then a
+  refit of the claim's replicate-level model with the same design the verdict used plus cos/sin
+  covariates (Cook's filtering off, redundant time columns dropped). A condition effect that is
+  not estimable after adjustment (too few replicates, or time collinear with the condition) is
+  reported as inseparable from time and caps the verdict at FRAGILE, never NOT SUPPORTED;
+  "held before adjustment" is the baseline run's own outcome. Mode B (times unknown): per-unit
+  expression of 13 canonical core clock genes (Takahashi 2017; Wucher et al. 2023), per-gene
+  tests for information and a decisive clock-state index, E-box arm minus activator arm, with a
+  permutation test; CRY1 is tested gene by gene but excluded from the index because its
+  transcript peaks between the arms (Ukai-Tadenuma et al. 2011); genes that differ without an
+  index difference leave the label at NO TIME CONFOUND DETECTED and are listed; a test that
+  cannot reach alpha makes Mode B NOT ASSESSABLE. A red-flag screen, not a phase estimate.
+  Labels NO TIME CONFOUND DETECTED / POSSIBLE TIME CONFOUND / NOT ASSESSABLE, folded into the
+  claim verdict as documented: the effect removed by adjustment → NOT SUPPORTED; every other
+  POSSIBLE TIME CONFOUND → capped at FRAGILE.
+- `Thresholds.time_imbalance_hours` (2.0 h).
+- `recluster/resources/daynight_genes.csv` from Wucher et al. 2023 S8 Table (CC BY 4.0) via
+  `scripts/fetch_daynight_genes.py`; claimed genes with documented day-night variation are
+  flagged in the report (gene-level, not tissue-specific).
+- Spec fields `columns.collection_time`, `tissue` and `target.marker_logic` (`any` | `all`).
+- Paired replicate tests when every donor appears in both groups: paired t-test on logit
+  proportions, `~ pair + condition` DESeq2 design (`evaluators/pairing.py`); the report labels
+  the tests as paired or unpaired according to the design the run used.
+- Benchmark: two planted time-of-day cases on Kang (times unknown, times known), the signal
+  planted into all cells of each donor with one sample per donor, and a time column in the
+  results table; the true IFN-β claims report their time-check outcome.
+- Report section for the time check (balance test with its floor, refit, clock panel); the
+  population panel shows the cluster-level mixture diagnostic; the methods paragraph covers the
+  new rules and names the design the baseline run used.
+- Determinism tests that run the engine twice and compare the full provenance apart from
+  timestamps and runtimes, for a population claim and for DE claims with and without collection
+  times.
+
+### Changed
+- QC thresholds are capped per dataset: a value that alone would remove more than 25 % of cells
+  is pulled back to the 25 % quantile and the run is labelled "capped". Grid points that become
+  identical after capping are dropped before running and recorded in provenance (`merged_runs`).
+- Marker-based matching judges a cluster by a stratified within-sample AUROC (the per-sample
+  Mann-Whitney U statistics summed over the summed n1 × n0; every sample with at least one
+  cluster cell and one other cell contributes, with no per-sample size requirement) and requires
+  more than half of the markers to be individually enriched; a cluster no sample can judge
+  falls back to the whole-dataset AUROC, and the run records which statistic judged each
+  candidate (`judged_by`, `marker_basis`). Clusters qualify by markers or by labels when a claim
+  gives both, but by labels only when the reference comes from the claim's label column
+  (`reference_is_labelled`); Jaccard is computed over cells that passed the run's QC with the
+  removed fraction reported.
+- Composition and expression tests require the population in at least two samples of both
+  groups; otherwise the run is reported as not testable, counts as a failure, and the verdict
+  states how many runs were not testable.
+- Scrublet falls back to calling the top expected fraction (0.8 % per 1,000 cells of the scored
+  subset) when its automatic threshold calls almost nothing.
+- The cluster-level doublet mixture test is reported as a diagnostic and never gates a verdict;
+  `doublet_residual_ratio_max` and `doublet_libsize_ratio_min` are informational.
+- The planted-doublet benchmark rule is strict: caught only if the verdict is not ROBUST, the
+  claim held in at least one run, and every run in which it held had doublet removal off.
+
 ## [0.4.0] — 2026-11-11 — Milestone 4: repo polish and GitHub Pages
 
 ### Added

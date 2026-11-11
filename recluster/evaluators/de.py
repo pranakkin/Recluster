@@ -2,8 +2,8 @@
 
 Cell-level tests treat every cell as an independent observation and are the classic source of
 false positives in multi-sample single-cell DE (Squair et al. 2021, Nat Commun 12:5692). The
-verdict uses the pseudobulk test. The cell-level result is reported for comparison and to flag
-pseudoreplication.
+verdict uses the pseudobulk test, blocked on the pair (donor) when the design is paired. The
+cell-level result is reported for comparison and to flag pseudoreplication.
 """
 
 from __future__ import annotations
@@ -49,11 +49,15 @@ def cell_level_de(
     rows = []
     for g in genes:
         a, b = xa[g].to_numpy(), xb[g].to_numpy()
-        if len(a) < 2 or len(b) < 2 or (np.all(a == a[0]) and np.all(b == b[0]) and a[0] == b[0]):
+        constant = len(a) and len(b) and np.all(a == a[0]) and np.all(b == b[0]) and a[0] == b[0]
+        if len(a) < 2 or len(b) < 2 or constant:
             p = math.nan
         else:
             p = float(stats.mannwhitneyu(a, b, alternative="two-sided").pvalue)
-        ma, mb = float(np.expm1(a).mean()), float(np.expm1(b).mean())
+        ma, mb = (
+            float(np.expm1(a).mean()) if len(a) else 0.0,
+            float(np.expm1(b).mean()) if len(b) else 0.0,
+        )
         rows.append(
             {
                 "gene": g,
@@ -78,13 +82,19 @@ def pseudobulk_de(
     thr: Thresholds,
     *,
     n_cpus: int,
+    pair: pd.Series | None = None,
 ) -> tuple[pd.DataFrame, dict[str, object]]:
-    """DESeq2 (pydeseq2) on per-sample summed counts within the population."""
+    """DESeq2 (pydeseq2) on per-sample summed counts within the population.
+
+    With a pair key (every pair level in both groups) the design is ``~ pair + condition``,
+    which tests the within-pair contrast; otherwise ``~ condition``. ``info`` records the
+    design used (``design``, ``design_formula``) and, when a pair key was given but not every
+    pair had a pseudobulk in both groups, why it fell back (``design_note``). The formula is
+    None when DESeq2 was not run.
+    """
     pb, n_cells = pseudobulk_counts(counts, cells, sample, min_cells=thr.min_cells_per_sample)
-    cond = (
-        condition.loc[cells].astype(str).groupby(sample.loc[cells].astype(str).to_numpy()).first()
-    )
-    cond = cond.reindex(pb.index)
+    by_sample = sample.loc[cells].astype(str).to_numpy()
+    cond = condition.loc[cells].astype(str).groupby(by_sample).first().reindex(pb.index)
     keep = cond.isin([comparison.group_a, comparison.group_b])
     pb, cond, n_cells = pb.loc[keep], cond.loc[keep], n_cells.loc[keep]
     n_a, n_b = int((cond == comparison.group_a).sum()), int((cond == comparison.group_b).sum())
@@ -93,6 +103,9 @@ def pseudobulk_de(
         "n_samples_a": n_a,
         "n_samples_b": n_b,
         "cells_per_sample": n_cells.to_dict(),
+        "design": "unpaired",
+        "design_formula": None,
+        "design_note": None,
         "warnings": warns,
     }
     empty = pd.DataFrame(
@@ -104,9 +117,10 @@ def pseudobulk_de(
         },
         index=pd.Index(genes, name="gene"),
     )
-    if n_a < 2 or n_b < 2:
+    if n_a < thr.min_samples_present or n_b < thr.min_samples_present:
         warns.append(
-            f"fewer than 2 pseudobulk replicates per group ({n_a} vs {n_b}); DESeq2 not run"
+            f"population present in {n_a} vs {n_b} pseudobulk replicates "
+            f"(need {thr.min_samples_present} per group); DESeq2 not run"
         )
         return empty, info
 
@@ -118,12 +132,29 @@ def pseudobulk_de(
     meta = pd.DataFrame(
         {"condition": np.where(cond == comparison.group_a, "grpA", "grpB")}, index=pb.index
     )
+    design = "~condition"
+    if pair is not None:
+        # the pair key covers the two compared groups only; cells of other conditions have no
+        # pair id, and their samples were dropped above
+        by_cell = pair.astype(str).reindex(cells)
+        pair_of_sample = by_cell.groupby(by_sample).first().reindex(pb.index)
+        levels = {p: f"p{i}" for i, p in enumerate(sorted(pair_of_sample.dropna().unique()))}
+        meta["pair"] = pair_of_sample.map(levels).to_numpy()
+        complete = meta.groupby("pair")["condition"].nunique()
+        if meta["pair"].notna().all() and (complete == 2).all() and len(complete) >= 2:
+            design = "~pair + condition"
+            info["design"] = "paired"
+        else:
+            note = "not every pair has a pseudobulk in both groups; unpaired design used"
+            info["design_note"] = note
+            warns.append(note)
+    info["design_formula"] = design
     from pydeseq2.dds import DeseqDataSet
     from pydeseq2.ds import DeseqStats
 
     with warnings.catch_warnings(), contextlib.redirect_stdout(io.StringIO()):
         warnings.simplefilter("ignore")
-        dds = DeseqDataSet(counts=pb, metadata=meta, design="~condition", quiet=True, n_cpus=n_cpus)
+        dds = DeseqDataSet(counts=pb, metadata=meta, design=design, quiet=True, n_cpus=n_cpus)
         dds.deseq2()
         st = DeseqStats(dds, contrast=["condition", "grpA", "grpB"], quiet=True, n_cpus=n_cpus)
         st.summary()
@@ -152,16 +183,28 @@ def evaluate_de(
     require: str,
     thr: Thresholds,
     n_cpus: int,
+    pair: pd.Series | None = None,
 ) -> dict[str, object]:
     cond = condition.loc[cells].astype(str)
     cells_a = cells[(cond == comparison.group_a).to_numpy()]
     cells_b = cells[(cond == comparison.group_b).to_numpy()]
     cell_df = cell_level_de(lognorm, cells_a, cells_b, genes)
     pb_df, info = pseudobulk_de(
-        counts, cells, sample, condition, comparison, genes, thr, n_cpus=n_cpus
+        counts, cells, sample, condition, comparison, genes, thr, n_cpus=n_cpus, pair=pair
     )
     df = cell_df.join(pb_df)
     df["pb_padj"] = bh_adjust(df["pb_p"].to_numpy())  # multiplicity over the claimed genes
+    n_a = int(info["n_samples_a"])  # type: ignore[call-overload]
+    n_b = int(info["n_samples_b"])  # type: ignore[call-overload]
+    evaluable = n_a >= thr.min_samples_present and n_b >= thr.min_samples_present
+    reasons = (
+        []
+        if evaluable
+        else [
+            f"population present in only {n_a} vs {n_b} replicate(s) "
+            f"(need {thr.min_samples_present} per group); the run cannot test this claim"
+        ]
+    )
 
     def direction_ok(lfc: float) -> bool:
         if lfc is None or math.isnan(lfc):
@@ -185,7 +228,7 @@ def evaluate_de(
         for c, r in zip(df["holds_cell"], df["holds_replicate"], strict=True)
     ]
     combine = all if require == "all" else any
-    holds = bool(combine(df["holds_replicate"].tolist()))
+    holds = bool(evaluable and combine(df["holds_replicate"].tolist()))
     holds_cell = bool(combine(df["holds_cell"].tolist()))
 
     per_gene = df.reset_index().replace({np.nan: None}).to_dict(orient="records")
@@ -194,10 +237,15 @@ def evaluate_de(
         "holds": holds,
         "holds_cell_level": holds_cell,
         "replicate_ok": holds,
+        "evaluable": evaluable,
+        "reasons": reasons,
+        "design": info["design"],
+        "design_formula": info["design_formula"],
+        "design_note": info["design_note"],
         "n_cells_a": int(len(cells_a)),
         "n_cells_b": int(len(cells_b)),
-        "n_samples_a": info["n_samples_a"],
-        "n_samples_b": info["n_samples_b"],
+        "n_samples_a": n_a,
+        "n_samples_b": n_b,
         "n_genes_tested_pseudobulk": info.get("n_genes_tested"),
         "cells_per_sample": info["cells_per_sample"],
         "per_gene": per_gene,

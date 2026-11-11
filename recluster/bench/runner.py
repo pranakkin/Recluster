@@ -23,6 +23,7 @@ from recluster.bench.kang import (
     fake_split_within_control,
     kang_cases,
     load_kang,
+    plant_time_signal,
 )
 from recluster.bench.pbmc3k import load_pbmc3k, reference_labels
 from recluster.bench.planted import (
@@ -93,6 +94,8 @@ def _run_one(job: dict[str, Any]) -> dict[str, Any]:
             for r in res.runs
         ],
         "as_labelled": _compact_as_labelled(res.as_labelled),
+        "time_check": _compact_time_check(res.time_check),
+        "label_before_time_check": v.label_before_time_check,
         "report": str(Path(job["out_dir"]) / slugify(spec.name) / "report.html"),
         "runtime_s": round(time.perf_counter() - t0, 1),
     }
@@ -122,6 +125,27 @@ def _compact_as_labelled(d: dict[str, Any] | None) -> dict[str, Any] | None:
     return out
 
 
+def _compact_time_check(tc: dict[str, Any] | None) -> dict[str, Any] | None:
+    """The parts of the engine's time-check dict that the rules and the results table read."""
+    if not tc:
+        return None
+    out = {k: tc.get(k) for k in ("mode", "label", "effect_removed", "effect_shrunk", "reasons")}
+    bal, panel, adj = tc.get("balance") or {}, tc.get("panel") or {}, tc.get("adjustment") or {}
+    out["balance_p"] = bal.get("p_permutation")
+    out["balance_difference_hours"] = bal.get("circular_mean_difference_hours")
+    out["balance_unit_column"] = bal.get("unit_column")
+    out["imbalanced"] = bal.get("imbalanced")
+    out["imbalance_basis"] = bal.get("imbalance_basis")
+    out["index_p"] = panel.get("index_p_permutation")
+    out["panel_genes_usable"] = len(panel.get("genes_usable") or [])
+    out["panel_genes_different"] = panel.get("n_panel_genes_different")
+    out["panel_unit_column"] = panel.get("unit_column")
+    out["held_unadjusted"] = adj.get("held_unadjusted")
+    out["estimable"] = adj.get("estimable")
+    out["adjustment_per_gene"] = adj.get("per_gene")
+    return out
+
+
 class _ResultView:
     """Minimal object exposing what the pre-registered rules look at."""
 
@@ -131,8 +155,10 @@ class _ResultView:
         self.verdict = SimpleNamespace(
             label=summary["verdict"],
             breakers=[{"axis": b["axis"]} for b in summary["top_breakers"]],
+            label_before_time_check=summary.get("label_before_time_check"),
         )
         self.runs = [SimpleNamespace(holds=r["holds"], params=r["params"]) for r in summary["runs"]]
+        self.time_check = summary.get("time_check")
 
 
 def build_kang_jobs(
@@ -147,10 +173,21 @@ def build_kang_jobs(
     split.write_h5ad(split_path)
     shuffled = donor_level_shuffle(adata, seed=0)
     shuffled.write_h5ad(shuffle_path)
-    cases = kang_cases(real, split_path, shuffle_path, dict(split.uns["fake_split"]))
+    time_path = data_dir / "kang_time_planted.h5ad"
+    planted = plant_time_signal(adata, seed=0)
+    planted.write_h5ad(time_path)
+    cases = kang_cases(
+        real,
+        split_path,
+        shuffle_path,
+        dict(split.uns["fake_split"]),
+        time_path,
+        dict(planted.uns["planted_time"]["groups"]),
+    )
     jobs = [
         {
             "key": c.key,
+            "part": "kang",
             "spec": c.spec.model_dump(exclude_none=True),
             "data_path": str(c.data_path),
             "out_dir": str(out_dir / "kang"),
@@ -174,6 +211,9 @@ def build_kang_jobs(
     }
     info["fake_split"] = dict(split.uns["fake_split"])
     info["fake_shuffle"] = dict(shuffled.uns["fake_shuffle"])
+    info["planted_time"] = {
+        k: v for k, v in planted.uns["planted_time"].items() if k != "factors_by_gene_and_donor"
+    }
     _say("doublet check against demuxlet calls (GEO GSE96583 batch 2)")
     info["doublet_check"] = doublet_check(data_dir / "geo")
     return jobs, meta, info
@@ -203,6 +243,7 @@ def build_planted_jobs(
         jobs.append(
             {
                 "key": c.key,
+                "part": "planted",
                 "spec": c.spec.model_dump(exclude_none=True),
                 "data_path": str(written[id(c.adata)]),
                 "out_dir": str(out_dir / "planted"),
@@ -273,7 +314,7 @@ def run_bench(
         rows.append(
             {
                 "key": key,
-                "part": "kang" if key.startswith(("kang", "fake")) else "planted",
+                "part": job["part"],
                 "role": m["role"],
                 "title": m["title"],
                 "claim": m["claim"],
@@ -307,8 +348,8 @@ def run_bench(
 def results_table(results: dict[str, Any]) -> str:
     """Markdown table of outcomes exactly as measured."""
     lines = [
-        "| # | Case | Claim | Expected | Verdict | Held | Cell-level | Outcome |",
-        "|---|---|---|---|---|---|---|---|",
+        "| # | Case | Claim | Expected | Verdict | Held | Cell-level | Time check | Outcome |",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
     for i, r in enumerate(results["cases"], 1):
         cell = (
@@ -318,6 +359,8 @@ def results_table(results: dict[str, Any]) -> str:
         )
         if r["role"] == "control":
             outcome = "control OK" if r["passes"] else "control FAILED"
+        elif r["role"] == "planted_time":
+            outcome = "caught" if r["passes"] else "MISSED"
         elif r["role"] in ("false", "null"):
             outcome = (
                 "correct"
@@ -331,9 +374,15 @@ def results_table(results: dict[str, Any]) -> str:
         else:
             outcome = "correct" if r["passes"] else "MISSED"
         flag = " ⚑" if r["pseudoreplication_flag"] else ""
+        tc = r.get("time_check") or {}
+        time_label = {
+            "NO TIME CONFOUND DETECTED": "none",
+            "POSSIBLE TIME CONFOUND": "POSSIBLE",
+            "NOT ASSESSABLE": "n/a",
+        }.get(str(tc.get("label")), "–")
         lines.append(
             f"| {i} | {r['title']} | {r['claim']} | {r['expected']} | **{r['verdict']}** | "
-            f"{r['n_holds']}/{r['n_runs']} | {cell}{flag} | {outcome} |"
+            f"{r['n_holds']}/{r['n_runs']} | {cell}{flag} | {time_label} | {outcome} |"
         )
     return "\n".join(lines) + "\n"
 

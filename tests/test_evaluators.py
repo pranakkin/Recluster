@@ -96,6 +96,7 @@ def test_label_mode_matching_tolerates_split_clusters(ctx, thresholds):
         sample=ctx["sample"],
         min_cells=20,
         thr=thresholds,
+        reference_is_labelled=True,
     )
     assert sorted(m.clusters) == ["Mono_a", "Mono_b"]
     assert m.jaccard == 1.0

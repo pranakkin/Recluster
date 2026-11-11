@@ -108,8 +108,8 @@ def plant_doublets(
             audit=False,
             expected="not ROBUST; holds only when doublet removal is off",
             caught_rule=(
-                "verdict is not ROBUST AND every run in which the claim held had "
-                "doublet_removal=off"
+                "verdict is not ROBUST AND the claim held in at least one run AND every run in "
+                "which it held had doublet_removal=off"
             ),
             caught=lambda r: (
                 r.verdict.label != "ROBUST" and _all_holding_runs_have(r, "doublet_removal", False)

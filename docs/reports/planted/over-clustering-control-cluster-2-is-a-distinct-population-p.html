@@ -29,6 +29,8 @@ td.num, th.num { text-align: right; }
 .badge.robust { border-color: var(--pass); color: var(--pass); }
 .badge.fragile { border-color: var(--warn); color: var(--warn); border-style: dashed; }
 .badge.not-supported { border-color: var(--fail); color: var(--fail); }
+.badge.neutral { border-color: var(--rule); color: var(--muted); }
+.badge.small-badge { font-size: 15px; padding: 8px 12px; }
 .verdict-text { flex: 1 1 420px; }
 .kv { display:grid; grid-template-columns: max-content 1fr; gap: 3px 18px; margin: 10px 0; font-size: 14px; }
 .kv dt { color: var(--muted); } .kv dd { margin: 0; }
@@ -78,6 +80,7 @@ columns:
 target:
   markers: []
   negative_markers: []
+  marker_logic: any
   label_value: cluster_2
   min_cells: 20
 genes: []
@@ -100,7 +103,10 @@ require: all</pre>
 
 
 <h2>Replicate-aware vs cell-level</h2>
-<table><tbody><tr><td>Matched cells (baseline run)</td><td class='num'>332</td></tr><tr><td>Marker AUROC</td><td class='num'>–</td></tr><tr><td>Jaccard vs reference</td><td class='num'>0.988</td></tr><tr><td>Samples with ≥ min cells</td><td class='num'>None</td></tr><tr><td>Largest single-sample share</td><td class='num'>–</td></tr><tr><td>Median Scrublet score, population vs all cells (informational)</td><td class='num'>0.021 vs 0.044</td></tr></tbody></table><p class='small'>For a population claim the replicate-aware check is whether the population is present in several samples rather than driven by one. Recovered-as-a-cluster versus recovered-and-replicated across the grid: 100% vs 100%.</p>
+<table><tbody><tr><td>Matched cells (baseline run)</td><td class='num'>332</td></tr><tr><td>Marker AUROC</td><td class='num'>–</td></tr><tr><td>Statistic that judged the candidate clusters</td><td class='num'>labels only</td></tr><tr><td>Jaccard vs reference</td><td class='num'>0.988</td></tr><tr><td>Samples with ≥ min cells</td><td class='num'>None</td></tr><tr><td>Largest single-sample share</td><td class='num'>–</td></tr><tr><td>Median Scrublet score, population vs all cells (informational)</td><td class='num'>0.021 vs 0.044</td></tr></tbody></table><p class='small'>For a population claim the replicate-aware check is whether the population is present in several samples rather than driven by one. Recovered-as-a-cluster versus recovered-and-replicated across the grid: 100% vs 100%.</p><h3>Cluster-level doublet check (baseline run)</h3><table><tbody><tr><td>Best explaining pair (weights)</td><td class='num'>0 (0.666) + 7 (0.334)</td></tr><tr><td>Residual ratio, mixture vs best single cluster</td><td class='num'>0.858</td></tr><tr><td>Library-size ratio, population vs mixture</td><td class='num'>0.531</td></tr><tr><td>Within both cutoffs</td><td class='num'>no</td></tr></tbody></table><p class='small'>Informational: no cutoff on the residual ratio or the library-size ratio separates doublet clusters from intermediate populations with margin, so this check never changes the verdict.</p>
+
+<h2>Time-of-day check</h2>
+<p class='small'>Not applicable: this claim has no condition comparison, so there is no group contrast that collection time could confound.</p>
 
 
 <h2>As labelled</h2>
@@ -132,7 +138,7 @@ require: all</pre>
 <td class="num">2,444</td>
 <td class="num">8</td>
 <td class="mono" style="white-space:nowrap">298 cells / 1 cl.</td>
-<td class="num">0.863</td><td class="num">–</td>
+<td class="num">0.973</td><td class="num">–</td>
 <td><span class="pass">held</span></td>
 </tr><tr>
 <td class="num">3</td>
@@ -140,7 +146,7 @@ require: all</pre>
 <td class="num">2,622</td>
 <td class="num">10</td>
 <td class="mono" style="white-space:nowrap">333 cells / 1 cl.</td>
-<td class="num">0.950</td><td class="num">–</td>
+<td class="num">0.967</td><td class="num">–</td>
 <td><span class="pass">held</span></td>
 </tr><tr>
 <td class="num">4</td>
@@ -148,7 +154,7 @@ require: all</pre>
 <td class="num">2,659</td>
 <td class="num">10</td>
 <td class="mono" style="white-space:nowrap">335 cells / 1 cl.</td>
-<td class="num">0.973</td><td class="num">–</td>
+<td class="num">0.976</td><td class="num">–</td>
 <td><span class="pass">held</span></td>
 </tr><tr>
 <td class="num">5</td>
@@ -252,7 +258,7 @@ require: all</pre>
 <td class="num">2,444</td>
 <td class="num">4</td>
 <td class="mono" style="white-space:nowrap">297 cells / 1 cl.</td>
-<td class="num">0.866</td><td class="num">–</td>
+<td class="num">0.976</td><td class="num">–</td>
 <td><span class="pass">held</span></td>
 </tr><tr>
 <td class="num">18</td>
@@ -260,7 +266,7 @@ require: all</pre>
 <td class="num">2,659</td>
 <td class="num">23</td>
 <td class="mono" style="white-space:nowrap">332 cells / 2 cl.</td>
-<td class="num">0.982</td><td class="num">–</td>
+<td class="num">0.985</td><td class="num">–</td>
 <td><span class="pass">held</span></td>
 </tr><tr>
 <td class="num">19</td>
@@ -276,7 +282,7 @@ require: all</pre>
 <td class="num">2,659</td>
 <td class="num">18</td>
 <td class="mono" style="white-space:nowrap">333 cells / 1 cl.</td>
-<td class="num">0.979</td><td class="num">–</td>
+<td class="num">0.982</td><td class="num">–</td>
 <td><span class="pass">held</span></td>
 </tr><tr>
 <td class="num">21</td>
@@ -292,41 +298,42 @@ require: all</pre>
 <td class="num">2,643</td>
 <td class="num">6</td>
 <td class="mono" style="white-space:nowrap">339 cells / 1 cl.</td>
-<td class="num">0.917</td><td class="num">–</td>
+<td class="num">0.930</td><td class="num">–</td>
 <td><span class="pass">held</span></td>
 </tr>
 </tbody></table>
 
 <h2>Methods</h2>
-<p>Raw counts for 2,700 cells and 32,738 genes were taken from layers[&#39;counts&#39;] of the input file (SHA-256 8169c006ef80…). Each of 23 pipeline runs (1 baseline, 16 one-at-a-time variations and 6 seeded random combinations) re-derived clusters from these counts. Cells were kept if they expressed at least {100, 200*, 500} genes and had at most {5.0, 10.0*, 20.0}% mitochondrial counts; genes detected in fewer than 3 cells were dropped. Doublets were scored with Scrublet (scanpy implementation, seed 0) and removed when the doublet_removal axis was on (baseline: on). Expression was normalised either by total-count scaling to 10,000 counts per cell followed by log1p and z-scaling of {1000, 2000*, 3000} highly variable genes (Seurat flavour), or by analytic Pearson residuals on the same number of genes (baseline: log_total). {20, 30*, 50} principal components (ARPACK, seeded) were computed; a 15-nearest-neighbour graph (exact search) was clustered with Leiden (igraph flavour, resolution {0.3, 0.5, 1.0*, 1.5, 2.0}, seeds {0*, 1, 2}). The target population was located in each run as the union of clusters (at least 10 cells) in which at least 50% of cells carry the label `cluster_2` in `tool_label`. Overlap with the reference cell set (cells labelled `cluster_2` in `tool_label` (328 cells)) was measured by the Jaccard index over barcodes, counting cells removed by QC as absent. The claim held in a run when the matched population had at least 20 cells, Jaccard &gt;= 0.5. Verdicts: ROBUST if the claim held in at least 80% of runs, FRAGILE if in at least 20%, otherwise NOT SUPPORTED. All thresholds are listed below and are configurable.</p>
+<p>Raw counts for 2,700 cells and 32,738 genes were taken from layers[&#39;counts&#39;] of the input file (SHA-256 8169c006ef80…). Each of 23 pipeline runs (1 baseline, 16 one-at-a-time variations and 6 seeded random combinations) re-derived clusters from these counts. Cells were kept if they expressed at least {100, 200*, 500} genes and had at most {5.0, 10.0*, 20.0}% mitochondrial counts; a threshold that alone would remove more than 25% of the cells was pulled back to the value that removes exactly that fraction, and the run records both values. Genes detected in fewer than 3 cells were dropped. Doublets were scored with Scrublet (scanpy implementation, seed 0, exact neighbours); when its automatic threshold called fewer than 25% of the expected doublets (0.8% per 1,000 cells) the top expected fraction by score was called instead. Predicted doublets were removed when the doublet_removal axis was on (baseline: on). Expression was normalised either by total-count scaling to 10,000 counts per cell followed by log1p and z-scaling of {1000, 2000*, 3000} highly variable genes (Seurat flavour), or by analytic Pearson residuals on the same number of genes (baseline: log_total). {20, 30*, 50} principal components (ARPACK, seeded) were computed; a 15-nearest-neighbour graph (exact search) was clustered with Leiden (igraph flavour, resolution {0.3, 0.5, 1.0*, 1.5, 2.0}, seeds {0*, 1, 2}). The target population was located in each run by label overlap: a cluster of at least 10 cells qualified when at least 50% of its cells carry `cluster_2` in `tool_label`; the matched population is the union of qualifying clusters. Overlap with the reference cell set (cells labelled `cluster_2` in `tool_label` (328 cells)) was measured by the Jaccard index over barcodes that passed the run&#39;s QC; the fraction of reference cells removed by QC is reported alongside. The claim held in a run when the matched population had at least 20 cells, Jaccard &gt;= 0.5. Verdicts: ROBUST if the claim held in at least 80% of runs, FRAGILE if in at least 20%, otherwise NOT SUPPORTED; a possible time confound lowers the verdict as described in the time-of-day section. All thresholds are listed below and are configurable.</p>
 <p class="small">This paragraph is generated from a fixed template filled with the settings used. It is not written by a language model.</p>
 
 <h2>Thresholds</h2>
 <table><thead><tr><th>Setting</th><th>Value</th></tr></thead><tbody>
-<tr><td class="mono">robust_min_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">fragile_min_survival</td><td class="mono">0.2</td></tr><tr><td class="mono">alpha</td><td class="mono">0.05</td></tr><tr><td class="mono">marker_auroc_min</td><td class="mono">0.8</td></tr><tr><td class="mono">jaccard_min</td><td class="mono">0.5</td></tr><tr><td class="mono">label_precision_min</td><td class="mono">0.5</td></tr><tr><td class="mono">min_samples_present</td><td class="mono">2</td></tr><tr><td class="mono">min_cells_per_sample</td><td class="mono">5</td></tr><tr><td class="mono">min_cluster_size</td><td class="mono">10</td></tr><tr><td class="mono">composition_test</td><td class="mono">logit_t</td></tr><tr><td class="mono">pseudobulk_min_total_counts</td><td class="mono">10</td></tr><tr><td class="mono">pseudoreplication_cell_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">pseudoreplication_replicate_survival</td><td class="mono">0.5</td></tr>
+<tr><td class="mono">robust_min_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">fragile_min_survival</td><td class="mono">0.2</td></tr><tr><td class="mono">alpha</td><td class="mono">0.05</td></tr><tr><td class="mono">marker_auroc_min</td><td class="mono">0.8</td></tr><tr><td class="mono">jaccard_min</td><td class="mono">0.5</td></tr><tr><td class="mono">label_precision_min</td><td class="mono">0.5</td></tr><tr><td class="mono">min_samples_present</td><td class="mono">2</td></tr><tr><td class="mono">min_cells_per_sample</td><td class="mono">5</td></tr><tr><td class="mono">min_cluster_size</td><td class="mono">10</td></tr><tr><td class="mono">composition_test</td><td class="mono">logit_t</td></tr><tr><td class="mono">candidate_rule</td><td class="mono">either</td></tr><tr><td class="mono">marker_per_gene_auroc_min</td><td class="mono">0.6</td></tr><tr><td class="mono">marker_majority_min</td><td class="mono">0.5</td></tr><tr><td class="mono">jaccard_on_kept_cells</td><td class="mono">True</td></tr><tr><td class="mono">doublet_residual_ratio_max</td><td class="mono">0.6</td></tr><tr><td class="mono">doublet_libsize_ratio_min</td><td class="mono">1.5</td></tr><tr><td class="mono">pseudobulk_min_total_counts</td><td class="mono">10</td></tr><tr><td class="mono">time_min_gene_counts</td><td class="mono">10</td></tr><tr><td class="mono">time_min_panel_genes</td><td class="mono">5</td></tr><tr><td class="mono">time_shrink_flag</td><td class="mono">0.5</td></tr><tr><td class="mono">time_imbalance_hours</td><td class="mono">2.0</td></tr><tr><td class="mono">pseudoreplication_cell_survival</td><td class="mono">0.8</td></tr><tr><td class="mono">pseudoreplication_replicate_survival</td><td class="mono">0.5</td></tr>
 </tbody></table>
+<p class="small"><span class="mono">doublet_residual_ratio_max</span> and <span class="mono">doublet_libsize_ratio_min</span> are informational: they only label the cluster-level doublet check, and no verdict depends on them.</p>
 
 <h2>Provenance</h2>
 <dl class="kv">
   <dt>Input</dt><dd class="mono">data/planted/pbmc3k_overclustering.h5ad</dd>
   <dt>SHA-256</dt><dd class="mono">8169c006ef804651d1f27b697ca2e58d6eeeff1e514fd51dd85df3ddf58fc5c2</dd>
-  <dt>Recluster</dt><dd class="mono">0.1.0</dd>
+  <dt>Recluster</dt><dd class="mono">0.5.0</dd>
   <dt>Python</dt><dd class="mono">3.11.16 · macOS-26.6.2-arm64-arm-64bit</dd>
   <dt>Key packages</dt><dd class="mono">scanpy 1.11.5 · anndata 0.12.19 · pydeseq2 0.5.4 · harmonypy 2.1.0</dd>
-  <dt>Started</dt><dd class="mono">2026-11-11T05:52:51+00:00</dd>
-  <dt>Total runtime</dt><dd class="mono">58.1 s</dd>
+  <dt>Started</dt><dd class="mono">2026-11-11T10:39:58+00:00</dd>
+  <dt>Total runtime</dt><dd class="mono">44.4 s</dd>
 </dl>
 <details><summary>Full provenance log (JSON)</summary><pre class="mono">{
-  &#34;started_at&#34;: &#34;2026-11-11T05:52:51+00:00&#34;,
-  &#34;finished_at&#34;: &#34;2026-11-11T05:53:49+00:00&#34;,
-  &#34;total_runtime_s&#34;: 58.051,
+  &#34;started_at&#34;: &#34;2026-11-11T10:39:58+00:00&#34;,
+  &#34;finished_at&#34;: &#34;2026-11-11T10:40:42+00:00&#34;,
+  &#34;total_runtime_s&#34;: 44.41,
   &#34;mode&#34;: &#34;audit&#34;,
   &#34;environment&#34;: {
     &#34;python&#34;: &#34;3.11.16&#34;,
     &#34;platform&#34;: &#34;macOS-26.6.2-arm64-arm-64bit&#34;,
     &#34;machine&#34;: &#34;arm64&#34;,
     &#34;packages&#34;: {
-      &#34;recluster&#34;: &#34;0.1.0&#34;,
+      &#34;recluster&#34;: &#34;0.5.0&#34;,
       &#34;scanpy&#34;: &#34;1.11.5&#34;,
       &#34;anndata&#34;: &#34;0.12.19&#34;,
       &#34;numpy&#34;: &#34;2.4.6&#34;,
@@ -351,7 +358,9 @@ require: all</pre>
     &#34;mito_prefix&#34;: &#34;MT-&#34;,
     &#34;n_samples&#34;: null,
     &#34;conditions&#34;: null,
-    &#34;n_batches&#34;: null
+    &#34;n_batches&#34;: null,
+    &#34;paired_design&#34;: false,
+    &#34;n_pairs&#34;: null
   },
   &#34;claim&#34;: {
     &#34;claim_type&#34;: &#34;population_exists&#34;,
@@ -362,6 +371,7 @@ require: all</pre>
     &#34;target&#34;: {
       &#34;markers&#34;: [],
       &#34;negative_markers&#34;: [],
+      &#34;marker_logic&#34;: &#34;any&#34;,
       &#34;label_value&#34;: &#34;cluster_2&#34;,
       &#34;min_cells&#34;: 20
     },
@@ -432,7 +442,10 @@ require: all</pre>
     &#34;mito_prefix&#34;: &#34;auto&#34;,
     &#34;scrublet_seed&#34;: 0,
     &#34;max_runs&#34;: null,
-    &#34;n_cpus&#34;: 4
+    &#34;n_cpus&#34;: 4,
+    &#34;qc_max_cell_loss&#34;: 0.25,
+    &#34;scrublet_expected_rate_per_1000&#34;: 0.008,
+    &#34;scrublet_fallback_trigger&#34;: 0.25
   },
   &#34;thresholds&#34;: {
     &#34;robust_min_survival&#34;: 0.8,
@@ -445,7 +458,17 @@ require: all</pre>
     &#34;min_cells_per_sample&#34;: 5,
     &#34;min_cluster_size&#34;: 10,
     &#34;composition_test&#34;: &#34;logit_t&#34;,
+    &#34;candidate_rule&#34;: &#34;either&#34;,
+    &#34;marker_per_gene_auroc_min&#34;: 0.6,
+    &#34;marker_majority_min&#34;: 0.5,
+    &#34;jaccard_on_kept_cells&#34;: true,
+    &#34;doublet_residual_ratio_max&#34;: 0.6,
+    &#34;doublet_libsize_ratio_min&#34;: 1.5,
     &#34;pseudobulk_min_total_counts&#34;: 10,
+    &#34;time_min_gene_counts&#34;: 10,
+    &#34;time_min_panel_genes&#34;: 5,
+    &#34;time_shrink_flag&#34;: 0.5,
+    &#34;time_imbalance_hours&#34;: 2.0,
     &#34;pseudoreplication_cell_survival&#34;: 0.8,
     &#34;pseudoreplication_replicate_survival&#34;: 0.5
   },
@@ -453,8 +476,10 @@ require: all</pre>
     &#34;total&#34;: 23,
     &#34;baseline&#34;: 1,
     &#34;one_at_a_time&#34;: 16,
-    &#34;random&#34;: 6
+    &#34;random&#34;: 6,
+    &#34;merged_after_capping&#34;: 0
   },
+  &#34;merged_runs&#34;: [],
   &#34;reference_source&#34;: &#34;cells labelled `cluster_2` in `tool_label` (328 cells)&#34;,
   &#34;verdict&#34;: {
     &#34;label&#34;: &#34;ROBUST&#34;,
@@ -637,8 +662,12 @@ require: all</pre>
     ],
     &#34;breakers&#34;: [],
     &#34;oat_flips&#34;: [],
-    &#34;summary&#34;: &#34;The claim held in 23 of 23 runs (100%). It held under the baseline pipeline.&#34;
+    &#34;summary&#34;: &#34;The claim held in 23 of 23 runs (100%). It held under the baseline pipeline.&#34;,
+    &#34;time_check_label&#34;: null,
+    &#34;label_before_time_check&#34;: null,
+    &#34;n_not_testable&#34;: 0
   },
+  &#34;time_check&#34;: null,
   &#34;runs&#34;: [
     {
       &#34;index&#34;: 0,
@@ -660,7 +689,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 9,
-      &#34;runtime_s&#34;: 6.065,
+      &#34;runtime_s&#34;: 4.717,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -670,15 +699,38 @@ require: all</pre>
         &#34;n_cells&#34;: 332,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.987952,
         &#34;precision&#34;: 0.987952,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;1&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 10.2811,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;7&#34;
+          ],
+          &#34;pair_weight&#34;: 0.66592,
+          &#34;pair_residual&#34;: 8.81816,
+          &#34;residual_ratio&#34;: 0.857706,
+          &#34;libsize_ratio&#34;: 0.53131,
+          &#34;libsize_ratio_vs_max&#34;: 0.319518,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -690,6 +742,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -712,7 +770,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 9,
-      &#34;runtime_s&#34;: 4.853,
+      &#34;runtime_s&#34;: 3.958,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -722,15 +780,38 @@ require: all</pre>
         &#34;n_cells&#34;: 332,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.987952,
         &#34;precision&#34;: 0.987952,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;1&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 10.2811,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;7&#34;
+          ],
+          &#34;pair_weight&#34;: 0.66592,
+          &#34;pair_residual&#34;: 8.81816,
+          &#34;residual_ratio&#34;: 0.857706,
+          &#34;libsize_ratio&#34;: 0.53131,
+          &#34;libsize_ratio_vs_max&#34;: 0.319518,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -742,6 +823,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 100,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -764,7 +851,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 219,
       &#34;n_removed_doublet&#34;: 37,
       &#34;n_clusters&#34;: 8,
-      &#34;runtime_s&#34;: 4.768,
+      &#34;runtime_s&#34;: 4.35,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -774,26 +861,55 @@ require: all</pre>
         &#34;n_cells&#34;: 298,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
-        &#34;jaccard&#34;: 0.863095,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
+        &#34;jaccard&#34;: 0.973154,
         &#34;precision&#34;: 0.973154,
-        &#34;recall&#34;: 0.884146,
+        &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.115854,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;2&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0174255,
-        &#34;doublet_score_median_all&#34;: 0.0428821
+        &#34;doublet_score_median_all&#34;: 0.0428821,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 11.3604,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;7&#34;
+          ],
+          &#34;pair_weight&#34;: 0.657912,
+          &#34;pair_residual&#34;: 9.69656,
+          &#34;residual_ratio&#34;: 0.853539,
+          &#34;libsize_ratio&#34;: 0.532034,
+          &#34;libsize_ratio_vs_max&#34;: 0.324239,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.863095,
+        &#34;jaccard&#34;: 0.973154,
         &#34;marker_auroc&#34;: null
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 500,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -816,7 +932,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 57,
       &#34;n_removed_doublet&#34;: 21,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 5.334,
+      &#34;runtime_s&#34;: 3.071,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -826,26 +942,55 @@ require: all</pre>
         &#34;n_cells&#34;: 333,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
-        &#34;jaccard&#34;: 0.949853,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
+        &#34;jaccard&#34;: 0.966967,
         &#34;precision&#34;: 0.966967,
-        &#34;recall&#34;: 0.981707,
+        &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0182927,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;2&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 10.4357,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;8&#34;
+          ],
+          &#34;pair_weight&#34;: 0.648441,
+          &#34;pair_residual&#34;: 8.7848,
+          &#34;residual_ratio&#34;: 0.841804,
+          &#34;libsize_ratio&#34;: 0.545782,
+          &#34;libsize_ratio_vs_max&#34;: 0.340772,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.949853,
+        &#34;jaccard&#34;: 0.966967,
         &#34;marker_auroc&#34;: null
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 5.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -868,7 +1013,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 1,
       &#34;n_removed_doublet&#34;: 40,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 5.447,
+      &#34;runtime_s&#34;: 3.969,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -878,26 +1023,55 @@ require: all</pre>
         &#34;n_cells&#34;: 335,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
-        &#34;jaccard&#34;: 0.973214,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
+        &#34;jaccard&#34;: 0.976119,
         &#34;precision&#34;: 0.976119,
-        &#34;recall&#34;: 0.996951,
+        &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.00304878,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;3&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0181418,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 10.2001,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;7&#34;
+          ],
+          &#34;pair_weight&#34;: 0.673781,
+          &#34;pair_residual&#34;: 8.73042,
+          &#34;residual_ratio&#34;: 0.855912,
+          &#34;libsize_ratio&#34;: 0.536598,
+          &#34;libsize_ratio_vs_max&#34;: 0.319243,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.973214,
+        &#34;jaccard&#34;: 0.976119,
         &#34;marker_auroc&#34;: null
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 20.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -920,7 +1094,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 0,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 2.782,
+      &#34;runtime_s&#34;: 1.557,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -930,15 +1104,38 @@ require: all</pre>
         &#34;n_cells&#34;: 348,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.942529,
         &#34;precision&#34;: 0.942529,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;4&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 10.0809,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;7&#34;
+          ],
+          &#34;pair_weight&#34;: 0.658773,
+          &#34;pair_residual&#34;: 8.57495,
+          &#34;residual_ratio&#34;: 0.850617,
+          &#34;libsize_ratio&#34;: 0.542595,
+          &#34;libsize_ratio_vs_max&#34;: 0.332358,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -950,6 +1147,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -972,7 +1175,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 15,
-      &#34;runtime_s&#34;: 1.662,
+      &#34;runtime_s&#34;: 1.359,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -983,15 +1186,39 @@ require: all</pre>
         &#34;n_cells&#34;: 335,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.979104,
         &#34;precision&#34;: 0.979104,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;1&#34;: &#34;labels&#34;,
+          &#34;11&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;3&#34;,
+          &#34;single_residual&#34;: 10.2458,
+          &#34;best_pair&#34;: [
+            &#34;12&#34;,
+            &#34;3&#34;
+          ],
+          &#34;pair_weight&#34;: 0.320193,
+          &#34;pair_residual&#34;: 8.82156,
+          &#34;residual_ratio&#34;: 0.860993,
+          &#34;libsize_ratio&#34;: 0.526917,
+          &#34;libsize_ratio_vs_max&#34;: 0.337667,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1003,6 +1230,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1025,7 +1258,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 7,
-      &#34;runtime_s&#34;: 0.994,
+      &#34;runtime_s&#34;: 0.703,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1035,15 +1268,38 @@ require: all</pre>
         &#34;n_cells&#34;: 333,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.984985,
         &#34;precision&#34;: 0.984985,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;3&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;1&#34;,
+          &#34;single_residual&#34;: 10.2826,
+          &#34;best_pair&#34;: [
+            &#34;2&#34;,
+            &#34;4&#34;
+          ],
+          &#34;pair_weight&#34;: 0.699455,
+          &#34;pair_residual&#34;: 9.53059,
+          &#34;residual_ratio&#34;: 0.926863,
+          &#34;libsize_ratio&#34;: 0.808057,
+          &#34;libsize_ratio_vs_max&#34;: 0.431655,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1055,6 +1311,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1077,7 +1339,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 10,
-      &#34;runtime_s&#34;: 1.456,
+      &#34;runtime_s&#34;: 1.666,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1087,15 +1349,38 @@ require: all</pre>
         &#34;n_cells&#34;: 331,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.990937,
         &#34;precision&#34;: 0.990937,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;2&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 10.2834,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;8&#34;
+          ],
+          &#34;pair_weight&#34;: 0.672103,
+          &#34;pair_residual&#34;: 8.82828,
+          &#34;residual_ratio&#34;: 0.858499,
+          &#34;libsize_ratio&#34;: 0.555708,
+          &#34;libsize_ratio_vs_max&#34;: 0.341712,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1107,6 +1392,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1129,7 +1420,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 9,
-      &#34;runtime_s&#34;: 0.953,
+      &#34;runtime_s&#34;: 0.987,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1139,15 +1430,38 @@ require: all</pre>
         &#34;n_cells&#34;: 333,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.984985,
         &#34;precision&#34;: 0.984985,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;2&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;3&#34;,
+          &#34;single_residual&#34;: 10.2856,
+          &#34;best_pair&#34;: [
+            &#34;3&#34;,
+            &#34;7&#34;
+          ],
+          &#34;pair_weight&#34;: 0.672329,
+          &#34;pair_residual&#34;: 8.79389,
+          &#34;residual_ratio&#34;: 0.854973,
+          &#34;libsize_ratio&#34;: 0.554363,
+          &#34;libsize_ratio_vs_max&#34;: 0.337085,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1159,6 +1473,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1181,7 +1501,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 9,
-      &#34;runtime_s&#34;: 1.858,
+      &#34;runtime_s&#34;: 1.381,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1191,15 +1511,38 @@ require: all</pre>
         &#34;n_cells&#34;: 332,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.987952,
         &#34;precision&#34;: 0.987952,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;1&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;5&#34;,
+          &#34;single_residual&#34;: 10.2481,
+          &#34;best_pair&#34;: [
+            &#34;5&#34;,
+            &#34;7&#34;
+          ],
+          &#34;pair_weight&#34;: 0.673695,
+          &#34;pair_residual&#34;: 8.79709,
+          &#34;residual_ratio&#34;: 0.858408,
+          &#34;libsize_ratio&#34;: 0.545624,
+          &#34;libsize_ratio_vs_max&#34;: 0.328488,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1211,6 +1554,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1233,7 +1582,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 6,
-      &#34;runtime_s&#34;: 1.815,
+      &#34;runtime_s&#34;: 1.292,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1243,15 +1592,38 @@ require: all</pre>
         &#34;n_cells&#34;: 339,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.967552,
         &#34;precision&#34;: 0.967552,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;1&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 10.1259,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;3&#34;
+          ],
+          &#34;pair_weight&#34;: 0.680672,
+          &#34;pair_residual&#34;: 8.8242,
+          &#34;residual_ratio&#34;: 0.871449,
+          &#34;libsize_ratio&#34;: 0.535567,
+          &#34;libsize_ratio_vs_max&#34;: 0.329998,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1263,6 +1635,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1285,7 +1663,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 7,
-      &#34;runtime_s&#34;: 1.695,
+      &#34;runtime_s&#34;: 1.319,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1295,15 +1673,38 @@ require: all</pre>
         &#34;n_cells&#34;: 339,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.967552,
         &#34;precision&#34;: 0.967552,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;2&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 10.1289,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;5&#34;
+          ],
+          &#34;pair_weight&#34;: 0.682901,
+          &#34;pair_residual&#34;: 8.83145,
+          &#34;residual_ratio&#34;: 0.871911,
+          &#34;libsize_ratio&#34;: 0.535314,
+          &#34;libsize_ratio_vs_max&#34;: 0.329998,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1315,6 +1716,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1337,7 +1744,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 14,
-      &#34;runtime_s&#34;: 1.69,
+      &#34;runtime_s&#34;: 1.114,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1347,15 +1754,38 @@ require: all</pre>
         &#34;n_cells&#34;: 332,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.987952,
         &#34;precision&#34;: 0.987952,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;4&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 10.3025,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;11&#34;
+          ],
+          &#34;pair_weight&#34;: 0.666486,
+          &#34;pair_residual&#34;: 8.7556,
+          &#34;residual_ratio&#34;: 0.849855,
+          &#34;libsize_ratio&#34;: 0.572147,
+          &#34;libsize_ratio_vs_max&#34;: 0.341418,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1367,6 +1797,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1389,7 +1825,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 20,
-      &#34;runtime_s&#34;: 1.654,
+      &#34;runtime_s&#34;: 0.87,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1399,15 +1835,38 @@ require: all</pre>
         &#34;n_cells&#34;: 331,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.990937,
         &#34;precision&#34;: 0.990937,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;1&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;10&#34;,
+          &#34;single_residual&#34;: 10.303,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;18&#34;
+          ],
+          &#34;pair_weight&#34;: 0.665922,
+          &#34;pair_residual&#34;: 8.88808,
+          &#34;residual_ratio&#34;: 0.862665,
+          &#34;libsize_ratio&#34;: 0.746534,
+          &#34;libsize_ratio_vs_max&#34;: 0.385724,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1419,6 +1878,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1441,7 +1906,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 9,
-      &#34;runtime_s&#34;: 1.589,
+      &#34;runtime_s&#34;: 1.045,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1451,15 +1916,38 @@ require: all</pre>
         &#34;n_cells&#34;: 332,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.987952,
         &#34;precision&#34;: 0.987952,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;2&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 10.2644,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;7&#34;
+          ],
+          &#34;pair_weight&#34;: 0.674581,
+          &#34;pair_residual&#34;: 8.82667,
+          &#34;residual_ratio&#34;: 0.859928,
+          &#34;libsize_ratio&#34;: 0.543442,
+          &#34;libsize_ratio_vs_max&#34;: 0.328205,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1471,6 +1959,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1493,7 +1987,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 9,
-      &#34;runtime_s&#34;: 1.567,
+      &#34;runtime_s&#34;: 0.976,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1503,15 +1997,38 @@ require: all</pre>
         &#34;n_cells&#34;: 332,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.987952,
         &#34;precision&#34;: 0.987952,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;1&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 10.2888,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;7&#34;
+          ],
+          &#34;pair_weight&#34;: 0.665895,
+          &#34;pair_residual&#34;: 8.82961,
+          &#34;residual_ratio&#34;: 0.85818,
+          &#34;libsize_ratio&#34;: 0.530434,
+          &#34;libsize_ratio_vs_max&#34;: 0.319518,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1523,6 +2040,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1545,7 +2068,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 219,
       &#34;n_removed_doublet&#34;: 37,
       &#34;n_clusters&#34;: 4,
-      &#34;runtime_s&#34;: 0.588,
+      &#34;runtime_s&#34;: 0.516,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1555,26 +2078,55 @@ require: all</pre>
         &#34;n_cells&#34;: 297,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
-        &#34;jaccard&#34;: 0.865672,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
+        &#34;jaccard&#34;: 0.976431,
         &#34;precision&#34;: 0.976431,
-        &#34;recall&#34;: 0.884146,
+        &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.115854,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;1&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0174255,
-        &#34;doublet_score_median_all&#34;: 0.0428821
+        &#34;doublet_score_median_all&#34;: 0.0428821,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 11.4543,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;2&#34;
+          ],
+          &#34;pair_weight&#34;: 0.793368,
+          &#34;pair_residual&#34;: 10.9529,
+          &#34;residual_ratio&#34;: 0.956222,
+          &#34;libsize_ratio&#34;: 0.730113,
+          &#34;libsize_ratio_vs_max&#34;: 0.627301,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.865672,
+        &#34;jaccard&#34;: 0.976431,
         &#34;marker_auroc&#34;: null
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 500,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1597,7 +2149,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 1,
       &#34;n_removed_doublet&#34;: 40,
       &#34;n_clusters&#34;: 23,
-      &#34;runtime_s&#34;: 5.159,
+      &#34;runtime_s&#34;: 4.109,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1608,26 +2160,56 @@ require: all</pre>
         &#34;n_cells&#34;: 332,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
-        &#34;jaccard&#34;: 0.981982,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
+        &#34;jaccard&#34;: 0.98494,
         &#34;precision&#34;: 0.98494,
-        &#34;recall&#34;: 0.996951,
+        &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.00304878,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;4&#34;: &#34;labels&#34;,
+          &#34;16&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0181418,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;1&#34;,
+          &#34;single_residual&#34;: 10.3483,
+          &#34;best_pair&#34;: [
+            &#34;1&#34;,
+            &#34;18&#34;
+          ],
+          &#34;pair_weight&#34;: 0.673711,
+          &#34;pair_residual&#34;: 8.84941,
+          &#34;residual_ratio&#34;: 0.855154,
+          &#34;libsize_ratio&#34;: 0.506301,
+          &#34;libsize_ratio_vs_max&#34;: 0.31652,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.981982,
+        &#34;jaccard&#34;: 0.98494,
         &#34;marker_auroc&#34;: null
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 100,
+        &#34;max_mito_pct&#34;: 20.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1650,7 +2232,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 6,
       &#34;n_removed_doublet&#34;: 43,
       &#34;n_clusters&#34;: 21,
-      &#34;runtime_s&#34;: 1.407,
+      &#34;runtime_s&#34;: 0.73,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1661,15 +2243,39 @@ require: all</pre>
         &#34;n_cells&#34;: 328,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.981873,
         &#34;precision&#34;: 0.990854,
         &#34;recall&#34;: 0.990854,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;1&#34;: &#34;labels&#34;,
+          &#34;16&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;6&#34;,
+          &#34;single_residual&#34;: 10.2785,
+          &#34;best_pair&#34;: [
+            &#34;17&#34;,
+            &#34;6&#34;
+          ],
+          &#34;pair_weight&#34;: 0.318096,
+          &#34;pair_residual&#34;: 8.88676,
+          &#34;residual_ratio&#34;: 0.8646,
+          &#34;libsize_ratio&#34;: 0.527787,
+          &#34;libsize_ratio_vs_max&#34;: 0.335824,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1681,6 +2287,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 10.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1703,7 +2315,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 1,
       &#34;n_removed_doublet&#34;: 40,
       &#34;n_clusters&#34;: 18,
-      &#34;runtime_s&#34;: 2.611,
+      &#34;runtime_s&#34;: 2.246,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1713,26 +2325,55 @@ require: all</pre>
         &#34;n_cells&#34;: 333,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
-        &#34;jaccard&#34;: 0.979042,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
+        &#34;jaccard&#34;: 0.981982,
         &#34;precision&#34;: 0.981982,
-        &#34;recall&#34;: 0.996951,
+        &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.00304878,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;1&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0181418,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;3&#34;,
+          &#34;single_residual&#34;: 10.2379,
+          &#34;best_pair&#34;: [
+            &#34;15&#34;,
+            &#34;9&#34;
+          ],
+          &#34;pair_weight&#34;: 0.334865,
+          &#34;pair_residual&#34;: 8.69603,
+          &#34;residual_ratio&#34;: 0.849398,
+          &#34;libsize_ratio&#34;: 0.61032,
+          &#34;libsize_ratio_vs_max&#34;: 0.319794,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.979042,
+        &#34;jaccard&#34;: 0.981982,
         &#34;marker_auroc&#34;: null
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 20.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1755,7 +2396,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 1,
       &#34;n_removed_doublet&#34;: 0,
       &#34;n_clusters&#34;: 16,
-      &#34;runtime_s&#34;: 0.88,
+      &#34;runtime_s&#34;: 1.094,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1766,15 +2407,39 @@ require: all</pre>
         &#34;n_cells&#34;: 354,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
         &#34;jaccard&#34;: 0.926554,
         &#34;precision&#34;: 0.926554,
         &#34;recall&#34;: 1.0,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;3&#34;: &#34;labels&#34;,
+          &#34;13&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0200573,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;1&#34;,
+          &#34;single_residual&#34;: 9.98202,
+          &#34;best_pair&#34;: [
+            &#34;1&#34;,
+            &#34;14&#34;
+          ],
+          &#34;pair_weight&#34;: 0.670325,
+          &#34;pair_residual&#34;: 8.52949,
+          &#34;residual_ratio&#34;: 0.854485,
+          &#34;libsize_ratio&#34;: 0.519744,
+          &#34;libsize_ratio_vs_max&#34;: 0.332358,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
@@ -1786,6 +2451,12 @@ require: all</pre>
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 100,
+        &#34;max_mito_pct&#34;: 20.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     },
     {
@@ -1808,7 +2479,7 @@ require: all</pre>
       &#34;n_removed_qc&#34;: 57,
       &#34;n_removed_doublet&#34;: 0,
       &#34;n_clusters&#34;: 6,
-      &#34;runtime_s&#34;: 0.975,
+      &#34;runtime_s&#34;: 1.131,
       &#34;warnings&#34;: [],
       &#34;match&#34;: {
         &#34;mode&#34;: &#34;labels&#34;,
@@ -1818,26 +2489,55 @@ require: all</pre>
         &#34;n_cells&#34;: 339,
         &#34;found&#34;: true,
         &#34;best_cluster_auroc&#34;: null,
+        &#34;marker_basis&#34;: null,
         &#34;marker_auroc&#34;: null,
-        &#34;jaccard&#34;: 0.916667,
+        &#34;per_marker_auroc&#34;: null,
+        &#34;markers_enriched&#34;: null,
+        &#34;jaccard&#34;: 0.930029,
         &#34;precision&#34;: 0.941003,
-        &#34;recall&#34;: 0.972561,
+        &#34;recall&#34;: 0.987616,
         &#34;n_reference&#34;: 328,
+        &#34;reference_qc_removed&#34;: 0.0152439,
         &#34;n_samples_present&#34;: null,
         &#34;max_sample_share&#34;: null,
+        &#34;candidate_by&#34;: {
+          &#34;2&#34;: &#34;labels&#34;
+        },
+        &#34;judged_by&#34;: {},
         &#34;doublet_score_median&#34;: 0.0210773,
-        &#34;doublet_score_median_all&#34;: 0.0442324
+        &#34;doublet_score_median_all&#34;: 0.0442324,
+        &#34;doublet_cluster&#34;: {
+          &#34;best_single&#34;: &#34;0&#34;,
+          &#34;single_residual&#34;: 10.3002,
+          &#34;best_pair&#34;: [
+            &#34;0&#34;,
+            &#34;4&#34;
+          ],
+          &#34;pair_weight&#34;: 0.580474,
+          &#34;pair_residual&#34;: 8.68534,
+          &#34;residual_ratio&#34;: 0.843222,
+          &#34;libsize_ratio&#34;: 0.450258,
+          &#34;libsize_ratio_vs_max&#34;: 0.288266,
+          &#34;flagged&#34;: false,
+          &#34;note&#34;: &#34;&#34;
+        }
       },
       &#34;holds&#34;: true,
       &#34;holds_cell_level&#34;: true,
       &#34;replicate_ok&#34;: true,
       &#34;recovered&#34;: true,
       &#34;key_stats&#34;: {
-        &#34;jaccard&#34;: 0.916667,
+        &#34;jaccard&#34;: 0.930029,
         &#34;marker_auroc&#34;: null
       },
       &#34;details&#34;: {
         &#34;reasons&#34;: []
+      },
+      &#34;effective_params&#34;: {
+        &#34;min_genes&#34;: 200,
+        &#34;max_mito_pct&#34;: 5.0,
+        &#34;capped&#34;: {},
+        &#34;scrublet_fallback_subsets&#34;: 0
       }
     }
   ],
@@ -1846,7 +2546,7 @@ require: all</pre>
   }
 }</pre></details>
 
-<footer>Recluster 0.1.0 · an independent stress test for single-cell RNA-seq claims · all numbers in this report were computed by deterministic code.</footer>
+<footer>Recluster 0.5.0 · an independent stress test for single-cell RNA-seq claims · all numbers in this report were computed by deterministic code.</footer>
 </main>
 </body>
 </html>

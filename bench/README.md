@@ -25,8 +25,16 @@ counts, `label` (ctrl/stim), `replicate` (donor) and `cell_type`.
 - **False claims built from the real data**, expected NOT SUPPORTED: control cells only with
   donors split into two fake groups, and all cells with condition labels shuffled at the
   donor level. The cell-level column shows whether naive statistics would have called them.
+- **A planted time-of-day effect**: the 8 donors split into a morning group and an afternoon
+  group (one collection time per donor), with a documented clock-gene shift and a rhythmic gene
+  (SQSTM1) planted into every cell as a function of the hour, then claimed as a condition
+  effect. Run once with the collection times hidden (the clock-gene screen must flag it) and
+  once with them given (the adjustment must remove it); the true IFN-β claims above report their
+  time-check outcome so that false alarms are visible.
 - **Doublets**: the processed object has singlets only, so Scrublet is compared with demuxlet's
-  calls on the two original 10x lanes from GEO (GSE96583, batch 2: 29,065 barcodes).
+  calls on the two original 10x lanes from GEO (GSE96583, batch 2: 29,065 barcodes); the first
+  run measured Scrublet's automatic threshold alone, the current one includes the rate-based
+  fallback.
 
 ## Part 2: planted errors (PBMC3k)
 
@@ -40,4 +48,5 @@ Each error is built by a fixed function of `scanpy.datasets.pbmc3k()` and seed 0
    as a subtype (with a control).
 
 Thresholds and grid are the package defaults. Any change made after seeing results is logged in
-`RESULTS.md` with the reason.
+`RESULTS.md` with the reason, and the first run's table is kept next to the current one
+(`results_v0.1_table.md`, `results_v0.1.json`).

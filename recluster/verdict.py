@@ -19,6 +19,7 @@ def compute_verdict(
     n = len(runs)
     n_holds = sum(1 for r in runs if r.holds)
     survival = n_holds / n if n else 0.0
+    n_not_testable = sum(1 for r in runs if r.details.get("evaluable") is False)
 
     cell_vals = [r.holds_cell_level for r in runs if r.holds_cell_level is not None]
     cell_survival = sum(cell_vals) / len(cell_vals) if cell_vals else None
@@ -52,7 +53,9 @@ def compute_verdict(
         if r.is_one_at_a_time and r.holds != baseline_holds
     ]
 
-    summary = _summary(label, n_holds, n, baseline_holds, oat_flips, pseudoreplication, claim_type)
+    summary = _summary(
+        label, n_holds, n, baseline_holds, oat_flips, pseudoreplication, claim_type, n_not_testable
+    )
     return Verdict(
         label=label,
         survival=survival,
@@ -66,6 +69,7 @@ def compute_verdict(
         breakers=breakers,
         oat_flips=oat_flips,
         summary=summary,
+        n_not_testable=n_not_testable,
     )
 
 
@@ -101,10 +105,16 @@ def _summary(
     oat_flips: list[dict[str, Any]],
     pseudoreplication: bool,
     claim_type: str,
+    n_not_testable: int = 0,
 ) -> str:
     parts = [
         f"The claim held in {n_holds} of {n} runs ({100 * n_holds / n:.0f}%)." if n else "No runs."
     ]
+    if n_not_testable:
+        parts.append(
+            f"In {n_not_testable} of the {n} runs the population was not present in enough "
+            "samples for the test; those runs count as failures."
+        )
     parts.append(
         "It held under the baseline pipeline."
         if baseline_holds
@@ -123,3 +133,49 @@ def _summary(
             "statistics do not: this pattern is characteristic of pseudoreplication."
         )
     return " ".join(parts)
+
+
+def apply_time_check(verdict: Verdict, time_check: dict[str, Any] | None) -> Verdict:
+    """Fold the time-of-day check into the verdict.
+
+    Rules, also stated in docs/HOW_IT_WORKS.md: Mode A with imbalanced collection times and an
+    effect that is removed by adjusting for time (no longer significant, and its estimate shrinks
+    by at least the flag fraction or flips) -> NOT SUPPORTED; every other POSSIBLE TIME CONFOUND
+    (the effect shrinks but survives, the design cannot separate time from condition, the claim
+    did not hold before adjustment, or Mode B finds a phase-coherent clock-gene difference) ->
+    capped at FRAGILE; NO TIME CONFOUND DETECTED and NOT ASSESSABLE leave the label unchanged.
+    The label before the check is always recorded.
+    """
+    if time_check is None:
+        return verdict
+    label = time_check.get("label")
+    verdict.time_check_label = label
+    before = verdict.label
+    verdict.label_before_time_check = before
+    headline = time_check.get("headline") or ""
+    if label == "POSSIBLE TIME CONFOUND":
+        if time_check.get("mode") == "A" and time_check.get("effect_removed"):
+            new = NOT_SUPPORTED
+            why = headline or "the effect is explained by collection time"
+        else:
+            new = FRAGILE if before == ROBUST else before
+            why = headline or "a time-of-day confound is possible"
+        if new != before:
+            verdict.label = new
+            verdict.summary += (
+                f" Time-of-day check: POSSIBLE TIME CONFOUND; the verdict was changed from "
+                f"{before} to {new} because {why}."
+            )
+        else:
+            verdict.summary += (
+                f" Time-of-day check: POSSIBLE TIME CONFOUND ({why}); the verdict stays {before}."
+            )
+    elif label == "NO TIME CONFOUND DETECTED":
+        verdict.summary += " Time-of-day check: no time confound detected" + (
+            f" ({headline})." if headline else "."
+        )
+    elif label == "NOT ASSESSABLE":
+        verdict.summary += " Time-of-day check: not assessable" + (
+            f" ({headline})." if headline else "."
+        )
+    return verdict
