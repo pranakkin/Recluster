@@ -230,7 +230,7 @@ significant digits; a test asserts two runs produce identical results.
 
 Robustness, each change motivated by a measured v0.1 failure mode (benchmark re-run, v0.1 table kept). Where the design moved while building, the bullet says what it was first and why it changed:
 - `GridConfig.qc_max_cell_loss`: a QC threshold that alone would remove more than 25 % of cells is pulled back to the quantile that removes exactly 25 %; the run records both values. Grid points that become identical after capping are dropped before running and recorded in provenance (`merged_runs`). Reason: two requested thresholds that cap to the same value would run the same pipeline twice and count one configuration twice in the survival rate.
-- Matching: a cluster's marker AUROC is a stratified within-sample AUROC (the Mann-Whitney U of every sample holding at least one cluster cell and one other cell, summed, over the summed n1 × n0); a cluster no sample can judge, or every cluster without a sample column, is judged by the whole-dataset AUROC, and the statistic that judged each candidate is recorded (`judged_by`, `marker_basis`). Reason: the first implementation took the minimum over samples holding ≥ 10 cluster cells; on simulations it rejected a population with true AUROC 0.85 and 12 cells in each of 16 samples 95 % of the time (stratified statistic: 0 %, mean 0.851) and still rejected 24 % at true AUROC 0.90.
+- Matching: a cluster's marker AUROC is a stratified within-sample AUROC (the Mann-Whitney U of every sample holding at least one cluster cell and one other cell, summed, over the summed n1 × n0); a cluster no sample can judge, or every cluster without a sample column, is judged by the whole-dataset AUROC, and the statistic that judged each candidate is recorded (`judged_by`, `marker_basis`). Reason: the first implementation took the minimum over samples holding ≥ 10 cluster cells; on simulations it rejected a population with true AUROC 0.85 and 12 cells in each of 16 samples 95 % of the time (stratified statistic: 0 %, mean 0.851) and still rejected about 32 % at true AUROC 0.90.
 - Matching: a cluster qualifies by markers or by labels (`Thresholds.candidate_rule`); by markers only when more than half of the markers are individually enriched (per-gene AUROC ≥ 0.6); `marker_logic: all` for co-expression claims (minimum score); Jaccard over cells that passed the run's QC with the QC-removed fraction reported. Reason: v0.1's whole-dataset AUROC moved with the cell-type mix a QC setting kept, an additive score could not express co-expression, and QC deletion was indistinguishable from absence.
 - `reference_is_labelled` (`match_population`): a cluster can qualify by labels only when the reference comes from the claim's label column; a reference carried over from the baseline run's match is used only for the Jaccard overlap. Reason: without it a merged low-resolution cluster holding most of the baseline population qualified "by labels" with no marker evidence.
 - Cluster-level doublet check (`evaluators/doublet_cluster.py`): mixture-of-two-clusters residual and library-size ratio, shown in the report's population panel as a diagnostic; `doublet_residual_ratio_max` and `doublet_libsize_ratio_min` only label it and no verdict depends on them. Reason: the plan had it gate a verdict; no cutoff tried separated true mixtures from genuine intermediate populations with a margin worth enforcing.
@@ -331,6 +331,18 @@ monocytes) gives simulated doublets larger than the real ones.
   seeds (0, 1, 2), since round 1 showed seed flips.
 - If round 2 fails, nothing is adopted; the per-cell ranking gain of candidates 2 and 3 is
   recorded for later work and the planted-doublet case stays a miss.
+
+### v0.6 round 2 (measured 2026-11-11): adopted
+
+Measured on every cluster of >= 10 cells (Kang 427, PBMC3k 251, planted 245, GEO 115) for master
+seeds 0, 1 and 2, and re-implemented independently. Most doublet-like real cluster: AUROC
+0.94-0.96 (a 33-cell PBMC3k dendritic-cell cluster); Kang minimum 0.99; GEO minimum 0.99.
+Planted doublet clusters: 0.62-0.71. Gap 0.25-0.28 (>= 0.10 required); the per-seed midpoints
+are 0.80, 0.83 and 0.82. With any of them: no cluster removed on Kang, GEO or unmodified PBMC3k;
+the planted doublet cluster removed in both runs where it forms with doublet removal on.
+Implementation threshold, fixed now: 0.80 (the seed-0 midpoint, rounded down, i.e. the most
+conservative of the three). The held-out cases H1 and H2 are built and run only after the
+implementation is finished.
 
 ## Milestone 4 status (2026-11-11): done
 

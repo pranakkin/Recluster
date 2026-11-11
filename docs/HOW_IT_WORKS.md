@@ -135,7 +135,7 @@ which cells are "the population".
   admitted through LYZ alone. The statistic was first implemented as the minimum over samples
   and abandoned after measuring it on simulations: a population with true AUROC 0.85 and 12
   cells in each of 16 samples was rejected 95 % of the time by the minimum and 0 % by the
-  stratified statistic (mean 0.851), and at true AUROC 0.90 the minimum still rejected 24 %,
+  stratified statistic (mean 0.851), and at true AUROC 0.90 the minimum still rejected about 32 %,
   because one sample's few cells happening to rank low was enough. A cluster with no contributing
   sample, and every cluster when there is no sample column, is judged by the whole-dataset
   AUROC. Each run records which statistic judged each candidate (`judged_by`) and sums it up

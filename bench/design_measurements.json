@@ -1,0 +1,956 @@
+{
+  "meta": {
+    "recluster_version": "0.5.0",
+    "finished_at": "2026-11-11 11:15",
+    "runtime_s": 103.2,
+    "item_runtime_s": {
+      "1": 46.6,
+      "2": 8.8,
+      "3": 0.0,
+      "4": 18.2,
+      "5": 12.2,
+      "6": 17.3,
+      "7": 0.2
+    },
+    "items_run": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "rows": [
+    {
+      "item": "1 (RESULTS 2)",
+      "quantity": "Stim-monocyte cluster whole-dataset AUROC, baseline -> min_genes=500 uncapped",
+      "cited": "0.83 -> 0.79",
+      "measured": "0.834 -> 0.788 (automatic Scrublet threshold only: 0.829 -> 0.788)",
+      "agrees": true,
+      "how": "Pipeline.run at min_genes 200 and 500 with GridConfig(qc_max_cell_loss=1.0); cluster with the most stim cells labelled CD14+ Monocytes; auroc_by_group of the CD14/LYZ/S100A8 marker_score over the run's cells"
+    },
+    {
+      "item": "1 (RESULTS 2)",
+      "quantity": "Same cluster, stratified within-sample AUROC (the current statistic)",
+      "cited": "not cited",
+      "measured": "0.938 -> 0.945",
+      "agrees": null,
+      "how": "within_sample_auroc on the same runs, sample = replicate x label"
+    },
+    {
+      "item": "1 (RESULTS 2)",
+      "quantity": "Fraction of Kang cells min_genes=500 removes",
+      "cited": "44 %",
+      "measured": "44.1 %",
+      "agrees": true,
+      "how": "share of cells with fewer than 500 detected genes in the raw counts"
+    },
+    {
+      "item": "1 (RESULTS 2)",
+      "quantity": "min_genes=500 after the default 25 % cap",
+      "cited": "441",
+      "measured": "441",
+      "agrees": true,
+      "how": "Pipeline.effective_qc(PipelineParams(min_genes=500)) with GridConfig()"
+    },
+    {
+      "item": "2 (RESULTS 2)",
+      "quantity": "Rejection rate at true AUROC 0.85: minimum over samples vs stratified",
+      "cited": "95 % vs 0 %",
+      "measured": "95.0 % vs 0.0 %",
+      "agrees": true,
+      "how": "16 samples x (12 cluster + 300 other cells), binormal scores with equal variance, 200 replicates (seed 0 at 0.85, seed 1 at 0.90); rejection = statistic < 0.80"
+    },
+    {
+      "item": "2 (RESULTS 2)",
+      "quantity": "Mean of the stratified statistic at true AUROC 0.85",
+      "cited": "0.851",
+      "measured": "0.851",
+      "agrees": true,
+      "how": "within_sample_auroc, mean over the 200 replicates"
+    },
+    {
+      "item": "2 (RESULTS 2)",
+      "quantity": "Rejection rate of the minimum at true AUROC 0.90, 200 replicates",
+      "cited": "not cited (200 replicates vary; see the next row)",
+      "measured": "33.0 % (stratified: 0.0 %)",
+      "agrees": null,
+      "how": "as above, minimum of auroc_two_sets over the 16 samples"
+    },
+    {
+      "item": "2 (RESULTS 2)",
+      "quantity": "Rejection rate of the minimum at true AUROC 0.90, 2,000 replicates",
+      "cited": "about 32 %",
+      "measured": "31.9 %",
+      "agrees": true,
+      "how": "as above, 2,000 replicates, seed 2"
+    },
+    {
+      "item": "3 (RESULTS 4)",
+      "quantity": "CD4 T matched in every Kang grid run, Jaccard range",
+      "cited": "every run, 0.90-0.97",
+      "measured": "21 of 21 runs, 0.90-0.97",
+      "agrees": true,
+      "how": "bench/out/kang/isg15-up-in-cd4-t-cells-stim-vs-ctrl-kang-2018/provenance.json: runs[].match (candidate_rule=either; candidates qualified by both, labels)"
+    },
+    {
+      "item": "4 (RESULTS 6)",
+      "quantity": "Testable cell types; SE shrink, unpaired SE / paired SE",
+      "cited": "7 types; 2- to 9-fold",
+      "measured": "7 types; 2.1- to 8.8-fold",
+      "agrees": true,
+      "how": "evaluate_composition per cell_type (all cells as the run), sample = [replicate, label], without and with pair_key; SE of the logit difference: Welch vs per-donor differences"
+    },
+    {
+      "item": "4 (RESULTS 6)",
+      "quantity": "Unpaired Welch p over the testable types",
+      "cited": "all >= 0.67, none called",
+      "measured": "min 0.67, 0 called",
+      "agrees": true,
+      "how": "p_logit_ttest of the unpaired evaluate_composition"
+    },
+    {
+      "item": "4 (RESULTS 6)",
+      "quantity": "Paired calls; CD14+ Monocytes p, share stim vs ctrl, donors lower in stim",
+      "cited": "CD14+ Monocytes only; p = 0.035, 23.8 % vs 25.4 %, 7 of 8",
+      "measured": "CD14+ Monocytes; p = 0.035, 23.8 % vs 25.4 %, 7 of 8",
+      "agrees": true,
+      "how": "paired evaluate_composition (paired t on per-donor logit differences)"
+    },
+    {
+      "item": "4 (RESULTS 6)",
+      "quantity": "Monocyte DE: share of unpaired calls kept under ~pair + condition; sign flips",
+      "cited": "95 %; 0",
+      "measured": "95.4 % (3286 of 3444); 0 flips",
+      "agrees": true,
+      "how": "pseudobulk_de on cells labelled CD14+ Monocytes, 10086 genes with >= 10 counts; call = DESeq2 padj < 0.05; kept = also called with the same sign"
+    },
+    {
+      "item": "5 (RESULTS 8)",
+      "quantity": "Expected doublet rate vs demuxlet, per GEO lane (ambiguous excluded)",
+      "cited": "within 0.7 percentage points",
+      "measured": "ctrl 11.6 % vs 11.5 %; stim 11.5 % vs 11.5 %; largest gap 0.13 pp",
+      "agrees": true,
+      "how": "load_batch2 + Pipeline.qc_stage at baseline QC, Scrublet per lane; expected = 0.8 % per 1,000 scored cells of the lane; demuxlet rate over singlets + doublets"
+    },
+    {
+      "item": "5 (RESULTS 8)",
+      "quantity": "Planted PBMC3k doublets: median Scrublet score of injected cells",
+      "cited": "0.10",
+      "measured": "0.099",
+      "agrees": true,
+      "how": "Pipeline.qc_stage at baseline QC on data/planted/pbmc3k_doublets.h5ad (one subset)"
+    },
+    {
+      "item": "5 (RESULTS 8)",
+      "quantity": "Share of injected cells caught by an oracle cutoff at the true count",
+      "cited": "28 %",
+      "measured": "28.0 % (top 150 scores)",
+      "agrees": true,
+      "how": "injected share among the k highest scores, k = injected cells passing QC"
+    },
+    {
+      "item": "6 (RESULTS 12)",
+      "quantity": "RPS26 donor-to-donor log2 CPM range, control cells (control monocytes)",
+      "cited": "about 2.6 (kang.py comment: 1.7 in monocytes)",
+      "measured": "2.57 (1.74)",
+      "agrees": true,
+      "how": "log2(CPM + 1) of per-donor pseudobulks of the ctrl cells, max - min over 8 donors"
+    },
+    {
+      "item": "6 (RESULTS 12)",
+      "quantity": "SQSTM1 donor-to-donor log2 CPM range, control monocytes (control cells)",
+      "cited": "about 0.4 (kang.py comment: 0.6 over all control cells)",
+      "measured": "0.41 (0.57)",
+      "agrees": true,
+      "how": "as above"
+    },
+    {
+      "item": "6 (RESULTS 12)",
+      "quantity": "Planted SQSTM1 at half-amplitude 0.4: unadjusted pseudobulk padj",
+      "cited": "0.065",
+      "measured": "0.065 (log2FC 0.41; genome-wide padj 1.000); at 0.6: 0.0070 (log2FC 0.66)",
+      "agrees": true,
+      "how": "plant_time_signal(seed=0) with TIME_SIGNAL['SQSTM1'] half-amplitude replaced; pseudobulk_de on cells labelled CD14+ Monocytes, sample = replicate, B vs A (4 vs 4), ~condition; padj over the one claimed gene"
+    },
+    {
+      "item": "7 (HOW_IT_WORKS 8)",
+      "quantity": "Clock-gene per-gene BH padj, DBP",
+      "cited": "0.012",
+      "measured": "0.012",
+      "agrees": true,
+      "how": "exchangeable_units + panel_check on all Kang cells, sample = [replicate, label], stim vs ctrl (8 vs 8 units)"
+    },
+    {
+      "item": "7 (HOW_IT_WORKS 8)",
+      "quantity": "Clock-gene per-gene BH padj, CRY1",
+      "cited": "0.037",
+      "measured": "0.037",
+      "agrees": true,
+      "how": "exchangeable_units + panel_check on all Kang cells, sample = [replicate, label], stim vs ctrl (8 vs 8 units)"
+    },
+    {
+      "item": "7 (HOW_IT_WORKS 8)",
+      "quantity": "Clock-gene per-gene BH padj, PER1",
+      "cited": "0.051",
+      "measured": "0.051",
+      "agrees": true,
+      "how": "exchangeable_units + panel_check on all Kang cells, sample = [replicate, label], stim vs ctrl (8 vs 8 units)"
+    },
+    {
+      "item": "7 (HOW_IT_WORKS 8)",
+      "quantity": "Clock-state index permutation p",
+      "cited": "0.38",
+      "measured": "0.381 (12870 exact permutations)",
+      "agrees": true,
+      "how": "exchangeable_units + panel_check on all Kang cells, sample = [replicate, label], stim vs ctrl (8 vs 8 units)"
+    }
+  ],
+  "details": {
+    "1": {
+      "fraction_removed_by_min_genes_500": 0.4409678596036153,
+      "median_genes_per_cell": 519.0,
+      "capped_min_genes": 441,
+      "runs": {
+        "current pipeline": {
+          "200": {
+            "n_cells_kept": 24213,
+            "n_removed_qc": 111,
+            "n_removed_doublet": 349,
+            "n_clusters": 18,
+            "stim_mono_cluster": "11",
+            "cluster_size": 2803,
+            "cluster_share_stim_mono": 0.9500535140920442,
+            "whole_dataset_auroc": 0.8335606342240574,
+            "within_sample_auroc": 0.9382135276307646,
+            "mono_share_of_kept_cells": 0.22942221120885475,
+            "lymphocyte_share_of_kept_cells": 0.7042084830462975
+          },
+          "500": {
+            "n_cells_kept": 13726,
+            "n_removed_qc": 10880,
+            "n_removed_doublet": 67,
+            "n_clusters": 17,
+            "stim_mono_cluster": "15",
+            "cluster_size": 2135,
+            "cluster_share_stim_mono": 0.9793911007025761,
+            "whole_dataset_auroc": 0.7876868045687551,
+            "within_sample_auroc": 0.9451354479512553,
+            "mono_share_of_kept_cells": 0.3166982369226286,
+            "lymphocyte_share_of_kept_cells": 0.5692117149934431
+          }
+        },
+        "automatic Scrublet threshold only": {
+          "200": {
+            "n_cells_kept": 24512,
+            "n_removed_qc": 111,
+            "n_removed_doublet": 50,
+            "n_clusters": 20,
+            "stim_mono_cluster": "18",
+            "cluster_size": 2764,
+            "cluster_share_stim_mono": 0.9790159189580319,
+            "whole_dataset_auroc": 0.8289759731719762,
+            "within_sample_auroc": 0.9312999030322857,
+            "mono_share_of_kept_cells": 0.2314784595300261,
+            "lymphocyte_share_of_kept_cells": 0.7017379242819843
+          },
+          "500": {
+            "n_cells_kept": 13726,
+            "n_removed_qc": 10880,
+            "n_removed_doublet": 67,
+            "n_clusters": 17,
+            "stim_mono_cluster": "15",
+            "cluster_size": 2135,
+            "cluster_share_stim_mono": 0.9793911007025761,
+            "whole_dataset_auroc": 0.7876868045687551,
+            "within_sample_auroc": 0.9451354479512553,
+            "mono_share_of_kept_cells": 0.3166982369226286,
+            "lymphocyte_share_of_kept_cells": 0.5692117149934431
+          }
+        }
+      }
+    },
+    "2": {
+      "0.85": {
+        "true_auroc": 0.85,
+        "shift_d": 1.4657381559184335,
+        "seed": 0,
+        "n_rep": 200,
+        "stratified_mean": 0.8508453125,
+        "stratified_sd": 0.01420227678498666,
+        "stratified_reject_below_0.80": 0.0,
+        "minimum_mean": 0.7443083333333333,
+        "minimum_reject_below_0.80": 0.95
+      },
+      "0.90": {
+        "true_auroc": 0.9,
+        "shift_d": 1.8123876048736465,
+        "seed": 1,
+        "n_rep": 200,
+        "stratified_mean": 0.89986328125,
+        "stratified_sd": 0.011054659271413086,
+        "stratified_reject_below_0.80": 0.0,
+        "minimum_mean": 0.8131125000000001,
+        "minimum_reject_below_0.80": 0.33
+      },
+      "0.90, 2000 replicates": {
+        "true_auroc": 0.9,
+        "shift_d": 1.8123876048736465,
+        "seed": 2,
+        "n_rep": 2000,
+        "stratified_mean": 0.9001362152777778,
+        "stratified_sd": 0.011066708174918723,
+        "stratified_reject_below_0.80": 0.0,
+        "minimum_mean": 0.8110491666666667,
+        "minimum_reject_below_0.80": 0.319
+      }
+    },
+    "3": {
+      "available": true,
+      "provenance_started_at": "2026-11-11T10:25:22+00:00",
+      "recluster_version": null,
+      "candidate_rule": "either",
+      "n_runs": 21,
+      "n_found": 21,
+      "jaccard": [
+        0.968018,
+        0.968016,
+        0.918461,
+        0.961976,
+        0.959642,
+        0.897819,
+        0.963151,
+        0.964139,
+        0.910022,
+        0.967915,
+        0.967625,
+        0.966564,
+        0.960161,
+        0.968835,
+        0.968923,
+        0.952329,
+        0.961308,
+        0.959549,
+        0.971155,
+        0.948912,
+        0.962368
+      ],
+      "candidate_by": [
+        {
+          "1": "labels",
+          "3": "both",
+          "4": "labels",
+          "8": "labels",
+          "13": "both",
+          "14": "labels"
+        },
+        {
+          "3": "labels",
+          "5": "labels",
+          "6": "both",
+          "7": "both",
+          "8": "labels"
+        },
+        {
+          "3": "labels",
+          "4": "labels",
+          "6": "labels",
+          "7": "labels",
+          "11": "labels",
+          "14": "both",
+          "15": "labels"
+        },
+        {
+          "1": "labels",
+          "2": "both",
+          "4": "labels",
+          "6": "both",
+          "8": "labels"
+        },
+        {
+          "1": "both",
+          "2": "labels",
+          "3": "labels",
+          "4": "labels",
+          "7": "labels",
+          "8": "labels",
+          "13": "labels",
+          "18": "labels"
+        },
+        {
+          "2": "labels",
+          "4": "labels",
+          "5": "labels",
+          "7": "labels",
+          "8": "labels",
+          "11": "labels"
+        },
+        {
+          "1": "labels",
+          "4": "labels",
+          "5": "both",
+          "6": "labels",
+          "7": "both",
+          "9": "labels",
+          "14": "labels"
+        },
+        {
+          "1": "labels",
+          "3": "labels",
+          "4": "labels",
+          "9": "labels",
+          "10": "labels",
+          "14": "both",
+          "15": "labels"
+        },
+        {
+          "1": "labels",
+          "4": "both",
+          "6": "both",
+          "9": "labels",
+          "15": "labels"
+        },
+        {
+          "1": "labels",
+          "3": "both",
+          "4": "both",
+          "7": "labels"
+        },
+        {
+          "1": "labels",
+          "3": "both",
+          "4": "labels",
+          "5": "both"
+        },
+        {
+          "2": "labels",
+          "3": "both",
+          "5": "labels",
+          "6": "labels",
+          "8": "labels",
+          "15": "both",
+          "16": "labels"
+        },
+        {
+          "3": "labels",
+          "5": "labels",
+          "6": "labels",
+          "7": "both",
+          "8": "labels",
+          "9": "both",
+          "14": "labels",
+          "20": "labels"
+        },
+        {
+          "2": "labels",
+          "3": "both",
+          "4": "both",
+          "6": "labels",
+          "11": "labels",
+          "12": "labels"
+        },
+        {
+          "1": "labels",
+          "2": "both",
+          "3": "labels",
+          "5": "labels",
+          "6": "both",
+          "7": "labels",
+          "11": "labels"
+        },
+        {
+          "2": "both",
+          "3": "labels",
+          "4": "both",
+          "7": "labels"
+        },
+        {
+          "1": "labels",
+          "3": "labels",
+          "5": "labels",
+          "6": "labels",
+          "8": "both",
+          "9": "labels",
+          "12": "both"
+        },
+        {
+          "5": "labels",
+          "6": "labels",
+          "7": "labels",
+          "10": "labels",
+          "11": "both",
+          "14": "labels",
+          "15": "labels",
+          "16": "labels",
+          "18": "labels",
+          "19": "labels",
+          "21": "labels",
+          "26": "labels",
+          "27": "labels",
+          "28": "labels"
+        },
+        {
+          "2": "both",
+          "4": "labels",
+          "5": "labels",
+          "6": "both",
+          "9": "labels",
+          "15": "labels"
+        },
+        {
+          "6": "labels",
+          "7": "labels",
+          "8": "labels",
+          "9": "labels",
+          "11": "labels",
+          "12": "labels",
+          "13": "both",
+          "17": "labels",
+          "22": "labels",
+          "25": "labels",
+          "26": "labels",
+          "31": "labels",
+          "32": "labels",
+          "33": "labels",
+          "34": "labels"
+        },
+        {
+          "1": "labels",
+          "3": "labels",
+          "4": "labels",
+          "5": "labels",
+          "6": "both",
+          "11": "labels",
+          "12": "labels",
+          "18": "both"
+        }
+      ]
+    },
+    "4": {
+      "composition": {
+        "B cells": {
+          "testable": true,
+          "design_paired": "paired",
+          "p_unpaired_welch": 0.7350215802336663,
+          "p_paired_t": 0.17265262468843892,
+          "p_paired_signed_rank": 0.1484375,
+          "mean_proportion_stim": 0.10213280659666737,
+          "mean_proportion_ctrl": 0.09747163491150926,
+          "se_unpaired": 0.18969773953144523,
+          "se_paired": 0.04314306659987346,
+          "se_shrink_fold": 4.396946125568219,
+          "n_donors_lower_in_stim": 2,
+          "n_donors": 8
+        },
+        "CD14+ Monocytes": {
+          "testable": true,
+          "design_paired": "paired",
+          "p_unpaired_welch": 0.6698691847452055,
+          "p_paired_t": 0.03452796266148075,
+          "p_paired_signed_rank": 0.015625,
+          "mean_proportion_stim": 0.23750203609485182,
+          "mean_proportion_ctrl": 0.2539789937589515,
+          "se_unpaired": 0.1857167760260876,
+          "se_paired": 0.03091556543720663,
+          "se_shrink_fold": 6.007225596546229,
+          "n_donors_lower_in_stim": 7,
+          "n_donors": 8
+        },
+        "CD4 T cells": {
+          "testable": true,
+          "design_paired": "paired",
+          "p_unpaired_welch": 0.8882146989600225,
+          "p_paired_t": 0.24823526483449548,
+          "p_paired_signed_rank": 0.3828125,
+          "mean_proportion_stim": 0.4483670328248411,
+          "mean_proportion_ctrl": 0.4400378077525805,
+          "se_unpaired": 0.23884515942684897,
+          "se_paired": 0.02714680908537618,
+          "se_shrink_fold": 8.798277494628767,
+          "n_donors_lower_in_stim": 3,
+          "n_donors": 8
+        },
+        "CD8 T cells": {
+          "testable": true,
+          "design_paired": "paired",
+          "p_unpaired_welch": 0.9664234809732462,
+          "p_paired_t": 0.8214033617678534,
+          "p_paired_signed_rank": 0.9453125,
+          "mean_proportion_stim": 0.06211750484318364,
+          "mean_proportion_ctrl": 0.05976442578027067,
+          "se_unpaired": 0.5741501542289297,
+          "se_paired": 0.10499793850057863,
+          "se_shrink_fold": 5.468204065985216,
+          "n_donors_lower_in_stim": 3,
+          "n_donors": 8
+        },
+        "Dendritic cells": {
+          "testable": true,
+          "design_paired": "paired",
+          "p_unpaired_welch": 0.7675487047373678,
+          "p_paired_t": 0.5470773715838112,
+          "p_paired_signed_rank": 0.640625,
+          "mean_proportion_stim": 0.023858809366300034,
+          "mean_proportion_ctrl": 0.022495325160874647,
+          "se_unpaired": 0.16748309674033998,
+          "se_paired": 0.07980805022964398,
+          "se_shrink_fold": 2.098573969147412,
+          "n_donors_lower_in_stim": 3,
+          "n_donors": 8
+        },
+        "FCGR3A+ Monocytes": {
+          "testable": true,
+          "design_paired": "paired",
+          "p_unpaired_welch": 0.9840852199568115,
+          "p_paired_t": 0.9559745857789451,
+          "p_paired_signed_rank": 0.7421875,
+          "mean_proportion_stim": 0.046280277337574054,
+          "mean_proportion_ctrl": 0.043915074197667554,
+          "se_unpaired": 0.2869705506091609,
+          "se_paired": 0.1020086995775137,
+          "se_shrink_fold": 2.8131968331887185,
+          "n_donors_lower_in_stim": 3,
+          "n_donors": 8
+        },
+        "Megakaryocytes": {
+          "testable": false,
+          "design_paired": "paired",
+          "p_unpaired_welch": 0.8598031691484777,
+          "p_paired_t": 0.735306594696093,
+          "p_paired_signed_rank": 0.84375,
+          "mean_proportion_stim": 0.012210925680484392,
+          "mean_proportion_ctrl": 0.015066126762414095,
+          "se_unpaired": 0.9270634171738731,
+          "se_paired": 0.4741257985631221,
+          "se_shrink_fold": 1.955311058759967,
+          "n_donors_lower_in_stim": 4,
+          "n_donors": 8
+        },
+        "NK cells": {
+          "testable": true,
+          "design_paired": "paired",
+          "p_unpaired_welch": 0.958631184323108,
+          "p_paired_t": 0.9144208909433107,
+          "p_paired_signed_rank": 0.84375,
+          "mean_proportion_stim": 0.06753060725609764,
+          "mean_proportion_ctrl": 0.06727061167573181,
+          "se_unpaired": 0.15369530029410172,
+          "se_paired": 0.07285293489530903,
+          "se_shrink_fold": 2.109665183907342,
+          "n_donors_lower_in_stim": 4,
+          "n_donors": 8
+        }
+      },
+      "de_monocytes": {
+        "n_genes_tested": 10086,
+        "design_unpaired": "~condition",
+        "design_paired": "~pair + condition",
+        "n_called_unpaired": 3444,
+        "n_called_paired": 3414,
+        "n_unpaired_calls_kept": 3286,
+        "share_unpaired_calls_kept": 0.9541231126596981,
+        "n_sign_flips_both_called": 0,
+        "n_sign_differences_among_unpaired_calls": 0
+      }
+    },
+    "5": {
+      "geo_lanes": {
+        "ctrl": {
+          "n_scored": 14526,
+          "expected_rate": 0.11620799999999999,
+          "demuxlet_doublet_rate": 0.1149,
+          "difference_pp": 0.13079999999999897,
+          "called_rate_all_scored": 0.09190417182982238,
+          "agreement": {
+            "n_cells": 13853,
+            "demuxlet_doublet_rate": 0.1149,
+            "scrublet_called_rate": 0.0913,
+            "tp": 843,
+            "fp": 422,
+            "fn": 749,
+            "tn": 11839,
+            "precision": 0.6664,
+            "recall": 0.5295,
+            "auroc_of_score": 0.8758,
+            "ambiguous_excluded": 673
+          }
+        },
+        "stim": {
+          "n_scored": 14345,
+          "expected_rate": 0.11476,
+          "demuxlet_doublet_rate": 0.1154,
+          "difference_pp": -0.06400000000000017,
+          "called_rate_all_scored": 0.11474381317532241,
+          "agreement": {
+            "n_cells": 13553,
+            "demuxlet_doublet_rate": 0.1154,
+            "scrublet_called_rate": 0.1147,
+            "tp": 857,
+            "fp": 697,
+            "fn": 707,
+            "tn": 11292,
+            "precision": 0.5515,
+            "recall": 0.548,
+            "auroc_of_score": 0.8557,
+            "ambiguous_excluded": 480
+          }
+        }
+      },
+      "planted_pbmc3k": {
+        "n_cells_after_qc": 2844,
+        "n_injected_after_qc": 150,
+        "median_score_injected": 0.09925925925925928,
+        "median_score_other": 0.04442581726739312,
+        "oracle_top_k_recall": 0.28,
+        "pipeline_recall": 0.0,
+        "auroc_of_score": 0.8772642910170749
+      }
+    },
+    "6": {
+      "donor_log2cpm_range": {
+        "RPS26": {
+          "control cells": 2.57325334932073,
+          "control monocytes": 1.743285101775049
+        },
+        "SQSTM1": {
+          "control cells": 0.5700034637520179,
+          "control monocytes": 0.41339711773275845
+        }
+      },
+      "planted_sqstm1": {
+        "0.4": {
+          "design": "~condition",
+          "n_samples_a": 4,
+          "n_samples_b": 4,
+          "log2fc": 0.4106693289491544,
+          "p": 0.06489237146262448,
+          "padj_claimed_genes": 0.06489237146262448,
+          "padj_genomewide": 0.999868801537398
+        },
+        "0.6": {
+          "design": "~condition",
+          "n_samples_a": 4,
+          "n_samples_b": 4,
+          "log2fc": 0.6590138180849481,
+          "p": 0.007016676299061203,
+          "padj_claimed_genes": 0.007016676299061203,
+          "padj_genomewide": 0.9999061965525881
+        }
+      }
+    },
+    "7": {
+      "unit_column": null,
+      "panel": {
+        "panel": [
+          "ARNTL",
+          "CLOCK",
+          "NPAS2",
+          "PER1",
+          "PER2",
+          "PER3",
+          "CRY1",
+          "CRY2",
+          "NR1D1",
+          "NR1D2",
+          "DBP",
+          "TEF",
+          "CIART"
+        ],
+        "panel_citation": "Takahashi JS, Nat Rev Genet 2017;18:164-179; Wucher V et al., PLoS Biol 2023;21(2):e3001986",
+        "genes_present": [
+          "ARNTL",
+          "CLOCK",
+          "PER1",
+          "PER2",
+          "PER3",
+          "CRY1",
+          "CRY2",
+          "NR1D1",
+          "NR1D2",
+          "DBP",
+          "TEF"
+        ],
+        "genes_usable": [
+          "ARNTL",
+          "CLOCK",
+          "PER1",
+          "PER2",
+          "PER3",
+          "CRY1",
+          "CRY2",
+          "NR1D1",
+          "NR1D2",
+          "DBP",
+          "TEF"
+        ],
+        "index_genes": [
+          "PER1",
+          "PER2",
+          "PER3",
+          "CRY2",
+          "NR1D1",
+          "NR1D2",
+          "DBP",
+          "TEF",
+          "ARNTL",
+          "CLOCK"
+        ],
+        "index_excluded": [
+          "CRY1"
+        ],
+        "min_total_counts": 10,
+        "unit_column": null,
+        "n_samples_a": 8,
+        "n_samples_b": 8,
+        "assessable": true,
+        "per_gene": [
+          {
+            "gene": "ARNTL",
+            "arm": "activator",
+            "in_index": true,
+            "mean_log2cpm_a": 3.910814321942798,
+            "mean_log2cpm_b": 3.9769951138317285,
+            "diff_a_minus_b": -0.06618079188893056,
+            "p": 0.781927718034978,
+            "padj": 0.8601204898384758
+          },
+          {
+            "gene": "CLOCK",
+            "arm": "activator",
+            "in_index": true,
+            "mean_log2cpm_a": 1.8012773620434137,
+            "mean_log2cpm_b": 1.8808473324764456,
+            "diff_a_minus_b": -0.07956997043303193,
+            "p": 0.8842710564515314,
+            "padj": 0.8842710564515314
+          },
+          {
+            "gene": "PER1",
+            "arm": "ebox",
+            "in_index": true,
+            "mean_log2cpm_a": 1.8115902786238445,
+            "mean_log2cpm_b": 2.4758272920396487,
+            "diff_a_minus_b": -0.6642370134158042,
+            "p": 0.013822719350419569,
+            "padj": 0.05068330428487175
+          },
+          {
+            "gene": "PER2",
+            "arm": "ebox",
+            "in_index": true,
+            "mean_log2cpm_a": 0.4235803955925548,
+            "mean_log2cpm_b": 1.008878209925666,
+            "diff_a_minus_b": -0.5852978143331111,
+            "p": 0.05729610954084859,
+            "padj": 0.15756430123733364
+          },
+          {
+            "gene": "PER3",
+            "arm": "ebox",
+            "in_index": true,
+            "mean_log2cpm_a": 0.6379846367532832,
+            "mean_log2cpm_b": 0.384741155576534,
+            "diff_a_minus_b": 0.2532434811767492,
+            "p": 0.30207186191022256,
+            "padj": 0.6645580962024896
+          },
+          {
+            "gene": "CRY1",
+            "arm": "ebox",
+            "in_index": false,
+            "mean_log2cpm_a": 3.8048516675894164,
+            "mean_log2cpm_b": 4.321796722857276,
+            "diff_a_minus_b": -0.5169450552678598,
+            "p": 0.006730946208714314,
+            "padj": 0.037020204147928726
+          },
+          {
+            "gene": "CRY2",
+            "arm": "ebox",
+            "in_index": true,
+            "mean_log2cpm_a": 1.8320742736929705,
+            "mean_log2cpm_b": 1.965957789949318,
+            "diff_a_minus_b": -0.13388351625634742,
+            "p": 0.726737588400113,
+            "padj": 0.8601204898384758
+          },
+          {
+            "gene": "NR1D1",
+            "arm": "ebox",
+            "in_index": true,
+            "mean_log2cpm_a": 1.6032725645898438,
+            "mean_log2cpm_b": 1.3587277860553013,
+            "diff_a_minus_b": 0.24454477853454248,
+            "p": 0.5334660061709664,
+            "padj": 0.8383037239829472
+          },
+          {
+            "gene": "NR1D2",
+            "arm": "ebox",
+            "in_index": true,
+            "mean_log2cpm_a": 1.9417876292562017,
+            "mean_log2cpm_b": 2.203593715026938,
+            "diff_a_minus_b": -0.26180608577073605,
+            "p": 0.36386403162384806,
+            "padj": 0.6670840579770547
+          },
+          {
+            "gene": "DBP",
+            "arm": "ebox",
+            "in_index": true,
+            "mean_log2cpm_a": 1.6588438548524755,
+            "mean_log2cpm_b": 2.6912343155633875,
+            "diff_a_minus_b": -1.032390460710912,
+            "p": 0.0010584724573079916,
+            "padj": 0.011643197030387907
+          },
+          {
+            "gene": "TEF",
+            "arm": "ebox",
+            "in_index": true,
+            "mean_log2cpm_a": 0.6339877527970894,
+            "mean_log2cpm_b": 0.7207570222849122,
+            "diff_a_minus_b": -0.08676926948782282,
+            "p": 0.7536269170014948,
+            "padj": 0.8601204898384758
+          }
+        ],
+        "n_panel_genes_different": 2,
+        "genes_different": [
+          "CRY1",
+          "DBP"
+        ],
+        "index_difference_a_minus_b": -0.3452021695340901,
+        "index_cohens_d": -0.44677714572926314,
+        "index_p_permutation": 0.3808857808857809,
+        "index_n_permutations": 12870,
+        "index_exact": true,
+        "min_attainable_p": 0.0001554001554001554,
+        "test_can_reject": true,
+        "index_welch_p": 0.38666372498331547,
+        "index_by_sample": {
+          "patient_1015|ctrl": -0.3807035687053801,
+          "patient_1015|stim": -0.3257282649439837,
+          "patient_1016|ctrl": 0.04379355335642088,
+          "patient_1016|stim": -1.2326181379902383,
+          "patient_101|ctrl": -0.8412348895453597,
+          "patient_101|stim": -0.9760368837977293,
+          "patient_1039|ctrl": 1.4441847103504586,
+          "patient_1039|stim": 0.7257288670702409,
+          "patient_107|ctrl": -0.44640694382035867,
+          "patient_107|stim": 0.2782594846574021,
+          "patient_1244|ctrl": 0.009637659766375428,
+          "patient_1244|stim": 0.022344978778091246,
+          "patient_1256|ctrl": 0.5585565083866311,
+          "patient_1256|stim": -0.712946460172325,
+          "patient_1488|ctrl": 0.9929816483475655,
+          "patient_1488|stim": 0.8401877382621747
+        },
+        "coherent_shift": false,
+        "any_gene_differs": true
+      }
+    }
+  }
+}

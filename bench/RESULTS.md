@@ -155,7 +155,10 @@ Mode B rule was arrived at, and that it was settled after seeing this result, is
 ## What changed between the runs
 
 Each change was measured on the data before it was adopted; the measurement is given with the
-reason. Thresholds introduced here were fixed before the second run started, and none was
+reason. The numbers below, except the doublet mixture analysis (item 9), are recomputed by
+`scripts/design_measurements.py` (about one minute after `recluster bench --part kang`), which
+writes `bench/design_measurements.md` with each cited value next to the measured one.
+Thresholds introduced here were fixed before the second run started, and none was
 changed after seeing the second run's results.
 
 1. **QC thresholds capped at 25 % cell loss** (`GridConfig.qc_max_cell_loss`). The first run's
@@ -180,7 +183,7 @@ changed after seeing the second run's results.
    column; a reference carried over from the baseline run is used only for the Jaccard overlap.
    Measured on Kang before adoption: the CD4 T population, which marker enrichment alone loses
    at low resolution (its two condition-split halves each score 0.75 to 0.80 against the rest),
-   is recovered in every run with Jaccard 0.91 to 0.96.
+   is recovered in every run with Jaccard 0.90 to 0.97.
 5. **Jaccard over the cells a run kept**, with the fraction of reference cells removed by QC
    reported separately, so "QC deleted part of it" is no longer read as "it is not there".
 6. **Paired replicate tests** when every donor appears in both groups (paired t on per-donor
@@ -232,7 +235,7 @@ changed after seeing the second run's results.
     within control monocytes. The planted half-amplitude of SQSTM1 was raised from 0.4 to 0.6
     log2 (1.5-fold at the peak; a 2.3-fold peak-to-trough swing, within the range reported for
     rhythmic human genes) after a smoke test showed that 0.4 gave an unadjusted pseudobulk
-    padj of 0.07, that is, a signal the naive analysis would not have called. This is a choice
+    padj of 0.065, that is, a signal the naive analysis would not have called. This is a choice
     of the planted signal's strength, made so that requirement (a) of the case, that a standard
     analysis calls the effect, is met; it is recorded here as such. The clock-gene amplitudes
     (0.2 to 0.7 log2) and peak hours were not changed.
