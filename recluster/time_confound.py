@@ -53,6 +53,8 @@ from anndata import AnnData
 from scipy import stats
 
 from recluster.config import Thresholds
+from recluster.evaluators.composition import per_sample_proportions
+from recluster.evaluators.de import bh_adjust
 from recluster.evaluators.pseudobulk import pseudobulk_counts
 from recluster.hours import parse_hours
 from recluster.spec import Comparison
@@ -290,7 +292,13 @@ def balance_check(
     theta = (h.to_numpy() / 24.0) * 2 * math.pi
     is_a = (g == group_a).to_numpy()
     n_a, n_b = int(is_a.sum()), int((~is_a).sum())
-    out: dict[str, Any] = {"unit_column": unit_column, "n_units_a": n_a, "n_units_b": n_b}
+    out: dict[str, Any] = {
+        "unit_column": unit_column,
+        "group_a": group_a,
+        "group_b": group_b,
+        "n_units_a": n_a,
+        "n_units_b": n_b,
+    }
     if n_a < 2 or n_b < 2:
         out.update(
             {
@@ -606,7 +614,7 @@ def adjusted_composition(
 
 def panel_expression(
     counts: AnnData, sample: pd.Series, *, min_total_counts: int
-) -> tuple[pd.DataFrame, pd.DataFrame, list[str]]:
+) -> tuple[pd.DataFrame, list[str]]:
     """Per-sample log2 CPM of the panel genes from all cells; which genes are usable."""
     present = [g for g in CLOCK_PANEL if g in counts.var_names]
     pb, _ = pseudobulk_counts(counts, counts.obs_names, sample, min_cells=1)
@@ -614,7 +622,7 @@ def panel_expression(
     sub = pb[present]
     usable = [g for g in present if int(sub[g].sum()) >= min_total_counts]
     cpm = sub.div(lib, axis=0) * 1e6
-    return np.log2(cpm + 1.0), sub, usable
+    return np.log2(cpm + 1.0), usable
 
 
 def index_genes(usable: list[str]) -> tuple[list[str], list[str]]:
@@ -649,9 +657,7 @@ def panel_check(
     ``sample`` is the unit of the test (the sample, or the donor when samples are nested in
     donors of one condition); ``group_by_sample`` gives each unit's condition.
     """
-    log_cpm, raw, usable = panel_expression(
-        counts, sample, min_total_counts=thr.time_min_gene_counts
-    )
+    log_cpm, usable = panel_expression(counts, sample, min_total_counts=thr.time_min_gene_counts)
     ebox, act = index_genes(usable)
     out: dict[str, Any] = {
         "panel": list(CLOCK_PANEL),
@@ -679,7 +685,6 @@ def panel_check(
         )
         return out
 
-    # per-gene differences across units
     rows = []
     for g in usable:
         a, b = log_cpm.loc[is_a, g].to_numpy(), log_cpm.loc[~is_a, g].to_numpy()
@@ -696,8 +701,6 @@ def panel_check(
             }
         )
     per_gene = pd.DataFrame(rows).set_index("gene")
-    from recluster.evaluators.de import bh_adjust
-
     per_gene["padj"] = bh_adjust(per_gene["p"].to_numpy())
     n_de = int((per_gene["padj"] < thr.alpha).sum())
     different = [str(g) for g in per_gene.index[per_gene["padj"] < thr.alpha]]
@@ -844,8 +847,6 @@ def summarise_adjustment(
     A gene whose adjusted p or estimate is undefined gets ``survives = None`` and the combined
     outcome is None rather than False: an undefined test is not a vanished effect.
     """
-    from recluster.evaluators.de import bh_adjust
-
     info = info or {}
     out: dict[str, Any] = {
         "design": info.get("design", "~condition"),
@@ -914,10 +915,11 @@ def _f(x: Any) -> float | None:
     return None if math.isnan(v) else v
 
 
-def _balance_sentence(balance: dict[str, Any], thr: Thresholds) -> str:
+def _balance_sentence(balance: dict[str, Any]) -> str:
     s = (
         "circular mean collection times differ by "
-        f"{balance['circular_mean_difference_hours']:+.1f} h (A minus B); "
+        f"{balance['circular_mean_difference_hours']:+.1f} h "
+        f"({balance.get('group_a', 'A')} minus {balance.get('group_b', 'B')}); "
         f"permutation p = {balance['p_permutation']:.3g}"
     )
     if not balance.get("test_can_reject", True):
@@ -973,7 +975,7 @@ def _decide_mode_a(
             balance["p_permutation"] < thr.alpha
             or abs(balance.get("circular_mean_difference_hours", 0.0)) >= thr.time_imbalance_hours
         )
-    tc.reasons.append(_balance_sentence(balance, thr))
+    tc.reasons.append(_balance_sentence(balance))
     if not imbalanced:
         tc.label = NO_CONFOUND
         tc.reasons.append(
@@ -1248,8 +1250,6 @@ def assess_claim(
                     df, spec.require, thr, direction=cmp.direction, info=info
                 )
             elif spec.claim_type == "composition_shift":
-                from recluster.evaluators.composition import per_sample_proportions
-
                 table = per_sample_proportions(cells, run_cells, sample, condition, pair)
                 adjustment = _composition_adjustment_summary(
                     adjusted_composition(table, hours, cmp.group_a, cmp.group_b),

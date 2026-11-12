@@ -16,6 +16,7 @@ from recluster.time_confound import (
     NO_CONFOUND,
     NOT_ASSESSABLE,
     POSSIBLE,
+    _balance_sentence,
     _permutation_p,
     adjusted_composition,
     adjusted_pseudobulk_de,
@@ -134,7 +135,6 @@ def _pseudobulk_adata_with_time_effect(seed: int = 0) -> tuple[AnnData, pd.Serie
 
 
 def test_adjustment_removes_injected_time_effect():
-
     a, sample, group = _pseudobulk_adata_with_time_effect()
     thr = Thresholds()
     hours = a.obs.groupby("sample")["hour"].first().astype(float)
@@ -192,14 +192,13 @@ def test_refit_is_skipped_when_time_is_collinear_with_condition():
         few.obs_names,
         sample.loc[few.obs_names],
         group.loc[few.obs_names],
-        hours := a.obs.groupby("sample")["hour"].first().astype(float),
+        a.obs.groupby("sample")["hour"].first().astype(float),
         cmp,
         ["G0"],
         thr,
         n_cpus=2,
     )
     assert info2["estimable"] is False and "too few" in info2["reason"]
-    assert hours is not None
 
 
 def test_composition_adjustment_filters_groups_and_reports_rank_deficiency():
@@ -389,3 +388,15 @@ def test_two_clock_times_balanced_across_groups_keep_one_time_term():
     )
     assert info["estimable"] and info["time_terms"] == ["cos_t"]
     assert df["p_adjusted"].notna().all()
+
+
+def test_balance_sentence_names_the_groups() -> None:
+    s = _balance_sentence(
+        {
+            "group_a": "B",
+            "group_b": "A",
+            "circular_mean_difference_hours": 5.8,
+            "p_permutation": 0.03,
+        }
+    )
+    assert "+5.8 h (B minus A)" in s
