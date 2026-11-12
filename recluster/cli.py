@@ -225,7 +225,8 @@ def demo(
 
     results = run_demo(data_dir=data_dir, out_dir=out, jobs=jobs, open_reports=not no_open)
     if any(r.verdict != r.expected for r in results):
-        typer.secho("a demo claim did not get its expected verdict", err=True, fg="yellow")
+        typer.secho("a demo claim did not get its expected verdict", err=True, fg="red")
+        raise typer.Exit(1)
 
 
 @app.command()
