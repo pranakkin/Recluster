@@ -18,6 +18,10 @@ All notable changes to Recluster. Dates are when the work landed in this reposit
   (`scripts/demo_hash.py`, hash recorded on macOS arm64).
 
 ### Changed
+- The sequential grid (`--jobs 1`) now runs with BLAS and numba limited to one thread, as the
+  worker processes already did. On Linux, numpy's OpenBLAS gave slightly different results
+  for different thread counts, so `--jobs 1` and `--jobs 2` disagreed in CI; on macOS they
+  already matched.
 - Reports name the groups in the collection-time difference ("B minus A" when group_a is B);
   before, they always printed "A minus B", which was wrong for the planted time cases, where
   group_a is the afternoon group B.

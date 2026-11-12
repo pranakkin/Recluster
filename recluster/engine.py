@@ -215,12 +215,13 @@ def run_claim(
     workers = min(jobs, len(runs_params))
     if workers == 1:
         inputs = _EvalInputs(spec, counts, lognorm, sample, condition, thr, grid.n_cpus, pair)
-        for i, params in enumerate(runs_params):
-            t0 = time.perf_counter()
-            rr = pipe.run(params)
-            m = match_run(i, rr)
-            ev, doublet_info = _evaluate_run(inputs, rr.clusters, m)
-            finish(i, rr, m, ev, doublet_info, time.perf_counter() - t0)
+        with _single_threaded_blas():
+            for i, params in enumerate(runs_params):
+                t0 = time.perf_counter()
+                rr = pipe.run(params)
+                m = match_run(i, rr)
+                ev, doublet_info = _evaluate_run(inputs, rr.clusters, m)
+                finish(i, rr, m, ev, doublet_info, time.perf_counter() - t0)
     else:
         say(f"running on {workers} worker processes")
         initargs = (counts, grid, sample, batch, mito_prefix, spec, lognorm, condition, thr, pair)
@@ -510,6 +511,25 @@ def _evaluate_task(clusters: pd.Series, m: Match) -> _EvalOutput:
     t0 = time.perf_counter()
     ev, doublet_info = _evaluate_run(_worker.inputs, clusters, m)
     return ev, doublet_info, time.perf_counter() - t0
+
+
+@contextmanager
+def _single_threaded_blas() -> Iterator[None]:
+    """BLAS and numba limited to one thread in this process, as in the worker processes.
+
+    OpenBLAS (numpy's BLAS on Linux) can give slightly different floating-point results for
+    different thread counts, so the sequential grid uses one thread like the workers do.
+    """
+    import numba
+    from threadpoolctl import threadpool_limits
+
+    previous = numba.get_num_threads()
+    numba.set_num_threads(1)
+    try:
+        with threadpool_limits(limits=1, user_api="blas"):
+            yield
+    finally:
+        numba.set_num_threads(previous)
 
 
 @contextmanager

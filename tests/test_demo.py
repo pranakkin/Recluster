@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 import numpy as np
 import pandas as pd
 import scipy.sparse as sp
@@ -45,6 +47,7 @@ def test_demo_claims_are_one_true_and_one_false_by_construction():
 
 
 def test_demo_command_is_listed_and_jobs_default_is_bounded():
-    out = CliRunner().invoke(app, ["demo", "--help"]).output
+    result = CliRunner().invoke(app, ["demo", "--help"], env={"COLUMNS": "200"})
+    out = re.sub(r"\x1b\[[0-9;]*m", "", result.output)  # CI terminals get colour codes
     assert "--no-open" in out and "--jobs" in out
     assert 1 <= default_jobs() <= 8
