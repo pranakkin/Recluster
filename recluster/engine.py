@@ -4,10 +4,15 @@ from __future__ import annotations
 
 import csv
 import logging
+import multiprocessing
+import os
 import re
 import sys
 import time
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
+from concurrent.futures import Future, ProcessPoolExecutor
+from contextlib import contextmanager
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -54,8 +59,16 @@ def run_claim(
     audit: bool = False,
     progress: Progress | None = _stderr,
     write: bool = True,
+    jobs: int = 1,
 ) -> ClaimResult:
-    """Stress-test one claim and (optionally) write report.html, provenance.json, runs.csv."""
+    """Stress-test one claim and (optionally) write report.html, provenance.json, runs.csv.
+
+    With ``jobs`` > 1 the grid points run in that many worker processes. Results are the same
+    as with ``jobs=1``: every run is seeded and independent of the others, matching stays in
+    grid order in this process, and only timings differ.
+    """
+    if jobs < 1:
+        raise ValueError(f"jobs must be at least 1, got {jobs}")
     t_start = time.perf_counter()
     started_at = timestamp()
     say = progress or (lambda _m: None)
@@ -159,13 +172,10 @@ def run_claim(
             reference_is_labelled=reference_is_labelled,
         )
 
-    evaluations: list[RunEvaluation] = []
-    base_params = runs_params[0]
-    baseline_cells: pd.Index | None = None
-    baseline_run_cells: pd.Index = counts.obs_names
-    for i, params in enumerate(runs_params):
-        t0 = time.perf_counter()
-        rr = pipe.run(params)
+    def match_run(i: int, rr: RunResult) -> Match:
+        """Match run ``i``; must be called in grid order, since the first qualifying marker
+        match becomes the reference for every later run."""
+        nonlocal reference, reference_source
         m = match(rr, reference)
         if (
             reference is None
@@ -177,73 +187,59 @@ def run_claim(
             where = "the baseline run" if i == 0 else f"run {i}"
             reference_source = f"population found in {where} ({len(reference)} cells)"
             m = match(rr, reference)
-        ev = _evaluate(spec, m, rr, counts, lognorm, sample, condition, thr, grid, pair)
-        doublet_info = None
-        if spec.claim_type == "population_exists" and m.found and m.clusters:
-            # informational: no cutoff separates doublet mixtures from intermediate populations
-            # with margin (bench/RESULTS.md), so this never changes a verdict
-            dc = doublet_cluster_check(
-                counts,
-                rr.clusters,
-                m.clusters,
-                residual_ratio_max=thr.doublet_residual_ratio_max,
-                libsize_ratio_min=thr.doublet_libsize_ratio_min,
-            )
-            doublet_info = dc.to_dict()
+        return m
+
+    evaluations: list[RunEvaluation] = []
+    base_params = runs_params[0]
+    baseline_cells: pd.Index | None = None
+    baseline_run_cells: pd.Index = counts.obs_names
+
+    def finish(
+        i: int,
+        rr: RunResult,
+        m: Match,
+        ev: dict[str, Any],
+        doublet_info: dict[str, Any] | None,
+        runtime_s: float,
+    ) -> None:
+        nonlocal baseline_cells, baseline_run_cells
         if i == 0:
             baseline_cells = m.cells if m.found else None
             baseline_run_cells = rr.clusters.index
-        match_info = m.to_dict()
-        match_info.update(_doublet_summary(rr.doublet_scores, m.cells))
-        match_info["doublet_cluster"] = doublet_info
-        effective = dict(getattr(rr, "effective", None) or {})
-        match_info["doublet_population"] = _doublet_population_summary(
-            effective.get("doublet_clusters"), m.clusters if m.found else []
-        )
-        label = params.label(base_params)
-        capped = effective.get("capped") or {}
-        if capped:
-            label += " [" + ", ".join(f"{k} capped to {v}" for k, v in capped.items()) + "]"
-        evaluations.append(
-            RunEvaluation(
-                index=i,
-                label=label,
-                params=params.model_dump(),
-                is_baseline=(i == 0),
-                is_one_at_a_time=(len(params.diff(base_params)) == 1),
-                n_cells=rr.n_cells,
-                n_removed_qc=rr.n_removed_qc,
-                n_removed_doublet=rr.n_removed_doublet,
-                n_clusters=rr.n_clusters,
-                runtime_s=round(time.perf_counter() - t0, 3),
-                warnings=rr.warnings + list(ev.get("warnings", [])),
-                match=match_info,
-                holds=bool(ev["holds"]),
-                holds_cell_level=ev.get("holds_cell_level"),
-                replicate_ok=ev.get("replicate_ok"),
-                recovered=ev.get("recovered"),
-                key_stats=ev.get("key_stats", {}),
-                details={
-                    k: v
-                    for k, v in ev.items()
-                    if k
-                    not in (
-                        "holds",
-                        "holds_cell_level",
-                        "replicate_ok",
-                        "recovered",
-                        "key_stats",
-                        "warnings",
-                    )
-                },
-                effective_params=effective,
-            )
-        )
+        e = _run_evaluation(i, runs_params[i], base_params, rr, m, ev, doublet_info, runtime_s)
+        evaluations.append(e)
         say(
-            f"run {i:>2}/{len(runs_params) - 1}  {label:<40.40s} cells={rr.n_cells:<6} "
+            f"run {i:>2}/{len(runs_params) - 1}  {e.label:<40.40s} cells={rr.n_cells:<6} "
             f"k={rr.n_clusters:<3} pop={m.n_cells:<5} "
-            f"{'HELD' if ev['holds'] else 'failed':<6} {time.perf_counter() - t0:5.1f}s"
+            f"{'HELD' if ev['holds'] else 'failed':<6} {runtime_s:5.1f}s"
         )
+
+    workers = min(jobs, len(runs_params))
+    if workers == 1:
+        inputs = _EvalInputs(spec, counts, lognorm, sample, condition, thr, grid.n_cpus, pair)
+        for i, params in enumerate(runs_params):
+            t0 = time.perf_counter()
+            rr = pipe.run(params)
+            m = match_run(i, rr)
+            ev, doublet_info = _evaluate_run(inputs, rr.clusters, m)
+            finish(i, rr, m, ev, doublet_info, time.perf_counter() - t0)
+    else:
+        say(f"running on {workers} worker processes")
+        initargs = (counts, grid, sample, batch, mito_prefix, spec, lognorm, condition, thr, pair)
+        with _worker_pool(workers, initargs) as pool:
+            run_futures = [pool.submit(_pipeline_task, p) for p in runs_params]
+            # each run is matched as soon as it and all earlier runs are done; its evaluation
+            # then goes back to the pool while later runs are still clustering
+            matched: list[tuple[RunResult, Match, float, Future[_EvalOutput]]] = []
+            for i, fut in enumerate(run_futures):
+                rr = fut.result()
+                t0 = time.perf_counter()
+                m = match_run(i, rr)
+                match_s = time.perf_counter() - t0
+                matched.append((rr, m, match_s, pool.submit(_evaluate_task, rr.clusters, m)))
+            for i, (rr, m, match_s, ev_future) in enumerate(matched):
+                ev, doublet_info, eval_s = ev_future.result()
+                finish(i, rr, m, ev, doublet_info, rr.runtime_s + match_s + eval_s)
 
     # ------------------------------------------------------------ as labelled
     as_labelled = None
@@ -291,6 +287,7 @@ def run_claim(
         "finished_at": timestamp(),
         "total_runtime_s": round(total, 3),
         "mode": "audit" if audit else "run",
+        "execution": {"jobs": jobs, "workers": workers},
         "environment": environment(),
         "input": data_summary,
         "claim": spec.model_dump(exclude_none=True),
@@ -360,16 +357,204 @@ def _dedupe_after_capping(
     return kept, merged
 
 
+@dataclass
+class _EvalInputs:
+    """What evaluating a run needs besides its clusters and match; fixed for a claim."""
+
+    spec: ClaimSpec
+    counts: Any
+    lognorm: pd.DataFrame
+    sample: pd.Series | None
+    condition: pd.Series | None
+    thr: Thresholds
+    n_cpus: int
+    pair: pd.Series | None
+
+
+def _evaluate_run(
+    inp: _EvalInputs, clusters: pd.Series, m: Match
+) -> tuple[dict[str, Any], dict[str, Any] | None]:
+    """The claim's evaluation of one matched run, and the informational doublet check."""
+    ev = _evaluate(
+        inp.spec,
+        m,
+        clusters,
+        inp.counts,
+        inp.lognorm,
+        inp.sample,
+        inp.condition,
+        inp.thr,
+        inp.n_cpus,
+        inp.pair,
+    )
+    doublet_info = None
+    if inp.spec.claim_type == "population_exists" and m.found and m.clusters:
+        # informational: no cutoff separates doublet mixtures from intermediate populations
+        # with margin (bench/RESULTS.md), so this never changes a verdict
+        dc = doublet_cluster_check(
+            inp.counts,
+            clusters,
+            m.clusters,
+            residual_ratio_max=inp.thr.doublet_residual_ratio_max,
+            libsize_ratio_min=inp.thr.doublet_libsize_ratio_min,
+        )
+        doublet_info = dc.to_dict()
+    return ev, doublet_info
+
+
+def _run_evaluation(
+    i: int,
+    params: PipelineParams,
+    base_params: PipelineParams,
+    rr: RunResult,
+    m: Match,
+    ev: dict[str, Any],
+    doublet_info: dict[str, Any] | None,
+    runtime_s: float,
+) -> RunEvaluation:
+    match_info = m.to_dict()
+    match_info.update(_doublet_summary(rr.doublet_scores, m.cells))
+    match_info["doublet_cluster"] = doublet_info
+    effective = dict(getattr(rr, "effective", None) or {})
+    match_info["doublet_population"] = _doublet_population_summary(
+        effective.get("doublet_clusters"), m.clusters if m.found else []
+    )
+    label = params.label(base_params)
+    capped = effective.get("capped") or {}
+    if capped:
+        label += " [" + ", ".join(f"{k} capped to {v}" for k, v in capped.items()) + "]"
+    return RunEvaluation(
+        index=i,
+        label=label,
+        params=params.model_dump(),
+        is_baseline=(i == 0),
+        is_one_at_a_time=(len(params.diff(base_params)) == 1),
+        n_cells=rr.n_cells,
+        n_removed_qc=rr.n_removed_qc,
+        n_removed_doublet=rr.n_removed_doublet,
+        n_clusters=rr.n_clusters,
+        runtime_s=round(runtime_s, 3),
+        warnings=rr.warnings + list(ev.get("warnings", [])),
+        match=match_info,
+        holds=bool(ev["holds"]),
+        holds_cell_level=ev.get("holds_cell_level"),
+        replicate_ok=ev.get("replicate_ok"),
+        recovered=ev.get("recovered"),
+        key_stats=ev.get("key_stats", {}),
+        details={
+            k: v
+            for k, v in ev.items()
+            if k
+            not in (
+                "holds",
+                "holds_cell_level",
+                "replicate_ok",
+                "recovered",
+                "key_stats",
+                "warnings",
+            )
+        },
+        effective_params=effective,
+    )
+
+
+# ------------------------------------------------------------------ worker processes
+# BLAS and numba are limited to one thread in each worker, so N workers use about N cores.
+# OpenMP is left alone: scikit-learn's exact kNN (used by scrublet and the neighbour graph)
+# picks its chunking strategy from the OpenMP thread count, and with one thread it can return
+# different neighbours for near-ties, which changes doublet calls. Workers keep the parent's
+# OpenMP setting so their results match a sequential run.
+_THREAD_VARS = (
+    "OPENBLAS_NUM_THREADS",
+    "MKL_NUM_THREADS",
+    "VECLIB_MAXIMUM_THREADS",
+    "NUMBA_NUM_THREADS",
+)
+
+_EvalOutput = tuple[dict[str, Any], dict[str, Any] | None, float]
+
+
+@dataclass
+class _WorkerState:
+    pipe: Pipeline
+    inputs: _EvalInputs
+
+
+_worker: _WorkerState | None = None
+
+
+def _init_worker(
+    counts: Any,
+    grid: GridConfig,
+    sample: pd.Series | None,
+    batch: pd.Series | None,
+    mito_prefix: str | None,
+    spec: ClaimSpec,
+    lognorm: pd.DataFrame,
+    condition: pd.Series | None,
+    thr: Thresholds,
+    pair: pd.Series | None,
+) -> None:
+    global _worker
+    pipe = Pipeline(counts, grid, sample=sample, batch=batch, mito_prefix=mito_prefix)
+    # one process per worker already; pydeseq2's own result does not depend on n_cpus
+    inputs = _EvalInputs(spec, counts, lognorm, sample, condition, thr, 1, pair)
+    _worker = _WorkerState(pipe, inputs)
+
+
+def _pipeline_task(params: PipelineParams) -> RunResult:
+    assert _worker is not None
+    return _worker.pipe.run(params)
+
+
+def _evaluate_task(clusters: pd.Series, m: Match) -> _EvalOutput:
+    assert _worker is not None
+    t0 = time.perf_counter()
+    ev, doublet_info = _evaluate_run(_worker.inputs, clusters, m)
+    return ev, doublet_info, time.perf_counter() - t0
+
+
+@contextmanager
+def _worker_pool(workers: int, initargs: tuple[Any, ...]) -> Iterator[ProcessPoolExecutor]:
+    """A pool of freshly spawned workers with single-threaded BLAS and numba.
+
+    The thread limits go into the environment the workers start with (the libraries read them
+    at import) and the parent's environment is restored when the pool closes. Spawn rather
+    than fork: forking a process whose thread pools are already running is unsafe.
+    """
+    saved = {k: os.environ.get(k) for k in _THREAD_VARS}
+    os.environ.update({k: "1" for k in _THREAD_VARS})
+    try:
+        pool = ProcessPoolExecutor(
+            max_workers=workers,
+            mp_context=multiprocessing.get_context("spawn"),
+            initializer=_init_worker,
+            initargs=initargs,
+        )
+        try:
+            yield pool
+        except BaseException:
+            pool.shutdown(wait=True, cancel_futures=True)
+            raise
+        pool.shutdown(wait=True)
+    finally:
+        for k, v in saved.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+
+
 def _evaluate(
     spec: ClaimSpec,
     m: Match,
-    rr: RunResult,
+    clusters: pd.Series,
     counts: Any,
     lognorm: pd.DataFrame,
     sample: pd.Series | None,
     condition: pd.Series | None,
     thr: Thresholds,
-    grid: GridConfig,
+    n_cpus: int,
     pair: pd.Series | None,
 ) -> dict[str, Any]:
     if spec.claim_type == "population_exists":
@@ -377,7 +562,7 @@ def _evaluate(
     assert spec.comparison is not None and sample is not None and condition is not None
     if spec.claim_type == "composition_shift":
         return evaluate_composition(
-            m.cells, rr.clusters.index, sample, condition, spec.comparison, thr, pair=pair
+            m.cells, clusters.index, sample, condition, spec.comparison, thr, pair=pair
         )
     if not m.found:
         return {
@@ -399,7 +584,7 @@ def _evaluate(
         genes=spec.genes,
         require=spec.require,
         thr=thr,
-        n_cpus=grid.n_cpus,
+        n_cpus=n_cpus,
         pair=pair,
     )
 

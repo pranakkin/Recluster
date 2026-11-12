@@ -56,7 +56,7 @@ The benchmark splits the Kang donors into two fake groups, gives the first morni
 times and the second afternoon times, and plants a documented clock-gene shift plus a rhythmic
 gene (SQSTM1) into every cell as a smooth function of the hour. The planted claim, SQSTM1 up in CD14+ monocytes in the afternoon group, holds in 21 of 21 runs (pseudobulk DESeq2 on 4 vs 4 donors: log2 fold change 0.66, adjusted p = 0.007), so a standard analysis reports a condition effect. With the collection times hidden, the clock-gene screen separates the groups on the clock-state index (permutation p = 0.029) and caps the verdict at FRAGILE; with the times given, the groups are 5.8 h apart and refitting with cos/sin of the hour turns the fold change into −0.55 (adjusted p = 0.17), so the claim is NOT SUPPORTED as explained by collection time. On the eight comparison claims without a planted time effect the check raised no alarm; on the real IFN-β comparisons it notes that two clock genes differ, in a pattern that is not a time shift.
 
-## Quickstart: reproduce the Kang 2018 benchmark
+## Quickstart
 
 Requires Python 3.11 and [uv](https://docs.astral.sh/uv/).
 
@@ -66,6 +66,20 @@ git clone https://github.com/pranakkin/Recluster.git && cd Recluster
 ```bash
 uv sync
 ```
+```bash
+uv run recluster demo
+```
+
+The demo downloads Kang et al. 2018 (38 MB, checksum verified, cached in `data/`), takes a seeded
+subset of 200 cells from each of the 16 donor x condition samples, and runs two claims on the full
+default grid of 21 runs: ISG15 rises in CD14+ monocytes after IFN-beta (true), and ISG15 differs
+between two fake groups of control donors (false by construction). It opens both reports. On an
+Apple M5 Pro laptop with the data already downloaded it took 2 minutes 7 seconds with 8 worker
+processes; the true claim came out ROBUST (21 of 21 runs) and the false one NOT SUPPORTED (1 of
+21). `--no-open` skips opening the browser and `--jobs` sets the number of workers.
+
+### Reproduce the Kang 2018 benchmark
+
 ```bash
 uv run recluster bench --part kang
 ```
@@ -85,6 +99,9 @@ uv run python scripts/download_kang.py
 ```bash
 uv run recluster run --data data/kang_2018.h5ad --claim examples/claims/kang_isg15_cd14_monocytes.yaml
 ```
+
+Add `--jobs 8` to spread the grid runs over 8 processes; the results are identical to a
+single process.
 
 Open `results/<claim>/report.html`. A synthetic example that needs no download is in
 `examples/claims/synthetic_*.yaml` (`uv run python scripts/make_synthetic_example.py` first).

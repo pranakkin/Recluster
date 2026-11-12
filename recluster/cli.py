@@ -33,6 +33,16 @@ ThrOpt = Annotated[
 MaxRunsOpt = Annotated[int | None, typer.Option("--max-runs", help="cap the grid (quick look)")]
 RandomOpt = Annotated[int | None, typer.Option("--n-random", help="number of random combinations")]
 QuietOpt = Annotated[bool, typer.Option("--quiet", "-q", help="no per-run progress")]
+JobsOpt = Annotated[
+    int,
+    typer.Option(
+        "--jobs",
+        "-j",
+        min=1,
+        help="worker processes for the grid runs; results are identical to --jobs 1, "
+        "only faster (each worker holds a copy of the counts)",
+    ),
+]
 SummarizeOpt = Annotated[
     bool,
     typer.Option(
@@ -52,6 +62,7 @@ def _execute(
     quiet: bool,
     audit: bool,
     summarize: bool = False,
+    jobs: int = 1,
 ) -> None:
     from recluster.config import GridConfig, Thresholds
     from recluster.data import DataError
@@ -77,6 +88,7 @@ def _execute(
             grid=cfg,
             thresholds=thr,
             audit=audit,
+            jobs=jobs,
             progress=None if quiet else (lambda m: print(m, file=sys.stderr, flush=True)),
         )
     except (SpecError, DataError) as exc:
@@ -120,6 +132,7 @@ def run(
     n_random: RandomOpt = None,
     quiet: QuietOpt = False,
     summarize: SummarizeOpt = False,
+    jobs: JobsOpt = 1,
 ) -> None:
     """Stress-test a claim against raw counts, re-deriving everything from scratch."""
     _execute(
@@ -133,6 +146,7 @@ def run(
         quiet,
         audit=False,
         summarize=summarize,
+        jobs=jobs,
     )
 
 
@@ -147,6 +161,7 @@ def audit(
     n_random: RandomOpt = None,
     quiet: QuietOpt = False,
     summarize: SummarizeOpt = False,
+    jobs: JobsOpt = 1,
 ) -> None:
     """Audit a processed object: re-derive from its stored raw counts and check its labels."""
     _execute(
@@ -160,6 +175,7 @@ def audit(
         quiet,
         audit=True,
         summarize=summarize,
+        jobs=jobs,
     )
 
 
@@ -185,6 +201,31 @@ def bench(
     parts = ("kang", "planted") if part == "all" else (part,)
     grid = GridConfig(max_runs=max_runs) if max_runs is not None else None
     run_bench(data_dir=data_dir, out_dir=out, parts=parts, jobs=jobs, grid=grid)
+
+
+@app.command()
+def demo(
+    data_dir: Annotated[Path, typer.Option("--data-dir", help="where Kang 2018 is cached")] = Path(
+        "data"
+    ),
+    out: Annotated[Path, typer.Option("--out", help="output directory")] = Path("results/demo"),
+    jobs: Annotated[
+        int | None,
+        typer.Option(
+            "--jobs",
+            "-j",
+            min=1,
+            help="worker processes (default: cores - 1, max 8)",
+        ),
+    ] = None,
+    no_open: Annotated[bool, typer.Option("--no-open", help="do not open the reports")] = False,
+) -> None:
+    """Two claims on a subset of Kang 2018: one true, one false by construction."""
+    from recluster.demo import run_demo
+
+    results = run_demo(data_dir=data_dir, out_dir=out, jobs=jobs, open_reports=not no_open)
+    if any(r.verdict != r.expected for r in results):
+        typer.secho("a demo claim did not get its expected verdict", err=True, fg="yellow")
 
 
 @app.command()
