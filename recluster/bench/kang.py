@@ -1,8 +1,8 @@
 """Kang et al. 2018 (Nat Biotechnol 36:89): PBMCs from 8 lupus patients, IFN-beta vs control.
 
 Source: the processed object distributed with pertpy (``kang_2018.h5ad`` on
-exampledata.scverse.org),
-raw integer counts in .X, columns ``label`` (ctrl/stim), ``replicate`` (8 donors), ``cell_type``.
+exampledata.scverse.org), raw integer counts in .X, columns ``label`` (ctrl/stim),
+``replicate`` (8 donors), ``cell_type``.
 This object contains singlets only; the demuxlet multiplet calls from GEO are *not* in it.
 """
 
@@ -11,7 +11,7 @@ from __future__ import annotations
 import hashlib
 import math
 import urllib.request
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -122,8 +122,7 @@ class KangCase:
     expected: str
     passes_rule: str
     passes: Any  # callable(result) -> bool
-    extra: dict[str, Any] = field(default_factory=dict)
-    role: str = "true"  # true | null | false
+    role: str = "true"  # true | null | false | planted_time
 
 
 def download_kang(path: Path) -> Path:

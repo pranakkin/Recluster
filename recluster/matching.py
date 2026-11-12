@@ -192,13 +192,13 @@ def _marker_candidates(
     logic: str,
     thr: Thresholds,
     samples: np.ndarray | None,
-) -> tuple[list[str], float | None, pd.DataFrame | None, dict[str, str], str]:
+) -> tuple[list[str], float | None, dict[str, str], str]:
     """Clusters that qualify by markers.
 
-    Returns the candidates, the best judged AUROC over all clusters, the per-gene AUROC table,
-    ``judged_by`` for the candidates and the run's ``marker_basis`` (see ``Match``). A cluster
-    is judged by its stratified within-sample AUROC when any sample contributes one, otherwise
-    by the whole-dataset AUROC.
+    Returns the candidates, the best judged AUROC over all clusters, ``judged_by`` for the
+    candidates and the run's ``marker_basis`` (see ``Match``). A cluster is judged by its
+    stratified within-sample AUROC when any sample contributes one, otherwise by the
+    whole-dataset AUROC.
     """
     overall = auroc_by_group(score, clusters_arr)
     within = within_sample_auroc(score, clusters_arr, samples) if samples is not None else {}
@@ -229,7 +229,7 @@ def _marker_candidates(
         basis = kinds.pop()
     else:
         basis = statistic[best_cluster] if best_cluster is not None else "overall"
-    return out, best, per_gene, judged_by, basis
+    return out, best, judged_by, basis
 
 
 def match_population(
@@ -275,7 +275,7 @@ def match_population(
         s = score.loc[run_cells].to_numpy()
         frame = marker_frame.loc[run_cells] if marker_frame is not None else None
         samples = sample.loc[run_cells].astype(str).to_numpy() if sample is not None else None
-        by_markers, best_auroc, _, judged_by, basis = _marker_candidates(
+        by_markers, best_auroc, judged_by, basis = _marker_candidates(
             labels, sizes, s, frame, logic, thr, samples
         )
     if use_labels and reference is not None:

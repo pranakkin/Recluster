@@ -103,10 +103,8 @@ def plant_doublets(
     ia = adata.obs_names.get_indexer(pa)
     ib = adata.obs_names.get_indexer(pb)
     doublets = x[ia] + x[ib]
-    new = AnnData(X=doublets, var=adata.var.copy())
-    new.obs_names = [f"planted_doublet_{i}" for i in range(n)]
     out = AnnData(X=sp.vstack([x, doublets]).tocsr(), var=adata.var.copy())
-    out.obs_names = list(adata.obs_names) + list(new.obs_names)
+    out.obs_names = list(adata.obs_names) + [f"planted_doublet_{i}" for i in range(n)]
     out.obs["injected_doublet"] = np.r_[np.zeros(adata.n_obs, bool), np.ones(n, bool)]
 
     marker_text = " ".join(f"{g}+" for g in markers)

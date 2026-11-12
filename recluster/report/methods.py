@@ -143,8 +143,9 @@ def methods_paragraph(
         cmp = spec.comparison
         assert cmp is not None
         if thr.composition_test == "logit_t":
-            paired_test = "a paired t-test on the per-donor differences of logit-transformed "
-            paired_test += "proportions"
+            paired_test = (
+                "a paired t-test on the per-donor differences of logit-transformed proportions"
+            )
             unpaired_test = "a Welch t-test on logit-transformed proportions"
         else:
             paired_test = "a Wilcoxon signed-rank test on per-donor differences"

@@ -1,4 +1,4 @@
-"""Synthetic single-cell counts with known structure, for tests and planted-error benchmarks.
+"""Synthetic single-cell counts with known structure, for the tests and the synthetic example.
 
 This is deliberately simple (gamma-Poisson counts, marker genes with fold changes, donor
 random effects). It is *not* used to produce any benchmark headline; the real-data benchmark
@@ -8,7 +8,7 @@ that must fail by construction.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
@@ -38,7 +38,6 @@ class SimConfig:
     n_mito: int = 10
     mito_fraction: float = 0.05
     seed: int = 0
-    extra: dict[str, object] = field(default_factory=dict)
 
 
 def simulate(cfg: SimConfig | None = None) -> AnnData:
@@ -73,7 +72,6 @@ def simulate(cfg: SimConfig | None = None) -> AnnData:
     cursor += cfg.n_de_genes
     for j, g in enumerate(null_idx):
         gene_names[g] = f"NULL_{j}"
-    # mito genes
     mito_idx = pool[cursor : cursor + cfg.n_mito]
     for j, g in enumerate(mito_idx):
         gene_names[g] = f"MT-{j}"

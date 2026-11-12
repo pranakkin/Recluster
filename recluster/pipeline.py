@@ -8,7 +8,6 @@ the raw counts.
 
 from __future__ import annotations
 
-import logging
 import time
 import warnings
 from dataclasses import dataclass, field, replace
@@ -22,8 +21,6 @@ from anndata import AnnData
 from recluster.config import GridConfig, PipelineParams
 from recluster.evaluators.doublet_cluster import doublet_population_test
 
-log = logging.getLogger(__name__)
-
 SAMPLE_COL = "_recluster_sample"
 BATCH_COL = "_recluster_batch"
 CLUSTER_COL = "cluster"
@@ -36,7 +33,6 @@ class QCStage:
     adata: AnnData
     n_input: int
     n_removed_qc: int
-    runtime_s: float
     warnings: list[str] = field(default_factory=list)
     effective: dict[str, object] = field(default_factory=dict)
 
@@ -164,7 +160,6 @@ class Pipeline:
         self, min_genes: int, max_mito: float, capped: dict[str, object]
     ) -> QCStage:
         """Filter cells and genes at the given thresholds and score doublets."""
-        t0 = time.perf_counter()
         warns: list[str] = []
         obs = self.counts.obs
         keep = (obs["n_genes_by_counts"] >= min_genes) & (obs["pct_counts_mt"] <= max_mito)
@@ -177,7 +172,6 @@ class Pipeline:
             adata=a,
             n_input=int(self.counts.n_obs),
             n_removed_qc=int(self.counts.n_obs - a.n_obs),
-            runtime_s=time.perf_counter() - t0,
             warnings=warns,
             effective={
                 "min_genes": min_genes,
@@ -422,7 +416,7 @@ class Pipeline:
 
     @staticmethod
     def _harmony(a: AnnData, seed: int, warns: list[str]) -> str:
-        import harmonypy  # local import: optional heavy dependency path
+        import harmonypy  # local import: only needed when batch correction runs
 
         if a.obs[BATCH_COL].nunique() < 2:
             warns.append("batch column has a single level; harmony skipped")

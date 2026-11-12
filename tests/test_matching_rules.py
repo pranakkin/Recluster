@@ -90,7 +90,6 @@ def test_stratified_auroc_ignores_a_sample_level_shift():
     # every score of one sample sits higher, as a batch effect does
     shifted[samples == "s03"] += 2.5
     after = within_sample_auroc(shifted, groups, samples)["pop"]
-    assert abs(after - base) < 0.02
     assert after == pytest.approx(base)  # ranks inside the sample did not change
     # the whole-dataset AUROC moves: that sample's other cells now outrank the other populations
     assert auroc_by_group(shifted, groups)["pop"] < auroc_by_group(score, groups)["pop"] - 0.02

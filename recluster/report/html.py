@@ -10,7 +10,7 @@ from typing import Any
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from recluster.provenance import json_default, round_floats
-from recluster.report.charts import run_strip_svg, survival_by_choice_svg
+from recluster.report.charts import fmtval, run_strip_svg, survival_by_choice_svg
 from recluster.results import ClaimResult, RunEvaluation
 
 TEMPLATES = Path(__file__).parent / "templates"
@@ -21,8 +21,6 @@ def _env() -> Environment:
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATES)),
         autoescape=select_autoescape(["html", "j2"]),
-        trim_blocks=False,
-        lstrip_blocks=False,
     )
     env.filters["thousands"] = lambda v: f"{int(v):,}" if v is not None else "–"
     env.filters["fmtnum"] = fmtnum
@@ -43,14 +41,6 @@ def fmtnum(v: Any) -> str:
     if abs(f) < 1e-3 and f != 0:
         return f"{f:.1e}"
     return f"{f:.3f}"
-
-
-def fmtval(v: Any) -> str:
-    if isinstance(v, bool):
-        return "on" if v else "off"
-    if isinstance(v, float):
-        return f"{v:g}"
-    return str(v)
 
 
 def render_report(result: ClaimResult, llm_summary: str | None = None) -> str:
@@ -114,10 +104,6 @@ def _comparison_html(result: ClaimResult) -> str:
                 f"{fmtnum(m.get('doublet_score_median_all'))}",
             ),
         ]
-        body = "".join(
-            f"<tr><td>{escape(str(k))}</td><td class='num'>{escape(str(v))}</td></tr>"
-            for k, v in rows
-        )
         note = (
             "<p class='small'>For a population claim the replicate-aware check is whether the "
             "population is "
@@ -127,11 +113,13 @@ def _comparison_html(result: ClaimResult) -> str:
             f"{_pct(result.verdict.survival)}.</p>"
         )
         return (
-            f"<table><tbody>{body}</tbody></table>{note}{_doublet_cluster_html(m)}"
-            f"{_doublet_population_html(result, base)}"
+            _kv_table(rows)
+            + note
+            + _doublet_cluster_html(m)
+            + _doublet_population_html(result, base)
         )
     if ct == "composition_shift":
-        return _composition_table(base.details, base.label) + _composition_grid_table(result)
+        return _composition_table(base.details, base.label) + _composition_grid_line(result)
     return _de_table(base.details, "Baseline run") + _de_grid_summary(result)
 
 
@@ -182,9 +170,6 @@ def _composition_table(d: dict[str, Any], label: str) -> str:
         ("Holds (replicate-aware)", "yes" if d.get("holds") else "no"),
         ("Holds (cell-level)", "yes" if d.get("holds_cell_level") else "no"),
     ]
-    body = "".join(
-        f"<tr><td>{escape(k)}</td><td class='num'>{escape(str(v))}</td></tr>" for k, v in rows
-    )
     per = d.get("per_sample") or []
     per_rows = "".join(
         f"<tr><td class='mono'>{escape(str(p['sample']))}</td>"
@@ -201,7 +186,7 @@ def _composition_table(d: dict[str, Any], label: str) -> str:
         if per
         else ""
     )
-    return f"<h3>{escape(label)}</h3><table><tbody>{body}</tbody></table>{per_tbl}"
+    return f"<h3>{escape(label)}</h3>{_kv_table(rows)}{per_tbl}"
 
 
 def _doublet_cluster_html(m: dict[str, Any]) -> str:
@@ -327,7 +312,7 @@ def _doublet_population_grid_line(result: ClaimResult) -> str:
     )
 
 
-def _composition_grid_table(result: ClaimResult) -> str:
+def _composition_grid_line(result: ClaimResult) -> str:
     v = result.verdict
     return (
         "<p class='small'>Across the grid the replicate-aware test held in "
@@ -393,10 +378,7 @@ def _as_labelled_html(result: ClaimResult) -> str:
         ("Samples with ≥ min cells", d.get("n_samples_present")),
         ("Largest single-sample share", fmtnum(d.get("max_sample_share"))),
     ]
-    body = "".join(
-        f"<tr><td>{escape(str(k))}</td><td class='num'>{escape(str(v))}</td></tr>" for k, v in rows
-    )
-    return f"<table><tbody>{body}</tbody></table>"
+    return _kv_table(rows)
 
 
 def _agreement(a: str | None) -> str:

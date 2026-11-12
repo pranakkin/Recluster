@@ -12,8 +12,6 @@ import re
 from dataclasses import dataclass
 from typing import Any, Literal
 
-import numpy as np
-import pandas as pd
 from anndata import AnnData
 from pydantic import BaseModel, Field, ValidationError
 
@@ -217,7 +215,3 @@ def yaml_with_header(result: ParseResult, claim_text: str) -> str:
         "# Checked against the data: all columns, values and genes exist. Review before running.\n"
     )
     return header + result.spec.to_yaml()
-
-
-def _unused(_: np.ndarray | pd.DataFrame) -> None:  # pragma: no cover - keeps imports honest
-    return None

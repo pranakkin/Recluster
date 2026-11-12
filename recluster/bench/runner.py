@@ -383,13 +383,7 @@ def results_table(results: dict[str, Any]) -> str:
         elif r["role"] == "planted_time":
             outcome = "caught" if r["passes"] else "MISSED"
         elif r["role"] in ("false", "null"):
-            outcome = (
-                "correct"
-                if r["passes"]
-                else "FALSE ALARM"
-                if r["verdict"] != "NOT SUPPORTED"
-                else "correct"
-            )
+            outcome = "correct" if r["passes"] or r["verdict"] == "NOT SUPPORTED" else "FALSE ALARM"
         elif r["part"] == "planted":
             outcome = "caught" if r["passes"] else "MISSED"
         else:

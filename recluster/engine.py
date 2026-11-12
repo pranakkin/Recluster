@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import csv
-import logging
 import multiprocessing
 import os
 import re
@@ -36,7 +35,6 @@ from recluster.spec import ClaimSpec, make_sample_key
 from recluster.time_confound import assess_claim, load_rhythmic_table
 from recluster.verdict import apply_time_check, compute_verdict
 
-log = logging.getLogger(__name__)
 Progress = Callable[[str], None]
 
 
@@ -415,7 +413,7 @@ def _run_evaluation(
     match_info = m.to_dict()
     match_info.update(_doublet_summary(rr.doublet_scores, m.cells))
     match_info["doublet_cluster"] = doublet_info
-    effective = dict(getattr(rr, "effective", None) or {})
+    effective: dict[str, Any] = dict(rr.effective)
     match_info["doublet_population"] = _doublet_population_summary(
         effective.get("doublet_clusters"), m.clusters if m.found else []
     )

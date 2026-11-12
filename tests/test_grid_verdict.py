@@ -12,7 +12,7 @@ def test_grid_structure_default():
     cfg = GridConfig()
     runs = build_grid(cfg, has_batch=True)
     assert runs[0] == cfg.baseline
-    assert len(runs) == len(set(runs))  # no duplicates
+    assert len(runs) == len(set(runs))
     d = describe_grid(runs)
     assert d["one_at_a_time"] == 17 and d["random"] == 6 and d["total"] == 24
     for r in runs[1 : 1 + d["one_at_a_time"]]:

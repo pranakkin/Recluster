@@ -155,7 +155,6 @@ def doublet_cluster_check(
     labels = clusters.to_numpy().astype(str)
     in_pop = np.isin(labels, population_clusters)
     pop_cells = clusters.index[in_pop]
-    # centroid of the union, weighted by cluster size
     sizes = pd.Series(labels[in_pop]).value_counts()
     pop_centroid = np.average(
         centroids.loc[sizes.index].to_numpy(), axis=0, weights=sizes.to_numpy()

@@ -63,9 +63,7 @@ def reference_labels(adata: AnnData, *, resolution: float = 1.0, seed: int = 0) 
     return out
 
 
-def as_processed(
-    adata: AnnData, labels: pd.Series | None = None, label_col: str = "tool_label"
-) -> AnnData:
+def as_processed(adata: AnnData, labels: pd.Series | None = None) -> AnnData:
     """Return an object shaped like another tool's output: log-normalised .X, counts in layers."""
     out = adata.copy()
     out.layers["counts"] = out.X.copy()
@@ -74,7 +72,7 @@ def as_processed(
         sc.pp.normalize_total(out, target_sum=1e4)
         sc.pp.log1p(out)
     if labels is not None:
-        out.obs[label_col] = labels.loc[out.obs_names].astype(str).to_numpy()
+        out.obs["tool_label"] = labels.loc[out.obs_names].astype(str).to_numpy()
     return out
 
 

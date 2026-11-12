@@ -54,7 +54,7 @@ def compute_verdict(
     ]
 
     summary = _summary(
-        label, n_holds, n, baseline_holds, oat_flips, pseudoreplication, claim_type, n_not_testable
+        n_holds, n, baseline_holds, oat_flips, pseudoreplication, claim_type, n_not_testable
     )
     return Verdict(
         label=label,
@@ -98,7 +98,6 @@ def _by_choice(runs: list[RunEvaluation], baseline: PipelineParams) -> list[dict
 
 
 def _summary(
-    label: str,
     n_holds: int,
     n: int,
     baseline_holds: bool,

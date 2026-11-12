@@ -197,4 +197,3 @@ def test_panel_check_is_repeatable(clock_sim):
     a = _scaled_in_stim(clock_sim, ANTIPHASE)
     first, second = _panel(a), _panel(a)
     assert first == second
-    assert first["per_gene"] == second["per_gene"]

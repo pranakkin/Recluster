@@ -8,6 +8,7 @@ the code did not compute; and everything degrades to a clear message without a k
 from __future__ import annotations
 
 import json
+import os
 from types import SimpleNamespace
 
 import pytest
@@ -247,8 +248,6 @@ def test_load_dotenv_only_sets_anthropic_keys(tmp_path, monkeypatch):
     env = tmp_path / ".env"
     env.write_text("# comment\nANTHROPIC_API_KEY='sk-test-not-real'\nOTHER=1\n")
     load_dotenv(env)
-    import os
-
     assert os.environ["ANTHROPIC_API_KEY"] == "sk-test-not-real"
     assert "OTHER" not in os.environ
-    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    os.environ.pop("ANTHROPIC_API_KEY", None)

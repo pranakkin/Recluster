@@ -166,21 +166,3 @@ def _agreement(obs: pd.DataFrame) -> dict[str, Any]:
         "auroc_of_score": None if auroc is None else round(auroc, 4),
         "ambiguous_excluded": int((obs["demuxlet"] == "ambs").sum()),
     }
-
-
-def summarize_for_markdown(d: dict[str, Any]) -> str:
-    rows = [
-        "| Lane | Cells | demuxlet doublet rate | Scrublet called | Precision | Recall | AUROC |",
-        "|---|---|---|---|---|---|---|",
-    ]
-    for lane, a in d["per_lane"].items():
-        rows.append(
-            f"| {lane} | {a['n_cells']:,} | {a['demuxlet_doublet_rate']:.1%} | "
-            f"{a['scrublet_called_rate']:.1%} | "
-            f"{_f(a['precision'])} | {_f(a['recall'])} | {_f(a['auroc_of_score'])} |"
-        )
-    return "\n".join(rows) + "\n"
-
-
-def _f(x: float | None) -> str:
-    return "–" if x is None else f"{x:.2f}"

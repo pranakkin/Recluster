@@ -74,7 +74,7 @@ def survival_by_choice_svg(by_choice: list[dict[str, Any]]) -> str:
         y += head_h
         for row in (r for r in by_choice if r["axis"] == axis):
             frac = row["n_holds"] / row["n_runs"] if row["n_runs"] else 0.0
-            val = _fmt(row["value"]) + ("  ●" if row["is_baseline"] else "")
+            val = fmtval(row["value"]) + ("  ●" if row["is_baseline"] else "")
             out.append(
                 f'<text x="16" y="{y + 14}" font-size="13" fill="{INK}" '
                 f'font-family="{FONT}">{escape(val)}</text>'
@@ -108,7 +108,8 @@ def _hatch_def() -> str:
     )
 
 
-def _fmt(v: Any) -> str:
+def fmtval(v: Any) -> str:
+    """Grid parameter value for display: booleans as on/off, floats without trailing zeros."""
     if isinstance(v, bool):
         return "on" if v else "off"
     if isinstance(v, float):
