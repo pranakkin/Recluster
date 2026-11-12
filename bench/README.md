@@ -1,19 +1,23 @@
 # Benchmark
 
-Two parts, one command. Results exactly as measured are in [RESULTS.md](RESULTS.md); the
-machine-readable version is `results.json`.
+Two parts, one command. Results are in [RESULTS.md](RESULTS.md); the machine-readable version
+is `results.json`.
 
 ```bash
 uv run recluster bench
 ```
 
 That downloads what it needs into `data/` (gitignored), builds every case deterministically
-(seed 0), runs each claim through the normal engine with the default grid and thresholds, and
+(fixed seeds), runs each claim through the normal engine with the default grid and thresholds, and
 writes `bench/results.json`, `bench/results_table.md` and one report folder per claim under
 `bench/out/`. Use `--part kang` or `--part planted` for one half and `--jobs N` to change how
-many claims run in parallel (default 4). The whole thing takes about 40 minutes on a laptop.
+many claims run in parallel (default 4). The whole benchmark took 38 minutes with 4 workers on
+an Apple M5 Pro laptop. The run rewrites the committed `bench/results.json` and
+`bench/results_table.md`; with `--part`, the rewritten files hold only that part's cases.
+`git diff bench/` shows any difference and
+`git checkout bench/results.json bench/results_table.md` restores them.
 
-## Part 1: real data, real ground truth (Kang et al. 2018)
+## Part 1: real data (Kang et al. 2018)
 
 PBMCs from 8 lupus patients, each split into an untreated and a 6 h IFN-beta-stimulated sample
 and demultiplexed by genotype. Source: the processed object distributed with pertpy
@@ -38,14 +42,20 @@ counts, `label` (ctrl/stim), `replicate` (donor) and `cell_type`.
 
 ## Part 2: planted errors (PBMC3k)
 
-Each error is built by a fixed function of `scanpy.datasets.pbmc3k()` and seed 0, and its
-"caught" rule is written in `recluster/bench/planted.py` before the run:
+Each error is built by a fixed function of `scanpy.datasets.pbmc3k()` and a fixed seed, and its
+"caught" rule is in `recluster/bench/planted.py`:
 
 1. synthetic doublets (CD14 monocyte + B cell) appended as a fake population;
 2. over-clustering at Leiden resolution 3.0, claiming one shard of CD4 T cells (with a control);
 3. the mitochondrial fraction of NK cells raised into 12 to 16 %, so the baseline QC deletes them;
 4. a gene-level batch effect applied to a random 40 % of cells, claiming a batch-pure cluster
-   as a subtype (with a control).
+   as a subtype (with a control);
+5. two held-out doublet blocks (NK + CD14 monocyte, CD8 T + B) appended as fake populations.
+   They and their rules were written into `PLAN.md` (commit 6201b82) before the
+   doublet-population step was built, and were run once.
+
+The rules for errors 1 to 4 were committed together with the first results (6c2a173); the rule
+for error 1 was tightened before the second run (`RESULTS.md`, note C).
 
 Thresholds and grid are the package defaults. Any change made after seeing results is logged in
 `RESULTS.md` with the reason, and the first run's table is kept next to the current one

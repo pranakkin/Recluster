@@ -3,22 +3,24 @@
 Measured on 2026-11-11 with Recluster 0.6.0, default grid and default thresholds, on an Apple
 M5 Pro laptop (`recluster bench --jobs 4`, 38 minutes wall time). Every number below is copied
 from `results.json`; the per-run numbers come from the `provenance.json` next to each report
-under `bench/out/`. Where the outcome is a miss or a false alarm, it says so.
+under `bench/out/`.
 
 This is the third run of the benchmark. Cases 1 to 18 are the second run's cases; their outcomes
 did not change between Recluster 0.5.0 and 0.6.0 except the held counts of case 13 (note C).
 Cases 19 and 20 are held-out planted-doublet cases added with the doublet-population step of
-0.6.0 (section "Doublet populations"). The second run The first run (v0.1, 16 cases) is kept as
+0.6.0 (section "Doublet populations"). The first run (v0.1, 16 cases) is kept as
 `results_v0.1_table.md` and `results_v0.1.json`, and its narrative is summarised in the last
-section; the changes made between the two runs, each with its reason and the measurement that
-motivated it, are listed under "What changed between the runs". The pass rule of every case
-was written before the case ran. One rule was tightened between the runs (the planted-doublet
-case, see note C) and two new cases were added (the planted time-of-day effect, note D).
+section; the changes made between the first and second runs, each with its reason and the
+measurement that motivated it, are listed under "What changed between the runs". The pass rule
+of every case was written before the case ran. One rule was tightened between the first and
+second runs (the planted-doublet case, see note C) and two new cases were added (the planted
+time-of-day effect, note D).
 
 Verdict rule for all cases: ROBUST if the claim held in >= 80 % of grid runs, FRAGILE if in
 >= 20 %, otherwise NOT SUPPORTED, then the time-of-day rule (a possible confound caps ROBUST at
 FRAGILE; an effect that the time adjustment removes makes the claim NOT SUPPORTED). "Held"
-counts runs where the replicate-aware test passed. "Cell-level" is the share of runs where the
+counts runs in which the claim held (for comparison claims, by the replicate-aware test).
+"Cell-level" is the share of runs where the
 naive cell-level statistic (Wilcoxon on cells, or chi-square on pooled cells) would have called
 the claim; it never enters the verdict. "Time check" is the label of the time-of-day check:
 `none` = NO TIME CONFOUND DETECTED, `POSSIBLE` = POSSIBLE TIME CONFOUND; population claims
@@ -52,34 +54,37 @@ have no comparison and no time check.
 ⚑ = pseudoreplication flag raised by the report (cell-level statistics call it in >= 80 % of
 runs while replicate-aware statistics call it in < 50 %).
 
-Score by the pre-registered rules: 16 of 20 as expected (5 true claims ROBUST, 4 false claims
-NOT SUPPORTED, both planted time cases caught, 3 planted errors caught, 2 controls OK); 1 false
-alarm (case 6) and 3 misses, all three planted-doublet cases (13, 19, 20). All three doublet
-claims end NOT SUPPORTED, but the strict rule asks for more than that (note C). The time-of-day check raised no false alarm: on the 8
-comparison claims without a planted time effect its label was NO TIME CONFOUND DETECTED every
-time (clock-state index permutation p = 0.38 on the real IFN-β comparisons, 0.63 on the fake
-donor splits).
+Score by the pre-specified rules: 16 of 20 as expected (5 true claims ROBUST, 4 false claims NOT SUPPORTED, both
+planted time cases caught, 3 planted errors caught, 2 controls OK); 1 false alarm (case 6) and
+3 misses, all three planted-doublet cases (13, 19, 20). The doublet-population rules, threshold
+and held-out cases were committed in 6201b82, 8084ad2 and 1c1e48e, before the step was built in
+f1dd9ea; the first run's rules were committed together with its results (6c2a173). All three
+doublet claims end NOT SUPPORTED, but the strict rule asks for more than that (note C). The time-of-day check raised no
+false alarm: on the 8 comparison claims (3 distinct group comparisons) without a planted time
+effect its label was NO TIME CONFOUND DETECTED every time (clock-state index permutation
+p = 0.38 on the real IFN-β comparisons, 0.63 on the fake donor splits).
 
-### The same cases in the first run
+### The same cases across runs
 
-| # | Case | v0.1 verdict (held) | v0.2 verdict (held) |
-|---|---|---|---|
-| 1 | ISG15 up in CD14+ monocytes | FRAGILE (16/21) | ROBUST (21/21) |
-| 2 | Four ISGs up in CD14+ monocytes | FRAGILE (16/21) | ROBUST (21/21) |
-| 3 | ISG15 up in CD4 T cells | FRAGILE (15/21) | ROBUST (21/21) |
-| 4 | CD14+ monocytes exist | FRAGILE (16/21) | ROBUST (21/21) |
-| 5 | NK cells exist | FRAGILE (15/21) | ROBUST (20/21) |
-| 6 | Monocyte proportion, stim vs ctrl (null) | FRAGILE (8/21), false alarm | FRAGILE (11/21), false alarm |
-| 7-10 | Four false claims | NOT SUPPORTED (0-1/21) | NOT SUPPORTED (0-1/21) |
-| 13 | Planted doublets | ROBUST (23/23), missed | NOT SUPPORTED (3/23), missed |
-| 14-18 | Over-clustering, QC deletion, batch effect and their controls | all caught / controls OK | all caught / controls OK |
+| # | Case | First run, 0.1.0 (held) | Second run, 0.5.0 (held) | Third run, 0.6.0 (held) |
+|---|---|---|---|---|
+| 1 | ISG15 up in CD14+ monocytes | FRAGILE (16/21) | ROBUST (21/21) | ROBUST (21/21) |
+| 2 | Four ISGs up in CD14+ monocytes | FRAGILE (16/21) | ROBUST (21/21) | ROBUST (21/21) |
+| 3 | ISG15 up in CD4 T cells | FRAGILE (15/21) | ROBUST (21/21) | ROBUST (21/21) |
+| 4 | CD14+ monocytes exist | FRAGILE (16/21) | ROBUST (21/21) | ROBUST (21/21) |
+| 5 | NK cells exist | FRAGILE (15/21) | ROBUST (20/21) | ROBUST (20/21) |
+| 6 | Monocyte proportion, stim vs ctrl (null) | FRAGILE (8/21), false alarm | FRAGILE (11/21), false alarm | FRAGILE (11/21), false alarm |
+| 7-10 | Four false claims | NOT SUPPORTED (0-1/21) | NOT SUPPORTED (0-1/21) | NOT SUPPORTED (0-1/21) |
+| 13 | Planted doublets | ROBUST (23/23), missed | NOT SUPPORTED (3/23), missed | NOT SUPPORTED (1/23), missed |
+| 14-18 | Over-clustering, QC deletion, batch effect and their controls | all caught / controls OK | all caught / controls OK | all caught / controls OK |
 
 The five true claims went from FRAGILE to ROBUST because the one grid value that broke them,
 `min_genes=500` on a dataset whose median cell has 519 genes, is now capped at the value that
 removes a quarter of the cells (441), and because a population is now judged within each sample
 rather than against a cell-type mix that the QC setting changes (details below). The null case
-is a false alarm in both runs but for a different reason each time, and the doublet case is a
-miss in both runs but now with the fake population rejected rather than accepted.
+is a false alarm in every run, for a different reason in the first run than in the later two.
+The doublet case is a miss in every run: in the first run the fake population was accepted
+(ROBUST 23/23); from the second run on it is rejected, but not by doublet removal (note C).
 
 ## Notes on the misses and the false alarm
 
@@ -92,7 +97,7 @@ NK). The other 20 runs match 1,700 to 1,800 cells with Jaccard 0.85 to 0.88 agai
 `cell_type` labels. In the first run this case failed six runs, five of them from the
 `min_genes=500` cell loss alone.
 
-**B. The null composition claim (case 6) is a false alarm by the pre-registered rule, and the
+**B. The null composition claim (case 6) is a false alarm by the pre-specified rule, and the
 reason is not the one of the first run.** In the first run the 8 holding runs were an artifact:
 the marker matching found the monocytes in one condition only, so the per-sample test compared
 0.1 % against 35 %. That cannot happen now (the matched population is both clusters in every
@@ -134,8 +139,8 @@ analysis falls for it.** The construction (details below) gives 8 donors, 4 coll
 08:00 and 12:00 and 4 between 13:00 and 18:00, with the 11 core clock genes present in the object and SQSTM1 shifted
 in every cell as a cosine of the hour. The claim "SQSTM1 up in CD14+ monocytes in the afternoon
 group" holds in 21 of 21 runs: the pseudobulk DESeq2 test on 4 vs 4 donors gives log2 fold
-change 0.66 with adjusted p = 0.007, and the cell-level test p = 4e-10. A standard analysis
-would report it as a condition effect. With the collection times hidden (case 11) the clock-gene
+change 0.66 with adjusted p = 0.007, and the cell-level test p = 4e-10. A default pseudobulk
+analysis would report it as a condition effect. With the collection times hidden (case 11) the clock-gene
 screen flags it: the clock-state index (E-box arm minus activator arm) separates the two groups
 completely, permutation p = 0.029, which is the smallest value 4 vs 4 units can give, while 0 of
 the 11 usable panel genes differ individually after BH correction; the label is POSSIBLE TIME
@@ -249,9 +254,10 @@ changed after seeing the second run's results.
 
 The plan, the candidates, the adoption criteria and two held-out cases were written into
 `PLAN.md` (section "v0.6 plan") and committed before anything was measured. Three candidates
-were measured on every cluster of the benchmark grids on Kang (427 clusters), unmodified PBMC3k
-(251), the planted-doublet development data (245) and the two GEO lanes (115), and each result
-was re-computed independently:
+were measured in round 1 on every cluster of the benchmark grids on Kang (427 clusters),
+unmodified PBMC3k (259), the planted-doublet development data (250) and the two GEO lanes (115);
+round 2 used every cluster of at least 10 cells (Kang 427, PBMC3k 251, planted 245, GEO 115).
+Each result was re-computed independently:
 
 | Candidate | Result |
 |---|---|
@@ -354,14 +360,15 @@ No batch column is declared because condition is confounded with 10x lane.
 
 Reference labels come from Recluster's baseline pipeline at resolution 1.0, named by markers
 (CD4 T 1,164; CD14 Mono 450; B 332; CD8 T 313; FCGR3A Mono 186; NK 160; DC 31; Mk 15;
-49 filtered). Grid: 23 runs (24 when a batch column exists). Seed 0 throughout.
+49 filtered). Grid: 23 runs (24 when a batch column exists). Seed 0 throughout, except the
+held-out doublet cases 19 and 20 (seeds 11 and 12).
 
 - Case 13: 150 synthetic doublets, each the summed raw counts of a random CD14 monocyte and a
   random B cell, appended as new cells. Claim: a population with markers CD14, LYZ, MS4A1,
   CD79A exists. Caught if not ROBUST, the claim held in at least one run, and every holding run
   had doublet removal off.
 - Cases 14 and 15: Leiden at resolution 3.0 gives 30 clusters; CD4 T cells are split into 16
-  shards. The largest shard (cluster_14, 116 cells, 100 % CD4 T) is claimed as a population via
+  shards. The largest shard (cluster_14, 116 cells, 99 % CD4 T) is claimed as a population via
   labels in audit mode. Control: cluster_2 (328 cells, Jaccard 0.99 with B cells). Caught if
   not ROBUST; control passes if ROBUST.
 - Case 16: mitochondrial counts of the 160 reference NK cells rescaled so each cell's mito
@@ -371,7 +378,7 @@ Reference labels come from Recluster's baseline pipeline at resolution 1.0, name
   the 4 runs with `max_mito_pct=20`; the top breaker is `max_mito_pct`.
 - Cases 17 and 18: a random 40 % of cells assigned to "batch2"; 300 expressed genes multiplied
   by 2.5 and 300 others divided by 2.5 in those cells. Clustering without correction yields
-  a 450-cell cluster (98 % batch2, CD4 T), labelled "CD4 T subtype" and claimed in audit mode
+  a 509-cell cluster (93 % batch2, mostly CD4 T), labelled "CD4 T subtype" and claimed in audit mode
   with `batch` declared. Caught if not ROBUST and every holding run had batch correction off
   (the 4 holding runs all had it off). Control: the reference CD4 T population, ROBUST in all
   24 runs.
@@ -382,23 +389,29 @@ Reference labels come from Recluster's baseline pipeline at resolution 1.0, name
   planted fact, and the paired test now calls a small consistent difference (note B).
 - One run of each benchmark; runs are deterministic (seeded), so repetition would reproduce
   these numbers rather than estimate variance.
+- Each false-by-construction case uses one seeded donor split; the false-positive rate across
+  splits is not estimated.
 - Nothing here measures false-negative rates for composition claims on real data, because Kang
   has no known compositional effect to recover.
 - The planted time effect is one construction with 4 vs 4 donors, one unit above the floor at
   which a permutation test can reach 0.05; its amplitudes are documented choices, not estimates
   of how large real collection-time effects are, and the clock-gene phases disagree with the
   GTEx day/night table for 3 of 14 genes.
+- The Mode A adjustment fits the same 24-hour cosine that the planted signal follows. Case 12
+  shows the mechanism works when its model is right, not how it performs on real
+  collection-time effects, which need not follow a single 24-hour cosine.
 - The Mode B rule (the clock-state index decides) was settled after the true IFN-β claims had
   been seen to move clock genes uniformly; the zero false-alarm count for Mode B should be read
   with that in mind.
 - Planted doublet blocks defeat Scrublet; the doublet-population step catches the development
-  block where it clusters on its own but not the held-out NK + monocyte block; the cases are
-  misses, and the tool's correct NOT SUPPORTED on them comes from the population's fragility across
+  block where it clusters on its own but missed both held-out blocks (the NK + monocyte block
+  clustered on its own and was not recognised; the CD8 T + B block never formed a cluster of its
+  own); the cases are misses, and the tool's correct NOT SUPPORTED on them comes from the population's fragility across
   normalisations, not from doublet detection.
 
 ## The first run (v0.1), in brief
 
-Sixteen cases, 10 of 16 by the pre-registered rules. The five true Kang claims were FRAGILE
+Sixteen cases, 10 of 16 by the pre-specified rules. The five true Kang claims were FRAGILE
 (15 to 16 of 21 runs), all because `min_genes=500` removes 44 % of the cells of a shallow
 dataset and, for the monocytes, pushed the stimulated cluster's whole-dataset marker AUROC from
 0.83 to 0.79; the null composition case was a false alarm because the matching found the

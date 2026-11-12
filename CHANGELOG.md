@@ -2,6 +2,31 @@
 
 All notable changes to Recluster. Dates are when the work landed in this repository.
 
+## [0.7.0] — unreleased
+
+### Added
+- `recluster demo`: a true claim (ISG15 up in CD14+ monocytes after IFN-β) and a claim that is
+  false by construction (ISG15 differs between two fake groups of control donors), run on the
+  full default grid on a seeded subset of Kang 2018 with 200 cells from each donor x condition
+  sample (`recluster/demo.py`). It exits with status 1 when a claim does not get its expected
+  verdict.
+- `--jobs/-j` on `recluster run` and `recluster audit`: the grid runs of one claim are spread
+  over worker processes, with results identical to a single process
+  (`tests/test_parallel_runs.py`).
+- `scripts/verify_reproduction.sh`: clones the repository into a temporary folder, installs it
+  with `uv sync --frozen`, runs `recluster demo` and prints a SHA-256 hash of the key numbers
+  (`scripts/demo_hash.py`). No reference hash has been recorded yet.
+
+### Changed
+- Reports name the groups in the collection-time difference ("B minus A" when group_a is B);
+  before, they always printed "A minus B", which was wrong for the planted time cases, where
+  group_a is the afternoon group B.
+- Removed dead code (unused helpers, parameters, fields and imports) and comments that
+  restated the code. No verdict, number or report text changes.
+- README, HOW_IT_WORKS and bench docs: corrected stale statements (grid runs are parallel
+  with `--jobs`; both held-out doublet blocks were missed; two cluster descriptions in
+  RESULTS.md), added the limitation that ROBUST does not mean true, and added references.
+
 ## [0.6.0] — 2026-11-11 — Doublet populations, reproducible design measurements
 
 ### Added
@@ -9,7 +34,7 @@ All notable changes to Recluster. Dates are when the work landed in this reposit
   (`evaluators/doublet_cluster.py: doublet_population_test`, `GridConfig.doublet_cluster_removal`,
   `GridConfig.doublet_cluster_auroc_max = 0.80`): a cluster that a cross-validated classifier
   cannot separate from simulated doublets of other cell-type groups is removed. Method and
-  threshold were pre-registered in PLAN.md and chosen over three other candidates on development
+  threshold were pre-specified in PLAN.md and chosen over three other candidates on development
   data; reports, runs.csv and provenance record removed clusters, statistics and parents.
 - Two held-out planted-doublet benchmark cases (NK + CD14 Mono, CD8 T + B), defined before the
   step was built and run once: both missed (bench/RESULTS.md, "Doublet populations").
@@ -87,7 +112,7 @@ All notable changes to Recluster. Dates are when the work landed in this reposit
 - The planted-doublet benchmark rule is strict: caught only if the verdict is not ROBUST, the
   claim held in at least one run, and every run in which it held had doublet removal off.
 
-## [0.4.0] — 2026-11-11 — Milestone 4: repo polish and GitHub Pages
+## [0.4.0] — 2026-11-11 — Documentation, CI and GitHub Pages
 
 ### Added
 - `docs/HOW_IT_WORKS.md`: plain-language explanation of every design choice and statistical test.
@@ -123,7 +148,7 @@ All notable changes to Recluster. Dates are when the work landed in this reposit
 - `recluster bench` and the `recluster.bench` package: Kang et al. 2018 real-data claims (five
   true, one with no known effect, four false by construction via donor-level shuffles and a
   within-condition donor split), four planted errors on PBMC3k with two controls, each with a
-  pre-registered pass/caught rule; results in `bench/results.json`, `bench/results_table.md`
+  pre-specified pass/caught rule; results in `bench/results.json`, `bench/results_table.md`
   and the narrative `bench/RESULTS.md`. Claims run in parallel worker processes (`--jobs`).
 - Doublet detection benchmark against demuxlet calls on the two original Kang 10x lanes from
   GEO (GSE96583 batch 2), with per-lane precision, recall and AUROC.

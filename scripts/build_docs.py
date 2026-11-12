@@ -94,16 +94,18 @@ def main() -> None:
 <p>{
         n_cases
     } claims from the benchmark, each with its full report: verdict, survival across the grid,
-what broke it, replicate-aware vs cell-level statistics, methods and provenance. Numbers are exactly as
-measured on {escape(results["generated_at"][:10])}; the narrative with every miss explained is in
-<a href="{REPO}/blob/main/bench/RESULTS.md">bench/RESULTS.md</a>, and the design is explained in
-<a href="{REPO}/blob/main/docs/HOW_IT_WORKS.md">HOW_IT_WORKS.md</a>. Source: <a href="{REPO}">{
+what broke it, replicate-aware vs cell-level statistics, methods and provenance. Numbers are from
+the run of {escape(results["generated_at"][:10])}; <a href="{
         REPO
-    }</a>.</p>
+    }/blob/main/bench/RESULTS.md">bench/RESULTS.md</a>
+explains each miss and the false alarm; <a href="{
+        REPO
+    }/blob/main/docs/HOW_IT_WORKS.md">HOW_IT_WORKS.md</a>
+describes the design. Source: <a href="{REPO}">{REPO}</a>.</p>
 {
         table(
             "kang",
-            "Real data with real ground truth: Kang et al. 2018",
+            "Real data: Kang et al. 2018",
             "PBMCs from 8 lupus patients, IFN-β vs control. True claims, a claim with no known effect, "
             "claims that are false by construction (fake donor groups, donor-level label shuffles), "
             "and a planted time-of-day effect claimed as a condition effect.",

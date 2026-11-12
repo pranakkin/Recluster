@@ -1,6 +1,9 @@
-# PLAN.md — Recluster v0
+# Recluster design log
 
-Living build plan. Updated at every milestone. Decisions and deviations are recorded here, not hidden.
+Decisions and deviations are recorded here as they were made. The doublet-population step of
+0.6.0, its adoption rules and its two held-out cases were written here and committed before the
+step was built: 6201b82, 8084ad2 and 1c1e48e (the threshold) come before f1dd9ea in the git
+history.
 
 ## What we are building
 
@@ -205,10 +208,10 @@ significant digits; a test asserts two runs produce identical results.
 - 2026-11-10: Reports use inline SVG and inline CSS only; `tests/test_engine.py` asserts no scripts, stylesheets or remote URLs.
 - 2026-11-10: macOS quirk: a `.venv` created inside `~/Desktop` gets the Finder "hidden" flag on every file, and CPython ≥ 3.11.16 / 3.12.x skips hidden `.pth` files, which breaks the editable install (`No module named recluster`). Fix: `chflags -R nohidden .venv`. Documented in README troubleshooting. Not a uv bug (a venv created elsewhere has no flag).
 
-## Milestone 2 status (2026-11-11): done, with honest misses
+## Milestone 2 status (2026-11-11)
 
 - `recluster bench` reproduces everything in ~35 min (4 workers). Results in `bench/RESULTS.md`.
-- Score against pre-registered rules: 4/4 false claims correct (cell-level stats called 3 of
+- Score against pre-specified rules: 4/4 false claims correct (cell-level stats called 3 of
   them in 81-100 % of runs), 3/4 planted errors caught, 2/2 controls OK, 5/5 true Kang claims
   FRAGILE instead of ROBUST (all because `min_genes=500` removes 44 % of this shallow dataset),
   1 planted error missed (block of identical doublets evades Scrublet), 1 false alarm (null
@@ -224,7 +227,7 @@ significant digits; a test asserts two runs produce identical results.
 - scanpy's Scrublet failed with scipy 1.17 on large subsets (`csr_array has no attribute getnnz`, from its approximate-neighbour path). Scrublet is now run per sample by Recluster's own loop with `use_approx_neighbors=False`. Exact neighbours are deterministic and, on Kang, six times faster.
 - Probing the planted-doublet construction before the benchmark showed that 150 near-identical mono+B doublets evade Scrublet (they are each other's neighbours; median score 0.10 vs 0.04). Decided before the run: reports now show the matched population's median Scrublet score against all cells as an informational number. It does not enter the verdict. Thresholds unchanged.
 - PBMC3k reference labels for building planted errors use resolution 1.0 (0.5 merged CD8 T into NK).
-- Benchmark claims run in parallel worker processes (`--jobs`, default 4); the grid itself is still sequential within a claim.
+- Benchmark claims run in parallel worker processes (`--jobs`, default 4); the grid itself is still sequential within a claim. (Since 41d27d9, `recluster run` and `recluster audit` also take `--jobs`, which spreads one claim's grid runs over processes; `bench --jobs` still sets how many claims run in parallel.)
 
 ## v0.5 plan (2026-11-11): robustness fixes and Milestone 2.5 (time-of-day confound)
 
@@ -358,10 +361,7 @@ implementation is finished.
 ## Milestone 4 status (2026-11-11): done
 
 - CI on push (`.github/workflows/ci.yml`): ruff check + format, mypy, pytest; offline tests only.
-  The file exists locally but could not be pushed from this machine: GitHub refuses workflow
-  files from an OAuth token without the `workflow` scope, and two `gh auth refresh -s workflow`
-  device codes expired unused. It goes in via `gh auth refresh -h github.com -s workflow` followed
-  by a normal commit and push, or by pasting the file in the GitHub web editor.
+  It was pushed in a separate commit (807ef35) once the token had the `workflow` scope.
 - `docs/`: `index.html` (static list of the 16 benchmark reports with verdicts), `reports/`,
   `HOW_IT_WORKS.md`, `report-screenshot.png` (headless Chrome render of a Kang report),
   `.nojekyll`. Built by `scripts/build_docs.py` from `bench/results.json`; committed, no build
@@ -370,7 +370,7 @@ implementation is finished.
 - README rewritten with the required sections; Kang quickstart uses `recluster bench --part kang`
   or `scripts/download_kang.py` + `examples/claims/kang_isg15_cd14_monocytes.yaml`.
 
-## Milestone 3 status (2026-11-11): done, live call unverified in this environment
+## Milestone 3 status (2026-11-11): live API call not yet run
 
 - `recluster/llm/`: `common.py` (client, `.env`, number extraction), `parse.py` (claim →
   spec via structured output, data check, one feedback round), `summarize.py` (numeric digest →

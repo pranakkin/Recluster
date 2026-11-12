@@ -18,12 +18,18 @@ choices, the claim survives.
 Two failures are documented in the literature and not checked by default in common workflows.
 **Pseudoreplication**: cells from one donor are not independent observations of that donor's
 condition; treating ten thousand cells as ten thousand replicates makes almost any difference
-"significant" (Squair et al., Nat Commun 2021). **Time-of-day confounding**: human gene
-expression changes with the time of collection, and core clock genes differ between day and
-night across many tissues (Wucher et al., PLoS Biol 2023); if one condition was sampled in the
-morning and the other in the afternoon, a "condition effect" can be a time effect. Recluster's
-verdicts use the biological replicate as the unit of inference, show the naive cell-level
-result next to it, and run a time-of-day check on every comparison claim.
+"significant" (Squair et al., Nat Commun 2021; Zimmerman et al., Nat Commun 2021).
+**Time-of-day confounding**: human gene expression changes with the time of collection, and
+core clock genes differ between day and night across many tissues (Wucher et al., PLoS Biol
+2023); if one condition was sampled in the morning and the other in the afternoon, a "condition
+effect" can be a time effect. Recluster's verdicts use the biological replicate as the unit of
+inference, as pseudobulk methods do (Crowell et al. 2020), show the naive cell-level result next
+to it, and run a time-of-day check on every comparison claim.
+
+The grid is a multiverse or specification-curve analysis (Steegen et al. 2016; Simonsohn et al.
+2020) applied to a single claim. Pipeline benchmarks such as pipeComp (Germain et al. 2020) rank
+methods; Recluster instead asks whether one claim survives, with replicate-aware tests and a
+stated verdict.
 
 ## 2. Claims (`recluster/spec.py`)
 
@@ -64,10 +70,11 @@ Every grid point is a `PipelineParams` object with nine fields. One run does, in
    has 519 detected genes, `min_genes=500` would delete 44 % of cells and becomes 441. Genes
    detected in fewer than 3 cells are dropped. If the matrix has no mitochondrial genes the mito
    axis is removed from the grid rather than silently duplicating runs.
-2. **Doublet scoring.** Scrublet (scanpy's implementation), run separately per sample when every
-   sample has at least 100 cells, with a fixed seed and exact neighbours. Scrublet picks its own
-   threshold from the valley of the simulated-doublet histogram, and that threshold can land
-   above every observed score, calling nothing (it did on one of the two original Kang lanes).
+2. **Doublet scoring.** Scrublet (Wolock et al. 2019; scanpy's implementation), run separately
+   per sample when every sample has at least 100 cells, with a fixed seed and exact neighbours.
+   Scrublet picks its own threshold from the valley of the simulated-doublet histogram, and that
+   threshold can land above every observed score, calling nothing (it did on one of the two
+   original Kang lanes).
    When the automatic threshold calls fewer than `scrublet_fallback_trigger` (25 %) of the
    expected doublets, the top expected fraction by score is called instead. The expectation is
    `scrublet_expected_rate_per_1000` (0.8 %) per 1,000 cells *of the scored subset*. That equals
@@ -78,12 +85,14 @@ Every grid point is a `PipelineParams` object with nine fields. One run does, in
    then keeps or drops the predicted doublets.
 3. **Normalisation and feature selection.** Either total-count scaling to 10,000 per cell,
    `log1p`, selection of `n_hvgs` highly variable genes (Seurat flavour), and z-scaling clipped at
-   10; or analytic Pearson residuals on the top `n_hvgs` genes.
+   10; or analytic Pearson residuals (Lause et al. 2021) on the top `n_hvgs` genes.
 4. **PCA** with `n_pcs` components (ARPACK solver, seeded).
-5. **Batch correction**, optional: Harmony on the PCs, keyed by the batch column.
-6. **Neighbour graph**: 15 nearest neighbours, exact search, so results are bitwise reproducible
-   across machines.
-7. **Leiden clustering** at `resolution`, igraph flavour, 2 iterations, seeded.
+5. **Batch correction**, optional: Harmony (Korsunsky et al. 2019) on the PCs, keyed by the
+   batch column.
+6. **Neighbour graph**: 15 nearest neighbours, exact search, so that, with fixed seeds, two runs
+   on the same machine give identical provenance apart from timestamps and run times (floats
+   rounded to six significant digits).
+7. **Leiden clustering** (Traag et al. 2019) at `resolution`, igraph flavour, 2 iterations, seeded.
 8. **Doublet populations**, when `doublet_removal` is on and `doublet_cluster_removal` is set (the
    default). Scrublet scores cells one at a time and misses doublets that are each other's
    neighbours, for example many doublets of the same two cell types. This step asks of every
@@ -96,10 +105,11 @@ Every grid point is a `PipelineParams` object with nine fields. One run does, in
    genes detected is asked to separate the cluster's cells from them (5-fold out-of-fold AUROC,
    averaged over 5 repetitions). The statistic is the lowest AUROC over the three pairs; a cluster
    below `doublet_cluster_auroc_max` (0.80) is removed and the run records which, with its
-   statistic and parents. The method and threshold were fixed before two held-out cases were
-   built; how it was chosen and how it did is in `bench/RESULTS.md` ("Doublet populations"): no
-   real cluster removed among 793 measured, the development doublet block removed where it forms
-   its own cluster, and both held-out blocks missed.
+   statistic and parents. Two held-out cases were defined before the method and threshold were
+   fixed, and run once after the step was built. How it was chosen and how it did is in
+   `bench/RESULTS.md` ("Doublet populations"): no real cluster removed among 793 measured, the
+   development doublet block removed where it forms its own cluster, and both held-out blocks
+   missed.
 
 Only the cluster assignment per cell is kept. Expression used by the evaluators is computed once
 from the raw counts and is the same in every run.
@@ -201,7 +211,8 @@ least 5 cells in each of at least `min_samples_present` (2) samples.
 ### 7.2 composition_shift
 
 For each sample: `n` cells in the run, `k` of them in the population, and the logit of a
-smoothed proportion, `log((k + 0.5) / (n - k + 0.5))`. When the same donors appear in both
+smoothed proportion, `log((k + 0.5) / (n - k + 0.5))` (the logit transformation is one of the
+two that propeller offers; Phipson et al. 2022). When the same donors appear in both
 groups (`evaluators/pairing.py` detects this from the replicate key: every pair level must have
 a sample in each group) the decisive test is a paired t-test on the per-donor differences of
 those logits, with a Wilcoxon signed-rank test alongside; otherwise a Welch t-test on the logits
@@ -230,8 +241,9 @@ Two tests per gene on the cells of the matched population.
   with a pseudocount of 1, Benjamini-Hochberg over the claimed genes.
 - **Replicate-aware (pseudobulk)**: raw counts summed per sample within the population (samples
   with fewer than 5 cells dropped; genes with fewer than 10 total counts dropped, claimed genes
-  kept); DESeq2 (pydeseq2) with design `~ condition`, or `~ pair + condition` when every pair
-  has a pseudobulk in both groups, Wald test. P-values of the claimed genes are BH-adjusted over
+  kept); DESeq2 (Love et al. 2014, through PyDESeq2; Muzellec et al. 2023) with design
+  `~ condition`, or `~ pair + condition` when every pair has a pseudobulk in both groups, Wald
+  test. P-values of the claimed genes are BH-adjusted over
   the claimed genes; the genome-wide adjusted value is shown as well. A run is testable only with
   at least 2 pseudobulk replicates per group; otherwise it is reported as not testable and counts
   as a failure, and the verdict says how many runs were.
@@ -316,11 +328,12 @@ because its transcript peaks several hours after the other E-box targets, betwee
 (Ukai-Tadenuma et al., Cell 2011), and would blur an index built on antiphase. The index is
 decisive because a collection-time difference moves the two arms in opposite directions, whereas
 a treatment that suppresses clock genes moves them together. When the index differs
-(permutation p < 0.05) the label is POSSIBLE TIME CONFOUND with the mandated warning; when
-genes differ gene by gene but the index does not, the label stays NO TIME CONFOUND DETECTED,
-the report lists the genes and says the pattern is not that of a time shift. When the test cannot
-reach 0.05 (three or fewer units per group) Mode B is NOT ASSESSABLE; the reason names the units
-and the floor, and the Welch t on the index and the per-gene table are reported for information.
+(permutation p < 0.05) the label is POSSIBLE TIME CONFOUND with a warning that a
+collection-time or circadian confound is possible; when genes differ gene by gene but the index
+does not, the label stays NO TIME CONFOUND DETECTED, the report lists the genes and says the
+pattern is not that of a time shift. When the test cannot reach 0.05 (three or fewer units per
+group) Mode B is NOT ASSESSABLE; the reason names the units and the floor, and the Welch t on
+the index and the per-gene table are reported for information.
 Mode B is a red-flag screen and does not estimate circadian phase; the report says so.
 
 **How the Mode B rule was arrived at.** The original design was "any clock-gene difference →
@@ -429,6 +442,27 @@ produces a number that appears in a verdict, a table or a chart.
 
 ## 14. Known limitations
 
+- ROBUST means a claim survives the grid of analysis choices, tested across donors; it does not
+  mean the claim is true. A flaw built into the experimental design survives every analysis
+  choice: in Kang 2018 each condition was captured on its own 10x lane, so a lane artifact would
+  also come out ROBUST. Apart from collection time, Recluster cannot detect confounds built into
+  the design.
+- The survival fraction depends on how many grid runs vary each setting. On the 21-run Kang
+  grid three runs use a seed other than the baseline's, so a claim that fails in all three still
+  holds in 18 of 21 runs and is ROBUST. The report's table of what broke the claim lists such
+  settings; read it with the verdict.
+- The Mode A adjustment fits the same 24-hour cosine that the planted benchmark signal follows.
+  The benchmark shows the mechanism works when its model is right, not how it performs on real
+  collection-time effects, which need not follow a single 24-hour cosine.
+- The clock-gene screen pools all cells of each unit into one pseudobulk and does not adjust for
+  cell-type composition. It has been tested on a planted signal and on three group comparisons
+  on real data without a planted time effect (stim vs ctrl and two fake donor groupings), not on
+  real time-stamped single-cell data.
+- Apart from the planted SQSTM1 shift (log2 fold change 0.66), the effects the benchmark
+  recovers are large (ISG15 in CD14+ monocytes, log2 fold change 7.71 with the labels as given);
+  sensitivity to modest real effects is not measured.
+- Each false-by-construction benchmark case uses one seeded donor split; the false-positive rate
+  across splits is not estimated.
 - The within-sample AUROC needs a sample column; without one, matching falls back to the
   whole-dataset AUROC with its sensitivity to cell-type mix.
 - A genuinely condition-specific population cannot be tested as a composition shift: the
@@ -444,11 +478,12 @@ produces a number that appears in a verdict, a table or a chart.
   pooled lane the fallback calls fewer doublets than the lane holds.
 - Composition tests assume one sample per donor and condition; nested designs beyond that are
   not modelled.
-- Runs within a claim are sequential; only the benchmark parallelises across claims.
 - The mixture-based doublet diagnostic has no reliable cutoff and is reported, not enforced.
 - Doublet detection is the weakest step: Scrublet flags almost none of a block of same-type
-  doublets, the doublet-population step missed one of two held-out blocks that clustered on its
-  own, and doublets merged into a real cluster are beyond a cluster-level test.
+  doublets, and the doublet-population step missed both held-out blocks: the NK + monocyte block
+  formed its own cluster and was not recognised (statistic 0.95), and the CD8 T + B block never
+  formed a cluster of its own. Doublets merged into a real cluster are beyond any cluster-level
+  test.
 
 ## 15. Glossary of thresholds (defaults)
 
@@ -482,3 +517,51 @@ produces a number that appears in a verdict, a table or a chart.
 | doublet_cluster_auroc_max (grid) | 0.80 | doublet-population step: remove clusters below this AUROC |
 | pseudoreplication_cell_survival | 0.80 | flag |
 | pseudoreplication_replicate_survival | 0.50 | flag |
+
+## 16. References
+
+- Crowell, H. L. et al. muscat detects subpopulation-specific state transitions from
+  multi-sample multi-condition single-cell transcriptomics data. *Nat Commun* 11, 6077 (2020).
+  https://doi.org/10.1038/s41467-020-19894-4
+- Germain, P.-L., Lun, A., Macnair, W. & Robinson, M. D. Doublet identification in single-cell
+  sequencing data using scDblFinder. *F1000Research* 10, 979 (2021).
+  https://doi.org/10.12688/f1000research.73600.1
+- Germain, P.-L., Sonrel, A. & Robinson, M. D. pipeComp, a general framework for the evaluation
+  of computational pipelines, reveals performant single cell RNA-seq preprocessing tools.
+  *Genome Biol* 21, 227 (2020). https://doi.org/10.1186/s13059-020-02136-7
+- Kang, H. M. et al. Multiplexed droplet single-cell RNA-sequencing using natural genetic
+  variation. *Nat Biotechnol* 36, 89-94 (2018). https://doi.org/10.1038/nbt.4042
+- Korsunsky, I. et al. Fast, sensitive and accurate integration of single-cell data with
+  Harmony. *Nat Methods* 16, 1289-1296 (2019). https://doi.org/10.1038/s41592-019-0619-0
+- Lause, J., Berens, P. & Kobak, D. Analytic Pearson residuals for normalization of single-cell
+  RNA-seq UMI data. *Genome Biol* 22, 258 (2021). https://doi.org/10.1186/s13059-021-02451-7
+- Love, M. I., Huber, W. & Anders, S. Moderated estimation of fold change and dispersion for
+  RNA-seq data with DESeq2. *Genome Biol* 15, 550 (2014).
+  https://doi.org/10.1186/s13059-014-0550-8
+- Muzellec, B., Teleńczuk, M., Cabeli, V. & Andreux, M. PyDESeq2: a python package for bulk
+  RNA-seq differential expression analysis. *Bioinformatics* 39, btad547 (2023).
+  https://doi.org/10.1093/bioinformatics/btad547
+- Phipson, B. et al. propeller: testing for differences in cell type proportions in single cell
+  data. *Bioinformatics* 38, 4720-4726 (2022). https://doi.org/10.1093/bioinformatics/btac582
+- Simonsohn, U., Simmons, J. P. & Nelson, L. D. Specification curve analysis. *Nat Hum Behav* 4,
+  1208-1214 (2020). https://doi.org/10.1038/s41562-020-0912-z
+- Squair, J. W. et al. Confronting false discoveries in single-cell differential expression.
+  *Nat Commun* 12, 5692 (2021). https://doi.org/10.1038/s41467-021-25960-2
+- Steegen, S., Tuerlinckx, F., Gelman, A. & Vanpaemel, W. Increasing transparency through a
+  multiverse analysis. *Perspect Psychol Sci* 11, 702-712 (2016).
+  https://doi.org/10.1177/1745691616658637
+- Takahashi, J. S. Transcriptional architecture of the mammalian circadian clock. *Nat Rev
+  Genet* 18, 164-179 (2017). https://doi.org/10.1038/nrg.2016.150
+- Traag, V. A., Waltman, L. & van Eck, N. J. From Louvain to Leiden: guaranteeing well-connected
+  communities. *Sci Rep* 9, 5233 (2019). https://doi.org/10.1038/s41598-019-41695-z
+- Ukai-Tadenuma, M. et al. Delay in feedback repression by cryptochrome 1 is required for
+  circadian clock function. *Cell* 144, 268-281 (2011). https://doi.org/10.1016/j.cell.2010.12.019
+- Wolock, S. L., Lopez, R. & Klein, A. M. Scrublet: computational identification of cell
+  doublets in single-cell transcriptomic data. *Cell Syst* 8, 281-291.e9 (2019).
+  https://doi.org/10.1016/j.cels.2018.11.005
+- Wucher, V., Sodaei, R., Amador, R., Irimia, M. & Guigó, R. Day-night and seasonal variation of
+  human gene expression across tissues. *PLoS Biol* 21, e3001986 (2023).
+  https://doi.org/10.1371/journal.pbio.3001986
+- Zimmerman, K. D., Espeland, M. A. & Langefeld, C. D. A practical solution to pseudoreplication
+  bias in single-cell studies. *Nat Commun* 12, 738 (2021).
+  https://doi.org/10.1038/s41467-021-21038-1
