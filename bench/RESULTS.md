@@ -57,8 +57,8 @@ runs while replicate-aware statistics call it in < 50 %).
 Score by the pre-specified rules: 16 of 20 as expected (5 true claims ROBUST, 4 false claims NOT SUPPORTED, both
 planted time cases caught, 3 planted errors caught, 2 controls OK); 1 false alarm (case 6) and
 3 misses, all three planted-doublet cases (13, 19, 20). The doublet-population rules, threshold
-and held-out cases were committed in 6201b82, 8084ad2 and 1c1e48e, before the step was built in
-f1dd9ea; the first run's rules were committed together with its results (6c2a173). All three
+and held-out cases were committed in 771488d, de22080 and d7385d3, before the step was built in
+c4d8747; the first run's rules were committed together with its results (97a7780). All three
 doublet claims end NOT SUPPORTED, but the strict rule asks for more than that (note C). The time-of-day check raised no
 false alarm: on the 8 comparison claims (3 distinct group comparisons) without a planted time
 effect its label was NO TIME CONFOUND DETECTED every time (clock-state index permutation

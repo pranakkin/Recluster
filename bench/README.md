@@ -51,10 +51,10 @@ Each error is built by a fixed function of `scanpy.datasets.pbmc3k()` and a fixe
 4. a gene-level batch effect applied to a random 40 % of cells, claiming a batch-pure cluster
    as a subtype (with a control);
 5. two held-out doublet blocks (NK + CD14 monocyte, CD8 T + B) appended as fake populations.
-   They and their rules were written into `PLAN.md` (commit 6201b82) before the
+   They and their rules were written into `PLAN.md` (commit 771488d) before the
    doublet-population step was built, and were run once.
 
-The rules for errors 1 to 4 were committed together with the first results (6c2a173); the rule
+The rules for errors 1 to 4 were committed together with the first results (97a7780); the rule
 for error 1 was tightened before the second run (`RESULTS.md`, note C).
 
 Thresholds and grid are the package defaults. Any change made after seeing results is logged in

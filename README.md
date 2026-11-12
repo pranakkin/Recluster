@@ -175,8 +175,8 @@ All 20 cases ran on the default grid and thresholds, in 38 minutes with 4 worker
 Pro laptop. The pass rules were written before each case ran; the rule and thresholds that
 changed between runs are listed with their reasons in [bench/RESULTS.md](bench/RESULTS.md),
 together with the first run's table. The first pass rules were committed together with the first
-results (6c2a173), so git does not show their order. The held-out doublet cases and their pass
-rules were committed in 6201b82, before the step they test was built (f1dd9ea); both were missed.
+results (97a7780), so git does not show their order. The held-out doublet cases and their pass
+rules were committed in 771488d, before the step they test was built (c4d8747); both were missed.
 
 Held = grid runs in which the claim held (for comparison claims, by the replicate-aware test).
 Cell-level = share of runs where the naive cell-level test would have called the claim. Time
@@ -294,9 +294,9 @@ code did not compute.
   is logged with its reason in `PLAN.md` and `bench/RESULTS.md`. The numbers behind the design
   decisions are recomputed by `scripts/design_measurements.py` into
   [bench/design_measurements.md](bench/design_measurements.md). The doublet-population rules,
-  threshold and held-out cases can be checked against the git history (6201b82, 8084ad2 and
-  1c1e48e, all before f1dd9ea); the earlier pass rules were committed together with the first
-  results (6c2a173).
+  threshold and held-out cases can be checked against the git history (771488d, de22080 and
+  d7385d3, all before c4d8747); the earlier pass rules were committed together with the first
+  results (97a7780).
 
 [docs/HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md) explains the design choices and the tests.
 
