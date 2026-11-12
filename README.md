@@ -128,8 +128,9 @@ opening the browser and `--jobs` sets the number of workers. Reports are written
 `scripts/verify_reproduction.sh` clones the repository into a temporary folder, installs it with
 `uv sync --frozen`, runs `recluster demo`, and prints the two verdicts and a SHA-256 hash of the
 key numbers (verdicts, per-run cells, clusters, outcomes and pseudobulk fold changes).
-`scripts/demo_hash.py` compares the hash with a recorded one; no hash has been recorded yet, so
-for now it always reports a difference.
+`scripts/demo_hash.py` compares it with the hash recorded on macOS (arm64, Python 3.11):
+`9a07eac3…`. Floating-point results can differ between platforms, so a different hash on
+another system is worth reporting but is not by itself an error.
 
 ### Run the Kang 2018 benchmark
 

@@ -15,14 +15,14 @@ All notable changes to Recluster. Dates are when the work landed in this reposit
   (`tests/test_parallel_runs.py`).
 - `scripts/verify_reproduction.sh`: clones the repository into a temporary folder, installs it
   with `uv sync --frozen`, runs `recluster demo` and prints a SHA-256 hash of the key numbers
-  (`scripts/demo_hash.py`). No reference hash has been recorded yet.
+  (`scripts/demo_hash.py`, hash recorded on macOS arm64).
 
 ### Changed
 - Reports name the groups in the collection-time difference ("B minus A" when group_a is B);
   before, they always printed "A minus B", which was wrong for the planted time cases, where
   group_a is the afternoon group B.
 - Removed dead code (unused helpers, parameters, fields and imports) and comments that
-  restated the code. No verdict, number or report text changes.
+  restated the code. The demo's key numbers hash identically before and after.
 - README, HOW_IT_WORKS and bench docs: corrected stale statements (grid runs are parallel
   with `--jobs`; both held-out doublet blocks were missed; two cluster descriptions in
   RESULTS.md), added the limitation that ROBUST does not mean true, and added references.
