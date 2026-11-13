@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-11T12:39:55-0500",
-  "total_runtime_s": 2263.4,
+  "generated_at": "2026-11-12T21:57:24-0500",
+  "total_runtime_s": 11176.5,
   "grid": {
     "baseline": {
       "min_genes": 200,
@@ -999,7 +999,7 @@
       },
       "label_before_time_check": "ROBUST",
       "report": "bench/out/kang/isg15-up-in-cd14-monocytes-stim-vs-ctrl-kang-2018/report.html",
-      "runtime_s": 652.0
+      "runtime_s": 5231.5
     },
     {
       "key": "kang_isgs_mono",
@@ -1740,7 +1740,7 @@
       },
       "label_before_time_check": "ROBUST",
       "report": "bench/out/kang/isg15-ifi6-ifit3-and-mx1-all-up-in-cd14-monocytes-stim-vs-ct/report.html",
-      "runtime_s": 648.9
+      "runtime_s": 6024.0
     },
     {
       "key": "kang_isg15_cd4t",
@@ -2457,7 +2457,7 @@
       },
       "label_before_time_check": "ROBUST",
       "report": "bench/out/kang/isg15-up-in-cd4-t-cells-stim-vs-ctrl-kang-2018/report.html",
-      "runtime_s": 656.2
+      "runtime_s": 6124.3
     },
     {
       "key": "kang_mono_exists",
@@ -3139,7 +3139,7 @@
       "time_check": null,
       "label_before_time_check": null,
       "report": "bench/out/kang/cd14-monocytes-exist-kang-2018/report.html",
-      "runtime_s": 515.1
+      "runtime_s": 5011.7
     },
     {
       "key": "kang_nk_exists",
@@ -3829,7 +3829,7 @@
       "time_check": null,
       "label_before_time_check": null,
       "report": "bench/out/kang/nk-cells-exist-kang-2018/report.html",
-      "runtime_s": 515.9
+      "runtime_s": 3000.3
     },
     {
       "key": "kang_mono_composition",
@@ -4459,7 +4459,7 @@
       },
       "label_before_time_check": "FRAGILE",
       "report": "bench/out/kang/cd14-monocytes-differ-in-abundance-stim-vs-ctrl-kang-2018/report.html",
-      "runtime_s": 517.9
+      "runtime_s": 2838.0
     },
     {
       "key": "fake_split_isg15",
@@ -4977,7 +4977,7 @@
       },
       "label_before_time_check": "NOT SUPPORTED",
       "report": "bench/out/kang/false-isg15-differs-in-cd14-monocytes-between-fake-groups-a-/report.html",
-      "runtime_s": 494.0
+      "runtime_s": 2635.7
     },
     {
       "key": "fake_split_lyz",
@@ -5481,7 +5481,7 @@
       },
       "label_before_time_check": "NOT SUPPORTED",
       "report": "bench/out/kang/false-lyz-differs-in-cd14-monocytes-between-fake-groups-a-an/report.html",
-      "runtime_s": 491.1
+      "runtime_s": 2233.9
     },
     {
       "key": "fake_split_composition",
@@ -5978,7 +5978,7 @@
       },
       "label_before_time_check": "NOT SUPPORTED",
       "report": "bench/out/kang/false-cd14-monocyte-proportion-differs-between-fake-groups-a/report.html",
-      "runtime_s": 422.9
+      "runtime_s": 1583.1
     },
     {
       "key": "fake_shuffle_isg15",
@@ -6482,7 +6482,7 @@
       },
       "label_before_time_check": "NOT SUPPORTED",
       "report": "bench/out/kang/false-isg15-up-in-cd14-monocytes-in-fake-group-a-vs-b-kang-d/report.html",
-      "runtime_s": 776.9
+      "runtime_s": 2372.6
     },
     {
       "key": "time_mode_b",
@@ -7199,7 +7199,7 @@
       },
       "label_before_time_check": "ROBUST",
       "report": "bench/out/kang/planted-time-times-unknown-sqstm1-up-in-cd14-monocytes-after/report.html",
-      "runtime_s": 755.7
+      "runtime_s": 2243.4
     },
     {
       "key": "time_mode_a",
@@ -7899,7 +7899,7 @@
         "effect_removed": true,
         "effect_shrunk": false,
         "reasons": [
-          "circular mean collection times differ by +5.8 h (A minus B); permutation p = 0.0286",
+          "circular mean collection times differ by +5.8 h (B minus A); permutation p = 0.0286",
           "collection time is associated with the groups (permutation test and mean difference of at least 2 h)",
           "after adjusting for cos/sin of collection time the effect is no longer significant and its direction flips: the claimed effect is explained by time"
         ],
@@ -7930,7 +7930,7 @@
       },
       "label_before_time_check": "ROBUST",
       "report": "bench/out/kang/planted-time-times-given-sqstm1-up-in-cd14-monocytes-afterno/report.html",
-      "runtime_s": 755.4
+      "runtime_s": 2041.1
     },
     {
       "key": "doublets",
@@ -8459,7 +8459,7 @@
       "time_check": null,
       "label_before_time_check": null,
       "report": "bench/out/planted/planted-doublets-a-cd14-lyz-ms4a1-cd79a-population-exists-pb/report.html",
-      "runtime_s": 212.5
+      "runtime_s": 523.7
     },
     {
       "key": "overclustering",
@@ -8972,7 +8972,7 @@
       "time_check": null,
       "label_before_time_check": null,
       "report": "bench/out/planted/over-clustering-cluster-14-is-a-distinct-population-pbmc3k/report.html",
-      "runtime_s": 211.1
+      "runtime_s": 417.0
     },
     {
       "key": "overclustering_control",
@@ -9720,7 +9720,7 @@
       "time_check": null,
       "label_before_time_check": null,
       "report": "bench/out/planted/over-clustering-control-cluster-2-is-a-distinct-population-p/report.html",
-      "runtime_s": 201.7
+      "runtime_s": 343.0
     },
     {
       "key": "qc_deletion",
@@ -10278,7 +10278,7 @@
       "time_check": null,
       "label_before_time_check": null,
       "report": "bench/out/planted/qc-deletion-nk-cells-gnly-nkg7-exist-pbmc3k/report.html",
-      "runtime_s": 178.2
+      "runtime_s": 320.8
     },
     {
       "key": "batch_effect",
@@ -10858,7 +10858,7 @@
       "time_check": null,
       "label_before_time_check": null,
       "report": "bench/out/planted/batch-artifact-cd4-t-subtype-is-a-distinct-population-pbmc3k/report.html",
-      "runtime_s": 188.5
+      "runtime_s": 337.5
     },
     {
       "key": "batch_effect_control",
@@ -11635,7 +11635,7 @@
       "time_check": null,
       "label_before_time_check": null,
       "report": "bench/out/planted/batch-control-cd4-t-is-a-distinct-population-pbmc3k/report.html",
-      "runtime_s": 188.1
+      "runtime_s": 320.5
     },
     {
       "key": "doublets_nk_mono",
@@ -12175,7 +12175,7 @@
       "time_check": null,
       "label_before_time_check": null,
       "report": "bench/out/planted/planted-doublets-held-out-a-gnly-nkg7-cd14-lyz-population-ex/report.html",
-      "runtime_s": 143.6
+      "runtime_s": 316.3
     },
     {
       "key": "doublets_cd8_b",
@@ -12706,7 +12706,7 @@
       "time_check": null,
       "label_before_time_check": null,
       "report": "bench/out/planted/planted-doublets-held-out-a-cd8a-cd8b-ms4a1-cd79a-population/report.html",
-      "runtime_s": 133.9
+      "runtime_s": 258.6
     }
   ]
 }
