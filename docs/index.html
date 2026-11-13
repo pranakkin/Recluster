@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Recluster: does a single-cell result depend on how it was analysed?</title>
-<meta name="description" content="Recluster re-runs a single-cell RNA-seq analysis across other defensible settings, tests on donors rather than cells, and reports how often a claim holds and which settings broke it.">
-<meta property="og:title" content="Recluster: does a single-cell result depend on how it was analysed?">
+<title>Recluster: check a single-cell result before anyone builds on it</title>
+<meta name="description" content="Recluster re-runs a single-cell RNA-seq analysis about twenty ways from the raw counts, tests on donors rather than cells, and returns ROBUST, FRAGILE or NOT SUPPORTED with the settings that broke the claim. Against bulk RNA-seq of the same animals, the standard cell-level test called 20 of 20 unchanged genes; Recluster called 3.">
+<meta property="og:title" content="Recluster: check a single-cell result before anyone builds on it">
 <meta property="og:description" content="A Python command-line tool that re-runs a single-cell RNA-seq analysis about twenty ways, tests on donors rather than cells, and gives a verdict: ROBUST, FRAGILE or NOT SUPPORTED.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pranakkin.github.io/Recluster/">
@@ -83,6 +83,7 @@ button.sq[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 
 .actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s5); font: 500 15px/1 var(--sans); }
 .btn { display: inline-block; background: var(--ink); color: var(--paper); text-decoration: none; padding: 14px 20px; border-radius: 2px; }
 .btn:hover { background: #000; }
+.hero .proof { font: 17px/1.55 var(--sans); border-left: 2px solid var(--ink); padding-left: var(--s4); margin: 0 0 var(--s6); max-width: 36em; }
 
 /* the comparison panel */
 .instrument { margin: 0; border-top: 2px solid var(--ink); padding-top: var(--s4); }
@@ -146,6 +147,15 @@ aside.sn p:last-child { margin: 0; }
 .zones { display: grid; font: 13px/1.4 var(--sans); gap: 3px; }
 .zones div { border-left: 2px solid currentColor; padding-left: 8px; }
 .zones span { color: var(--ink-2); }
+details.more { margin-top: var(--s5); border-top: 1px solid var(--rule); }
+details.more summary { cursor: pointer; font: 500 15px/1.4 var(--sans); padding: var(--s3) 0; }
+
+/* ground truth table */
+.gt { width: 100%; max-width: 36em; border-collapse: collapse; font: 15px/1.4 var(--sans); margin: var(--s5) 0; }
+.gt th, .gt td { text-align: left; padding: 10px var(--s4) 10px 0; border-bottom: 1px solid var(--rule); vertical-align: baseline; }
+.gt thead th { font: 500 12px/1.4 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); border-bottom: 1px solid var(--ink); }
+.gt tbody th { font-weight: 500; }
+.gt td { font: 14px var(--mono); white-space: nowrap; }
 
 /* benchmark ledger */
 .score { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2) var(--s6); align-items: end; }
@@ -166,7 +176,7 @@ aside.sn p:last-child { margin: 0; }
 .case .expect { display: block; font: 12.5px/1.4 var(--sans); color: var(--ink-3); margin-top: 2px; }
 .case .runs { font: 13.5px var(--mono); text-align: right; }
 .case .verdict { font: 600 12px/1.2 var(--sans); letter-spacing: .06em; text-transform: uppercase; }
-.case .outcome { font: 13.5px/1.2 var(--sans); color: var(--ink-2); }
+.case .outcome { font: 13.5px/1.2 var(--sans); color: var(--ink-2); white-space: nowrap; }
 .case .outcome.bad { font-weight: 600; color: var(--ink); }
 .ledger-legend { font: 13px/1.5 var(--sans); color: var(--ink-3); margin-top: var(--s7); display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
 .ledger-legend span { display: inline-flex; gap: 7px; align-items: center; }
@@ -264,10 +274,10 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
   <header class="bar">
     <a class="wordmark" href="./">Recluster</a>
     <nav aria-label="Site">
-      <a class="wide" href="#runs">How it works</a>
-      <a href="#benchmark">Benchmark</a>
-      <a href="#try">Try it</a>
-      <a class="wide" href="#founder">Founder</a>
+      <a href="#evidence">Evidence</a>
+      <a class="wide" href="#why-now">Why now</a>
+      <a class="wide" href="#try">Try it</a>
+      <a href="#founder">Founder</a>
       <a class="wide" href="https://github.com/pranakkin/Recluster">GitHub</a>
       <a class="contact" href="mailto:pranakkin@gmail.com">Contact</a>
     </nav>
@@ -277,32 +287,78 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
     <div class="hero">
       <div>
         <p class="label">For single-cell RNA-seq</p>
-        <h1>Find out whether a single-cell result depends on how it was analysed.</h1>
-        <p class="lede">Recluster is a Python command-line tool. You give it an AnnData (.h5ad) file with raw
-          counts and one claim: that a cell type exists, that it changes in abundance, or that a gene changes in
-          it between conditions. It re-runs the analysis about twenty ways from the raw counts, tests on donors
-          rather than individual cells, and writes an HTML report: how often the claim held, which settings
-          broke it, and a verdict of ROBUST, FRAGILE or NOT SUPPORTED.</p>
+        <h1>Check a single&#8209;cell result before anyone builds on it.</h1>
+        <p class="lede">Recluster re-runs a single-cell RNA-seq analysis about twenty ways from the raw counts,
+          tests each claim on donors rather than on cells, and returns ROBUST, FRAGILE or NOT SUPPORTED, with the
+          settings that broke it. It checks an analysis a person ran or one an AI agent handed back.</p>
+        <p class="proof">Against bulk RNA-seq of the same animals, the standard cell-level test called <b>20 of 20</b>
+          unchanged genes significant. Recluster called <b>3</b>. Both caught all 20 real changes. On these genes
+          the gain came from testing on donors, not from the re-runs (<a href="#evidence">evidence and caveats</a>).</p>
         <div class="actions">
-          <a class="btn" href="#try">Install and run the demo</a>
-          <a href="reports/kang/false-isg15-up-in-cd14-monocytes-in-fake-group-a-vs-b-kang-d.html">Open the report for this example</a>
+          <a class="btn" href="#evidence">See the evidence</a>
+          <a href="#try">Run the demo</a>
+          <a href="mailto:pranakkin@gmail.com">pranakkin@gmail.com</a>
         </div>
       </div>
 
-      <figure class="instrument" aria-labelledby="ex-claim">
+      <figure class="instrument" aria-labelledby="gt-q">
+        <p class="label">Ground truth · Hagai et al. 2018 · 3 mice and 3 rats, single-cell and bulk from the same animals</p>
+        <p class="claim" id="gt-q">20 genes that bulk RNA-seq says do not change after LPS. How many does each test call changed?</p>
+        <div class="arm">
+          <div>
+            <div class="name">Standard cell-level test</div>
+            <div class="how">every cell counted as an independent observation (Wilcoxon test)</div>
+          </div>
+          <div class="count"><b>20</b> / 20 falsely called</div>
+          <span class="strip" style="--n:20" aria-hidden="true"><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i></span>
+        </div>
+        <div class="arm">
+          <div>
+            <div class="name">Recluster <span class="tag">donor-level test</span></div>
+            <div class="how">each animal's cells summed into one profile per condition and tested with DESeq2, paired by animal, across 21 to 23 re-analyses</div>
+          </div>
+          <div class="count"><b>3</b> / 20 falsely called</div>
+          <span class="strip" style="--n:20" aria-hidden="true"><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq held"></i><i class="sq held"></i><i class="sq held"></i></span>
+        </div>
+        <div class="legend" aria-hidden="true">
+          <span><i class="sq held"></i>called changed (a false call)</span>
+          <span><i class="sq"></i>correctly not called</span>
+          <span>each square is one gene</span>
+        </div>
+        <p class="why">Both tests called all 20 genes that bulk says do change. Recluster's three false calls (rat
+          Alkbh7, Ezh2, Son) each held in 21 of 21 re-analyses, so the re-runs gave no warning, and its single
+          baseline donor-level run made the same calls. <a href="#evidence">Details</a></p>
+      </figure>
+    </div>
+
+    <section id="problem" aria-labelledby="h-problem">
+      <p class="label kicker">The problem</p>
+      <h2 id="h-problem">Thousands of cells, a handful of donors.</h2>
+      <div class="prose">
+        <p>The Kang and Hagai datasets on this page hold 13,000 to 25,000 cells each, from three to eight donors
+          or animals. Cells from one donor share that donor's genetics and environment, so they are not independent
+          observations, and analyses that treat them as independent have highly inflated false-positive rates
+          (<a href="https://doi.org/10.1038/s41467-021-21038-1">Zimmerman et al. 2021</a>). The most widely used
+          single-cell tests can report hundreds of changed genes where no biological difference exists
+          (<a href="https://doi.org/10.1038/s41467-021-25960-2">Squair et al. 2021</a>).</p>
+      </div>
+
+      <figure class="instrument" aria-labelledby="ex-claim" style="max-width:720px;margin-top:var(--s6)">
         <p class="label">Example from the benchmark · Kang et al. 2018 · 8 donors</p>
         <p class="claim" id="ex-claim">“ISG15 is higher in CD14+ monocytes in group A than in group B.”</p>
         <p class="context">Groups A and B were made by relabelling: each holds 4 control and 4 interferon-stimulated
           samples, so nothing real separates them and the claim is false by construction. Both tests below ran on
           the same cells in the same <span data-n-runs>21</span> re-analyses.</p>
+        <p class="claim" style="font-size:19px">The standard cell-level test calls this false claim significant in
+          <b>21 of 21</b> re-analyses; Recluster's donor-level test in <b>0</b>.</p>
 
         <div class="arm">
           <div>
-            <div class="name">Cell-level test</div>
+            <div class="name">Standard cell-level test</div>
             <div class="how">every cell counted as an independent observation (Wilcoxon test)</div>
           </div>
           <div class="count"><b data-count="cell">21</b> / <span data-n-runs>21</span> significant</div>
-          <div class="strip" data-strip="fake_shuffle_isg15" data-arm="cell" role="group" aria-label="Cell-level test, one square per run"></div>
+          <div class="strip" data-strip="fake_shuffle_isg15" data-arm="cell" role="group" aria-label="Standard cell-level test, one square per run"></div>
         </div>
         <div class="arm">
           <div>
@@ -324,12 +380,118 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
         <div class="readout" id="readout" aria-live="polite">
           <span class="empty">Select any square, by click, tap or keyboard, to see that run's settings and both test results.</span>
         </div>
-        <p class="why">Cells from one donor share that donor's biology, so thousands of them are not thousands of
-          independent observations (<a href="https://doi.org/10.1038/s41467-021-25960-2">Squair et al. 2021</a>).
-          And a claim that holds in every run has shown only that it does not hinge on the settings, not that it
-          is true: <a href="#stability">see below</a>.</p>
+        <p class="why">A claim that holds in every run has shown only that it does not hinge on the settings, not
+          that it is true: <a href="#stability">see below</a>.
+          <a href="reports/kang/false-isg15-up-in-cd14-monocytes-in-fake-group-a-vs-b-kang-d.html">Open the report for this example</a>.</p>
       </figure>
-    </div>
+    </section>
+
+    <section id="evidence" aria-labelledby="h-gt">
+      <p class="label kicker">Evidence · ground truth</p>
+      <h2 id="h-gt">Checked against bulk RNA&#8209;seq of the same animals.</h2>
+      <div class="row">
+        <div class="prose">
+          <p>Hagai et al. 2018 sequenced bone-marrow phagocytes from three mice and three rats, with and without
+            4 hours of LPS, as single-cell and as bulk libraries from the same animals. A bulk DESeq2 test defined
+            the answer for 40 genes: 20 that clearly change (|log2FC| ≥ 1, padj &lt; 0.01) and 20 that clearly do
+            not (|log2FC| &lt; 0.5, padj ≥ 0.5). The plan was written before any single-cell test ran on these data.</p>
+          <table class="gt">
+            <thead><tr><th scope="col">Caller</th><th scope="col">Real changes called</th><th scope="col">Unchanged genes falsely called</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Recluster (ROBUST verdict)</th><td>20 of 20</td><td>3 of 20</td></tr>
+              <tr><th scope="row">Recluster's baseline donor-level run alone</th><td>20 of 20</td><td>3 of 20</td></tr>
+              <tr><th scope="row">Standard cell-level test (Wilcoxon on cells)</th><td>20 of 20</td><td>20 of 20</td></tr>
+            </tbody>
+          </table>
+          <p>Here the gain came from testing on donors, not from re-running the analysis. The re-runs earn their
+            place elsewhere: in the benchmark below they name the setting behind a planted error, such as the QC
+            threshold that deleted NK cells (case 16) and a batch artifact that held only with batch correction
+            off (case 17).</p>
+        </div>
+        <aside class="sn">
+          <span class="label">What this does not show</span>
+          <p>Recluster's verdict equalled its single baseline donor-level run on all 40 claims: in these data
+            almost no setting changes the cells tested. The three false calls (rat Alkbh7, Ezh2, Son) each held in
+            21 of 21 runs, so the re-runs gave no warning. The genes come from the extremes, so the study says
+            little about modest effects, and with 40 claims the intervals are wide: specificity 17 of 20, 95&nbsp;%
+            interval 64–95&nbsp;%. The bulk reference is itself an estimate from three animals per condition. The
+            40 claims ran with Recluster 0.6.0.</p>
+          <span class="label">Post hoc</span>
+          <p>Defined after scoring: the same paired donor-level test, on all cells before doublet removal, called 451
+            of 1,830 rat (24.6&nbsp;%) and 158 of 1,752 mouse (9.0&nbsp;%) bulk no-change genes at p &lt; 0.05.
+            <a href="https://github.com/pranakkin/Recluster/blob/main/bench/ground_truth/RESULTS.md">RESULTS.md</a></p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="benchmark" aria-labelledby="h-bench">
+      <p class="label kicker">Evidence · benchmark</p>
+      <h2 id="h-bench">20 claims with known answers.</h2>
+      <div class="row">
+        <div class="score">
+          <div class="big" data-score="ok">16</div>
+          <div class="of">of <b data-score="total">20</b> cases came out as expected against pass rules written before
+            they ran. <b data-score="fa">1</b> false alarm, <b data-score="miss">3</b> misses.</div>
+        </div>
+        <aside class="sn">
+          <span class="label">The misses</span>
+          <p>All three are planted doublets: fake populations made of two real cell types. The pass rule asks
+            for the right verdict for the right reason: the claim should hold only in runs with doublet removal
+            off. All three end NOT SUPPORTED, but mostly because no cluster matched the fake population; in at
+            least one run each, the claim held with doublet removal on. Doublets merged into a real cluster are
+            beyond any cluster-level test.</p>
+          <span class="label">The false alarm</span>
+          <p>Case 6 has no known shift; the paired test picks up a consistent 1.6 percentage-point drop in CD14+
+            monocytes, so it comes out FRAGILE. The rule was not changed after the result.</p>
+          <span class="label">Pass rules</span>
+          <p>One rule was tightened between benchmark versions; <a href="https://github.com/pranakkin/Recluster/blob/main/bench/RESULTS.md">RESULTS.md</a>
+            explains it and every case.</p>
+        </aside>
+      </div>
+      <div class="ledger-legend" aria-hidden="true">
+        <span><i class="sq held"></i>claim held</span>
+        <span><i class="sq"></i>did not hold</span>
+        <span><i class="sq nomatch"></i>no cluster matched the population</span>
+        <span>Planted errors: a known flaw added to real data (fake doublets, an over-split cell type, a deleted
+          population, a batch artifact, a time-of-day shift), so the right answer is known. Doublets are two cells
+          captured as one. Each row is one claim with a known answer: runs, runs held, Recluster's verdict, and
+          whether that passes the rule fixed before the run. Each row opens the full report.</span>
+      </div>
+      <ul class="ledger" id="ledger" aria-label="Benchmark cases">
+        <li class="group">The case list could not be loaded. The full table is on the <a href="benchmark.html">benchmark page</a>.</li>
+      </ul>
+      <p class="small-sans" style="margin-top:var(--s4)">The agent audit reports are listed on the
+        <a href="benchmark.html#agent">benchmark page</a>.</p>
+    </section>
+
+    <section id="why-now" aria-labelledby="h-now">
+      <p class="label kicker">Why now</p>
+      <h2 id="h-now">An AI agent analysed 24,673 cells in 2½ minutes. Recluster checked every claim it made.</h2>
+      <div class="row">
+        <div class="prose">
+          <p>Given the Kang 2018 counts (24,673 cells, 8 donors), Claude Opus 5.5 produced a full analysis
+            (clusters, cell types, abundance and expression claims) in 2&nbsp;min 32&nbsp;s, in one run through the API,
+            kept unedited. <span class="mono">recluster audit</span> took the object it handed back, re-derived
+            everything from the raw counts and tested its claims.</p>
+          <p>Of its 36 primary population and expression claims, 32 came out ROBUST, 3 FRAGILE and 1 NOT
+            SUPPORTED. The NOT SUPPORTED one was a platelet population that held in 1 of 21 runs; the agent had
+            hedged the label but still gave “more platelets (0.29% → 0.56%)” as one of its two strongest trends.
+            Its summary also disagreed with its own tables in four places. Most of the analysis held up; the
+            reports show which parts did not.</p>
+        </div>
+        <aside class="sn">
+          <span class="label">Caveats</span>
+          <p>One run of one agent on one dataset; a second run would give other clusters and claims. The rules for
+            turning its answer into claims were written after reading it. The population results come from a re-run
+            with per-sample doublet removal, decided after the first
+            results had been seen; both runs are reported. On the agent's own labels the platelet shift does pass a
+            donor-level test; it is the population itself that rarely reappears when the analysis is re-run.
+            <a href="https://github.com/pranakkin/Recluster/blob/main/bench/agent_audit/RESULTS.md">RESULTS.md</a> ·
+            <a href="benchmark.html#agent">Reports</a> ·
+            <a href="https://github.com/pranakkin/Recluster#auditing-an-ai-agents-analysis">Case study</a></p>
+        </aside>
+      </div>
+    </section>
 
     <section id="who" aria-labelledby="h-who-for">
       <p class="label kicker">Who it's for</p>
@@ -342,13 +504,8 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
         </div>
         <div>
           <dt>When an AI agent did the analysis</dt>
-          <dd>Analysis agents now cluster, annotate and test in minutes. <span class="mono">recluster audit</span>
-            takes the object an agent hands back, re-derives from its raw counts and checks its labels and claims.
-            In one test, of the 36 primary population and expression claims in an agent's analysis of Kang 2018, 32 came out
-            ROBUST, 3 FRAGILE and 1 NOT SUPPORTED, and the agent's summary disagreed with its own tables in four places.
-            The population results come from a re-run with per-donor doublet removal, decided after the
-            first results had been seen; both runs are reported.
-            <a href="https://github.com/pranakkin/Recluster#auditing-an-ai-agents-analysis">Case study</a>.</dd>
+          <dd><span class="mono">recluster audit</span> takes the object an agent hands back, re-derives from its
+            raw counts and checks its labels and claims. <a href="#why-now">One audit</a>.</dd>
         </div>
         <div>
           <dt>Before you build on someone else's</dt>
@@ -367,7 +524,9 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
           finds the population the claim is about, and tests the claim across donors.</li>
         <li><b>One HTML report.</b> The verdict, the runs in which the claim held, and the settings that broke it.</li>
       </ol>
-      <div class="row">
+      <details class="more">
+      <summary>The settings varied, and how runs become a verdict</summary>
+      <div class="row" style="margin-top:var(--s4)">
         <div>
           <table class="settings" aria-describedby="settings-note">
             <tbody id="settings-body">
@@ -379,7 +538,9 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
         <aside class="sn">
           <span class="label">Which runs</span>
           <p>The baseline, each setting changed on its own, and six random combinations of settings (fixed seed, so repeatable): about 21 to 24
-            runs. Runs that become identical once QC limits are applied are merged. Batch correction is varied only
+            runs. Grid points whose QC thresholds cap to the same values are merged. A setting that happens to
+            remove no extra cells is not detected and can repeat the baseline; in the agent audit, min_genes 100
+            did. Batch correction is varied only
             when the data have a batch column; the Kang data do not.</p>
         </aside>
       </div>
@@ -400,6 +561,7 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
             failure. A possible time-of-day confound caps the verdict at FRAGILE.</p>
         </aside>
       </div>
+      </details>
     </section>
 
     <section id="stability" aria-labelledby="h-stability">
@@ -433,49 +595,11 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
       </ol>
       <div class="row" style="margin-top:var(--s6)">
         <div class="prose">
-          <p>Collection time is the one design flaw Recluster checks for. Others it cannot see: in Kang 2018 each
+          <p>Collection time is the one design flaw Recluster checks for, and today only on human gene names (see
+            <a href="#limits">Limits</a>). Others it cannot see: in Kang 2018 each
             condition was captured on its own 10x lane, so a lane artifact would also survive every setting.</p>
         </div>
       </div>
-    </section>
-
-    <section id="benchmark" aria-labelledby="h-bench">
-      <p class="label kicker">Benchmark</p>
-      <h2 id="h-bench">20 claims with known answers.</h2>
-      <div class="row">
-        <div class="score">
-          <div class="big" data-score="ok">16</div>
-          <div class="of">of <b data-score="total">20</b> cases came out as expected against pass rules written before
-            they ran. <b data-score="fa">1</b> false alarm, <b data-score="miss">3</b> misses.</div>
-        </div>
-        <aside class="sn">
-          <span class="label">The misses</span>
-          <p>All three are planted doublets: fake populations made of two real cell types. The pass rule asks
-            for the right verdict for the right reason: the claim should hold only in runs with doublet removal
-            off. All three end NOT SUPPORTED, but mostly because no cluster matched the fake population; in at
-            least one run each, the claim held with doublet removal on. Doublets merged into a real cluster are
-            beyond any cluster-level test.</p>
-          <span class="label">The false alarm</span>
-          <p>Case 6 has no known shift; the paired test picks up a consistent 1.6 percentage-point drop in CD14+
-            monocytes, so it comes out FRAGILE. The rule was not changed after the result.</p>
-          <span class="label">Pass rules</span>
-          <p>One rule was tightened between benchmark versions; <a href="https://github.com/pranakkin/Recluster/blob/main/bench/RESULTS.md">RESULTS.md</a>
-            explains it and every case.</p>
-        </aside>
-      </div>
-      <div class="ledger-legend" aria-hidden="true">
-        <span><i class="sq held"></i>claim held</span>
-        <span><i class="sq"></i>did not hold</span>
-        <span><i class="sq nomatch"></i>no cluster matched the population</span>
-        <span>Each row is one claim with a known answer: runs, runs held, Recluster's verdict, and whether that
-          passes the rule fixed before the run (as expected / correct / caught / control OK = pass). Each row
-          opens the full report.</span>
-      </div>
-      <ul class="ledger" id="ledger" aria-label="Benchmark cases">
-        <li class="group">The case list could not be loaded. The full table is on the <a href="benchmark.html">benchmark page</a>.</li>
-      </ul>
-      <p class="small-sans" style="margin-top:var(--s4)">The agent audit reports are listed on the
-        <a href="benchmark.html#agent">benchmark page</a>.</p>
     </section>
 
     <section id="try" aria-labelledby="h-try">
@@ -489,28 +613,38 @@ uv sync
 uv run recluster demo
 uv run recluster --help    <span class="c"># list the commands</span></code></pre>
           <div class="prose" style="margin-top:var(--s5)">
-            <p>Needs Python 3.11 and <a href="https://docs.astral.sh/uv/">uv</a>. The demo downloads Kang et al. 2018
-              (38 MB), takes 200 cells from each of the 16 donor-by-condition samples, and runs two claims on the full
-              grid. The first is true: ISG15 rises in CD14+ monocytes after IFN-β (expected ROBUST; 21 of 21 runs in
-              the recorded demo). The second is false by construction: ISG15 differs between two fake groups of
-              control donors (expected NOT SUPPORTED; 1 of 21). The example at the top of the page is a different
-              false claim, benchmark case 10, which uses all cells. Reports are written to
-              <span class="mono">results/demo/</span> and open in your browser (<span class="mono" style="white-space:nowrap">--no-open</span>
-              skips that). With the data cached the demo took about two minutes on an Apple laptop with 8 workers.</p>
+            <p><b>Needs</b> Python 3.11 and <a href="https://docs.astral.sh/uv/">uv</a>. <b>Takes</b> about two
+              minutes on a laptop with 8 workers once the 38 MB of Kang 2018 is cached. <b>Gives</b> two reports in
+              <span class="mono">results/demo/</span>: a true claim (ISG15 up after IFN-β, expected ROBUST; 21 of 21
+              runs in the recorded demo) and a false one (two fake groups of control donors, expected NOT SUPPORTED;
+              1 of 21; the demo uses 200 cells per sample, and the example near the top is benchmark case 10, on all
+              cells).</p>
             <p><span class="mono">scripts/verify_reproduction.sh</span> does the same from a fresh clone and checks a
               hash of the key numbers against the recorded one.</p>
-            <p class="small-sans">On a Mac, if <span class="mono">uv run recluster</span> says "No module named
-              recluster" (common when the folder is on the Desktop), run
-              <span class="mono" style="white-space:nowrap">chflags -R nohidden .venv</span> and try again.
-              <a href="https://github.com/pranakkin/Recluster#troubleshooting">More fixes</a>.</p>
+            <p class="small-sans"><a href="https://github.com/pranakkin/Recluster#troubleshooting">Troubleshooting</a></p>
           </div>
         </div>
         <div>
-          <p class="label" style="margin:0 0 var(--s2)">Your own claim, as claim.yaml</p>
+          <p class="label" style="margin:0 0 var(--s2)">Your own data</p>
           <p class="small-sans" style="margin:0 0 var(--s3)">Input: an .h5ad with raw integer counts in
             <span class="mono">layers['counts']</span>, <span class="mono">.raw.X</span> or <span class="mono">.X</span>,
             gene symbols as gene names, and <span class="mono">.obs</span> columns for the condition and the donor
             or sample.</p>
+<pre><code><span class="c"># seconds: checks columns, values and genes</span>
+uv run recluster check --data your.h5ad --claim claim.yaml
+<span class="c"># smoke test, not a verdict</span>
+uv run recluster run --data your.h5ad --claim claim.yaml \
+    --max-runs 2 --out results/smoke
+<span class="c"># the full grid, about 21–24 runs</span>
+uv run recluster run --data your.h5ad --claim claim.yaml \
+    --jobs 4</code></pre>
+          <p class="small-sans" style="margin-top:var(--s3)">On a laptop, one ground-truth claim on 13,000–18,000
+            cells took 3 to 9 minutes with 14 workers. Every column, value and gene is checked against the file
+            before anything runs. Run the commands inside the Recluster folder.
+            <a href="https://github.com/pranakkin/Recluster#use-it-on-your-own-data">Step-by-step guide</a> ·
+            <a href="https://github.com/pranakkin/Recluster/tree/main/examples/claims">Example claims</a></p>
+          <details class="more">
+          <summary>Example claim.yaml</summary>
 <pre class="yaml"><code>claim_type: differential_expression <span class="c"># or population_exists,</span>
                                     <span class="c">#    composition_shift</span>
 name: "ISG15 up in CD14+ monocytes, stim vs ctrl"
@@ -525,11 +659,7 @@ comparison:
   group_b: ctrl
   direction: up_in_a   <span class="c"># up_in_a | down_in_a | either</span>
 genes: [ISG15]</code></pre>
-          <p class="small-sans" style="margin-top:var(--s3)">Then <span class="mono">uv run recluster run --data your.h5ad --claim claim.yaml</span>.
-            Every column, value and gene is checked against the file before anything runs.
-            Run it inside the Recluster folder.
-            <a href="https://github.com/pranakkin/Recluster#use-it-on-your-own-data">Step-by-step guide</a> ·
-            <a href="https://github.com/pranakkin/Recluster/tree/main/examples/claims">Example claims</a></p>
+          </details>
         </div>
       </div>
     </section>
@@ -542,8 +672,15 @@ genes: [ISG15]</code></pre>
           donors. Flaws in the experimental design survive every setting.</li>
         <li><strong>Doublets inside real clusters.</strong>The benchmark's three misses are all planted doublets; a
           cluster-level test cannot remove doublets that merged into a real cluster.</li>
-        <li><strong>Large effects so far.</strong>The true claims tested are strong interferon responses; how well
-          modest effects are detected has not been measured yet.</li>
+        <li><strong>Large effects so far.</strong>The true claims tested are strong effects (interferon responses,
+          and LPS changes of at least 2-fold in bulk); how well modest effects are detected has not been measured.</li>
+        <li><strong>Where the re-runs add nothing.</strong>When the population is fixed and the cells are already
+          filtered, as in the ground-truth study, almost no setting changes the cells tested, and the verdict
+          equals one donor-level run.</li>
+        <li><strong>Gene-name conventions, for two checks.</strong>The time-of-day check matches human clock-gene
+          symbols, and mitochondrial QC looks only for MT- or mt- genes, so rat (Mt-) gets no mitochondrial QC. In
+          the ground-truth study the time check did not run on mouse or rat, and rat ran without mitochondrial
+          QC.</li>
         <li><strong>Seed weighting.</strong>On the 21-run grid only three runs change the random seed, so a claim
           that fails on every other seed can still reach ROBUST. The report's "what broke it" table shows this.</li>
       </ul>
@@ -593,7 +730,8 @@ genes: [ISG15]</code></pre>
       <a href="mailto:pranakkin@gmail.com">Contact</a>
       <a href="https://github.com/pranakkin/Recluster">Source</a>
       <a href="benchmark.html">All benchmark reports</a>
-      <a href="https://github.com/pranakkin/Recluster/blob/main/bench/RESULTS.md">Results</a>
+      <a href="https://github.com/pranakkin/Recluster/blob/main/bench/ground_truth/RESULTS.md">Ground truth</a>
+      <a href="https://github.com/pranakkin/Recluster/blob/main/bench/RESULTS.md">Benchmark results</a>
       <a href="https://github.com/pranakkin/Recluster/blob/main/docs/HOW_IT_WORKS.md">Full method (HOW_IT_WORKS.md)</a>
     </nav>
   </footer>
@@ -775,7 +913,7 @@ genes: [ISG15]</code></pre>
     a.appendChild(staticStrip(c, "rep", true));
     a.appendChild(el("span", "runs", c.n_holds + "/" + c.n_runs));
     a.appendChild(el("span", "verdict " + VCLASS[c.verdict], c.verdict));
-    a.appendChild(el("span", "outcome" + (OK[c.outcome] ? "" : " bad"), c.outcome));
+    a.appendChild(el("span", "outcome" + (OK[c.outcome] ? "" : " bad"), (OK[c.outcome] ? "pass · " : "fail · ") + c.outcome));
     a.setAttribute("aria-label", "Case " + c.n + ": " + c.title + ". Expected: " + c.expected + ". Held in " + c.n_holds + " of " + c.n_runs +
       " runs. Verdict " + c.verdict + ", " + c.outcome + ". Open report.");
     li.appendChild(a);
