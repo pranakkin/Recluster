@@ -1,0 +1,282 @@
+{
+ "mouse_lps4/Acsl1": {
+  "verdict": "ROBUST",
+  "n_holds": 23,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-acsl1-change",
+  "seconds": 299.6
+ },
+ "mouse_lps4/Ampd3": {
+  "verdict": "ROBUST",
+  "n_holds": 23,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-ampd3-change",
+  "seconds": 300.7
+ },
+ "mouse_lps4/Azi2": {
+  "verdict": "ROBUST",
+  "n_holds": 23,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-azi2-change",
+  "seconds": 263.8
+ },
+ "mouse_lps4/Cry1": {
+  "verdict": "ROBUST",
+  "n_holds": 23,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-cry1-change",
+  "seconds": 307.2
+ },
+ "mouse_lps4/Flvcr1": {
+  "verdict": "ROBUST",
+  "n_holds": 23,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-flvcr1-change",
+  "seconds": 308.9
+ },
+ "mouse_lps4/Gprc5b": {
+  "verdict": "ROBUST",
+  "n_holds": 23,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-gprc5b-change",
+  "seconds": 283.4
+ },
+ "mouse_lps4/Mtmr14": {
+  "verdict": "ROBUST",
+  "n_holds": 23,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-mtmr14-change",
+  "seconds": 331.9
+ },
+ "mouse_lps4/Ppfia3": {
+  "verdict": "ROBUST",
+  "n_holds": 23,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-ppfia3-change",
+  "seconds": 328.8
+ },
+ "mouse_lps4/Spred1": {
+  "verdict": "ROBUST",
+  "n_holds": 23,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-spred1-change",
+  "seconds": 374.2
+ },
+ "mouse_lps4/Tap1": {
+  "verdict": "ROBUST",
+  "n_holds": 23,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-tap1-change",
+  "seconds": 365.6
+ },
+ "mouse_lps4/2210016L21Rik": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-2210016l21rik-no-change",
+  "seconds": 360.8
+ },
+ "mouse_lps4/Anapc5": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-anapc5-no-change",
+  "seconds": 362.3
+ },
+ "mouse_lps4/Fam193a": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-fam193a-no-change",
+  "seconds": 363.4
+ },
+ "mouse_lps4/Itgb7": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-itgb7-no-change",
+  "seconds": 361.6
+ },
+ "mouse_lps4/Nmt1": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-nmt1-no-change",
+  "seconds": 347.1
+ },
+ "mouse_lps4/Rab14": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-rab14-no-change",
+  "seconds": 431.5
+ },
+ "mouse_lps4/Selenok": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-selenok-no-change",
+  "seconds": 405.6
+ },
+ "mouse_lps4/Snrpa": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-snrpa-no-change",
+  "seconds": 453.4
+ },
+ "mouse_lps4/Tbl1x": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-tbl1x-no-change",
+  "seconds": 457.4
+ },
+ "mouse_lps4/Uimc1": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 23,
+  "folder": "out/mouse-lps4-uimc1-no-change",
+  "seconds": 321.9
+ },
+ "rat_lps4/Ada": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-ada-change",
+  "seconds": 287.3
+ },
+ "rat_lps4/Ankrd33b": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-ankrd33b-change",
+  "seconds": 224.7
+ },
+ "rat_lps4/Baz1b": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-baz1b-change",
+  "seconds": 230.1
+ },
+ "rat_lps4/Cmpk2": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-cmpk2-change",
+  "seconds": 196.2
+ },
+ "rat_lps4/Etv1": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-etv1-change",
+  "seconds": 198.7
+ },
+ "rat_lps4/Fnip2": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-fnip2-change",
+  "seconds": 190.8
+ },
+ "rat_lps4/Mtmr10": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-mtmr10-change",
+  "seconds": 192.0
+ },
+ "rat_lps4/Polr1e": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-polr1e-change",
+  "seconds": 195.3
+ },
+ "rat_lps4/Sp110": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-sp110-change",
+  "seconds": 260.8
+ },
+ "rat_lps4/Tapbp": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-tapbp-change",
+  "seconds": 397.7
+ },
+ "rat_lps4/Aarsd1": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-aarsd1-no-change",
+  "seconds": 433.0
+ },
+ "rat_lps4/Alkbh7": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-alkbh7-no-change",
+  "seconds": 536.1
+ },
+ "rat_lps4/Ezh2": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-ezh2-no-change",
+  "seconds": 494.9
+ },
+ "rat_lps4/Ing3": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-ing3-no-change",
+  "seconds": 436.4
+ },
+ "rat_lps4/Nipsnap3b": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-nipsnap3b-no-change",
+  "seconds": 386.3
+ },
+ "rat_lps4/Prpf6": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-prpf6-no-change",
+  "seconds": 387.5
+ },
+ "rat_lps4/Serinc2": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-serinc2-no-change",
+  "seconds": 364.9
+ },
+ "rat_lps4/Son": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-son-no-change",
+  "seconds": 360.3
+ },
+ "rat_lps4/Tbl3": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-tbl3-no-change",
+  "seconds": 366.4
+ },
+ "rat_lps4/Ubap2": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 21,
+  "folder": "out/rat-lps4-ubap2-no-change",
+  "seconds": 392.6
+ }
+}

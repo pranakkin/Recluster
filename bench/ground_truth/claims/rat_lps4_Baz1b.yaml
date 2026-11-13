@@ -1,0 +1,16 @@
+claim_type: differential_expression
+name: rat_lps4 Baz1b (change)
+columns:
+  condition: condition
+  sample:
+  - animal
+  - condition
+  labels: cell_type
+target:
+  label_value: phagocyte
+comparison:
+  group_a: stim
+  group_b: unst
+  direction: down_in_a
+genes:
+- Baz1b

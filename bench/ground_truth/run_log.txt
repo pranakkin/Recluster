@@ -1,0 +1,41 @@
+[1/40] mouse_lps4/Acsl1 (change): {'verdict': 'ROBUST', 'n_holds': 23, 'n_runs': 23, 'folder': 'out/mouse-lps4-acsl1-change', 'seconds': 299.6}
+[2/40] mouse_lps4/Ampd3 (change): {'verdict': 'ROBUST', 'n_holds': 23, 'n_runs': 23, 'folder': 'out/mouse-lps4-ampd3-change', 'seconds': 300.7}
+[3/40] mouse_lps4/Azi2 (change): {'verdict': 'ROBUST', 'n_holds': 23, 'n_runs': 23, 'folder': 'out/mouse-lps4-azi2-change', 'seconds': 263.8}
+[4/40] mouse_lps4/Cry1 (change): {'verdict': 'ROBUST', 'n_holds': 23, 'n_runs': 23, 'folder': 'out/mouse-lps4-cry1-change', 'seconds': 307.2}
+[5/40] mouse_lps4/Flvcr1 (change): {'verdict': 'ROBUST', 'n_holds': 23, 'n_runs': 23, 'folder': 'out/mouse-lps4-flvcr1-change', 'seconds': 308.9}
+[6/40] mouse_lps4/Gprc5b (change): {'verdict': 'ROBUST', 'n_holds': 23, 'n_runs': 23, 'folder': 'out/mouse-lps4-gprc5b-change', 'seconds': 283.4}
+[7/40] mouse_lps4/Mtmr14 (change): {'verdict': 'ROBUST', 'n_holds': 23, 'n_runs': 23, 'folder': 'out/mouse-lps4-mtmr14-change', 'seconds': 331.9}
+[8/40] mouse_lps4/Ppfia3 (change): {'verdict': 'ROBUST', 'n_holds': 23, 'n_runs': 23, 'folder': 'out/mouse-lps4-ppfia3-change', 'seconds': 328.8}
+[9/40] mouse_lps4/Spred1 (change): {'verdict': 'ROBUST', 'n_holds': 23, 'n_runs': 23, 'folder': 'out/mouse-lps4-spred1-change', 'seconds': 374.2}
+[10/40] mouse_lps4/Tap1 (change): {'verdict': 'ROBUST', 'n_holds': 23, 'n_runs': 23, 'folder': 'out/mouse-lps4-tap1-change', 'seconds': 365.6}
+[11/40] mouse_lps4/2210016L21Rik (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 23, 'folder': 'out/mouse-lps4-2210016l21rik-no-change', 'seconds': 360.8}
+[12/40] mouse_lps4/Anapc5 (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 23, 'folder': 'out/mouse-lps4-anapc5-no-change', 'seconds': 362.3}
+[13/40] mouse_lps4/Fam193a (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 23, 'folder': 'out/mouse-lps4-fam193a-no-change', 'seconds': 363.4}
+[14/40] mouse_lps4/Itgb7 (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 23, 'folder': 'out/mouse-lps4-itgb7-no-change', 'seconds': 361.6}
+[15/40] mouse_lps4/Nmt1 (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 23, 'folder': 'out/mouse-lps4-nmt1-no-change', 'seconds': 347.1}
+[16/40] mouse_lps4/Rab14 (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 23, 'folder': 'out/mouse-lps4-rab14-no-change', 'seconds': 431.5}
+[17/40] mouse_lps4/Selenok (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 23, 'folder': 'out/mouse-lps4-selenok-no-change', 'seconds': 405.6}
+[18/40] mouse_lps4/Snrpa (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 23, 'folder': 'out/mouse-lps4-snrpa-no-change', 'seconds': 453.4}
+[19/40] mouse_lps4/Tbl1x (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 23, 'folder': 'out/mouse-lps4-tbl1x-no-change', 'seconds': 457.4}
+[20/40] mouse_lps4/Uimc1 (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 23, 'folder': 'out/mouse-lps4-uimc1-no-change', 'seconds': 321.9}
+[21/40] rat_lps4/Ada (change): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'folder': 'out/rat-lps4-ada-change', 'seconds': 287.3}
+[22/40] rat_lps4/Ankrd33b (change): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'folder': 'out/rat-lps4-ankrd33b-change', 'seconds': 224.7}
+[23/40] rat_lps4/Baz1b (change): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'folder': 'out/rat-lps4-baz1b-change', 'seconds': 230.1}
+[24/40] rat_lps4/Cmpk2 (change): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'folder': 'out/rat-lps4-cmpk2-change', 'seconds': 196.2}
+[25/40] rat_lps4/Etv1 (change): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'folder': 'out/rat-lps4-etv1-change', 'seconds': 198.7}
+[26/40] rat_lps4/Fnip2 (change): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'folder': 'out/rat-lps4-fnip2-change', 'seconds': 190.8}
+[27/40] rat_lps4/Mtmr10 (change): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'folder': 'out/rat-lps4-mtmr10-change', 'seconds': 192.0}
+[28/40] rat_lps4/Polr1e (change): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'folder': 'out/rat-lps4-polr1e-change', 'seconds': 195.3}
+[29/40] rat_lps4/Sp110 (change): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'folder': 'out/rat-lps4-sp110-change', 'seconds': 260.8}
+[30/40] rat_lps4/Tapbp (change): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'folder': 'out/rat-lps4-tapbp-change', 'seconds': 397.7}
+[31/40] rat_lps4/Aarsd1 (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 21, 'folder': 'out/rat-lps4-aarsd1-no-change', 'seconds': 433.0}
+[32/40] rat_lps4/Alkbh7 (no_change): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'folder': 'out/rat-lps4-alkbh7-no-change', 'seconds': 536.1}
+[33/40] rat_lps4/Ezh2 (no_change): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'folder': 'out/rat-lps4-ezh2-no-change', 'seconds': 494.9}
+[34/40] rat_lps4/Ing3 (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 21, 'folder': 'out/rat-lps4-ing3-no-change', 'seconds': 436.4}
+[35/40] rat_lps4/Nipsnap3b (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 21, 'folder': 'out/rat-lps4-nipsnap3b-no-change', 'seconds': 386.3}
+[36/40] rat_lps4/Prpf6 (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 21, 'folder': 'out/rat-lps4-prpf6-no-change', 'seconds': 387.5}
+[37/40] rat_lps4/Serinc2 (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 21, 'folder': 'out/rat-lps4-serinc2-no-change', 'seconds': 364.9}
+[38/40] rat_lps4/Son (no_change): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'folder': 'out/rat-lps4-son-no-change', 'seconds': 360.3}
+[39/40] rat_lps4/Tbl3 (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 21, 'folder': 'out/rat-lps4-tbl3-no-change', 'seconds': 366.4}
+[40/40] rat_lps4/Ubap2 (no_change): {'verdict': 'NOT SUPPORTED', 'n_holds': 0, 'n_runs': 21, 'folder': 'out/rat-lps4-ubap2-no-change', 'seconds': 392.6}
+EXIT 0

@@ -5,6 +5,19 @@ All notable changes to Recluster. Dates are when the work landed in this reposit
 ## [0.7.0] — unreleased
 
 ### Added
+- Ground-truth study against matched bulk RNA-seq (`bench/ground_truth/`: `PLAN.md`,
+  `prepare.py`, `run_claims.py`, `score.py`). It scores 40 LPS claims on Hagai et al. 2018
+  against bulk DESeq2 of the same animals. Recluster: sensitivity 20/20 and specificity 17/20,
+  with false calls on rat Alkbh7, Ezh2 and Son, each ROBUST in every run. Recluster's baseline
+  pseudobulk run alone made identical calls; the naive cell-level test had specificity 0/20.
+  Results are in `bench/ground_truth/RESULTS.md`.
+- `recluster check --data X.h5ad --claim claim.yaml`: checks a claim against the data in
+  seconds without running anything, and prints the command to run next.
+- Clearer errors for claim, grid and threshold files: the nearest valid key or value
+  ("Did you mean ..."), the line and column of a YAML syntax error, a hint when the data
+  and claim files are swapped, and the allowed values; `recluster --version`; `run` and
+  `audit` print the path of the report. `examples/claims/TEMPLATE.yaml` and a step-by-step
+  "Use it on your own data" guide in the README.
 - Agent case study (`bench/agent_audit/`, harness `recluster/bench/agent_audit.py`, tests in
   `tests/test_agent_audit.py`): Claude Opus 5.5 analysed Kang 2018 through the API with one
   Python tool, and the claims in its final answer were audited with `recluster audit` under a

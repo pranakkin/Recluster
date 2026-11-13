@@ -1,0 +1,16 @@
+claim_type: differential_expression
+name: mouse_pic4 Prelid1 (no_change)
+columns:
+  condition: condition
+  sample:
+  - animal
+  - condition
+  labels: cell_type
+target:
+  label_value: phagocyte
+comparison:
+  group_a: stim
+  group_b: unst
+  direction: either
+genes:
+- Prelid1

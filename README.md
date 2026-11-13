@@ -22,6 +22,11 @@ Recluster has also audited an AI agent's full analysis of the same data: of the 
 population and expression claims, 32 are ROBUST, 3 FRAGILE and 1 NOT SUPPORTED, and its summary
 disagrees with its own tables in four places ([details](#auditing-an-ai-agents-analysis)).
 
+Against bulk RNA-seq of the same animals (Hagai et al. 2018; 40 LPS claims on clear-cut genes),
+Recluster called all 20 real changes and wrongly called 3 of 20 unchanged genes, all in rat: the
+same calls as its baseline donor-level run alone. The naive cell-level test called all 20
+unchanged genes ([details](bench/ground_truth/RESULTS.md)).
+
 Requires Python 3.11 and [uv](https://docs.astral.sh/uv/).
 
 ```bash
@@ -200,15 +205,16 @@ otherwise read as a number or a yes/no value: `group_a: "1"`, `label_value: "0"`
 replicate is the donor and condition together: `sample: [donor, condition]`. Every field is
 listed in [HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md#claim-file-fields).
 
-**5. Smoke test.**
+**5. Check the claim, then do a smoke test.**
 
 ```bash
+uv run recluster check --data data/my_data.h5ad --claim my_claim.yaml
 uv run recluster run --data data/my_data.h5ad --claim my_claim.yaml --max-runs 2 --out results/smoke
 ```
 
-The claim is checked against the file before any run, and a misspelt column, value or gene
-stops it with the columns or values the file holds. A verdict from 2 runs is not a verdict; this only
-shows the claim runs end to end.
+`check` takes seconds and runs nothing: it reports a misspelt key, column, value or gene with the
+nearest match and what the file holds, and prints the command to run next. The smoke test
+shows the claim runs end to end; a verdict from 2 runs is not a verdict.
 
 **6. Run the full grid.**
 
@@ -301,6 +307,17 @@ of runs while replicate-aware statistics call it in < 50 %).
   fake population is fragile across normalisations, not removed as doublets. The
   doublet-population step catches the development block where that block clusters on its own
   and removes no real cluster. It missed both held-out blocks. RESULTS.md has the full account.
+
+**Ground truth from matched bulk RNA-seq.** Hagai et al. 2018 profiled bone-marrow phagocytes
+from the same three mice and three rats by bulk and single-cell RNA-seq, 4 h after LPS and
+unstimulated. Under a plan written before any single-cell test, 10 genes that clearly change in
+bulk and 10 that clearly do not were drawn per species, and each was claimed to change. Recluster
+called all 20 changes (sensitivity 100 %, 95 % CI 84–100), as did the naive cell-level test, and
+3 of the 20 unchanged genes, all in rat (specificity 85 %, 64–95). Each false call was ROBUST in
+every run, so the grid gave no warning. Recluster's baseline pseudobulk run alone made the same 40
+calls, so on these clear-cut genes the grid added nothing. The naive cell-level test called all 20
+unchanged genes. Details, and what is and is not known about the three false calls, are in
+[bench/ground_truth/RESULTS.md](bench/ground_truth/RESULTS.md).
 
 ## Reproduce the results
 
@@ -581,7 +598,7 @@ chflags -R nohidden .venv
 name in the claim does not match the file; the message lists the columns the file has, and names
 are case-sensitive.
 
-**`genes not in var_names`.** Gene symbols are case-sensitive (mouse `Cd14`, human `CD14`). If
+**`gene(s) not found in the data's gene names`.** Gene symbols are case-sensitive (mouse `Cd14`, human `CD14`). If
 the file's gene names are Ensembl IDs, either set gene symbols as `var_names` before writing the
 `.h5ad` or use the IDs in the claim.
 

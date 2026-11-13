@@ -16,3 +16,4 @@ bench/out/
 # agent case study: the input copy and the agent's saved objects are large and reproducible
 bench/agent_audit/run/workspace/*.h5ad
 bench/agent_audit/out/*/
+bench/ground_truth/out/*/

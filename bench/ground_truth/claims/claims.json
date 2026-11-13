@@ -1,0 +1,762 @@
+[
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Acsl1",
+  "truth": "change",
+  "bulk_log2fc": 4.234006616191648,
+  "bulk_padj": 2.9959254527822045e-142,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Acsl1.yaml",
+  "n_eligible": 1175
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Ampd3",
+  "truth": "change",
+  "bulk_log2fc": 3.0096248438868156,
+  "bulk_padj": 1.3778201346846659e-21,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Ampd3.yaml",
+  "n_eligible": 1175
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Azi2",
+  "truth": "change",
+  "bulk_log2fc": 1.7414285498426254,
+  "bulk_padj": 7.155214984549222e-09,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Azi2.yaml",
+  "n_eligible": 1175
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Cry1",
+  "truth": "change",
+  "bulk_log2fc": 1.2514433398652807,
+  "bulk_padj": 5.0653149348233885e-05,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Cry1.yaml",
+  "n_eligible": 1175
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Flvcr1",
+  "truth": "change",
+  "bulk_log2fc": -1.949004216345018,
+  "bulk_padj": 1.583474612641068e-06,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Flvcr1.yaml",
+  "n_eligible": 1175
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Gprc5b",
+  "truth": "change",
+  "bulk_log2fc": -2.231389075630308,
+  "bulk_padj": 7.631051000531305e-08,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Gprc5b.yaml",
+  "n_eligible": 1175
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Mtmr14",
+  "truth": "change",
+  "bulk_log2fc": 2.3100488507050527,
+  "bulk_padj": 1.865074730094852e-20,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Mtmr14.yaml",
+  "n_eligible": 1175
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Ppfia3",
+  "truth": "change",
+  "bulk_log2fc": 4.685758238135449,
+  "bulk_padj": 4.284373256444397e-44,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Ppfia3.yaml",
+  "n_eligible": 1175
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Spred1",
+  "truth": "change",
+  "bulk_log2fc": 3.3975989116008507,
+  "bulk_padj": 2.35350814252799e-37,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Spred1.yaml",
+  "n_eligible": 1175
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Tap1",
+  "truth": "change",
+  "bulk_log2fc": 3.3582323760828587,
+  "bulk_padj": 1.5160448394457674e-15,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Tap1.yaml",
+  "n_eligible": 1175
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "2210016L21Rik",
+  "truth": "no_change",
+  "bulk_log2fc": -0.08612439835404369,
+  "bulk_padj": 0.8378471469227656,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_2210016L21Rik.yaml",
+  "n_eligible": 1752
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Anapc5",
+  "truth": "no_change",
+  "bulk_log2fc": -0.1631449077461458,
+  "bulk_padj": 0.656116868477741,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Anapc5.yaml",
+  "n_eligible": 1752
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Fam193a",
+  "truth": "no_change",
+  "bulk_log2fc": -0.1575227444728862,
+  "bulk_padj": 0.7064226257226557,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Fam193a.yaml",
+  "n_eligible": 1752
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Itgb7",
+  "truth": "no_change",
+  "bulk_log2fc": -0.27770995422079936,
+  "bulk_padj": 0.5582581236179186,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Itgb7.yaml",
+  "n_eligible": 1752
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Nmt1",
+  "truth": "no_change",
+  "bulk_log2fc": 0.05505815354957732,
+  "bulk_padj": 0.856346399928518,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Nmt1.yaml",
+  "n_eligible": 1752
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Rab14",
+  "truth": "no_change",
+  "bulk_log2fc": 0.10191472876870605,
+  "bulk_padj": 0.6909608763667493,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Rab14.yaml",
+  "n_eligible": 1752
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Selenok",
+  "truth": "no_change",
+  "bulk_log2fc": 0.15780204557791344,
+  "bulk_padj": 0.6327718777093352,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Selenok.yaml",
+  "n_eligible": 1752
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Snrpa",
+  "truth": "no_change",
+  "bulk_log2fc": -0.2057068057312422,
+  "bulk_padj": 0.6647421553639188,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Snrpa.yaml",
+  "n_eligible": 1752
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Tbl1x",
+  "truth": "no_change",
+  "bulk_log2fc": 0.052886224643167334,
+  "bulk_padj": 0.8680278029774091,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Tbl1x.yaml",
+  "n_eligible": 1752
+ },
+ {
+  "comparison": "mouse_lps4",
+  "gene": "Uimc1",
+  "truth": "no_change",
+  "bulk_log2fc": 0.013368065427148116,
+  "bulk_padj": 0.9735135890210361,
+  "data": "data/hagai2018/mouse_lps4.h5ad",
+  "file": "claims/mouse_lps4_Uimc1.yaml",
+  "n_eligible": 1752
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Ccl4",
+  "truth": "change",
+  "bulk_log2fc": 5.252126827445577,
+  "bulk_padj": 0.002242522452976802,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Ccl4.yaml",
+  "n_eligible": 7
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Egr1",
+  "truth": "change",
+  "bulk_log2fc": 3.322676507418658,
+  "bulk_padj": 4.849685210928791e-05,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Egr1.yaml",
+  "n_eligible": 7
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Ifi203",
+  "truth": "change",
+  "bulk_log2fc": 4.023382046400626,
+  "bulk_padj": 0.00783994592322165,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Ifi203.yaml",
+  "n_eligible": 7
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Nfkbie",
+  "truth": "change",
+  "bulk_log2fc": 3.4685387804209924,
+  "bulk_padj": 0.0035369384013953036,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Nfkbie.yaml",
+  "n_eligible": 7
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Phlda1",
+  "truth": "change",
+  "bulk_log2fc": 3.2995480022701655,
+  "bulk_padj": 5.174236577880566e-05,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Phlda1.yaml",
+  "n_eligible": 7
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Socs1",
+  "truth": "change",
+  "bulk_log2fc": 5.0296476826316985,
+  "bulk_padj": 0.00783994592322165,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Socs1.yaml",
+  "n_eligible": 7
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Tnf",
+  "truth": "change",
+  "bulk_log2fc": 2.596298644036087,
+  "bulk_padj": 0.0037832736221049515,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Tnf.yaml",
+  "n_eligible": 7
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Etfb",
+  "truth": "no_change",
+  "bulk_log2fc": 0.3555908679221489,
+  "bulk_padj": 0.9999297446590986,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Etfb.yaml",
+  "n_eligible": 4995
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Mvb12a",
+  "truth": "no_change",
+  "bulk_log2fc": 0.22032838217703835,
+  "bulk_padj": 0.9999297446590986,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Mvb12a.yaml",
+  "n_eligible": 4995
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Npepl1",
+  "truth": "no_change",
+  "bulk_log2fc": 0.27131219963994996,
+  "bulk_padj": 0.9999297446590986,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Npepl1.yaml",
+  "n_eligible": 4995
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Ormdl1",
+  "truth": "no_change",
+  "bulk_log2fc": -0.23835709930173057,
+  "bulk_padj": 0.9999297446590986,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Ormdl1.yaml",
+  "n_eligible": 4995
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Plgrkt",
+  "truth": "no_change",
+  "bulk_log2fc": 0.07492413309528834,
+  "bulk_padj": 0.9999297446590986,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Plgrkt.yaml",
+  "n_eligible": 4995
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Prelid1",
+  "truth": "no_change",
+  "bulk_log2fc": 0.17924151554218715,
+  "bulk_padj": 0.9999297446590986,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Prelid1.yaml",
+  "n_eligible": 4995
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Rtn4",
+  "truth": "no_change",
+  "bulk_log2fc": 0.048972307346509265,
+  "bulk_padj": 0.9999297446590986,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Rtn4.yaml",
+  "n_eligible": 4995
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Srsf6",
+  "truth": "no_change",
+  "bulk_log2fc": 0.15669001827104312,
+  "bulk_padj": 0.9999297446590986,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Srsf6.yaml",
+  "n_eligible": 4995
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Uqcrb",
+  "truth": "no_change",
+  "bulk_log2fc": -0.06874414906479312,
+  "bulk_padj": 0.9999297446590986,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Uqcrb.yaml",
+  "n_eligible": 4995
+ },
+ {
+  "comparison": "mouse_pic4",
+  "gene": "Yif1b",
+  "truth": "no_change",
+  "bulk_log2fc": 0.16142963013671024,
+  "bulk_padj": 0.9999297446590986,
+  "data": "data/hagai2018/mouse_pic4.h5ad",
+  "file": "claims/mouse_pic4_Yif1b.yaml",
+  "n_eligible": 4995
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Ada",
+  "truth": "change",
+  "bulk_log2fc": 1.5266926938621952,
+  "bulk_padj": 1.1650782209400104e-11,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Ada.yaml",
+  "n_eligible": 654
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Ankrd33b",
+  "truth": "change",
+  "bulk_log2fc": 1.4302452717707734,
+  "bulk_padj": 2.884851795371813e-10,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Ankrd33b.yaml",
+  "n_eligible": 654
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Baz1b",
+  "truth": "change",
+  "bulk_log2fc": -1.0128113348650425,
+  "bulk_padj": 3.5734954529159865e-09,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Baz1b.yaml",
+  "n_eligible": 654
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Cmpk2",
+  "truth": "change",
+  "bulk_log2fc": 6.598576928266581,
+  "bulk_padj": 1.1421493273817512e-09,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Cmpk2.yaml",
+  "n_eligible": 654
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Etv1",
+  "truth": "change",
+  "bulk_log2fc": -1.8941561629352262,
+  "bulk_padj": 2.1535968480041096e-16,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Etv1.yaml",
+  "n_eligible": 654
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Fnip2",
+  "truth": "change",
+  "bulk_log2fc": -1.7556032692145482,
+  "bulk_padj": 1.0334861627881433e-22,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Fnip2.yaml",
+  "n_eligible": 654
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Mtmr10",
+  "truth": "change",
+  "bulk_log2fc": -1.0261150731132513,
+  "bulk_padj": 2.9108221727964754e-05,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Mtmr10.yaml",
+  "n_eligible": 654
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Polr1e",
+  "truth": "change",
+  "bulk_log2fc": 2.5254722171215622,
+  "bulk_padj": 1.2034058528914535e-35,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Polr1e.yaml",
+  "n_eligible": 654
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Sp110",
+  "truth": "change",
+  "bulk_log2fc": 1.0557279196151181,
+  "bulk_padj": 0.003550867316112884,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Sp110.yaml",
+  "n_eligible": 654
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Tapbp",
+  "truth": "change",
+  "bulk_log2fc": 1.365434748433143,
+  "bulk_padj": 0.0012441256640121482,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Tapbp.yaml",
+  "n_eligible": 654
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Aarsd1",
+  "truth": "no_change",
+  "bulk_log2fc": -0.07909890663623614,
+  "bulk_padj": 0.7015546521260393,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Aarsd1.yaml",
+  "n_eligible": 1830
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Alkbh7",
+  "truth": "no_change",
+  "bulk_log2fc": 0.09582280741853197,
+  "bulk_padj": 0.9103461467782834,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Alkbh7.yaml",
+  "n_eligible": 1830
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Ezh2",
+  "truth": "no_change",
+  "bulk_log2fc": -0.31520292048462445,
+  "bulk_padj": 0.5741501337645248,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Ezh2.yaml",
+  "n_eligible": 1830
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Ing3",
+  "truth": "no_change",
+  "bulk_log2fc": 0.1310291431060193,
+  "bulk_padj": 0.687637232807253,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Ing3.yaml",
+  "n_eligible": 1830
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Nipsnap3b",
+  "truth": "no_change",
+  "bulk_log2fc": -0.03855382884688959,
+  "bulk_padj": 0.8768013344402439,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Nipsnap3b.yaml",
+  "n_eligible": 1830
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Prpf6",
+  "truth": "no_change",
+  "bulk_log2fc": 0.07844263056166316,
+  "bulk_padj": 0.6186342819871308,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Prpf6.yaml",
+  "n_eligible": 1830
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Serinc2",
+  "truth": "no_change",
+  "bulk_log2fc": -0.03958230019548066,
+  "bulk_padj": 0.8726345171423833,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Serinc2.yaml",
+  "n_eligible": 1830
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Son",
+  "truth": "no_change",
+  "bulk_log2fc": -0.029859277627358717,
+  "bulk_padj": 0.8434789489743002,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Son.yaml",
+  "n_eligible": 1830
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Tbl3",
+  "truth": "no_change",
+  "bulk_log2fc": 0.08678061347383242,
+  "bulk_padj": 0.6506917715914231,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Tbl3.yaml",
+  "n_eligible": 1830
+ },
+ {
+  "comparison": "rat_lps4",
+  "gene": "Ubap2",
+  "truth": "no_change",
+  "bulk_log2fc": 0.04568371468286223,
+  "bulk_padj": 0.806304389259454,
+  "data": "data/hagai2018/rat_lps4.h5ad",
+  "file": "claims/rat_lps4_Ubap2.yaml",
+  "n_eligible": 1830
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Bcl3",
+  "truth": "change",
+  "bulk_log2fc": 1.1149389291493141,
+  "bulk_padj": 3.141127403493099e-07,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Bcl3.yaml",
+  "n_eligible": 9
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Dtx3l",
+  "truth": "change",
+  "bulk_log2fc": 2.755353229429053,
+  "bulk_padj": 2.624826752637027e-05,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Dtx3l.yaml",
+  "n_eligible": 9
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Egr1",
+  "truth": "change",
+  "bulk_log2fc": 2.2540434078898532,
+  "bulk_padj": 4.821975377394408e-17,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Egr1.yaml",
+  "n_eligible": 9
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Fos",
+  "truth": "change",
+  "bulk_log2fc": 2.3491307579301344,
+  "bulk_padj": 2.6453267334187096e-12,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Fos.yaml",
+  "n_eligible": 9
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Irf1",
+  "truth": "change",
+  "bulk_log2fc": 3.381469029306829,
+  "bulk_padj": 0.006558088165120677,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Irf1.yaml",
+  "n_eligible": 9
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Nfkbia",
+  "truth": "change",
+  "bulk_log2fc": 1.5056288208582718,
+  "bulk_padj": 1.9668465592389328e-05,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Nfkbia.yaml",
+  "n_eligible": 9
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Plk2",
+  "truth": "change",
+  "bulk_log2fc": 1.3323074414213283,
+  "bulk_padj": 0.0003788368625430145,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Plk2.yaml",
+  "n_eligible": 9
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Tent5a",
+  "truth": "change",
+  "bulk_log2fc": 2.259585919924306,
+  "bulk_padj": 0.00024566751446045197,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Tent5a.yaml",
+  "n_eligible": 9
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Zfp36",
+  "truth": "change",
+  "bulk_log2fc": 1.5639740952571137,
+  "bulk_padj": 4.4526543401359305e-15,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Zfp36.yaml",
+  "n_eligible": 9
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Abcb10",
+  "truth": "no_change",
+  "bulk_log2fc": 0.07623405078590682,
+  "bulk_padj": 0.9999373517883522,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Abcb10.yaml",
+  "n_eligible": 5863
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Fahd2a",
+  "truth": "no_change",
+  "bulk_log2fc": 0.2920705987467197,
+  "bulk_padj": 0.9999373517883522,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Fahd2a.yaml",
+  "n_eligible": 5863
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Itga5",
+  "truth": "no_change",
+  "bulk_log2fc": 0.41134512534561885,
+  "bulk_padj": 0.9999373517883522,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Itga5.yaml",
+  "n_eligible": 5863
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Nprl2",
+  "truth": "no_change",
+  "bulk_log2fc": -0.12153481874185541,
+  "bulk_padj": 0.9999373517883522,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Nprl2.yaml",
+  "n_eligible": 5863
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Ofd1",
+  "truth": "no_change",
+  "bulk_log2fc": 0.005900283406598006,
+  "bulk_padj": 0.9999373517883522,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Ofd1.yaml",
+  "n_eligible": 5863
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Ppp1r21",
+  "truth": "no_change",
+  "bulk_log2fc": -0.01656537041586451,
+  "bulk_padj": 0.9999373517883522,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Ppp1r21.yaml",
+  "n_eligible": 5863
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Rab31",
+  "truth": "no_change",
+  "bulk_log2fc": -0.018568964319263713,
+  "bulk_padj": 0.9999373517883522,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Rab31.yaml",
+  "n_eligible": 5863
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Sqor",
+  "truth": "no_change",
+  "bulk_log2fc": -0.015533848090501295,
+  "bulk_padj": 0.9999373517883522,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Sqor.yaml",
+  "n_eligible": 5863
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Tex9",
+  "truth": "no_change",
+  "bulk_log2fc": 0.11285551882922455,
+  "bulk_padj": 0.9999373517883522,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Tex9.yaml",
+  "n_eligible": 5863
+ },
+ {
+  "comparison": "rat_pic4",
+  "gene": "Ufl1",
+  "truth": "no_change",
+  "bulk_log2fc": -0.01276986878350362,
+  "bulk_padj": 0.9999373517883522,
+  "data": "data/hagai2018/rat_pic4.h5ad",
+  "file": "claims/rat_pic4_Ufl1.yaml",
+  "n_eligible": 5863
+ }
+]
