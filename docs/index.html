@@ -42,7 +42,7 @@ a:hover { text-decoration-thickness: 2px; }
 .skip:focus { left: 8px; }
 
 /* ---------- top bar ---------- */
-.bar { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s5);
+.bar { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--s4) var(--s5);
   padding: var(--s5) 0 var(--s4); border-bottom: 1px solid var(--ink); }
 .wordmark { font: 600 22px/1 var(--serif); letter-spacing: -.01em; text-decoration: none; }
 .bar nav { display: flex; gap: var(--s5); font: 500 14px/1 var(--sans); }
@@ -50,7 +50,7 @@ a:hover { text-decoration-thickness: 2px; }
 .bar nav a:hover { color: var(--ink); text-decoration: underline; }
 .bar nav a.contact { color: var(--ink); border: 1.5px solid var(--ink); padding: 7px 12px; margin: -9px 0; border-radius: 2px; }
 .bar nav a.contact:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
-.bar nav { align-items: baseline; }
+.bar nav { align-items: baseline; flex-wrap: wrap; row-gap: var(--s3); }
 
 /* ---------- verdict stamp ---------- */
 .stamp { display: inline-block; font: 600 13px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase;
