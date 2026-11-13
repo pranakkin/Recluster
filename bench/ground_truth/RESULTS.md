@@ -10,8 +10,9 @@ claims ran on 2026-11-13 (04:38 to 08:24 UTC) with Recluster 0.6.0 (the version 
 
 Every number not marked † comes from `out/scores.md`, `out/scores.json`, `out/summary.json`,
 `claims/claims.json`, `bulk_truth/*.csv` or the per-claim `out/<folder>/provenance.json`.
-Numbers marked † come from a post hoc analysis run after scoring. That analysis reproduces the
-bulk truth and Recluster's pseudobulk values exactly, but its scripts are not in this folder.
+Numbers marked † come from a post hoc analysis run after scoring. They are computed by
+`posthoc.py`, which writes them to `posthoc/numbers.json` with supporting tables in `posthoc/`.
+That analysis reproduces the bulk truth and Recluster's pseudobulk values exactly.
 
 ## 1. Summary
 
@@ -211,8 +212,8 @@ genome-wide correction each would also pass at padj 0.05.
 
 - Recluster's pseudobulk test pairs the stimulated and unstimulated samples of each animal
   (`~pair + condition`). The bulk truth is unpaired.
-- Rerun unpaired on the same pseudobulk counts†, none of the three would be called: p 0.326
-  (Alkbh7), 0.229 (Ezh2) and 0.307 (Son).
+- Rerun unpaired on the all-cells pseudobulk counts (before doublet removal)†, none of the three
+  would be called: p 0.326 (Alkbh7), 0.229 (Ezh2) and 0.307 (Son).
 - No grid axis touches the pseudobulk design or its normalisation, so the grid could not show
   this.
 
@@ -234,8 +235,8 @@ genome-wide correction each would also pass at padj 0.05.
 **For Ezh2, the fall is consistent with a loss of cycling cells.**
 
 - On a post hoc definition, a cell counts as cycling when at least 4 of 17 G2M genes or 4 of 14
-  S-phase genes are detected† (the list has 18 G2M genes, but Ccnb2 has no unique rat symbol). By
-  that definition the share of cycling rat cells falls after LPS†:
+  S-phase genes are detected† (the list has 18 G2M genes, but Ccnb2 is not in the rat single-cell
+  table). By that definition the share of cycling rat cells falls after LPS†:
 
   | | rat1 | rat2 | rat3 |
   |---|---|---|---|
@@ -245,7 +246,10 @@ genome-wide correction each would also pass at padj 0.05.
   The definition depends on sequencing depth. Mouse libraries are shallower (median 9,761
   against 22,611 UMI per cell in rat†), and on the same rule, with all 18 G2M genes, 0.5–1.7 % of
   mouse cells count as cycling†. That figure is not comparable with rat.
-- In unstimulated rat cells, Ezh2 is 5.6 times (log2 2.48) higher in cycling cells†. Within
+- In unstimulated rat cells, Ezh2 is 5.6 times (log2 2.48) higher in cycling cells† (6.4 times
+  without the pseudocount†). A gene's cycling association, here and above, is
+  log2((CP10k in cycling + 0.01) / (CP10k in non-cycling + 0.01)) over unstimulated cells; the
+  pseudocount of 0.01 CP10k keeps genes absent from one group finite. Within
   non-cycling cells, with library-size (CP10k) scaling, its per-animal log2(stim/unst) is +0.672,
   +0.004 and +0.046†: two animals show no fall and rat1 shows a rise. On the same scaling, all
   cells give −1.051, −1.277 and −1.438 (table above).
@@ -287,8 +291,8 @@ genome-wide correction each would also pass at padj 0.05.
 
 ### How typical the three are (post hoc, †)
 
-Recluster's one-gene paired pseudobulk test (p < 0.05) was applied to every eligible gene, not
-only the 40 drawn:
+Recluster's one-gene paired pseudobulk test (p < 0.05) was applied, on all cells before doublet
+removal, to every eligible gene, not only the 40 drawn:
 
 | | no-change genes called, paired | no-change genes called, unpaired | change genes called with bulk sign, paired | change genes called with bulk sign, unpaired |
 |---|---|---|---|---|
@@ -365,8 +369,11 @@ normalisation and the definition of the population. None of them is a grid axis.
 - **The bulk truth is itself an estimate.** It comes from three animals per condition, it may
   not cover the same cell population as the single-cell pool, and for genes such as Alkbh7 its
   "no change" rests on wide intervals.
-- **The post hoc analysis is not reproducible from the repository.** Its scripts are not
-  committed, so the † numbers cannot be rerun from this folder.
+- **The post hoc analysis was defined after scoring.** `posthoc.py` reruns it from the
+  committed files and the input data, but its choices (the cycling rule, the 2× and 0.25 cuts,
+  the 0.01 CP10k pseudocount) were made after the results were seen, so the † numbers are
+  exploratory. Its check against Recluster's own pseudobulk runs only when the git-ignored
+  `out/<folder>/provenance.json` files are present.
 
 ## 7. How to reproduce
 
@@ -389,6 +396,7 @@ Then run:
 uv run python bench/ground_truth/prepare.py      # h5ad files, bulk_truth/*.csv, claims/
 uv run python bench/ground_truth/run_claims.py   # 40 LPS claims, 14 workers by default; resumable
 uv run python bench/ground_truth/score.py        # out/scores.json, out/scores.md
+uv run python bench/ground_truth/posthoc.py      # posthoc/: the † numbers, about 1 min
 ```
 
 `prepare.py` builds all four comparisons and writes four `.h5ad` files of 278–374 MB each.

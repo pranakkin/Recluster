@@ -1,0 +1,4 @@
+animal,log2_libsize_ratio,log2_size_factor_ratio,offset
+rat1,0.0161839,-0.52964,0.545824
+rat2,0.0698773,-0.481858,0.551735
+rat3,-0.35876,-0.937092,0.578332

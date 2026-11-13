@@ -1,0 +1,7 @@
+sample,n_cycling,n_cells,fraction
+mouse1|stim,14,2366,0.00591716
+mouse1|unst,26,2126,0.0122295
+mouse2|stim,24,3293,0.00728819
+mouse2|unst,60,3519,0.0170503
+mouse3|stim,18,3536,0.0050905
+mouse3|unst,44,2936,0.0149864

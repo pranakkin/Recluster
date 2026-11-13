@@ -1,0 +1,4 @@
+animal,log2_libsize_ratio,log2_size_factor_ratio,offset
+mouse1,0.722192,0.0506462,0.671546
+mouse2,0.349038,-0.0520855,0.401123
+mouse3,0.397487,-0.0873937,0.484881

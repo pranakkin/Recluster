@@ -1,0 +1,4 @@
+condition,n_cells,median_umi,median_genes,min_genes,max_mito_pct
+stim,9195,10931,2505,1245,9.9723
+unst,8581,8567,2376,1100,9.94638
+all,17776,9761,2448,1100,9.9723
