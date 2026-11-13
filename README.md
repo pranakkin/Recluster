@@ -62,7 +62,7 @@ SUPPORTED below 20 %; runs that cannot test the claim count as failures. A possi
 confound caps the verdict at FRAGILE, and an effect that disappears once time is adjusted for is
 NOT SUPPORTED.
 
-The benchmark reports, one page per case: https://pranakkin.github.io/Recluster/
+The benchmark reports, one page per case: https://pranakkin.github.io/Recluster/benchmark.html
 
 ## Two failure modes
 
@@ -425,10 +425,10 @@ marker calls survive. Next:
 recluster/            engine: spec, pipeline, grid, matching, evaluators, time_confound, verdict, report, llm, bench, demo
 recluster/resources/  daynight_genes.csv, built from Wucher et al. 2023 S8 (CC BY 4.0) by scripts/fetch_daynight_genes.py
 bench/                benchmark runner outputs: RESULTS.md, results.json, results_table.md (and the first run's copies), design_measurements.md
-docs/                 GitHub Pages: index.html, reports/, HOW_IT_WORKS.md, report-hero.png
+docs/                 GitHub Pages: index.html (project page, drawn from site-data.js), benchmark.html, reports/, HOW_IT_WORKS.md, report-hero.png
 examples/claims/      claim YAML examples (synthetic, PBMC3k, Kang)
 scripts/              make_synthetic_example.py, make_processed_example.py, download_kang.py, fetch_daynight_genes.py,
-                      build_docs.py, design_measurements.py, demo_hash.py, verify_reproduction.sh
+                      build_docs.py, build_site_data.py, design_measurements.py, demo_hash.py, verify_reproduction.sh
 tests/                offline tests on synthetic data (CI runs pytest, ruff and ruff format on the code and tests, and mypy on the package)
 ```
 
@@ -451,4 +451,7 @@ the mistakes that sink them, such as testing cells instead of donors or comparin
 at different times of day, rarely show in the final figure. I built Recluster so a claim can be
 checked before anyone builds on it.
 
-MIT licensed.
+Contact: pranakkin@gmail.com
+
+© 2026 Pranavi Akkinepally. All rights reserved. The code is published for review; see
+[LICENSE](LICENSE).
