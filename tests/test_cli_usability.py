@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import re
+from dataclasses import dataclass
+
 import pytest
 from typer.testing import CliRunner
 
@@ -15,8 +18,16 @@ OK_CLAIM = (
 )
 
 
-def _invoke(*args: object):
-    return CliRunner().invoke(app, [str(a) for a in args])
+@dataclass
+class _Result:
+    exit_code: int
+    output: str
+
+
+def _invoke(*args: object) -> _Result:
+    r = CliRunner().invoke(app, [str(a) for a in args], env={"COLUMNS": "200"})
+    # CI terminals get colour codes in rich help output
+    return _Result(r.exit_code, re.sub(r"\x1b\[[0-9;]*m", "", r.output))
 
 
 def _claim(tmp_path, text: str, name: str = "claim.yaml"):
