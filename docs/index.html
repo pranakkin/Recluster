@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Recluster: does a single-cell result depend on how it was analysed?</title>
 <meta name="description" content="Recluster re-runs a single-cell RNA-seq analysis across other defensible settings, tests on donors rather than cells, and reports how often a claim holds and which settings broke it.">
+<meta property="og:title" content="Recluster: does a single-cell result depend on how it was analysed?">
+<meta property="og:description" content="A Python command-line tool that re-runs a single-cell RNA-seq analysis about twenty ways, tests on donors rather than cells, and gives a verdict: ROBUST, FRAGILE or NOT SUPPORTED.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pranakkin.github.io/Recluster/">
+<meta property="og:image" content="https://pranakkin.github.io/Recluster/report-hero.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23f6f4ee'/%3E%3Crect x='1.5' y='5.5' width='3.5' height='5' fill='%231a1a18'/%3E%3Crect x='6.25' y='5.5' width='3.5' height='5' fill='%231a1a18'/%3E%3Crect x='11.25' y='5.75' width='3' height='4.5' fill='none' stroke='%231a1a18'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
@@ -19,7 +25,7 @@
   --rule: #d6d1c4;
   /* verdict colours, used for verdicts only */
   --robust: #2f6b3a;
-  --fragile: #8a6a1e;
+  --fragile: #7d5f19;
   --ns: #9b3b2e;
   --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -68,6 +74,7 @@ button.sq:hover { transform: translateY(-2px); }
 button.sq[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
 .strip.small { gap: 2px; max-width: calc(var(--n, 21) * 11px); }
 .strip.small .sq { border-width: 1px; }
+.strip.small .sq.nomatch { background: repeating-linear-gradient(45deg, var(--ink-3) 0 1px, transparent 1px 3px); }
 
 /* ---------- hero ---------- */
 .hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--s8); padding: var(--s8) 0 var(--s7); align-items: start; }
@@ -142,7 +149,7 @@ aside.sn p:last-child { margin: 0; }
 
 /* benchmark ledger */
 .score { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2) var(--s6); align-items: end; }
-.ledger { margin-top: var(--s7) !important; }
+.ledger { margin-top: var(--s4) !important; }
 .score .big { font: 400 clamp(72px, 9vw, 128px)/.85 var(--serif); letter-spacing: -.04em; }
 .score .of { font: 400 24px/1.35 var(--serif); color: var(--ink-2); padding-bottom: 6px; max-width: 26em; }
 .score .of b { color: var(--ink); font-weight: 600; }
@@ -155,23 +162,31 @@ aside.sn p:last-child { margin: 0; }
 .case:hover { background: var(--paper-2); }
 .case:hover .title { text-decoration: underline; text-underline-offset: 3px; }
 .case .num { font: 13px var(--mono); color: var(--ink-3); }
+.case .tw { min-width: 0; }
+.case .expect { display: block; font: 12.5px/1.4 var(--sans); color: var(--ink-3); margin-top: 2px; }
 .case .runs { font: 13.5px var(--mono); text-align: right; }
 .case .verdict { font: 600 12px/1.2 var(--sans); letter-spacing: .06em; text-transform: uppercase; }
 .case .outcome { font: 13.5px/1.2 var(--sans); color: var(--ink-2); }
 .case .outcome.bad { font-weight: 600; color: var(--ink); }
-.ledger-legend { font: 13px/1.5 var(--sans); color: var(--ink-3); margin-top: var(--s4); display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
+.ledger-legend { font: 13px/1.5 var(--sans); color: var(--ink-3); margin-top: var(--s7); display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
 .ledger-legend span { display: inline-flex; gap: 7px; align-items: center; }
 .ledger-legend .sq { width: 11px; }
+.ledger-legend .sq.nomatch { border: 1px solid var(--ink-3); background: repeating-linear-gradient(45deg, var(--ink-3) 0 1px, transparent 1px 3px); }
 
 /* try it */
-.try { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s7); }
+.try { display: grid; grid-template-columns: minmax(0, 9fr) minmax(0, 11fr); gap: var(--s7); }
 .try > div { min-width: 0; }
-pre { margin: 0; font: 14px/1.7 var(--mono); background: var(--ink); color: #ecebe4; padding: var(--s5); overflow-x: auto; border-radius: 2px; }
+pre { margin: 0; font: 13.5px/1.7 var(--mono); background: var(--ink); color: #ecebe4; padding: var(--s5); overflow-x: auto; border-radius: 2px; }
 pre .c { color: #9c9a91; }
 pre.yaml { background: var(--paper-2); color: var(--ink); border-left: 2px solid var(--ink); }
 pre.yaml .c { color: var(--ink-3); }
 .try .prose p { font-size: 17px; }
 .small-sans { font: 14.5px/1.55 var(--sans); color: var(--ink-2); }
+.codewrap { display: flex; flex-direction: column; }
+.codewrap .copy { align-self: flex-end; margin: 0 0 6px; font: 500 12.5px/1 var(--sans); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--ink); border-radius: 2px; padding: 6px 10px; cursor: pointer; }
+.codewrap .copy:hover { background: var(--ink); color: var(--paper); }
+.next.steps { margin: 0 0 var(--s6); }
 
 /* limits */
 .limits { columns: 2 320px; column-gap: var(--s7); margin: 0; padding: 0; list-style: none; }
@@ -213,6 +228,8 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
   body { font-size: 17px; }
   .bar nav { gap: var(--s4); font-size: 13.5px; }
   .bar nav .wide { display: none; }
+  .bar nav a { padding: 8px 0; margin: -8px 0; }
+  .instrument button.sq { aspect-ratio: auto; height: 28px; }
   .hero { padding: var(--s6) 0; }
   .hero .lede { font-size: 18px; }
   .instrument .claim { font-size: 20px; }
@@ -221,7 +238,7 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
   .arm .strip { order: 2; }
   .arm .count b { font-size: 22px; }
   section { padding: var(--s7) 0; }
-  pre { font-size: 12.5px; padding: var(--s4); }
+  pre, pre.yaml { font-size: 12.5px; padding: var(--s4); }
   .sequence li { grid-template-columns: 1fr; gap: var(--s2); }
   .settings tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--rule); }
   .settings th, .settings td { display: block; border: 0; padding: 0; width: auto; }
@@ -230,7 +247,7 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
   /* each benchmark case becomes a three-line entry */
   .case { grid-template-columns: 24px minmax(0, 1fr) auto; grid-template-areas:
       "num title title" ". strip runs" ". verdict outcome"; gap: 8px var(--s3); padding: var(--s3) 0; }
-  .case .num { grid-area: num; } .case .title { grid-area: title; }
+  .case .num { grid-area: num; } .case .tw { grid-area: title; }
   .case .strip { grid-area: strip; width: 100%; max-width: 100%; } .case .runs { grid-area: runs; }
   .case .verdict { grid-area: verdict; } .case .outcome { grid-area: outcome; text-align: right; }
 }
@@ -249,8 +266,9 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
     <nav aria-label="Site">
       <a class="wide" href="#runs">How it works</a>
       <a href="#benchmark">Benchmark</a>
+      <a href="#try">Try it</a>
       <a class="wide" href="#founder">Founder</a>
-      <a href="https://github.com/pranakkin/Recluster">GitHub</a>
+      <a class="wide" href="https://github.com/pranakkin/Recluster">GitHub</a>
       <a class="contact" href="mailto:pranakkin@gmail.com">Contact</a>
     </nav>
   </header>
@@ -260,10 +278,11 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
       <div>
         <p class="label">For single-cell RNA-seq</p>
         <h1>Find out whether a single-cell result depends on how it was analysed.</h1>
-        <p class="lede">You give Recluster your data and one claim: that a cell type exists, that it changes in
-          abundance, or that a gene changes in it between conditions. It re-runs the analysis about twenty ways,
-          tests on donors rather than individual cells, and reports how often the claim held and which settings
-          broke it.</p>
+        <p class="lede">Recluster is a Python command-line tool. You give it an AnnData (.h5ad) file with raw
+          counts and one claim: that a cell type exists, that it changes in abundance, or that a gene changes in
+          it between conditions. It re-runs the analysis about twenty ways from the raw counts, tests on donors
+          rather than individual cells, and writes an HTML report: how often the claim held, which settings
+          broke it, and a verdict of ROBUST, FRAGILE or NOT SUPPORTED.</p>
         <div class="actions">
           <a class="btn" href="#try">Install and run the demo</a>
           <a href="reports/kang/false-isg15-up-in-cd14-monocytes-in-fake-group-a-vs-b-kang-d.html">Open the report for this example</a>
@@ -280,7 +299,7 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
         <div class="arm">
           <div>
             <div class="name">Cell-level test</div>
-            <div class="how">every cell counted as an independent observation (Wilcoxon)</div>
+            <div class="how">every cell counted as an independent observation (Wilcoxon test)</div>
           </div>
           <div class="count"><b data-count="cell">21</b> / <span data-n-runs>21</span> significant</div>
           <div class="strip" data-strip="fake_shuffle_isg15" data-arm="cell" role="group" aria-label="Cell-level test, one square per run"></div>
@@ -288,7 +307,7 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
         <div class="arm">
           <div>
             <div class="name">Donor-level test <span class="tag">Recluster's test</span></div>
-            <div class="how">one pseudobulk profile per donor sample (DESeq2)</div>
+            <div class="how">the cells of each donor sample summed into one profile (pseudobulk), tested with DESeq2</div>
           </div>
           <div class="count"><b data-count="rep">0</b> / <span data-n-runs>21</span> significant</div>
           <div class="strip" data-strip="fake_shuffle_isg15" data-arm="rep" role="group" aria-label="Donor-level test, one square per run"></div>
@@ -300,7 +319,7 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
         </div>
         <div class="verdict-line">
           <span class="stamp v-ns">Not supported</span>
-          <span>The verdict uses the donor-level test only.</span>
+          <span>The verdict uses the donor-level test only. ROBUST: held in at least 80 % of runs; FRAGILE: 20–80 %; NOT SUPPORTED: under 20 %.</span>
         </div>
         <div class="readout" id="readout" aria-live="polite">
           <span class="empty">Select any square, by click, tap or keyboard, to see that run's settings and both test results.</span>
@@ -308,9 +327,80 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
         <p class="why">Cells from one donor share that donor's biology, so thousands of them are not thousands of
           independent observations (<a href="https://doi.org/10.1038/s41467-021-25960-2">Squair et al. 2021</a>).
           And a claim that holds in every run has shown only that it does not hinge on the settings, not that it
-          is true: <a href="#stability">see the next section</a>.</p>
+          is true: <a href="#stability">see below</a>.</p>
       </figure>
     </div>
+
+    <section id="who" aria-labelledby="h-who-for">
+      <p class="label kicker">Who it's for</p>
+      <h2 id="h-who-for">For anyone who has to decide whether to believe a single-cell result.</h2>
+      <dl class="uses">
+        <div>
+          <dt>Before you publish or present</dt>
+          <dd>Check your own claims the way a careful reviewer would: on donors, across the settings you could
+            have chosen, with a report you can attach.</dd>
+        </div>
+        <div>
+          <dt>When an AI agent did the analysis</dt>
+          <dd>Analysis agents now cluster, annotate and test in minutes. <span class="mono">recluster audit</span>
+            takes the object an agent hands back, re-derives from its raw counts and checks its labels and claims.
+            In one test, of the 36 primary population and expression claims in an agent's analysis of Kang 2018, 32 came out
+            ROBUST, 3 FRAGILE and 1 NOT SUPPORTED, and the agent's summary disagreed with its own tables in four places.
+            The population results come from a re-run with per-donor doublet removal, decided after the
+            first results had been seen; both runs are reported.
+            <a href="https://github.com/pranakkin/Recluster#auditing-an-ai-agents-analysis">Case study</a>.</dd>
+        </div>
+        <div>
+          <dt>Before you build on someone else's</dt>
+          <dd>A collaborator's cell type or a published shift can be re-tested from the counts before months of
+            follow-up work depend on it.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section id="runs" aria-labelledby="h-runs">
+      <p class="label kicker">How it works</p>
+      <h2 id="h-runs">What changes from one run to the next.</h2>
+      <ol class="next steps" aria-label="What Recluster does with a claim">
+        <li><b>Input.</b> An .h5ad file with raw counts, and the claim written as a short YAML file.</li>
+        <li><b>About 21–24 re-analyses.</b> Each one starts again from the raw counts with different settings,
+          finds the population the claim is about, and tests the claim across donors.</li>
+        <li><b>One HTML report.</b> The verdict, the runs in which the claim held, and the settings that broke it.</li>
+      </ol>
+      <div class="row">
+        <div>
+          <table class="settings" aria-describedby="settings-note">
+            <tbody id="settings-body">
+              <tr><th>Minimum genes per cell<span class="mono">min_genes</span></th><td>100 · 200 · 500</td></tr>
+            </tbody>
+          </table>
+          <p class="label" id="settings-note" style="margin-top:12px">Underlined: the default setting (the baseline run uses all of them; batch correction only runs when the data have a batch column). Every run starts again from raw counts.</p>
+        </div>
+        <aside class="sn">
+          <span class="label">Which runs</span>
+          <p>The baseline, each setting changed on its own, and six random combinations of settings (fixed seed, so repeatable): about 21 to 24
+            runs. Runs that become identical once QC limits are applied are merged. Batch correction is varied only
+            when the data have a batch column; the Kang data do not.</p>
+        </aside>
+      </div>
+      <div class="row">
+        <div class="prose">
+          <p>In each run Recluster finds the population the claim is about, then tests the claim across biological
+            replicates: per-donor pseudobulk for expression, per-donor proportions for abundance, paired by donor
+            when the design allows. The naive cell-level result is recorded next to it but never decides the verdict.</p>
+          <div class="scale">
+            <span class="label">Runs (of 21) in which the claim held → verdict</span>
+            <div class="bar-track" id="scale-track" aria-hidden="true"></div>
+            <div class="zones" id="scale-zones"></div>
+          </div>
+        </div>
+        <aside class="sn">
+          <span class="label">Counting</span>
+          <p>A run that cannot test the claim, for example because no cluster matches the population, counts as a
+            failure. A possible time-of-day confound caps the verdict at FRAGILE.</p>
+        </aside>
+      </div>
+    </section>
 
     <section id="stability" aria-labelledby="h-stability">
       <p class="label kicker">Stability is not validity</p>
@@ -325,14 +415,15 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
         </div>
         <aside class="sn">
           <span class="label">Without collection times</span>
-          <p>The same claim with the times hidden is capped at FRAGILE: a clock-gene screen separates the two groups
+          <p>Without collection times, Recluster checks whether the two groups differ in core clock genes the
+            way a morning/afternoon split would. The same claim with the times hidden is capped at FRAGILE: a clock-gene screen separates the two groups
             (permutation p = 0.029, the smallest a 4 vs 4 test allows).
             <a href="reports/kang/planted-time-times-unknown-sqstm1-up-in-cd14-monocytes-after.html">Report</a></p>
         </aside>
       </div>
       <ol class="sequence" aria-label="How the planted time effect was handled">
         <li><span class="step">Claim</span><span class="what">SQSTM1 is higher in CD14+ monocytes in the afternoon group</span></li>
-        <li><span class="step">Grid</span><span class="what"><span class="strip" data-strip="time_mode_a" data-static></span>
+        <li><span class="step">Re-analyses</span><span class="what"><span class="strip" data-strip="time_mode_a" data-static></span>
           <span class="mono" style="display:block;margin-top:8px">held in <span data-held="time_mode_a">21 of 21</span> runs, donor-level test</span></span></li>
         <li><span class="step">Before the time check</span><span class="what"><span class="stamp v-robust">Robust</span></span></li>
         <li><span class="step">Time check</span><span class="what">The groups were sampled 5.8 h apart. After adjusting for the hour,
@@ -348,69 +439,9 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
       </div>
     </section>
 
-    <section id="who" aria-labelledby="h-who-for">
-      <p class="label kicker">Who it's for</p>
-      <h2 id="h-who-for">For anyone who has to decide whether to believe a single-cell result.</h2>
-      <dl class="uses">
-        <div>
-          <dt>Before you publish or present</dt>
-          <dd>Check your own claims the way a careful reviewer would: on donors, across the settings you could
-            have chosen, with a report you can attach.</dd>
-        </div>
-        <div>
-          <dt>When an AI agent did the analysis</dt>
-          <dd>Analysis agents now cluster, annotate and test in minutes. <span class="mono">recluster audit</span>
-            takes the object an agent hands back, re-derives from its raw counts and checks its labels and claims.</dd>
-        </div>
-        <div>
-          <dt>Before you build on someone else's</dt>
-          <dd>A collaborator's cell type or a published shift can be re-tested from the counts before months of
-            follow-up work depend on it.</dd>
-        </div>
-      </dl>
-    </section>
-
-    <section id="runs" aria-labelledby="h-runs">
-      <p class="label kicker">How it works</p>
-      <h2 id="h-runs">What changes from one run to the next.</h2>
-      <div class="row">
-        <div>
-          <table class="settings" aria-describedby="settings-note">
-            <tbody id="settings-body">
-              <tr><th>Minimum genes per cell<span class="mono">min_genes</span></th><td>100 · 200 · 500</td></tr>
-            </tbody>
-          </table>
-          <p class="label" id="settings-note" style="margin-top:12px">Underlined: the baseline. Every run starts again from raw counts.</p>
-        </div>
-        <aside class="sn">
-          <span class="label">Which runs</span>
-          <p>The baseline, each setting changed on its own, and six seeded random combinations: about 21 to 24
-            runs. Runs that become identical once QC limits are applied are merged. Batch correction is varied only
-            when the data have a batch column; the Kang data do not.</p>
-        </aside>
-      </div>
-      <div class="row">
-        <div class="prose">
-          <p>In each run Recluster finds the population the claim is about, then tests the claim across biological
-            replicates: per-donor pseudobulk for expression, per-donor proportions for abundance, paired by donor
-            when the design allows. The naive cell-level result is recorded next to it but never decides the verdict.</p>
-          <div class="scale">
-            <span class="label">Verdict on a 21-run grid</span>
-            <div class="bar-track" id="scale-track" aria-hidden="true"></div>
-            <div class="zones" id="scale-zones"></div>
-          </div>
-        </div>
-        <aside class="sn">
-          <span class="label">Counting</span>
-          <p>A run that cannot test the claim, for example because no cluster matches the population, counts as a
-            failure. A possible time-of-day confound caps the verdict at FRAGILE.</p>
-        </aside>
-      </div>
-    </section>
-
     <section id="benchmark" aria-labelledby="h-bench">
       <p class="label kicker">Benchmark</p>
-      <h2 id="h-bench" class="sr-only">Benchmark results</h2>
+      <h2 id="h-bench">20 claims with known answers.</h2>
       <div class="row">
         <div class="score">
           <div class="big" data-score="ok">16</div>
@@ -419,9 +450,11 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
         </div>
         <aside class="sn">
           <span class="label">The misses</span>
-          <p>All three are planted doublets: fake populations made of two real cell types. They end up NOT
-            SUPPORTED, as expected, but not because doublet removal catches them. Doublets merged into a real
-            cluster are beyond any cluster-level test.</p>
+          <p>All three are planted doublets: fake populations made of two real cell types. The pass rule asks
+            for the right verdict for the right reason: the claim should hold only in runs with doublet removal
+            off. All three end NOT SUPPORTED, but mostly because no cluster matched the fake population; in at
+            least one run each, the claim held with doublet removal on. Doublets merged into a real cluster are
+            beyond any cluster-level test.</p>
           <span class="label">The false alarm</span>
           <p>Case 6 has no known shift; the paired test picks up a consistent 1.6 percentage-point drop in CD14+
             monocytes, so it comes out FRAGILE. The rule was not changed after the result.</p>
@@ -430,37 +463,56 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
             explains it and every case.</p>
         </aside>
       </div>
-      <ul class="ledger" id="ledger" aria-label="Benchmark cases">
-        <li class="group">The case list could not be loaded. The full table is on the <a href="benchmark.html">benchmark page</a>.</li>
-      </ul>
       <div class="ledger-legend" aria-hidden="true">
         <span><i class="sq held"></i>claim held</span>
         <span><i class="sq"></i>did not hold</span>
         <span><i class="sq nomatch"></i>no cluster matched the population</span>
-        <span>Each row links to the full report.</span>
+        <span>Each row is one claim with a known answer: runs, runs held, Recluster's verdict, and whether that
+          passes the rule fixed before the run (as expected / correct / caught / control OK = pass). Each row
+          opens the full report.</span>
       </div>
+      <ul class="ledger" id="ledger" aria-label="Benchmark cases">
+        <li class="group">The case list could not be loaded. The full table is on the <a href="benchmark.html">benchmark page</a>.</li>
+      </ul>
+      <p class="small-sans" style="margin-top:var(--s4)">The agent audit reports are listed on the
+        <a href="benchmark.html#agent">benchmark page</a>.</p>
     </section>
 
     <section id="try" aria-labelledby="h-try">
       <p class="label kicker">Try it</p>
-      <h2 id="h-try">Install it and run the example above.</h2>
+      <h2 id="h-try">Install it and run the demo.</h2>
       <div class="try">
         <div>
 <pre><code>git clone https://github.com/pranakkin/Recluster.git
 cd Recluster
 uv sync
-uv run recluster demo</code></pre>
+uv run recluster demo
+uv run recluster --help    <span class="c"># list the commands</span></code></pre>
           <div class="prose" style="margin-top:var(--s5)">
-            <p>Needs Python 3.11 and <a href="https://docs.astral.sh/uv/">uv</a>. The demo downloads Kang 2018 (38 MB),
-              runs a true claim and a false one on the full grid, and opens both reports. With the data cached it took
-              about two minutes on an Apple laptop with 8 workers.</p>
+            <p>Needs Python 3.11 and <a href="https://docs.astral.sh/uv/">uv</a>. The demo downloads Kang et al. 2018
+              (38 MB), takes 200 cells from each of the 16 donor-by-condition samples, and runs two claims on the full
+              grid. The first is true: ISG15 rises in CD14+ monocytes after IFN-β (expected ROBUST; 21 of 21 runs in
+              the recorded demo). The second is false by construction: ISG15 differs between two fake groups of
+              control donors (expected NOT SUPPORTED; 1 of 21). The example at the top of the page is a different
+              false claim, benchmark case 10, which uses all cells. Reports are written to
+              <span class="mono">results/demo/</span> and open in your browser (<span class="mono" style="white-space:nowrap">--no-open</span>
+              skips that). With the data cached the demo took about two minutes on an Apple laptop with 8 workers.</p>
             <p><span class="mono">scripts/verify_reproduction.sh</span> does the same from a fresh clone and checks a
               hash of the key numbers against the recorded one.</p>
+            <p class="small-sans">On a Mac, if <span class="mono">uv run recluster</span> says "No module named
+              recluster" (common when the folder is on the Desktop), run
+              <span class="mono" style="white-space:nowrap">chflags -R nohidden .venv</span> and try again.
+              <a href="https://github.com/pranakkin/Recluster#troubleshooting">More fixes</a>.</p>
           </div>
         </div>
         <div>
           <p class="label" style="margin:0 0 var(--s2)">Your own claim, as claim.yaml</p>
-<pre class="yaml"><code>claim_type: differential_expression
+          <p class="small-sans" style="margin:0 0 var(--s3)">Input: an .h5ad with raw integer counts in
+            <span class="mono">layers['counts']</span>, <span class="mono">.raw.X</span> or <span class="mono">.X</span>,
+            gene symbols as gene names, and <span class="mono">.obs</span> columns for the condition and the donor
+            or sample.</p>
+<pre class="yaml"><code>claim_type: differential_expression <span class="c"># or population_exists,</span>
+                                    <span class="c">#    composition_shift</span>
 name: "ISG15 up in CD14+ monocytes, stim vs ctrl"
 columns:
   condition: label            <span class="c"># .obs column with the condition</span>
@@ -471,10 +523,13 @@ target:
 comparison:
   group_a: stim
   group_b: ctrl
-  direction: up_in_a
+  direction: up_in_a   <span class="c"># up_in_a | down_in_a | either</span>
 genes: [ISG15]</code></pre>
           <p class="small-sans" style="margin-top:var(--s3)">Then <span class="mono">uv run recluster run --data your.h5ad --claim claim.yaml</span>.
-            Every column, value and gene is checked against the file before anything runs.</p>
+            Every column, value and gene is checked against the file before anything runs.
+            Run it inside the Recluster folder.
+            <a href="https://github.com/pranakkin/Recluster#use-it-on-your-own-data">Step-by-step guide</a> ·
+            <a href="https://github.com/pranakkin/Recluster/tree/main/examples/claims">Example claims</a></p>
         </div>
       </div>
     </section>
@@ -503,8 +558,9 @@ genes: [ISG15]</code></pre>
         <div>
           <h2 id="h-next">From one claim at a time to auditing whole analyses.</h2>
           <ol class="next">
-            <li><b>Audit mode for agent outputs.</b> Take the object an analysis agent returns and report which of
-              its labels, abundances and marker calls survive, as one summary for the whole object.</li>
+            <li><b>One summary for a whole agent analysis.</b> <span class="mono">recluster audit</span> checks an
+              agent's claims one at a time today. Next: report which of its labels, abundances and marker calls
+              survive, as one summary for the whole object.</li>
             <li><b>Populations that change with treatment.</b> Match populations per condition, so a treatment that
               remodels marker expression does not drop a population out of one arm.</li>
             <li><b>Better doublet detection.</b> Per-cell doublet scoring aimed at the benchmark's current
@@ -532,13 +588,13 @@ genes: [ISG15]</code></pre>
   </main>
 
   <footer>
-    <span>© 2026 Pranavi Akkinepally. All rights reserved. · Benchmark run of <span data-generated>2026-11-11</span></span>
+    <span>© 2026 Pranavi Akkinepally. All rights reserved. · Benchmark run of <span data-generated>2026-11-12</span></span>
     <nav aria-label="Footer">
       <a href="mailto:pranakkin@gmail.com">Contact</a>
       <a href="https://github.com/pranakkin/Recluster">Source</a>
       <a href="benchmark.html">All benchmark reports</a>
       <a href="https://github.com/pranakkin/Recluster/blob/main/bench/RESULTS.md">Results</a>
-      <a href="https://github.com/pranakkin/Recluster/blob/main/docs/HOW_IT_WORKS.md">How it works</a>
+      <a href="https://github.com/pranakkin/Recluster/blob/main/docs/HOW_IT_WORKS.md">Full method (HOW_IT_WORKS.md)</a>
     </nav>
   </footer>
 </div>
@@ -569,6 +625,20 @@ genes: [ISG15]</code></pre>
     if (p == null) return "n/a";
     return p < 0.001 ? p.toExponential(1).replace("e-", "e−") : p.toFixed(3);
   }
+  var NAMES = {
+    min_genes: "Minimum genes per cell", max_mito_pct: "Maximum mitochondrial reads, %",
+    doublet_removal: "Doublet removal (Scrublet)", normalization: "Normalisation", n_hvgs: "Highly variable genes",
+    n_pcs: "Principal components", resolution: "Clustering resolution (Leiden)",
+    batch_correction: "Batch correction (Harmony)", seed: "Random seed"
+  };
+  /* "doublet_removal=False, n_pcs=50" -> "Doublet removal (Scrublet): off, Principal components: 50" */
+  function plainLabel(label) {
+    return String(label)
+      .replace(/([a-z_]+)=([^,\s\[]+)/g, function (m, k, v) {
+        return (NAMES[k] || k) + ": " + (v === "True" ? "on" : v === "False" ? "off" : v);
+      })
+      .replace(/\[([a-z_]+) capped to/g, function (m, k) { return "[" + (NAMES[k] || k) + " capped to"; });
+  }
   function held(run, arm) { return arm === "cell" ? run.cell === true : run.state === "held"; }
   function staticStrip(c, arm, small) {
     var s = el("span", "strip" + (small ? " small" : ""));
@@ -598,7 +668,10 @@ genes: [ISG15]</code></pre>
     }
     var r = hero.runs[i], st = r.stats;
     readout.innerHTML = "";
-    readout.appendChild(el("div", "head", "Run " + (i + 1) + " of " + hero.runs.length + " · " + r.label));
+    /* numbered from 0, as in the reports, where run 0 is the baseline */
+    var last = hero.runs[hero.runs.length - 1].i;
+    readout.appendChild(el("div", "head", "Run " + r.i + (r.i === 0 ? " (baseline, default settings)" : "") +
+      " of runs 0–" + last + (r.label === "baseline" ? "" : " · " + plainLabel(r.label))));
     var dl = el("dl");
     [["cells kept", r.cells.toLocaleString("en")],
      ["clusters", String(r.clusters)],
@@ -617,7 +690,8 @@ genes: [ISG15]</code></pre>
         b.type = "button";
         b.tabIndex = j === 0 ? 0 : -1;
         b.setAttribute("aria-pressed", "false");
-        b.setAttribute("aria-label", "Run " + (j + 1) + ", " + r.label + ": " + (h ? "significant" : "not significant"));
+        b.setAttribute("aria-label", "Run " + r.i + ", " + (r.label === "baseline" ? "baseline, default settings" : plainLabel(r.label)) +
+          ". " + (h ? "Significant" : "Not significant"));
         b.addEventListener("click", function () { select(j); });
         b.addEventListener("keydown", function (e) {
           var n = hero.runs.length, k = null;
@@ -644,18 +718,13 @@ genes: [ISG15]</code></pre>
   if (tc) document.querySelector('[data-held="time_mode_a"]').textContent = tc.n_holds + " of " + tc.n_runs;
 
   /* settings table, from the grid recorded with the benchmark */
-  var NAMES = {
-    min_genes: "Minimum genes per cell", max_mito_pct: "Maximum mitochondrial reads, %",
-    doublet_removal: "Doublet removal (Scrublet)", normalization: "Normalisation", n_hvgs: "Highly variable genes",
-    n_pcs: "Principal components", resolution: "Clustering resolution (Leiden)",
-    batch_correction: "Batch correction (Harmony)", seed: "Random seed"
-  };
   var BASE = { min_genes: 200, max_mito_pct: 10, doublet_removal: true, normalization: "log_total", n_hvgs: 2000,
     n_pcs: 30, resolution: 1, batch_correction: true, seed: 0 };
   var tbody = document.getElementById("settings-body");
   tbody.innerHTML = "";
   Object.keys(D.axes).forEach(function (k) {
     var tr = el("tr"), th = el("th", null, NAMES[k] || k), td = el("td");
+    th.setAttribute("scope", "row");
     th.appendChild(el("span", "mono", k));
     D.axes[k].forEach(function (v) {
       td.appendChild(el("span", v === BASE[k] ? "base" : "", v === true ? "on" : v === false ? "off" : String(v)));
@@ -675,9 +744,11 @@ genes: [ISG15]</code></pre>
     track.appendChild(t);
   }
   zones.style.gridTemplateColumns = fragileMin + "fr " + (robustMin - fragileMin) + "fr " + (n + 1 - robustMin) + "fr";
-  [["v-ns", "Not supported", "0–" + (fragileMin - 1) + " runs"],
-   ["v-fragile", "Fragile", fragileMin + "–" + (robustMin - 1) + " runs"],
-   ["v-robust", "Robust", robustMin + "–" + n + " runs"]].forEach(function (z) {
+  var fragilePct = Math.round(D.thresholds.fragile_min_survival * 100);
+  var robustPct = Math.round(D.thresholds.robust_min_survival * 100);
+  [["v-ns", "Not supported", "0–" + (fragileMin - 1) + " runs (under " + fragilePct + " %)"],
+   ["v-fragile", "Fragile", fragileMin + "–" + (robustMin - 1) + " runs (" + fragilePct + "–" + robustPct + " %)"],
+   ["v-robust", "Robust", robustMin + "–" + n + " runs (" + robustPct + " % or more)"]].forEach(function (z) {
     var d = el("div", z[0]);
     d.appendChild(el("b", null, z[1]));
     d.appendChild(document.createElement("br"));
@@ -688,7 +759,8 @@ genes: [ISG15]</code></pre>
   /* benchmark ledger */
   var ledger = document.getElementById("ledger");
   ledger.innerHTML = "";
-  var groups = { kang: "Real data · Kang et al. 2018", planted: "Planted errors · PBMC3k" }, last = null;
+  var groups = { kang: "Real data · Kang et al. 2018",
+    planted: "Planted errors · PBMC3k (public 10x blood dataset, 2,700 cells)" }, last = null;
   var okN = 0, faN = 0, missN = 0;
   D.cases.forEach(function (c) {
     if (OK[c.outcome]) okN++; else if (c.outcome === "false alarm") faN++; else missN++;
@@ -696,12 +768,15 @@ genes: [ISG15]</code></pre>
     var li = el("li"), a = el("a", "case");
     a.href = c.report;
     a.appendChild(el("span", "num", String(c.n)));
-    a.appendChild(el("span", "title", c.title));
+    var tw = el("span", "tw");
+    tw.appendChild(el("span", "title", c.title));
+    tw.appendChild(el("span", "expect", "Expected: " + c.expected));
+    a.appendChild(tw);
     a.appendChild(staticStrip(c, "rep", true));
     a.appendChild(el("span", "runs", c.n_holds + "/" + c.n_runs));
     a.appendChild(el("span", "verdict " + VCLASS[c.verdict], c.verdict));
     a.appendChild(el("span", "outcome" + (OK[c.outcome] ? "" : " bad"), c.outcome));
-    a.setAttribute("aria-label", "Case " + c.n + ": " + c.title + ". Held in " + c.n_holds + " of " + c.n_runs +
+    a.setAttribute("aria-label", "Case " + c.n + ": " + c.title + ". Expected: " + c.expected + ". Held in " + c.n_holds + " of " + c.n_runs +
       " runs. Verdict " + c.verdict + ", " + c.outcome + ". Open report.");
     li.appendChild(a);
     ledger.appendChild(li);
@@ -711,6 +786,43 @@ genes: [ISG15]</code></pre>
   document.querySelector('[data-score="fa"]').textContent = faN;
   document.querySelector('[data-score="miss"]').textContent = missN;
   document.querySelector("[data-generated]").textContent = D.generated_at.slice(0, 10);
+})();
+</script>
+<script>
+/* a Copy button above each code block; copies the text without the grey comments */
+(function () {
+  "use strict";
+  document.querySelectorAll("pre").forEach(function (pre) {
+    var code = pre.querySelector("code");
+    if (!code) return;
+    var wrap = document.createElement("div");
+    wrap.className = "codewrap";
+    pre.parentNode.insertBefore(wrap, pre);
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "copy";
+    btn.textContent = "Copy";
+    wrap.appendChild(btn);
+    wrap.appendChild(pre);
+    btn.addEventListener("click", function () {
+      var clone = code.cloneNode(true);
+      clone.querySelectorAll(".c").forEach(function (c) { c.remove(); });
+      var orig = code.textContent.split("\n");
+      /* drop trailing spaces, and lines that held only a comment */
+      var text = clone.textContent.split("\n").map(function (l) { return l.replace(/\s+$/, ""); })
+        .filter(function (l, k) { return l !== "" || orig[k].trim() === ""; }).join("\n");
+      function done(msg) {
+        btn.textContent = msg;
+        setTimeout(function () { btn.textContent = "Copy"; }, 1800);
+      }
+      try {
+        navigator.clipboard.writeText(text).then(function () { done("Copied"); },
+          function () { done("Select and copy"); });
+      } catch (e) {
+        done("Select and copy");
+      }
+    });
+  });
 })();
 </script>
 </body>

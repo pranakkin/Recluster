@@ -1,6 +1,6 @@
 # Audit mode: data/synthetic_processed.h5ad (scripts/make_processed_example.py) carries another
 # tool's labels in .obs['tool_label'] and raw counts in layers['counts'].
-# Run with: recluster audit --data data/synthetic_processed.h5ad --claim this.yaml
+# Run with: uv run recluster audit --data data/synthetic_processed.h5ad --claim examples/claims/synthetic_audit_composition.yaml
 claim_type: composition_shift
 name: "Mono (as labelled by the tool) more abundant in stim (synthetic, audit)"
 columns:

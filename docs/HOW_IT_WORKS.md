@@ -50,6 +50,47 @@ anything runs, that collection times parse, and that each sample belongs to exac
 condition. If a donor appears in both conditions (Kang 2018: each patient was split into a
 treated and an untreated half) the replicate must be `[donor, condition]`.
 
+### Claim file fields
+
+Keys not listed here are rejected, so a misspelt key stops the run instead of being ignored.
+Copy a file from `examples/claims/` (`TEMPLATE.yaml` matches `data/kang_2018.h5ad` as written).
+
+| field | what it is |
+|---|---|
+| `claim_type` | `population_exists`, `composition_shift` or `differential_expression`; required |
+| `name` | free text; required. Also the output folder name: lowercased, non-alphanumerics to '-', first 60 characters |
+| `columns.condition` | `.obs` column with the condition; required for composition_shift and differential_expression |
+| `columns.sample` | `.obs` column with the biological replicate, or a list of columns joined into one id (e.g. `[donor, condition]`); required for composition_shift and differential_expression |
+| `columns.batch` | optional `.obs` column; enables the batch-correction axis |
+| `columns.labels` | optional `.obs` column with cell labels; required with `target.label_value` and in audit mode |
+| `columns.collection_time` | optional `.obs` column with each sample's collection time: hours, HH:MM, HH:MM:SS or datetime |
+| `target.markers` | marker genes of the population; `target` needs `markers` and/or `label_value` |
+| `target.negative_markers` | optional genes the population should not express |
+| `target.marker_logic` | `any` (default: mean marker score) or `all` (co-expression: minimum score) |
+| `target.label_value` | a value of `columns.labels` that names the population |
+| `target.min_cells` | smallest matched population that counts, default 20 |
+| `comparison.group_a`, `comparison.group_b` | two different values of `columns.condition`; "a" is the group the direction refers to |
+| `comparison.direction` | differential_expression: `up_in_a`, `down_in_a` or `either`; composition_shift: `higher_in_a`, `lower_in_a` or `different` |
+| `genes` | genes tested; differential_expression only |
+| `require` | `all` or `any` of the genes must hold; differential_expression only, default all |
+| `tissue` | optional; recorded with the day-night gene overlap, not used (section 8) |
+
+`--grid` and `--thresholds` take YAML files in the same style, with the field names of
+`GridConfig` and `GridAxes` (sections 4 and 5) and of `Thresholds` (section 15). Keys left out
+keep their defaults, unknown keys are rejected, and every report prints the values used. For
+example, three random combinations and two resolutions, and the default alpha written out:
+
+```yaml
+# grid.yaml, passed as --grid grid.yaml
+n_random: 3
+axes: {resolution: [0.5, 1.0]}
+```
+
+```yaml
+# thresholds.yaml, passed as --thresholds thresholds.yaml
+alpha: 0.05
+```
+
 ## 3. Input modes (`recluster/data.py`)
 
 Recluster always re-derives results from raw counts: `layers['counts']`, then `.raw.X`, then
@@ -387,6 +428,58 @@ used; the time-of-day section shows the balance test with its floor, the refit, 
 panel. The methods paragraph is produced from a fixed template filled with the settings actually
 used, including the design the baseline run used. Nothing in the report comes from a language
 model unless the optional LLM summary was requested, in which case it is boxed and labelled.
+
+### How to read a report
+
+A report goes from the answer to the evidence. From the top:
+
+- **Verdict.** ROBUST when the claim held in at least 80 % of runs, FRAGILE at 20 % to 80 %, NOT
+  SUPPORTED below 20 %, then the time-of-day rule (section 8). The sentence next to the badge
+  says how many runs held, whether the baseline held, and, for comparison claims, the
+  time-of-day result. "Survival" is
+  the share of runs in which the claim held. "Naive cell-level" is how often the cell-level test
+  would have called the claim; it is shown for contrast and never decides the verdict.
+- **Runs.** A run is one complete re-analysis of the same raw counts. The grid is about 21
+  re-analyses: run 0 is the baseline with the default settings, the one-at-a-time runs each
+  change one setting, and the random runs change several (section 5). Runs are numbered from 0
+  in every table.
+- **Pseudoreplication flag**, when shown: the cell-level test supports the claim in at least
+  80 % of runs and the donor-level test in fewer than 50 % (section 7.3).
+- **Survival across the grid.** One square per run; the thick-bordered square is the baseline.
+  "By analysis choice" shows, for each value of each setting, the share of runs with that value
+  in which the claim held; ● marks the baseline value.
+- **What broke it.** First the one-at-a-time changes that flipped the baseline result; read
+  these first, because each differs from the baseline in one setting only. Then "Failure rate by
+  setting": for each value, how many runs used it and how many failed. When the baseline fails,
+  the baseline values (●) show high failure rates simply because they occur in most runs, so they
+  do not single out a cause.
+- **Replicate-aware vs cell-level.** For comparison claims, the baseline run's numbers for both
+  tests (per gene, or per sample for composition). For a population claim, the matched
+  population in the baseline run and whether it is present in several samples rather than
+  driven by one.
+- **Time-of-day check**, for comparison claims: the balance test with its floor and the refit
+  when collection times are given, or the clock-gene panel when they are not (section 8).
+- **As labelled**, when the claim gives a label: the same test on the cells exactly as labelled,
+  without re-clustering; this is the claim as the original analysis made it.
+- **All runs**, **Methods**, **Thresholds** and **Provenance**: every run's settings and
+  outcome, the methods paragraph, the cutoffs used, and the inputs and package versions.
+
+What a verdict does not mean, and what to do next:
+
+- **ROBUST** means the claim survives the grid of analysis choices, tested across donors; it does
+  not mean the claim is true. A flaw built into the experimental design survives every analysis
+  choice: in Kang 2018 each condition was captured on its own 10x lane, so a lane artifact would
+  also come out ROBUST (section 14). Next: check the design, and read "What broke it" for
+  settings that failed together, such as the seeds.
+- **FRAGILE** means the claim depends on the analysis choices, or that a possible time-of-day
+  confound capped the verdict. It does not mean the claim is false. Next: read "What broke it"
+  for the settings it depends on, and the time-of-day section; report the claim with those
+  settings.
+- **NOT SUPPORTED** means the claim held in fewer than 20 % of runs, or that the effect
+  disappeared once collection time was adjusted for. It does not show that the opposite is
+  true. Next: check the pseudoreplication flag, and in "All runs" whether the population was
+  found at all; runs that could not test the claim count as failures, and the verdict summary
+  says how many there were.
 
 ## 12. What the benchmark taught (`bench/RESULTS.md`)
 

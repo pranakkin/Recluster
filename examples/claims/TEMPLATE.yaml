@@ -1,0 +1,31 @@
+# Template claim: copy and edit; matches data/kang_2018.h5ad as written
+# (download it with: uv run python scripts/download_kang.py).
+# Run with: uv run recluster run --data data/kang_2018.h5ad --claim examples/claims/TEMPLATE.yaml
+#
+# What each claim_type needs:
+#   population_exists        target (markers and/or label_value); columns.sample recommended;
+#                            no comparison, no genes
+#   composition_shift        target, columns.condition, columns.sample, comparison
+#                            (direction: higher_in_a | lower_in_a | different)
+#   differential_expression  as composition_shift, plus genes
+#                            (direction: up_in_a | down_in_a | either)
+# Quote values that YAML would read as numbers or yes/no: group_a: "1".
+# Every field: docs/HOW_IT_WORKS.md, "Claim file fields".
+claim_type: differential_expression      # population_exists | composition_shift | differential_expression
+name: "ISG15 up in CD14+ monocytes, stim vs ctrl"   # also names the output folder
+columns:
+  condition: label                       # .obs column with the condition
+  sample: [replicate, label]             # biological replicate; a list is joined into one key, e.g. [donor, condition]
+  batch: null                            # optional; enables the batch-correction axis
+  labels: cell_type                      # optional; required with target.label_value and for audit
+  collection_time: null                  # optional; collection time of each cell's sample ("09:30", hours, or a datetime)
+target:
+  markers: [CD14, LYZ, S100A8]           # and/or label_value
+  marker_logic: any                      # any: mean marker expression; all: every marker (co-expression)
+  label_value: "CD14+ Monocytes"
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: up_in_a                     # DE: up_in_a | down_in_a | either; composition: higher_in_a | lower_in_a | different
+genes: [ISG15]
+tissue: null                             # optional, recorded with the day-night gene overlap

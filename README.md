@@ -32,7 +32,7 @@ uv run recluster demo     # one true claim (ROBUST 21/21), one false (NOT SUPPOR
 
 ![Top of a Recluster report for a false claim on Kang 2018: NOT SUPPORTED, 0 of 21 runs, naive cell-level tests significant in 100 % of runs, with the pseudoreplication flag](docs/report-hero.png)
 
-*A claim that is false by construction (donors shuffled between two fake groups): the cell-level test calls it in every run, the donor-level test in none. [Full report](https://pranakkin.github.io/Recluster/reports/kang/false-isg15-up-in-cd14-monocytes-in-fake-group-a-vs-b-kang-d.html).*
+*From the benchmark (case 10), not the demo: a claim that is false by construction (donors shuffled between two fake groups): the cell-level test calls it in every run, the donor-level test in none. [Full report](https://pranakkin.github.io/Recluster/reports/kang/false-isg15-up-in-cd14-monocytes-in-fake-group-a-vs-b-kang-d.html).*
 
 ## What it does
 
@@ -117,70 +117,149 @@ of the hour.
 
 ## Quickstart
 
-The three commands at the top install Recluster and run the demo. The demo downloads Kang et al.
-2018 (38 MB, checksum verified, cached in `data/`), takes a seeded subset of 200 cells from each
-of the 16 donor x condition samples, and runs two claims on the full default grid of 21 runs:
-ISG15 rises in CD14+ monocytes after IFN-β (true), and ISG15 differs between two fake groups
-of control donors (false by construction). It opens both reports. On an Apple M5 Pro laptop with
-the data already downloaded it took 2 minutes 7 seconds with 8 worker processes; the true claim
-came out ROBUST (21 of 21 runs) and the false one NOT SUPPORTED (1 of 21). `--no-open` skips
-opening the browser and `--jobs` sets the number of workers. Reports are written to
-`results/demo/`.
+The commands at the top install Recluster and run the demo. Run them, and every `uv run`
+command below, inside the `Recluster` folder.
 
-### Check a clean install
+The demo downloads Kang et al. 2018 (38 MB, checksum verified, cached in `data/`), takes a
+seeded subset of 200 cells from each of the 16 donor x condition samples, and runs two claims on
+the full default grid of 21 runs: ISG15 rises in CD14+ monocytes after IFN-β (true), and ISG15
+differs between two fake groups of control donors (false by construction).
 
-`scripts/verify_reproduction.sh` clones the repository into a temporary folder, installs it with
-`uv sync --frozen`, runs `recluster demo`, and prints the two verdicts and a SHA-256 hash of the
-key numbers (verdicts, per-run cells, clusters, outcomes and pseudobulk fold changes).
-`scripts/demo_hash.py` compares it with the hash recorded on macOS (arm64, Python 3.11):
-`9a07eac3…`. Floating-point results can differ between platforms, so a different hash on
-another system is worth reporting but is not by itself an error.
+On an Apple M5 Pro laptop with the data already downloaded it took 2 minutes 7 seconds with 8
+worker processes; the true claim came out ROBUST (21 of 21 runs) and the false one NOT SUPPORTED
+(1 of 21).
 
-### Run the Kang 2018 benchmark
+Reports are written to `results/demo/` and both open in the browser. `--no-open` skips opening
+the browser and `--jobs` sets the number of workers. `uv run recluster --help` lists the
+commands.
 
-```bash
-uv run recluster bench --part kang
+## Use it on your own data
+
+**1. Install.** Clone and `uv sync` as above, and run the demo once to check the install.
+
+**2. Prepare the `.h5ad`.** Recluster re-derives everything from raw integer counts, which it
+looks for in `layers['counts']` (the layer must be named exactly `counts`), then `.raw.X`, then
+`.X`. If your own pipeline normalises `.X`, save the raw counts in a layer first:
+
+```python
+adata.layers["counts"] = adata.X.copy()   # while .X still holds raw counts
+adata.write_h5ad("data/my_data.h5ad")
 ```
 
-That downloads the Kang et al. 2018 PBMC dataset (38 MB, checksum verified) and the two original
-10x lanes with demuxlet calls from GEO (60 MB), builds twelve claims (true, null, false by
-construction, and two with a planted time-of-day effect), runs the claims in parallel, each on
-the full grid, and writes `bench/results.json`, `bench/results_table.md` and a report per claim
-under `bench/out/`. In the recorded run the twelve Kang claims took 7,202 s of claim time in
-total, about 30 minutes if spread evenly over the default 4 workers; the Kang part has not been
-timed on its own. `--part all` adds the planted errors on PBMC3k; the whole benchmark took 38
-minutes with 4 workers. `--max-runs 2` gives a short smoke version.
+Gene names (`var_names`) should be gene symbols; the genes a claim names must appear there
+exactly. Comparison claims need an `.obs` column with the condition and one with the
+biological replicate (donor or sample). A column with collection times is optional. Without
+it, the time-of-day check on a comparison claim screens a panel of human clock-gene symbols
+(ARNTL, PER1, ...); on data that lacks them, for example mouse symbols, the screen is reported
+as NOT ASSESSABLE. To see what the file holds:
 
-The run rewrites the committed `bench/results.json` and `bench/results_table.md`; with `--part`,
-the rewritten files hold only that part's cases. `git diff bench/` shows any difference and
-`git checkout bench/results.json bench/results_table.md` restores them.
-
-To run one claim instead:
-
-```bash
-uv run python scripts/download_kang.py
-uv run recluster run --data data/kang_2018.h5ad --claim examples/claims/kang_isg15_cd14_monocytes.yaml
+```python
+import anndata as ad
+a = ad.read_h5ad("data/my_data.h5ad")
+print(a.obs.columns.tolist())
+print(a.obs["condition"].unique())   # use your column name
 ```
 
-Add `--jobs 8` to spread the grid runs over 8 processes; the results are identical to a
-single process.
+**3. Pick the claim type.**
 
-Open `results/isg15-up-in-cd14-monocytes-stim-vs-ctrl-kang-2018/report.html`. Each claim folder
-holds `report.html`, `provenance.json`, `runs.csv` and the validated `claim.yaml`. A synthetic
-example that needs no download is in `examples/claims/synthetic_*.yaml`
-(`uv run python scripts/make_synthetic_example.py` first).
+| `claim_type` | the claim | needs |
+|---|---|---|
+| `population_exists` | a population exists as a distinct cluster | `target` (markers and/or a label); `columns.sample` recommended |
+| `composition_shift` | its share of cells differs between two conditions | `target`, `columns.condition`, `columns.sample`, `comparison` with `direction: higher_in_a`, `lower_in_a` or `different` |
+| `differential_expression` | named genes change in it between two conditions | as above plus `genes`, with `direction: up_in_a`, `down_in_a` or `either` |
+
+**4. Write the claim file.** Copy
+[examples/claims/TEMPLATE.yaml](examples/claims/TEMPLATE.yaml) (it matches
+`data/kang_2018.h5ad` as written) or another file in [examples/claims/](examples/claims/), and
+edit it:
+
+```yaml
+claim_type: differential_expression      # population_exists | composition_shift | differential_expression
+name: "ISG15 up in CD14+ monocytes, stim vs ctrl"   # also names the output folder
+columns:
+  condition: label                       # .obs column with the condition
+  sample: [replicate, label]             # biological replicate; a list is joined into one key, e.g. [donor, condition]
+  batch: null                            # optional; enables the batch-correction axis
+  labels: cell_type                      # optional; required with target.label_value and for audit
+  collection_time: null                  # optional; collection time of each cell's sample ("09:30", hours, or a datetime)
+target:
+  markers: [CD14, LYZ, S100A8]           # and/or label_value
+  marker_logic: any                      # any: mean marker expression; all: every marker (co-expression)
+  label_value: "CD14+ Monocytes"
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: up_in_a                     # DE: up_in_a | down_in_a | either; composition: higher_in_a | lower_in_a | different
+genes: [ISG15]
+tissue: null                             # optional, recorded with the day-night gene overlap
+```
+
+Values are compared with the text in `.obs`, so put quotes around any value that YAML would
+otherwise read as a number or a yes/no value: `group_a: "1"`, `label_value: "0"`,
+`group_b: "no"`. If each donor appears in both conditions (a split-sample design), the
+replicate is the donor and condition together: `sample: [donor, condition]`. Every field is
+listed in [HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md#claim-file-fields).
+
+**5. Smoke test.**
+
+```bash
+uv run recluster run --data data/my_data.h5ad --claim my_claim.yaml --max-runs 2 --out results/smoke
+```
+
+The claim is checked against the file before any run, and a misspelt column, value or gene
+stops it with the columns or values the file holds. A verdict from 2 runs is not a verdict; this only
+shows the claim runs end to end.
+
+**6. Run the full grid.**
+
+```bash
+uv run recluster run --data data/my_data.h5ad --claim my_claim.yaml --jobs 4
+```
+
+This runs about 21 to 24 complete re-analyses, so it takes far longer than the smoke test.
+`--jobs` spreads them over worker processes; the results are identical to one process. At the
+end it prints the verdict line, for example `ROBUST  21/21 runs  <name>`. The report is
+`results/<name>/report.html`, where the folder is the claim's `name` in lower case with every
+run of other characters replaced by `-` (first 60 characters); next to it are
+`provenance.json`, `runs.csv` and the validated `claim.yaml`.
+
+**7. Read the report.** The verdict at the top counts the runs in which the claim held on the
+donor-level test. [How to read a report](docs/HOW_IT_WORKS.md#how-to-read-a-report) walks
+through every section.
+
+- **ROBUST** (held in at least 80 % of runs): the claim does not hinge on the analysis
+  settings, tested across donors. That is not evidence that the claim is true: a flaw in the
+  experimental design survives every setting. If each condition was captured on its own 10x
+  lane (one lane per condition), a lane artifact would also come out ROBUST. Next: check the
+  design, and read "What broke it" for settings that failed together, such as the seeds.
+- **FRAGILE** (20 to 80 %): the claim depends on the analysis choices, or a possible
+  time-of-day confound capped the verdict. Next: read "What broke it" for the settings it
+  depends on, and the time-of-day section; report the claim with those settings.
+- **NOT SUPPORTED** (under 20 %, or an effect that disappears once collection time is adjusted
+  for). Next: check the pseudoreplication flag (cell-level tests significant, donor-level tests
+  not), and in "All runs" whether the population was found at all; runs that could not test the
+  claim count as failures, and the verdict summary says how many there were.
+
+`recluster run` re-derives everything from raw counts. `recluster audit` takes an object another
+tool produced (processed matrix plus raw counts in `layers['counts']` or `.raw`) and checks its
+labels against a fresh derivation. Grid axes and thresholds can be overridden with `--grid` and
+`--thresholds` YAML files ([format](docs/HOW_IT_WORKS.md#claim-file-fields)); every report
+prints the values used.
 
 ## Benchmark
 
 16 of 20 as expected; **1 false alarm** (case 6); **3 misses**, all three planted-doublet cases
 (13, 19, 20).
 
-All 20 cases ran on the default grid and thresholds, in 38 minutes with 4 workers on an Apple M5
-Pro laptop. The pass rules were written before each case ran; the rule and thresholds that
-changed between runs are listed with their reasons in [bench/RESULTS.md](bench/RESULTS.md),
-together with the first run's table. The first pass rules were committed together with the first
-results (97a7780), so git does not show their order. The held-out doublet cases and their pass
-rules were committed in 771488d, before the step they test was built (c4d8747); both were missed.
+All 20 cases ran on the default grid and thresholds. The 2026-11-11 run took 38 minutes with 4
+workers on an Apple M5 Pro laptop; the 2026-11-12 re-run that produced the committed
+`results.json` (identical verdicts and counts) took 11,176.5 s (about 3.1 h) because the laptop
+was running other jobs at the same time. The pass rules
+were written before each case ran; the rule and thresholds that changed between runs are listed
+with their reasons in [bench/RESULTS.md](bench/RESULTS.md), together with the first run's table.
+The first pass rules were committed together with the first results (97a7780), so git does not
+show their order. The held-out doublet cases and their pass rules were committed in 771488d,
+before the step they test was built (c4d8747); both were missed.
 
 Held = grid runs in which the claim held (for comparison claims, by the replicate-aware test).
 Cell-level = share of runs where the naive cell-level test would have called the claim. Time
@@ -223,6 +302,66 @@ of runs while replicate-aware statistics call it in < 50 %).
   doublet-population step catches the development block where that block clusters on its own
   and removes no real cluster. It missed both held-out blocks. RESULTS.md has the full account.
 
+## Reproduce the results
+
+### Check a clean install
+
+`scripts/verify_reproduction.sh` clones the repository into a temporary folder, installs it with
+`uv sync --frozen`, runs `recluster demo`, and prints the two verdicts and a SHA-256 hash of the
+key numbers (verdicts, per-run cells, clusters, outcomes and pseudobulk fold changes).
+`scripts/demo_hash.py` compares it with the hash recorded on macOS (arm64, Python 3.11):
+`9a07eac3…`. Floating-point results can differ between platforms, so a different hash on
+another system is worth reporting but is not by itself an error.
+
+### Run the Kang 2018 benchmark
+
+```bash
+uv run recluster bench --part kang
+```
+
+That downloads the Kang et al. 2018 PBMC dataset (38 MB, checksum verified) and the two original
+10x lanes with demuxlet calls from GEO (60 MB), builds twelve claims (true, null, false by
+construction, and two with a planted time-of-day effect), runs the claims in parallel, each on
+the full grid, and writes `bench/results.json`, `bench/results_table.md` and a report per claim
+under `bench/out/`. In the 2026-11-11 run the twelve Kang claims took 7,202 s of claim time in
+total, about 30 minutes if spread evenly over the default 4 workers; the 2026-11-12 re-run that
+produced the committed `results.json` recorded 41,339.6 s on a laptop busy with other jobs. The
+Kang part has not been timed on
+its own. `--part all` adds the planted errors on PBMC3k; the timings of the whole benchmark are
+under [Benchmark](#benchmark). `--max-runs 2` gives a short smoke version.
+
+The run rewrites the committed `bench/results.json` and `bench/results_table.md`; with `--part`,
+the rewritten files hold only that part's cases. `git diff bench/` shows any difference and
+`git checkout bench/results.json bench/results_table.md` restores them.
+
+### Run the example claims
+
+One Kang claim:
+
+```bash
+uv run python scripts/download_kang.py
+uv run recluster run --data data/kang_2018.h5ad --claim examples/claims/kang_isg15_cd14_monocytes.yaml
+```
+
+Add `--jobs 8` to spread the grid runs over 8 processes; the results are identical to a
+single process. Open `results/isg15-up-in-cd14-monocytes-stim-vs-ctrl-kang-2018/report.html`.
+
+The synthetic examples need no download:
+
+```bash
+uv run python scripts/make_synthetic_example.py      # writes data/synthetic.h5ad
+uv run recluster run --data data/synthetic.h5ad --claim examples/claims/synthetic_de_true.yaml
+uv run python scripts/make_processed_example.py      # writes data/synthetic_processed.h5ad
+uv run recluster audit --data data/synthetic_processed.h5ad --claim examples/claims/synthetic_audit_composition.yaml
+```
+
+The PBMC3k claims use `data/pbmc3k_raw.h5ad`, which scanpy downloads:
+
+```bash
+uv run python -c "import scanpy as sc; sc.settings.datasetdir='data'; sc.datasets.pbmc3k()"
+uv run recluster run --data data/pbmc3k_raw.h5ad --claim examples/claims/pbmc3k_cd14_monocytes.yaml
+```
+
 ## Auditing an AI agent's analysis
 
 Claude Opus 5.5 was given the Kang 2018 counts with only a stim/ctrl label and donor ids, one
@@ -246,39 +385,6 @@ FRAGILE 16/21 to ROBUST 19/21, and both runs are reported. Details in
 [NELL2 down in NK](https://pranakkin.github.io/Recluster/reports/agent/agent-nk-down-in-nk-nell2.html),
 [down-genes in cDC](https://pranakkin.github.io/Recluster/reports/agent/agent-myeloid-down-in-cdc.html),
 [CD14 monocyte abundance](https://pranakkin.github.io/Recluster/reports/agent/agent-null-cd14-mono-proportion-differs-stim-vs-ctrl.html).
-
-## Writing a claim
-
-Input: an `.h5ad` whose raw integer counts are in `layers['counts']`, `.raw.X` or `.X`
-(searched in that order). The genes a claim names must appear in `var_names`. Comparison claims
-need an `.obs` column for the condition and one for the biological replicate. Every column, value
-and gene in the claim is checked against the file before anything runs.
-
-```yaml
-claim_type: differential_expression      # population_exists | composition_shift | differential_expression
-name: "ISG15 up in CD14+ monocytes, stim vs ctrl"
-columns:
-  condition: label                       # .obs column with the condition
-  sample: [replicate, label]             # biological replicate; a list is joined into one key, e.g. [donor, condition]
-  batch: null                            # optional; enables the batch-correction axis
-  labels: cell_type                      # optional; required with target.label_value and for audit
-  collection_time: null                  # optional; collection time of each cell's sample ("09:30", hours, or a datetime)
-target:
-  markers: [CD14, LYZ, S100A8]           # and/or label_value
-  marker_logic: any                      # any: mean marker expression; all: every marker (co-expression)
-  label_value: "CD14+ Monocytes"
-comparison:
-  group_a: stim
-  group_b: ctrl
-  direction: up_in_a                     # DE: up_in_a | down_in_a | either; composition: higher_in_a | lower_in_a | different
-genes: [ISG15]
-tissue: null                             # optional, recorded with the day-night gene overlap
-```
-
-`recluster run` re-derives everything from raw counts. `recluster audit` takes an object another
-tool produced (processed matrix plus raw counts in `layers['counts']` or `.raw`) and checks its
-labels against a fresh derivation. Grid axes and thresholds can be overridden with `--grid` and
-`--thresholds` YAML files; every report prints the values used.
 
 ## Optional LLM layer
 
@@ -470,6 +576,22 @@ inherit the Finder hidden flag and recent CPython releases skip hidden `.pth` fi
 ```bash
 chflags -R nohidden .venv
 ```
+
+**`columns.condition='...' not in .obs`** (or `columns.sample`, `columns.labels`). The column
+name in the claim does not match the file; the message lists the columns the file has, and names
+are case-sensitive.
+
+**`genes not in var_names`.** Gene symbols are case-sensitive (mouse `Cd14`, human `CD14`). If
+the file's gene names are Ensembl IDs, either set gene symbols as `var_names` before writing the
+`.h5ad` or use the IDs in the claim.
+
+**`sample(s) span more than one condition`.** Each donor appears in both conditions, so the
+donor alone is not a replicate of one condition. Use the donor and the condition together:
+`columns.sample: [donor, condition]`.
+
+**The verdict looks too good after `--max-runs`.** A capped grid is not a verdict: `--max-runs 2`
+runs the baseline and one other setting, and the report does not mark the grid as capped. Run
+the full grid before reading the verdict.
 
 ## Built by
 

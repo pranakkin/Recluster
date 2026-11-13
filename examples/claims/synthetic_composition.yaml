@@ -1,3 +1,5 @@
+# Data: data/synthetic.h5ad (make it with: uv run python scripts/make_synthetic_example.py)
+# Run with: uv run recluster run --data data/synthetic.h5ad --claim examples/claims/synthetic_composition.yaml
 # True by construction: Mono is planted at ~40% of cells in stim vs ~25% in ctrl.
 claim_type: composition_shift
 name: "Mono more abundant in stim than ctrl (synthetic)"

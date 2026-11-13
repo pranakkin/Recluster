@@ -1,3 +1,5 @@
+# Data: data/pbmc3k_raw.h5ad (written by: uv run python -c "import scanpy as sc; sc.settings.datasetdir='data'; sc.datasets.pbmc3k()")
+# Run with: uv run recluster run --data data/pbmc3k_raw.h5ad --claim examples/claims/pbmc3k_fcgr3a_monocytes.yaml
 # Non-classical monocytes are a small population that merges with CD14+ monocytes at low resolution.
 claim_type: population_exists
 name: "FCGR3A+ monocytes exist as a distinct population (PBMC3k)"

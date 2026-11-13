@@ -1,3 +1,5 @@
+# Data: data/synthetic.h5ad (make it with: uv run python scripts/make_synthetic_example.py)
+# Run with: uv run recluster run --data data/synthetic.h5ad --claim examples/claims/synthetic_de_false.yaml
 # False by construction: NULL_* genes have no planted effect.
 claim_type: differential_expression
 name: "NULL genes change in Mono under stim (synthetic, false)"

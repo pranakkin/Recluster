@@ -1,7 +1,10 @@
 # Benchmark results
 
 Measured on 2026-11-11 with Recluster 0.6.0, default grid and default thresholds, on an Apple
-M5 Pro laptop (`recluster bench --jobs 4`, 38 minutes wall time). Every number below is copied
+M5 Pro laptop (`recluster bench --jobs 4`, 38 minutes wall time). The committed `results.json` is
+a re-run on 2026-11-12 after a code cleanup: every verdict, count and statistic is identical, and
+the only change is the wording of the collection-time sentence in case 12 ("B minus A"). That
+re-run took 3.1 hours because the laptop was busy with other jobs. Every number below is copied
 from `results.json`; the per-run numbers come from the `provenance.json` next to each report
 under `bench/out/`.
 

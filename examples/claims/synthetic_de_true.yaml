@@ -1,3 +1,5 @@
+# Data: data/synthetic.h5ad (make it with: uv run python scripts/make_synthetic_example.py)
+# Run with: uv run recluster run --data data/synthetic.h5ad --claim examples/claims/synthetic_de_true.yaml
 # True by construction: DE_UP_* genes are planted 4x up in Mono under stim.
 claim_type: differential_expression
 name: "DE_UP genes up in Mono under stim (synthetic, true)"

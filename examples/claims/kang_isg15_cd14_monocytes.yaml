@@ -1,4 +1,5 @@
-# Kang et al. 2018 (data/kang_2018.h5ad; download with scripts/download_kang.py).
+# Kang et al. 2018 (data/kang_2018.h5ad; download with: uv run python scripts/download_kang.py).
+# Run with: uv run recluster run --data data/kang_2018.h5ad --claim examples/claims/kang_isg15_cd14_monocytes.yaml
 # A true claim: ISG15 is an interferon-stimulated gene and rises in monocytes after IFN-beta.
 # Each patient was split into a control and a stimulated sample, so the replicate is
 # [replicate, label] (donor x condition), never the donor alone.
