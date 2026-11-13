@@ -2,32 +2,12 @@
 
 [![ci](https://github.com/pranakkin/Recluster/actions/workflows/ci.yml/badge.svg)](https://github.com/pranakkin/Recluster/actions/workflows/ci.yml)
 
-Recluster re-runs a single-cell RNA-seq analysis across other defensible choices and reports
-whether a claim survives.
+Stress-test a single-cell RNA-seq claim before you build on it. Recluster re-runs the analysis
+across the choices it could reasonably have used, tests on donors rather than cells, and returns
+ROBUST, FRAGILE or NOT SUPPORTED with the settings that broke the claim.
 
-A single-cell result comes from one pipeline run, but the QC cutoffs, normalisation, clustering
-resolution, batch correction and the unit of the statistical test could each have gone another
-defensible way. Recluster runs the analysis across that grid, tests on donors rather than
-cells, checks whether the groups were sampled at different times of day, and returns ROBUST,
-FRAGILE or NOT SUPPORTED with the choices that broke the claim.
-
-**On Kang et al. 2018 (8 donors), naive cell-level tests call three of four false-by-construction
-claims in 100 % of grid runs. Recluster returns NOT SUPPORTED for all four, and the three true
-interferon claims are ROBUST in 21 of 21 runs.** Across 20 benchmark cases, each with a pass rule
-written before it ran (one rule was tightened between runs, see bench/RESULTS.md): 16 as
-expected, 1 false alarm and 3 misses (all three planted-doublet cases). Details in
-[bench/RESULTS.md](bench/RESULTS.md).
-
-Recluster has also audited an AI agent's full analysis of the same data: of the agent's 36
-population and expression claims, 32 are ROBUST, 3 FRAGILE and 1 NOT SUPPORTED, and its summary
-disagrees with its own tables in four places ([details](#auditing-an-ai-agents-analysis)).
-
-Against bulk RNA-seq of the same animals (Hagai et al. 2018; 40 LPS claims on clear-cut genes),
-Recluster called all 20 real changes and wrongly called 3 of 20 unchanged genes, all in rat: the
-same calls as its baseline donor-level run alone. The naive cell-level test called all 20
-unchanged genes ([details](bench/ground_truth/RESULTS.md)).
-
-Requires Python 3.11 and [uv](https://docs.astral.sh/uv/).
+**Against bulk RNA-seq of the same animals, the standard cell-level test called 20 of 20 unchanged
+genes significant; Recluster called 3.** Both caught all 20 real changes.
 
 ```bash
 git clone https://github.com/pranakkin/Recluster.git && cd Recluster
@@ -35,9 +15,28 @@ uv sync
 uv run recluster demo     # one true claim (ROBUST 21/21), one false (NOT SUPPORTED 1/21)
 ```
 
+Requires Python 3.11 and [uv](https://docs.astral.sh/uv/). Project page:
+[pranakkin.github.io/Recluster](https://pranakkin.github.io/Recluster/).
+
 ![Top of a Recluster report for a false claim on Kang 2018: NOT SUPPORTED, 0 of 21 runs, naive cell-level tests significant in 100 % of runs, with the pseudoreplication flag](docs/report-hero.png)
 
-*From the benchmark (case 10), not the demo: a claim that is false by construction (donors shuffled between two fake groups): the cell-level test calls it in every run, the donor-level test in none. [Full report](https://pranakkin.github.io/Recluster/reports/kang/false-isg15-up-in-cd14-monocytes-in-fake-group-a-vs-b-kang-d.html).*
+*A benchmark claim that is false by construction (donors shuffled between two fake groups): the
+cell-level test calls it in every run, the donor-level test in none.
+[Full report](https://pranakkin.github.io/Recluster/reports/kang/false-isg15-up-in-cd14-monocytes-in-fake-group-a-vs-b-kang-d.html).*
+
+## Results at a glance
+
+- **Ground truth** (Hagai et al. 2018, 40 LPS claims on clear-cut genes, plan written before any
+  single-cell test): Recluster called 20 of 20 real changes and 3 of 20 unchanged genes, all in
+  rat. Its baseline donor-level run alone made the same calls, so on these genes the gain comes
+  from testing on donors, not from the grid. [Details](bench/ground_truth/RESULTS.md).
+- **Benchmark** (20 cases on Kang et al. 2018 and PBMC3k, each pass rule written before it ran;
+  one was tightened between runs): 16 as expected, 1 false alarm, 3 misses (all planted-doublet
+  cases). Cell-level tests call three of four false-by-construction claims in 100 % of runs;
+  Recluster returns NOT SUPPORTED for all four. [Details](bench/RESULTS.md).
+- **An AI agent's analysis, audited** (Kang 2018): of its 36 population and expression claims,
+  32 are ROBUST, 3 FRAGILE and 1 NOT SUPPORTED, and its summary disagrees with its own tables in
+  four places. [Details](#auditing-an-ai-agents-analysis).
 
 ## What it does
 
