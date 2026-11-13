@@ -126,3 +126,54 @@ def test_audit_requires_labels(sim):
     )
     with pytest.raises(SpecError, match="audit mode requires"):
         spec.check_against(sim, audit=True)
+
+
+def test_check_against_suggests_near_matches(sim):
+    spec = ClaimSpec.model_validate(
+        _de(
+            columns={**BASE_COLS, "condition": "conditon"},
+            target={"label_value": "mono", "markers": ["mono_marker_0"]},
+        )
+    )
+    with pytest.raises(SpecError) as exc:
+        spec.check_against(sim)
+    text = str(exc.value)
+    assert "columns.condition='conditon'" in text
+    assert "Did you mean 'condition'" in text
+    assert "Did you mean 'Mono'? (values are case-sensitive)" in text
+    assert "'mono_marker_0' -> 'Mono_marker_0'" in text
+    assert "gene names are case-sensitive" in text
+
+
+def test_check_against_suggests_comparison_group(sim):
+    spec = ClaimSpec.model_validate(
+        _de(comparison={"group_a": "stim", "group_b": "control", "direction": "up_in_a"})
+    )
+    with pytest.raises(SpecError) as exc:
+        spec.check_against(sim)
+    assert "'control' not in" in str(exc.value)
+    assert "Did you mean 'ctrl'" in str(exc.value)
+    spec = ClaimSpec.model_validate(
+        _de(comparison={"group_a": "stimulated", "group_b": "ctrl", "direction": "up_in_a"})
+    )
+    with pytest.raises(SpecError, match="Did you mean 'stim'"):
+        spec.check_against(sim)
+
+
+def test_check_against_notes_ensembl_ids(sim):
+    a = sim.copy()
+    a.var_names = [f"ENSG{i:011d}" for i in range(a.n_vars)]
+    spec = ClaimSpec.model_validate(_de(genes=["ISG15"]))
+    with pytest.raises(SpecError, match="Ensembl IDs"):
+        spec.check_against(a)
+
+
+def test_from_yaml_empty_and_non_mapping(tmp_path):
+    empty = tmp_path / "empty.yaml"
+    empty.write_text("")
+    with pytest.raises(SpecError, match="is empty"):
+        ClaimSpec.from_yaml(empty)
+    listing = tmp_path / "list.yaml"
+    listing.write_text("- a\n- b\n")
+    with pytest.raises(SpecError, match="key: value"):
+        ClaimSpec.from_yaml(listing)

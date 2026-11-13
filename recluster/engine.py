@@ -18,7 +18,14 @@ from typing import Any
 import pandas as pd
 
 from recluster.config import GridConfig, PipelineParams, Thresholds
-from recluster.data import DataError, detect_mito_prefix, extract_counts, load_adata, sha256_file
+from recluster.data import (
+    AUDIT_COUNTS_IN_X,
+    DataError,
+    detect_mito_prefix,
+    extract_counts,
+    load_adata,
+    sha256_file,
+)
 from recluster.evaluators.composition import evaluate_composition
 from recluster.evaluators.de import evaluate_de
 from recluster.evaluators.doublet_cluster import doublet_cluster_check
@@ -80,11 +87,7 @@ def run_claim(
     spec.check_against(adata, audit=audit)
     counts, counts_source = extract_counts(adata)
     if audit and counts_source == ".X":
-        raise DataError(
-            "audit mode expects a processed object whose raw counts live in layers['counts'] "
-            "or .raw; "
-            ".X itself looks like raw counts, so use `recluster run` instead"
-        )
+        raise DataError(AUDIT_COUNTS_IN_X)
     sha = sha256_file(data_path)
     cols = spec.columns
     obs = counts.obs

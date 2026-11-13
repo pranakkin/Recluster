@@ -11,6 +11,8 @@ contains results. The three claim types are:
 
 from __future__ import annotations
 
+import difflib
+from collections.abc import Iterable
 from pathlib import Path
 from typing import Literal
 
@@ -151,8 +153,13 @@ class ClaimSpec(BaseModel):
         """Load a spec from a YAML file."""
         with open(path) as fh:
             data = yaml.safe_load(fh)
+        if data is None:
+            raise SpecError(f"{path} is empty")
         if not isinstance(data, dict):
-            raise SpecError(f"{path}: expected a YAML mapping at top level")
+            raise SpecError(
+                f"{path}: expected `key: value` lines at the top level "
+                "(start from examples/claims/)"
+            )
         return cls.model_validate(data)
 
     def to_yaml(self) -> str:
@@ -170,7 +177,10 @@ class ClaimSpec(BaseModel):
         obs = adata.obs
         cols = self.columns
         if audit and cols.labels is None:
-            problems.append("audit mode requires `columns.labels`")
+            problems.append(
+                "audit mode requires `columns.labels` "
+                "(the .obs column holding the other tool's cell labels)"
+            )
 
         for role, col in (
             ("condition", cols.condition),
@@ -178,17 +188,15 @@ class ClaimSpec(BaseModel):
             ("labels", cols.labels),
         ):
             if col is not None and col not in obs.columns:
-                problems.append(
-                    f"columns.{role}={col!r} not in .obs (have: {_preview(obs.columns)})"
-                )
+                problems.append(_missing_column(f"columns.{role}", col, obs.columns))
         for col in cols.sample_key or []:
             if col not in obs.columns:
-                problems.append(
-                    f"columns.sample={col!r} not in .obs (have: {_preview(obs.columns)})"
-                )
+                problems.append(_missing_column("columns.sample", col, obs.columns))
         if cols.collection_time is not None:
             if cols.collection_time not in obs.columns:
-                problems.append(f"columns.collection_time={cols.collection_time!r} not in .obs")
+                problems.append(
+                    _missing_column("columns.collection_time", cols.collection_time, obs.columns)
+                )
             else:
                 from recluster.hours import parse_hours
 
@@ -207,7 +215,8 @@ class ClaimSpec(BaseModel):
             if self.target.label_value not in set(values):
                 problems.append(
                     f"target.label_value={self.target.label_value!r} not found in "
-                    f".obs[{cols.labels!r}] (have: {_preview(values.unique())})"
+                    f".obs[{cols.labels!r}]{_near(self.target.label_value, values.unique())} "
+                    f"(have: {_preview(values.unique())})"
                 )
 
         if self.comparison is not None and cols.condition in obs.columns:
@@ -215,8 +224,8 @@ class ClaimSpec(BaseModel):
             for grp in (self.comparison.group_a, self.comparison.group_b):
                 if grp not in present:
                     problems.append(
-                        f"comparison group {grp!r} not in .obs[{cols.condition!r}] "
-                        f"(have: {_preview(sorted(present))})"
+                        f"comparison group {grp!r} not in .obs[{cols.condition!r}]"
+                        f"{_near(grp, sorted(present))} (have: {_preview(sorted(present))})"
                     )
             if (
                 cols.condition is not None
@@ -228,6 +237,7 @@ class ClaimSpec(BaseModel):
         gene_names = set(adata.var_names)
         if adata.raw is not None:
             gene_names |= set(adata.raw.var_names)
+        any_missing = False
         for role, genes in (
             ("target.markers", self.target.markers),
             ("target.negative_markers", self.target.negative_markers),
@@ -235,16 +245,87 @@ class ClaimSpec(BaseModel):
         ):
             missing = [g for g in genes if g not in gene_names]
             if missing:
-                problems.append(f"{role}: genes not in var_names: {missing}")
+                any_missing = True
+                problems.append(
+                    f"{role}: {len(missing)} gene(s) not found in the data's gene names "
+                    f"(var_names): {missing}{_gene_hints(missing, gene_names)}"
+                )
+        if any_missing and _mostly_ensembl(gene_names):
+            problems.append(
+                "most gene names in this file are Ensembl IDs (ENS...): name genes by their "
+                "Ensembl ID in the claim, or set gene symbols as var_names"
+            )
 
         if problems:
-            raise SpecError("claim spec does not match the data:\n  - " + "\n  - ".join(problems))
+            raise SpecError(
+                "claim spec does not match the data (fix these in the YAML and check again):"
+                "\n  - " + "\n  - ".join(problems)
+            )
 
 
 def _preview(values: object, n: int = 8) -> str:
     vals = list(values)  # type: ignore[call-overload]
     shown = ", ".join(repr(v) for v in vals[:n])
     return shown + (", ..." if len(vals) > n else "")
+
+
+def _closest(value: str, options: Iterable[object], cutoff: float = 0.6) -> str | None:
+    """The option closest to ``value``: a case-insensitive exact match first, then difflib."""
+    opts = [str(o) for o in options]
+    folded = [o for o in opts if o.lower() == value.lower()]
+    if folded:
+        return folded[0]
+    close = difflib.get_close_matches(value, opts, n=1, cutoff=cutoff)
+    if close:
+        return close[0]
+    # an abbreviation or a longer spelling, e.g. 'stimulated' for 'stim'
+    low = value.lower()
+    prefixed = [
+        o
+        for o in opts
+        if min(len(o), len(value)) >= 3 and (low.startswith(o.lower()) or o.lower().startswith(low))
+    ]
+    return prefixed[0] if len(prefixed) == 1 else None
+
+
+def _near(value: str, options: Iterable[object]) -> str:
+    """'. Did you mean ...?' for the closest option, or '' when nothing is close."""
+    best = _closest(value, options)
+    if best is None or best == value:
+        return ""
+    case = " (values are case-sensitive)" if best.lower() == value.lower() else ""
+    return f". Did you mean {best!r}?{case}"
+
+
+def _missing_column(field: str, col: str, columns: Iterable[object]) -> str:
+    cols = list(columns)
+    return f"{field}={col!r} not in .obs{_near(col, cols)} (have: {_preview(cols)})"
+
+
+def _gene_hints(missing: list[str], gene_names: set[str], max_genes: int = 10) -> str:
+    """Suggestions for misspelt gene names: same name in another case, or a close spelling."""
+    by_lower: dict[str, str] = {}
+    for g in gene_names:
+        by_lower.setdefault(str(g).lower(), str(g))
+    pool = sorted(str(g) for g in gene_names)
+    hints = []
+    for g in missing[:max_genes]:
+        best = by_lower.get(g.lower())
+        if best is None:
+            close = difflib.get_close_matches(g, pool, n=1, cutoff=0.85)
+            best = close[0] if close else None
+        if best is not None:
+            hints.append(f"{g!r} -> {best!r}")
+    if not hints:
+        return ""
+    return ". Did you mean " + ", ".join(hints) + "? (gene names are case-sensitive)"
+
+
+def _mostly_ensembl(gene_names: set[str]) -> bool:
+    if not gene_names:
+        return False
+    n_ens = sum(1 for g in gene_names if str(g).startswith("ENS"))
+    return n_ens > len(gene_names) / 2
 
 
 def _check_nesting(obs: pd.DataFrame, sample_key: list[str], condition: str) -> list[str]:

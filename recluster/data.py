@@ -27,11 +27,24 @@ def sha256_file(path: str | Path, chunk: int = 1 << 20) -> str:
     return h.hexdigest()
 
 
+AUDIT_COUNTS_IN_X = (
+    "audit mode expects a processed object whose raw counts live in layers['counts'] "
+    "or .raw; "
+    ".X itself looks like raw counts, so use `recluster run` instead"
+)
+
+
 def load_adata(path: str | Path) -> AnnData:
     path = Path(path)
     if not path.exists():
         raise DataError(f"{path} does not exist")
-    return ad.read_h5ad(path)
+    try:
+        return ad.read_h5ad(path)
+    except OSError as exc:
+        raise DataError(
+            f"{path} could not be read as an AnnData .h5ad file ({exc}). "
+            "--data takes the .h5ad and --claim the YAML."
+        ) from exc
 
 
 def _looks_like_counts(x: sp.spmatrix | np.ndarray, n_check: int = 2000) -> bool:

@@ -2,37 +2,106 @@
 
 from __future__ import annotations
 
+import difflib
+import re
 import sys
+from enum import StrEnum
 from pathlib import Path
-from typing import Annotated
+from typing import TYPE_CHECKING, Annotated, Any
 
 import typer
 
 from recluster import __version__
 
+if TYPE_CHECKING:
+    from pydantic import BaseModel, ValidationError
+
+    from recluster.config import GridConfig, Thresholds
+    from recluster.spec import ClaimSpec
+
+EPILOG = (
+    "**Start here:**\n\n"
+    "`recluster demo` runs two example claims on a public dataset\n\n"
+    "copy examples/claims/TEMPLATE.yaml and edit it for your data\n\n"
+    "`recluster check --data X.h5ad --claim claim.yaml` checks the claim against the data\n\n"
+    "`recluster run --data X.h5ad --claim claim.yaml` runs the stress test"
+)
+
 app = typer.Typer(
     name="recluster",
-    help="An independent stress test for single-cell RNA-seq claims.",
+    help=(
+        "Stress-test a single-cell RNA-seq claim across a grid of defensible analysis choices "
+        "and write an HTML report with a verdict: ROBUST, FRAGILE or NOT SUPPORTED."
+    ),
+    epilog=EPILOG,
     no_args_is_help=True,
     add_completion=False,
+    rich_markup_mode="markdown",
 )
 
 DataOpt = Annotated[
-    Path, typer.Option("--data", help="AnnData .h5ad file", exists=True, dir_okay=False)
+    Path,
+    typer.Option(
+        "--data",
+        help="AnnData .h5ad file with raw integer counts (in layers['counts'], .raw.X or .X)",
+        exists=True,
+        dir_okay=False,
+    ),
 ]
 ClaimOpt = Annotated[
-    Path, typer.Option("--claim", help="claim spec YAML", exists=True, dir_okay=False)
+    Path,
+    typer.Option(
+        "--claim",
+        help="claim YAML (copy one from examples/claims/)",
+        exists=True,
+        dir_okay=False,
+    ),
 ]
-OutOpt = Annotated[Path, typer.Option("--out", help="output directory")]
+OutOpt = Annotated[
+    Path,
+    typer.Option(
+        "--out",
+        help="results folder; each claim gets a subfolder named after it with report.html, "
+        "provenance.json, runs.csv and claim.yaml",
+    ),
+]
 GridOpt = Annotated[
-    Path | None, typer.Option("--grid", help="grid config YAML (overrides defaults)")
+    Path | None,
+    typer.Option(
+        "--grid",
+        help="YAML overriding grid axes and settings; keys left out keep their defaults; "
+        "the report prints the values used",
+        exists=True,
+        dir_okay=False,
+    ),
 ]
 ThrOpt = Annotated[
-    Path | None, typer.Option("--thresholds", help="thresholds YAML (overrides defaults)")
+    Path | None,
+    typer.Option(
+        "--thresholds",
+        help="YAML overriding verdict thresholds; keys left out keep their defaults; "
+        "the report prints the values used",
+        exists=True,
+        dir_okay=False,
+    ),
 ]
-MaxRunsOpt = Annotated[int | None, typer.Option("--max-runs", help="cap the grid (quick look)")]
-RandomOpt = Annotated[int | None, typer.Option("--n-random", help="number of random combinations")]
-QuietOpt = Annotated[bool, typer.Option("--quiet", "-q", help="no per-run progress")]
+MaxRunsOpt = Annotated[
+    int | None,
+    typer.Option(
+        "--max-runs",
+        help="run at most this many grid points, for a smoke test only: the verdict from a "
+        "capped grid is not meaningful [default: the whole grid]",
+    ),
+]
+RandomOpt = Annotated[
+    int | None,
+    typer.Option(
+        "--n-random",
+        help="random combinations added to the one-at-a-time runs "
+        "[default: 6, or the --grid file's value]",
+    ),
+]
+QuietOpt = Annotated[bool, typer.Option("--quiet", "-q", help="hide per-run progress")]
 JobsOpt = Annotated[
     int,
     typer.Option(
@@ -46,9 +115,164 @@ JobsOpt = Annotated[
 SummarizeOpt = Annotated[
     bool,
     typer.Option(
-        "--summarize", help="add an LLM summary of the computed results (needs an API key)"
+        "--summarize",
+        help="add an LLM-written summary of the computed results (optional; needs "
+        "`uv sync --extra llm` and ANTHROPIC_API_KEY)",
     ),
 ]
+
+EXAMPLES_HINT = "Examples to copy: examples/claims/"
+
+
+# ------------------------------------------------------------------ readable file errors
+
+
+def _loc(parts: tuple[Any, ...]) -> str:
+    out = ""
+    for p in parts:
+        out += f"[{p}]" if isinstance(p, int) else (f".{p}" if out else str(p))
+    return out
+
+
+def _describe_error(err: dict[str, Any], models: dict[str, type[BaseModel]]) -> str:
+    """One plain sentence for one pydantic error, with a nearest-match hint where possible."""
+    loc = tuple(err.get("loc", ()))
+    where = _loc(loc)
+    kind = err.get("type", "")
+    if kind == "extra_forbidden" and loc:
+        key = str(loc[-1])
+        parent = ".".join(str(p) for p in loc[:-1] if not isinstance(p, int))
+        model = models.get(parent)
+        allowed = list(model.model_fields) if model is not None else []
+        close = difflib.get_close_matches(key, allowed, n=1, cutoff=0.6)
+        hint = f" Did you mean {close[0]!r}?" if close else ""
+        if not close:
+            # the key may belong one level down, e.g. `resolution` under `axes`
+            elsewhere = [
+                f"{prefix}.{m[0]}"
+                for prefix, other in models.items()
+                if prefix and prefix != parent
+                for m in [difflib.get_close_matches(key, list(other.model_fields), 1, 0.8)]
+                if m
+            ]
+            if elsewhere:
+                hint = " Did you mean " + " or ".join(repr(e) for e in elsewhere[:2]) + "?"
+        listed = f" (allowed here: {', '.join(allowed)})" if allowed else ""
+        return f"unknown key `{where}`.{hint}{listed}"
+    if kind == "literal_error":
+        allowed = re.findall(r"'([^']*)'", str(err.get("ctx", {}).get("expected", "")))
+        value = err.get("input")
+        close = difflib.get_close_matches(str(value), allowed, n=1, cutoff=0.6)
+        hint = f" Did you mean {close[0]!r}?" if close else ""
+        return f"`{where}`: {value!r} is not allowed.{hint} (allowed: {', '.join(allowed)})"
+    if kind == "missing":
+        return f"`{where}` is required"
+    msg = str(err.get("msg", "")).removeprefix("Value error, ")
+    value = err.get("input")
+    got = f" (got {value!r})" if isinstance(value, str | int | float | bool) else ""
+    return f"`{where}`: {msg}{got}" if where else msg
+
+
+def _format_validation(exc: ValidationError, models: dict[str, type[BaseModel]]) -> list[str]:
+    return [_describe_error(dict(e), models) for e in exc.errors()]
+
+
+def _read_yaml_model(path: Path, header: str, load: Any, models: dict[str, Any]) -> Any:
+    """Call ``load(path)``; on failure print readable bullets under ``header`` and exit 2."""
+    import yaml
+    from pydantic import ValidationError
+
+    from recluster.spec import SpecError
+
+    problems: list[str]
+    if path.suffix.lower() in (".h5ad", ".h5"):
+        problems = [
+            f"{path.name} looks like a data file: --claim takes the claim YAML and --data the "
+            ".h5ad (are the two swapped?)"
+        ]
+    else:
+        try:
+            return load(path)
+        except yaml.YAMLError as exc:
+            mark = getattr(exc, "problem_mark", None)
+            problem = getattr(exc, "problem", None) or str(exc)
+            at = f" at line {mark.line + 1}, column {mark.column + 1}" if mark is not None else ""
+            problems = [
+                f"not valid YAML{at}: {problem}. Check for an unclosed quote or bracket, "
+                "or tabs used for indentation."
+            ]
+        except UnicodeDecodeError:
+            problems = ["not a text file; expected a YAML file"]
+        except SpecError as exc:
+            problems = [str(exc)]
+        except ValidationError as exc:
+            problems = _format_validation(exc, models)
+    lines = [f"{header} {path}:", *(f"  - {p}" for p in problems)]
+    if header.startswith("invalid claim spec"):
+        lines.append(EXAMPLES_HINT)
+    typer.secho("\n".join(lines), err=True, fg="red")
+    raise typer.Exit(2)
+
+
+def _claim_models() -> dict[str, Any]:
+    from recluster.spec import ClaimSpec, Columns, Comparison, Target
+
+    return {"": ClaimSpec, "columns": Columns, "target": Target, "comparison": Comparison}
+
+
+def _load_claim(path: Path) -> ClaimSpec:
+    """Load a claim YAML, or print what is wrong with it (with suggestions) and exit 2."""
+    from recluster.spec import ClaimSpec
+
+    spec: ClaimSpec = _read_yaml_model(
+        path, "invalid claim spec", ClaimSpec.from_yaml, _claim_models()
+    )
+    return spec
+
+
+def _load_grid(path: Path | None) -> GridConfig:
+    from recluster.config import GridAxes, GridConfig, PipelineParams
+
+    if path is None:
+        return GridConfig()
+    models = {"": GridConfig, "axes": GridAxes, "baseline": PipelineParams}
+    cfg: GridConfig = _read_yaml_model(path, "invalid grid file", GridConfig.from_yaml, models)
+    return cfg
+
+
+def _load_thresholds(path: Path | None) -> Thresholds:
+    from recluster.config import Thresholds
+
+    if path is None:
+        return Thresholds()
+    thr: Thresholds = _read_yaml_model(
+        path, "invalid thresholds file", Thresholds.from_yaml, {"": Thresholds}
+    )
+    return thr
+
+
+# ------------------------------------------------------------------ commands
+
+
+def _version_callback(value: bool) -> None:
+    if value:
+        typer.echo(__version__)
+        raise typer.Exit()
+
+
+@app.callback()
+def main(
+    version: Annotated[
+        bool,
+        typer.Option(
+            "--version",
+            help="print the version and exit",
+            callback=_version_callback,
+            is_eager=True,
+        ),
+    ] = False,
+) -> None:
+    pass
 
 
 def _execute(
@@ -64,22 +288,17 @@ def _execute(
     summarize: bool = False,
     jobs: int = 1,
 ) -> None:
-    from recluster.config import GridConfig, Thresholds
     from recluster.data import DataError
-    from recluster.engine import run_claim
-    from recluster.spec import ClaimSpec, SpecError
+    from recluster.engine import run_claim, slugify
+    from recluster.spec import SpecError
 
-    try:
-        spec = ClaimSpec.from_yaml(claim)
-    except Exception as exc:  # pydantic errors are verbose; show them plainly
-        typer.secho(f"invalid claim spec: {exc}", err=True, fg="red")
-        raise typer.Exit(2) from None
-    cfg = GridConfig.from_yaml(grid) if grid else GridConfig()
+    spec = _load_claim(claim)
+    cfg = _load_grid(grid)
     if max_runs is not None:
         cfg = cfg.model_copy(update={"max_runs": max_runs})
     if n_random is not None:
         cfg = cfg.model_copy(update={"n_random": n_random})
-    thr = Thresholds.from_yaml(thresholds) if thresholds else Thresholds()
+    thr = _load_thresholds(thresholds)
     try:
         result = run_claim(
             data,
@@ -96,6 +315,7 @@ def _execute(
         raise typer.Exit(2) from None
     v = result.verdict
     typer.echo(f"{v.label}\t{v.n_holds}/{v.n_runs} runs\t{spec.name}")
+    typer.echo(f"report: {out / slugify(spec.name) / 'report.html'}")
     if summarize:
         _attach_summary(result, out, spec)
 
@@ -122,6 +342,43 @@ def _attach_summary(result: object, out: Path, spec: object) -> None:
 
 
 @app.command()
+def check(
+    data: DataOpt,
+    claim: ClaimOpt,
+    audit: Annotated[
+        bool,
+        typer.Option(
+            "--audit",
+            help="check for `recluster audit`: the data is a processed object with its own "
+            "cell labels",
+        ),
+    ] = False,
+) -> None:
+    """Check a claim YAML against the data without running anything: columns, values, genes,
+    raw counts.
+    """
+    from recluster.data import AUDIT_COUNTS_IN_X, DataError, extract_counts, load_adata
+    from recluster.spec import SpecError
+
+    spec = _load_claim(claim)
+    try:
+        adata = load_adata(data)
+        spec.check_against(adata, audit=audit)
+        counts, source = extract_counts(adata)
+        if audit and source == ".X":
+            raise DataError(AUDIT_COUNTS_IN_X)
+    except (SpecError, DataError) as exc:
+        typer.secho(str(exc), err=True, fg="red")
+        raise typer.Exit(2) from None
+    command = "audit" if audit else "run"
+    typer.echo(
+        f"OK: {spec.name!r} matches {data} ({counts.n_obs} cells, {counts.n_vars} genes; "
+        f"raw counts in {source})."
+    )
+    typer.echo(f"Next: recluster {command} --data {data} --claim {claim}")
+
+
+@app.command()
 def run(
     data: DataOpt,
     claim: ClaimOpt,
@@ -134,7 +391,9 @@ def run(
     summarize: SummarizeOpt = False,
     jobs: JobsOpt = 1,
 ) -> None:
-    """Stress-test a claim against raw counts, re-deriving everything from scratch."""
+    """Stress-test a claim: re-run the analysis from raw counts under each grid setting and
+    give a verdict. Writes `OUT/<claim-name>/report.html`.
+    """
     _execute(
         data,
         claim,
@@ -163,7 +422,10 @@ def audit(
     summarize: SummarizeOpt = False,
     jobs: JobsOpt = 1,
 ) -> None:
-    """Audit a processed object: re-derive from its stored raw counts and check its labels."""
+    """Check another tool's cell labels: re-derive from the processed object's stored raw
+    counts and compare. Needs raw counts in layers['counts'] or .raw and `columns.labels` in
+    the claim.
+    """
     _execute(
         data,
         claim,
@@ -179,6 +441,14 @@ def audit(
     )
 
 
+class BenchPart(StrEnum):
+    """Which part of the benchmark to run."""
+
+    kang = "kang"
+    planted = "planted"
+    all = "all"
+
+
 @app.command()
 def bench(
     data_dir: Annotated[
@@ -187,18 +457,19 @@ def bench(
     out: Annotated[Path, typer.Option("--out", help="where the benchmark reports go")] = Path(
         "bench/out"
     ),
-    part: Annotated[str, typer.Option("--part", help="kang | planted | all")] = "all",
-    jobs: Annotated[int, typer.Option("--jobs", help="claims run in parallel")] = 4,
+    part: Annotated[BenchPart, typer.Option("--part", help="which part to run")] = BenchPart.all,
+    jobs: Annotated[int, typer.Option("--jobs", "-j", min=1, help="claims run in parallel")] = 4,
     max_runs: MaxRunsOpt = None,
 ) -> None:
-    """Reproduce the benchmark: Kang 2018 real-data claims and planted errors on PBMC3k."""
+    """Reproduce the benchmark: Kang 2018 real-data claims and planted errors on PBMC3k.
+
+    Downloads the datasets on first use and rewrites the committed bench/results.json and
+    bench/results_table.md.
+    """
     from recluster.bench.runner import run_bench
     from recluster.config import GridConfig
 
-    if part not in ("kang", "planted", "all"):
-        typer.secho("--part must be kang, planted or all", err=True, fg="red")
-        raise typer.Exit(2)
-    parts = ("kang", "planted") if part == "all" else (part,)
+    parts = ("kang", "planted") if part is BenchPart.all else (part.value,)
     grid = GridConfig(max_runs=max_runs) if max_runs is not None else None
     run_bench(data_dir=data_dir, out_dir=out, parts=parts, jobs=jobs, grid=grid)
 
@@ -220,7 +491,9 @@ def demo(
     ] = None,
     no_open: Annotated[bool, typer.Option("--no-open", help="do not open the reports")] = False,
 ) -> None:
-    """Two claims on a subset of Kang 2018: one true, one false by construction."""
+    """Run two claims on a subset of Kang 2018 (downloaded on first use): one true, one false
+    by construction; opens both reports.
+    """
     from recluster.demo import run_demo
 
     results = run_demo(data_dir=data_dir, out_dir=out, jobs=jobs, open_reports=not no_open)
@@ -233,24 +506,26 @@ def demo(
 def parse(
     claim: Annotated[str, typer.Argument(help="the claim in plain English, in quotes")],
     data: DataOpt,
-    out: Annotated[Path, typer.Option("--out", help="where to write the proposed YAML")] = Path(
+    out: Annotated[Path, typer.Option("--out", help="file to write the claim YAML to")] = Path(
         "claim.yaml"
     ),
     model: Annotated[str | None, typer.Option("--model", help="Anthropic model id")] = None,
     yes: Annotated[bool, typer.Option("--yes", "-y", help="skip the confirmation prompt")] = False,
     run: Annotated[bool, typer.Option("--run", help="run the claim after confirmation")] = False,
-    out_dir: Annotated[Path, typer.Option("--out-dir", help="results directory when --run")] = Path(
-        "results"
-    ),
+    out_dir: Annotated[
+        Path, typer.Option("--out-dir", help="results folder, used with --run")
+    ] = Path("results"),
     audit: Annotated[
-        bool, typer.Option("--audit", help="treat the data as a processed object")
+        bool,
+        typer.Option("--audit", help="the data is a processed object (same as `recluster audit`)"),
     ] = False,
 ) -> None:
-    """Turn a plain-English claim into a claim spec with an LLM, checked against the data.
+    """Turn a plain-English claim into a claim YAML with an LLM, checked against the data.
 
-    Optional: needs ANTHROPIC_API_KEY. Without it, write the YAML by hand (see README).
+    Optional: needs ANTHROPIC_API_KEY. Without it, copy examples/claims/TEMPLATE.yaml and
+    check it with `recluster check`.
     """
-    from recluster.data import load_adata
+    from recluster.data import DataError, load_adata
     from recluster.llm.common import LLMUnavailable, get_client
     from recluster.llm.parse import parse_claim, yaml_with_header
     from recluster.spec import SpecError
@@ -260,18 +535,18 @@ def parse(
     except LLMUnavailable as exc:
         typer.secho(str(exc), err=True, fg="red")
         raise typer.Exit(2) from None
-    adata = load_adata(data)
     try:
+        adata = load_adata(data)
         result = parse_claim(claim, adata, client=client, model=model, audit=audit)
-    except (LLMUnavailable, SpecError) as exc:
+    except (LLMUnavailable, SpecError, DataError) as exc:
         typer.secho(str(exc), err=True, fg="red")
         raise typer.Exit(2) from None
     text = yaml_with_header(result, claim)
     typer.echo(
-        f"Proposed claim spec (LLM output from {result.model}, {result.attempts} attempt(s)):\n"
+        f"Proposed claim YAML (LLM output from {result.model}, {result.attempts} attempt(s)):\n"
     )
     typer.echo(text)
-    if not yes and not typer.confirm(f"Write this spec to {out}?", default=False):
+    if not yes and not typer.confirm(f"Write this claim YAML to {out}?", default=False):
         typer.echo("not written; edit by hand or rephrase the claim")
         raise typer.Exit(1)
     out.write_text(text)
@@ -283,7 +558,12 @@ def parse(
 @app.command()
 def summarize(
     provenance: Annotated[
-        Path, typer.Argument(help="provenance.json of a finished run", exists=True)
+        Path,
+        typer.Argument(
+            help="provenance.json from a results folder, "
+            "e.g. `results/<claim-name>/provenance.json`",
+            exists=True,
+        ),
     ],
     model: Annotated[str | None, typer.Option("--model", help="Anthropic model id")] = None,
 ) -> None:
