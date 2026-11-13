@@ -1,0 +1,19 @@
+claim_type: differential_expression
+name: 'agent: CD16 up in CD16 Mono'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: CD16 Mono
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: up_in_a
+genes:
+- IL27
+- IDO1
+- CH25H
+require: all

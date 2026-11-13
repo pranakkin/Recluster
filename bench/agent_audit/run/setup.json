@@ -1,0 +1,31 @@
+{
+ "input": "bench/agent_audit/run/workspace/pbmc_ifnb.h5ad",
+ "input_sha256": "69895318ab7ba761cc69f73b304e0a7b96ef7c79f6deead69df1fe7edaee6cc7",
+ "source": "data/kang_2018.h5ad",
+ "api_url": "https://api.anthropic.com",
+ "tool": {
+  "name": "python",
+  "description": "Run Python code in a persistent Python 3.11 session; variables persist between calls. The working directory contains the user's files. Printed output and the value of the last expression are returned (long output is truncated). Common scientific and single-cell analysis packages are installed. There is no internet access and packages cannot be installed. Figures are not displayed; save them to files if needed.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "code": {
+     "type": "string",
+     "description": "Python code to run"
+    }
+   },
+   "required": [
+    "code"
+   ],
+   "additionalProperties": false
+  },
+  "eager_input_streaming": true
+ },
+ "system_prompt": null,
+ "max_tokens": 32000,
+ "max_turns": 60,
+ "cell_timeout_s": 1200,
+ "anthropic_sdk": "2.8.0",
+ "python": "3.11.16",
+ "platform": "macOS-26.6.2-arm64-arm-64bit"
+}

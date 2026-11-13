@@ -1,0 +1,33 @@
+claim_type: differential_expression
+name: 'agent: shared ISGs in CD16 Mono'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: CD16 Mono
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: up_in_a
+genes:
+- ISG15
+- IFI6
+- IFIT1
+- IFIT2
+- IFIT3
+- MX1
+- MX2
+- IRF7
+- OAS1
+- LY6E
+- IFITM1
+- IFITM2
+- IFITM3
+- RSAD2
+- CMPK2
+- HERC5
+- BST2
+require: all

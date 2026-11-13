@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/Users/pranakkin/Desktop/Recluster/recluster/bench/agent_kernel.py", line 53, in main
+    _run(code, namespace)
+  File "/Users/pranakkin/Desktop/Recluster/recluster/bench/agent_kernel.py", line 33, in _run
+    exec(compile(tree, "<cell>", "exec"), namespace)
+  File "<cell>", line 4, in <module>
+  File "/Users/pranakkin/Desktop/Recluster/.venv/lib/python3.11/site-packages/scanpy/neighbors/__init__.py", line 194, in neighbors
+    neighbors.compute_neighbors(
+  File "/Users/pranakkin/Desktop/Recluster/.venv/lib/python3.11/site-packages/scanpy/neighbors/__init__.py", line 579, in compute_neighbors
+    knn_indices, knn_distances = _get_indices_distances_from_sparse_matrix(
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranakkin/Desktop/Recluster/.venv/lib/python3.11/site-packages/scanpy/neighbors/_common.py", line 83, in _get_indices_distances_from_sparse_matrix
+    if (shortcut := _ind_dist_shortcut(d)) is not None:
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranakkin/Desktop/Recluster/.venv/lib/python3.11/site-packages/scanpy/neighbors/_common.py", line 142, in _ind_dist_shortcut
+    d.indices.reshape(n_obs, n_neighbors),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: cannot reshape array of size 392992 into shape (24562,15)

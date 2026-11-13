@@ -1,0 +1,15 @@
+                        CXCL10  CCL8  ISG15  IFIT1  CD14   LYZ
+cell_type                                                     
+B                         0.62  0.12   1.00   0.84  0.00  0.02
+CD14 Mono                 0.98  0.90   1.00   0.95  0.22  0.84
+CD16 Mono                 0.98  0.31   1.00   1.00  0.15  0.46
+CD4 T memory              0.22  0.12   0.98   0.77  0.00  0.02
+CD4 T naive               0.23  0.11   0.97   0.78  0.00  0.02
+CD8 T                     0.16  0.09   0.97   0.79  0.00  0.01
+Megakaryocyte/platelet    0.17  0.06   0.91   0.81  0.02  0.00
+NK                        0.20  0.12   0.99   0.82  0.00  0.03
+T (stress/HSP-high)       0.34  0.11   0.97   0.77  0.00  0.01
+cDC                       0.98  0.26   1.00   0.97  0.06  0.98
+pDC                       0.71  0.16   1.00   0.82  0.00  0.01
+70 ['BST2', 'C19orf66', 'C5orf56', 'CD164', 'CD48', 'CD69', 'CHMP5', 'CMPK2', 'DDX58', 'DRAP1', 'DYNLT1', 'EIF2AK2', 'EPSTI1', 'GBP1', 'GBP4', 'HERC5', 'IFI16', 'IFI35', 'IFI44', 'IFI44L', 'IFI6', 'IFIH1', 'IFIT1', 'IFIT2', 'IFIT3', 'IFIT5', 'IFITM1', 'IFITM2', 'IFITM3', 'IRF7', 'ISG15', 'ISG20', 'LAP3', 'LY6E', 'MT2A', 'MX1', 'MX2', 'NMI', 'NT5C3A', 'NUB1']
+581

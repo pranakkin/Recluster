@@ -1,0 +1,14 @@
+claim_type: composition_shift
+name: 'agent null: CD4 T naive proportion differs stim vs ctrl'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: CD4 T naive
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: different

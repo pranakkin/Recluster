@@ -1,0 +1,18 @@
+claim_type: differential_expression
+name: 'agent: caveat up (literal reading) in T (stress/HSP-high)'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: T (stress/HSP-high)
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: up_in_a
+genes:
+- CCL8
+- CXCL11
+require: all

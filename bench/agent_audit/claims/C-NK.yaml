@@ -1,0 +1,14 @@
+claim_type: composition_shift
+name: 'agent null: NK proportion differs stim vs ctrl'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: NK
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: different

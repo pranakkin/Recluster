@@ -1,0 +1,6 @@
+claim_type: population_exists
+name: 'agent: CD4 T memory is a distinct population'
+columns:
+  labels: cell_type
+target:
+  label_value: CD4 T memory

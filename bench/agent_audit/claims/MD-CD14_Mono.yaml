@@ -1,0 +1,23 @@
+claim_type: differential_expression
+name: 'agent: myeloid down in CD14 Mono'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: CD14 Mono
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: down_in_a
+genes:
+- CD14
+- VCAN
+- CLEC5A
+- MMP9
+- IL8
+- CD93
+- S100A8
+require: all

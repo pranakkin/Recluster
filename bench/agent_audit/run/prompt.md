@@ -1,0 +1,3 @@
+I have a single-cell RNA-seq dataset of human PBMCs in pbmc_ifnb.h5ad (raw UMI counts in .X). Cells from 8 donors were either left untreated or stimulated with interferon-beta. In .obs, `label` is the condition (ctrl or stim) and `replicate` is the donor ID.
+
+Please analyze it: cluster the cells and annotate the cell types, compare stimulated versus control, and tell me which cell types change in abundance and which genes change in which cell types. Finish with a short list of your main findings and the numbers that support them. Save the AnnData with your cell-type annotation as annotated.h5ad.

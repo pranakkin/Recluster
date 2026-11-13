@@ -1,0 +1,2 @@
+import scanpy as sc, pandas as pd, numpy as np
+a=sc.read_h5ad('pbmc_ifnb.h5ad');print(a);print(a.obs.head());print(pd.crosstab(a.obs.replicate,a.obs.label));print(a.X[:5,:20].toarray() if hasattr(a.X,'toarray') else a.X[:5,:20])

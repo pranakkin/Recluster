@@ -1,0 +1,17 @@
+claim_type: differential_expression
+name: 'agent: caveat up (literal reading) in NK (CXCL11)'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: NK
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: up_in_a
+genes:
+- CXCL11
+require: all

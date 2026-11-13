@@ -49,6 +49,8 @@ packages = ["recluster"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+# the agent's own code in the case study is kept exactly as it ran
+extend-exclude = ["bench/agent_audit/run"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "ANN"]

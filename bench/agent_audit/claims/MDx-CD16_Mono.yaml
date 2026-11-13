@@ -1,0 +1,20 @@
+claim_type: differential_expression
+name: 'agent: myeloid down (literal reading) in CD16 Mono'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: CD16 Mono
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: down_in_a
+genes:
+- VCAN
+- CLEC5A
+- MMP9
+- CD93
+require: all

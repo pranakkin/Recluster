@@ -1,0 +1,13 @@
+cell_type
+CD4 T naive               6650
+CD14 Mono                 5692
+CD4 T memory              3429
+B                         2696
+NK                        1756
+CD8 T                     1742
+CD16 Mono                 1093
+T (stress/HSP-high)        866
+cDC                        436
+pDC                        107
+Megakaryocyte/platelet      95
+Name: count, dtype: int64

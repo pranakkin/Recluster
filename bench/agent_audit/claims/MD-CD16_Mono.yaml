@@ -1,0 +1,19 @@
+claim_type: differential_expression
+name: 'agent: myeloid down in CD16 Mono'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: CD16 Mono
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: down_in_a
+genes:
+- CD14
+- IL8
+- S100A8
+require: all

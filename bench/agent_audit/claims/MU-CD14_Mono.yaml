@@ -1,0 +1,21 @@
+claim_type: differential_expression
+name: 'agent: myeloid up in CD14 Mono'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: CD14 Mono
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: up_in_a
+genes:
+- CCL8
+- CXCL10
+- CXCL11
+- TNFSF10
+- IFI27
+require: all

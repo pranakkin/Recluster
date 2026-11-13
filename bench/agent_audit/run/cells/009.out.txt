@@ -1,0 +1,25 @@
+set()
+<cell>:3: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+        CD3E   CD4  IL7R  CCR7  SELL  CD8A  GZMK  GNLY  NKG7  GZMB  MS4A1  CD79A  CD14   LYZ  S100A8  FCGR3A  MS4A7  FCER1A  CLEC10A  LILRA4  IL3RA  PPBP   PF4   HBB  FOXP3  MKI67  ISG15
+leiden                                                                                                                                                                                    
+0       0.03  0.04  0.15  0.14  0.17  0.01  0.01  0.07  0.09  0.04   0.01   0.01  1.30  2.41    2.06    0.76   1.14    0.00     0.01    0.00   0.06  0.13  0.04  0.23   0.00   0.00   3.31
+1       0.04  0.06  0.08  0.16  0.24  0.01  0.01  0.07  0.13  0.04   0.02   0.02  0.95  1.14    0.20    3.18   3.13    0.00     0.00    0.00   0.31  0.13  0.04  0.26   0.00   0.00   3.58
+2       0.32  0.01  1.22  1.79  1.54  0.10  0.06  0.09  0.06  0.06   0.01   0.01  0.03  0.02    0.02    0.01   0.03    0.00     0.00    0.00   0.00  0.13  0.05  0.24   0.01   0.00   2.52
+3       0.66  0.02  1.09  1.11  0.77  0.34  0.26  0.14  0.28  0.07   0.01   0.01  0.01  0.04    0.02    0.02   0.01    0.00     0.00    0.00   0.00  0.11  0.04  0.19   0.00   0.00   2.17
+4       0.82  0.02  1.08  2.77  1.90  0.13  0.03  0.03  0.03  0.02   0.00   0.05  0.02  0.04    0.02    0.01   0.02    0.00     0.00    0.00   0.00  0.11  0.04  0.19   0.00   0.00   1.92
+5       0.03  0.24  0.26  1.18  1.31  0.00  0.00  0.08  1.35  3.49   0.00   0.03  0.00  0.13    0.03    0.01   0.05    0.00     0.00    0.85   0.57  0.12  0.04  0.19   0.00   0.00   3.05
+6       0.73  0.03  1.00  2.54  1.74  0.08  0.05  0.04  0.02  0.02   0.00   0.02  0.01  0.04    0.01    0.01   0.01    0.00     0.00    0.00   0.00  0.07  0.03  0.27   0.00   0.00   2.19
+7       0.12  0.00  0.10  0.20  0.30  0.27  0.19  4.73  3.56  3.38   0.01   0.01  0.01  0.05    0.02    0.59   0.01    0.00     0.00    0.00   0.00  0.15  0.06  0.21   0.00   0.00   2.59
+8       0.71  0.01  0.28  0.15  0.13  1.04  0.21  2.45  2.95  2.56   0.02   0.03  0.01  0.03    0.03    0.25   0.02    0.00     0.00    0.00   0.00  0.10  0.03  0.21   0.00   0.01   2.34
+9       0.03  0.00  0.06  2.53  0.84  0.01  0.01  0.04  0.03  0.02   1.14   1.95  0.02  0.04    0.02    0.01   0.04    0.00     0.00    0.01   0.01  0.14  0.04  0.22   0.00   0.00   2.34
+10      0.08  0.04  1.07  2.23  0.30  0.03  0.02  0.08  0.13  0.08   0.02   0.03  0.31  3.60    0.42    0.21   0.86    0.38     0.24    0.00   0.16  0.08  0.02  0.20   0.00   0.00   3.00
+11      0.59  0.04  0.85  1.81  1.35  0.21  0.00  0.07  0.05  0.02   0.00   0.00  0.02  0.03    0.03    0.02   0.02    0.00     0.00    0.00   0.00  4.47  3.07  0.10   0.00   0.00   2.41
+          0        1       2        3      4        5       6         7         8         9        10         11
+0       FTL   FCGR3A    EIF1   PABPC1   RPS6   SEC61B   RPL32      GNLY      CCL5      CD74   HLA-DRA       PPBP
+1  C15orf48    MS4A7     UBC   TMSB4X  RPL32  TSPAN13   RPS14      NKG7      NKG7   HLA-DRA  HLA-DPB1        PF4
+2    TYROBP   CXCL16     UBB     RPL3  RPL13      TXN   RPL13      GZMB       B2M     CD79A  HLA-DPA1      GNG11
+3      CD63     LST1    BTG1     CREM  RPS18     CD74    RPS6     HLA-A      GZMB  HLA-DRB1  HLA-DRB1       SDPR
+4    FCER1G  S100A11  CACYBP     RPS2  RPS14     GZMB   RPL34  APOBEC3G  APOBEC3G  HLA-DPA1      CD74  HIST1H2AC
+5      FTH1    TIMP1   HSPA8    RPL10  RPL34  HERPUD1   RPS18     HLA-B     HLA-A  HLA-DPB1  HLA-DQA1      NCOA4
+6     TIMP1   FCER1G   H3F3B    RPS4X  RPS3A    PARK7   RPL21       B2M      GZMH    RPL18A      CST3      TUBB1
+7      SOD2     VMO1   SRSF7  ALOX5AP  RPL21  HLA-DRA  RPS15A      PRF1    TMSB4X      RPL8     ANXA2       CCL5

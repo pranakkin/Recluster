@@ -1,0 +1,9 @@
+claim_type: population_exists
+name: 'agent: T (stress/HSP-high) is a distinct population (per-sample doublets)'
+columns:
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: T (stress/HSP-high)

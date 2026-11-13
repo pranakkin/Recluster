@@ -1,0 +1,29 @@
+AnnData object with n_obs × n_vars = 24673 × 15706
+    obs: 'label', 'replicate'
+                 label     replicate
+index                               
+AAACATACATTTCC-1  ctrl  patient_1016
+AAACATACCAGAAA-1  ctrl  patient_1256
+AAACATACCATGCA-1  ctrl  patient_1488
+AAACATACCTCGCT-1  ctrl  patient_1256
+AAACATACCTGGTA-1  ctrl  patient_1039
+label         ctrl  stim
+replicate               
+patient_101    858  1166
+patient_1015  2738  2352
+patient_1016  1723  1635
+patient_1039   461   641
+patient_107    517   525
+patient_1244  1879  1464
+patient_1256  2108  2026
+patient_1488  2031  2549
+[[ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+   0.  0.]
+ [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+   0.  0.]
+ [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
+   0.  0.]
+ [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  1.  0.  0.  0.  0.  0.
+   0.  0.]
+ [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  1.  0.  0.  0.  0. 12.
+   0.  0.]]

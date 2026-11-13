@@ -1,0 +1,2125 @@
+[
+ {
+  "id": "P-CD4 T naive",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| CD4 T naive (2 clusters merged) |",
+   "**CD4 T cells:** the CD4 gene itself is barely detected"
+  ],
+  "agent_says": "exists (hedged by the agent)",
+  "secondary": false,
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: CD4 T naive is a distinct population",
+   "columns": {
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD4 T naive"
+   }
+  },
+  "file": "claims/P-CD4_T_naive.yaml"
+ },
+ {
+  "id": "P-CD14 Mono",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| CD14 monocytes |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: CD14 Mono is a distinct population",
+   "columns": {
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD14 Mono"
+   }
+  },
+  "file": "claims/P-CD14_Mono.yaml"
+ },
+ {
+  "id": "P-CD4 T memory",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| CD4 T memory |",
+   "**CD4 T cells:** the CD4 gene itself is barely detected"
+  ],
+  "agent_says": "exists (hedged by the agent)",
+  "secondary": false,
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: CD4 T memory is a distinct population",
+   "columns": {
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD4 T memory"
+   }
+  },
+  "file": "claims/P-CD4_T_memory.yaml"
+ },
+ {
+  "id": "P-B",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| B |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: B is a distinct population",
+   "columns": {
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "B"
+   }
+  },
+  "file": "claims/P-B.yaml"
+ },
+ {
+  "id": "P-NK",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| NK |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: NK is a distinct population",
+   "columns": {
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "NK"
+   }
+  },
+  "file": "claims/P-NK.yaml"
+ },
+ {
+  "id": "P-CD8 T",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| CD8 T |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: CD8 T is a distinct population",
+   "columns": {
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD8 T"
+   }
+  },
+  "file": "claims/P-CD8_T.yaml"
+ },
+ {
+  "id": "P-CD16 Mono",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| CD16 monocytes |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: CD16 Mono is a distinct population",
+   "columns": {
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD16 Mono"
+   }
+  },
+  "file": "claims/P-CD16_Mono.yaml"
+ },
+ {
+  "id": "P-T (stress/HSP-high)",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| T cells with high stress genes |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: T (stress/HSP-high) is a distinct population",
+   "columns": {
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "T (stress/HSP-high)"
+   }
+  },
+  "file": "claims/P-T__stress_HSP-high_.yaml"
+ },
+ {
+  "id": "P-cDC",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| cDC |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: cDC is a distinct population",
+   "columns": {
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "cDC"
+   }
+  },
+  "file": "claims/P-cDC.yaml"
+ },
+ {
+  "id": "P-pDC",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| pDC |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: pDC is a distinct population",
+   "columns": {
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "pDC"
+   }
+  },
+  "file": "claims/P-pDC.yaml"
+ },
+ {
+  "id": "P-Megakaryocyte/platelet",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| Megakaryocyte/platelet |",
+   "so it probably includes platelets stuck to T cells"
+  ],
+  "agent_says": "exists (hedged by the agent)",
+  "secondary": false,
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: Megakaryocyte/platelet is a distinct population",
+   "columns": {
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "Megakaryocyte/platelet"
+   }
+  },
+  "file": "claims/P-Megakaryocyte_platelet.yaml"
+ },
+ {
+  "id": "P9-CD4 T naive",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| CD4 T naive (2 clusters merged) |",
+   "**CD4 T cells:** the CD4 gene itself is barely detected"
+  ],
+  "agent_says": "exists (hedged by the agent)",
+  "secondary": false,
+  "supersedes": "P-CD4 T naive",
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: CD4 T naive is a distinct population (per-sample doublets)",
+   "columns": {
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD4 T naive"
+   }
+  },
+  "file": "claims/P9-CD4_T_naive.yaml"
+ },
+ {
+  "id": "P9-CD14 Mono",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| CD14 monocytes |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "supersedes": "P-CD14 Mono",
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: CD14 Mono is a distinct population (per-sample doublets)",
+   "columns": {
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD14 Mono"
+   }
+  },
+  "file": "claims/P9-CD14_Mono.yaml"
+ },
+ {
+  "id": "P9-CD4 T memory",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| CD4 T memory |",
+   "**CD4 T cells:** the CD4 gene itself is barely detected"
+  ],
+  "agent_says": "exists (hedged by the agent)",
+  "secondary": false,
+  "supersedes": "P-CD4 T memory",
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: CD4 T memory is a distinct population (per-sample doublets)",
+   "columns": {
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD4 T memory"
+   }
+  },
+  "file": "claims/P9-CD4_T_memory.yaml"
+ },
+ {
+  "id": "P9-B",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| B |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "supersedes": "P-B",
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: B is a distinct population (per-sample doublets)",
+   "columns": {
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "B"
+   }
+  },
+  "file": "claims/P9-B.yaml"
+ },
+ {
+  "id": "P9-NK",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| NK |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "supersedes": "P-NK",
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: NK is a distinct population (per-sample doublets)",
+   "columns": {
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "NK"
+   }
+  },
+  "file": "claims/P9-NK.yaml"
+ },
+ {
+  "id": "P9-CD8 T",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| CD8 T |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "supersedes": "P-CD8 T",
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: CD8 T is a distinct population (per-sample doublets)",
+   "columns": {
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD8 T"
+   }
+  },
+  "file": "claims/P9-CD8_T.yaml"
+ },
+ {
+  "id": "P9-CD16 Mono",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| CD16 monocytes |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "supersedes": "P-CD16 Mono",
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: CD16 Mono is a distinct population (per-sample doublets)",
+   "columns": {
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD16 Mono"
+   }
+  },
+  "file": "claims/P9-CD16_Mono.yaml"
+ },
+ {
+  "id": "P9-T (stress/HSP-high)",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| T cells with high stress genes |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "supersedes": "P-T (stress/HSP-high)",
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: T (stress/HSP-high) is a distinct population (per-sample doublets)",
+   "columns": {
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "T (stress/HSP-high)"
+   }
+  },
+  "file": "claims/P9-T__stress_HSP-high_.yaml"
+ },
+ {
+  "id": "P9-cDC",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| cDC |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "supersedes": "P-cDC",
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: cDC is a distinct population (per-sample doublets)",
+   "columns": {
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "cDC"
+   }
+  },
+  "file": "claims/P9-cDC.yaml"
+ },
+ {
+  "id": "P9-pDC",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| pDC |"
+  ],
+  "agent_says": "exists",
+  "secondary": false,
+  "supersedes": "P-pDC",
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: pDC is a distinct population (per-sample doublets)",
+   "columns": {
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "pDC"
+   }
+  },
+  "file": "claims/P9-pDC.yaml"
+ },
+ {
+  "id": "P9-Megakaryocyte/platelet",
+  "statement": "annotation",
+  "quote": [
+   "I annotated 11 cell types.",
+   "| Megakaryocyte/platelet |",
+   "so it probably includes platelets stuck to T cells"
+  ],
+  "agent_says": "exists (hedged by the agent)",
+  "secondary": false,
+  "supersedes": "P-Megakaryocyte/platelet",
+  "spec": {
+   "claim_type": "population_exists",
+   "name": "agent: Megakaryocyte/platelet is a distinct population (per-sample doublets)",
+   "columns": {
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "Megakaryocyte/platelet"
+   }
+  },
+  "file": "claims/P9-Megakaryocyte_platelet.yaml"
+ },
+ {
+  "id": "C-CD4 T naive",
+  "statement": "abundance null",
+  "quote": [
+   "Nothing passes FDR < 0.05."
+  ],
+  "agent_says": "no significant change after FDR over the 11 types",
+  "secondary": false,
+  "spec": {
+   "claim_type": "composition_shift",
+   "name": "agent null: CD4 T naive proportion differs stim vs ctrl",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD4 T naive"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "different"
+   }
+  },
+  "file": "claims/C-CD4_T_naive.yaml"
+ },
+ {
+  "id": "C-CD14 Mono",
+  "statement": "abundance null",
+  "quote": [
+   "Nothing passes FDR < 0.05."
+  ],
+  "agent_says": "no significant change after FDR over the 11 types",
+  "secondary": false,
+  "spec": {
+   "claim_type": "composition_shift",
+   "name": "agent null: CD14 Mono proportion differs stim vs ctrl",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD14 Mono"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "different"
+   }
+  },
+  "file": "claims/C-CD14_Mono.yaml"
+ },
+ {
+  "id": "C-CD4 T memory",
+  "statement": "abundance null",
+  "quote": [
+   "Nothing passes FDR < 0.05."
+  ],
+  "agent_says": "no significant change after FDR over the 11 types",
+  "secondary": false,
+  "spec": {
+   "claim_type": "composition_shift",
+   "name": "agent null: CD4 T memory proportion differs stim vs ctrl",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD4 T memory"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "different"
+   }
+  },
+  "file": "claims/C-CD4_T_memory.yaml"
+ },
+ {
+  "id": "C-B",
+  "statement": "abundance null",
+  "quote": [
+   "Nothing passes FDR < 0.05."
+  ],
+  "agent_says": "no significant change after FDR over the 11 types",
+  "secondary": false,
+  "spec": {
+   "claim_type": "composition_shift",
+   "name": "agent null: B proportion differs stim vs ctrl",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "B"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "different"
+   }
+  },
+  "file": "claims/C-B.yaml"
+ },
+ {
+  "id": "C-NK",
+  "statement": "abundance null",
+  "quote": [
+   "Nothing passes FDR < 0.05."
+  ],
+  "agent_says": "no significant change after FDR over the 11 types",
+  "secondary": false,
+  "spec": {
+   "claim_type": "composition_shift",
+   "name": "agent null: NK proportion differs stim vs ctrl",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "NK"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "different"
+   }
+  },
+  "file": "claims/C-NK.yaml"
+ },
+ {
+  "id": "C-CD8 T",
+  "statement": "abundance null",
+  "quote": [
+   "Nothing passes FDR < 0.05."
+  ],
+  "agent_says": "no significant change after FDR over the 11 types",
+  "secondary": false,
+  "spec": {
+   "claim_type": "composition_shift",
+   "name": "agent null: CD8 T proportion differs stim vs ctrl",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD8 T"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "different"
+   }
+  },
+  "file": "claims/C-CD8_T.yaml"
+ },
+ {
+  "id": "C-CD16 Mono",
+  "statement": "abundance null",
+  "quote": [
+   "Nothing passes FDR < 0.05."
+  ],
+  "agent_says": "no significant change after FDR over the 11 types",
+  "secondary": false,
+  "spec": {
+   "claim_type": "composition_shift",
+   "name": "agent null: CD16 Mono proportion differs stim vs ctrl",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD16 Mono"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "different"
+   }
+  },
+  "file": "claims/C-CD16_Mono.yaml"
+ },
+ {
+  "id": "C-T (stress/HSP-high)",
+  "statement": "abundance null",
+  "quote": [
+   "Nothing passes FDR < 0.05."
+  ],
+  "agent_says": "no significant change after FDR over the 11 types",
+  "secondary": false,
+  "spec": {
+   "claim_type": "composition_shift",
+   "name": "agent null: T (stress/HSP-high) proportion differs stim vs ctrl",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "T (stress/HSP-high)"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "different"
+   }
+  },
+  "file": "claims/C-T__stress_HSP-high_.yaml"
+ },
+ {
+  "id": "C-cDC",
+  "statement": "abundance null",
+  "quote": [
+   "Nothing passes FDR < 0.05."
+  ],
+  "agent_says": "no significant change after FDR over the 11 types",
+  "secondary": false,
+  "spec": {
+   "claim_type": "composition_shift",
+   "name": "agent null: cDC proportion differs stim vs ctrl",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "cDC"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "different"
+   }
+  },
+  "file": "claims/C-cDC.yaml"
+ },
+ {
+  "id": "C-pDC",
+  "statement": "abundance null",
+  "quote": [
+   "Nothing passes FDR < 0.05."
+  ],
+  "agent_says": "no significant change after FDR over the 11 types",
+  "secondary": false,
+  "spec": {
+   "claim_type": "composition_shift",
+   "name": "agent null: pDC proportion differs stim vs ctrl",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "pDC"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "different"
+   }
+  },
+  "file": "claims/C-pDC.yaml"
+ },
+ {
+  "id": "C-Megakaryocyte/platelet",
+  "statement": "abundance null",
+  "quote": [
+   "Nothing passes FDR < 0.05."
+  ],
+  "agent_says": "no significant change after FDR over the 11 types",
+  "secondary": false,
+  "spec": {
+   "claim_type": "composition_shift",
+   "name": "agent null: Megakaryocyte/platelet proportion differs stim vs ctrl",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "Megakaryocyte/platelet"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "different"
+   }
+  },
+  "file": "claims/C-Megakaryocyte_platelet.yaml"
+ },
+ {
+  "id": "S-B",
+  "statement": "shared ISGs",
+  "quote": [
+   "70 genes go up significantly in all 9 tested types. Examples are ISG15, IFI6, IFIT1/2/3, MX1/MX2, IRF7, OAS1, LY6E, IFITM1/2/3, RSAD2, CMPK2, HERC5 and BST2."
+  ],
+  "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in B",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: shared ISGs in B",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "B"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "ISG15",
+    "IFI6",
+    "IFIT1",
+    "IFIT2",
+    "IFIT3",
+    "MX1",
+    "MX2",
+    "IRF7",
+    "OAS1",
+    "LY6E",
+    "IFITM1",
+    "IFITM2",
+    "IFITM3",
+    "RSAD2",
+    "CMPK2",
+    "HERC5",
+    "BST2"
+   ],
+   "require": "all"
+  },
+  "file": "claims/S-B.yaml"
+ },
+ {
+  "id": "S-CD14 Mono",
+  "statement": "shared ISGs",
+  "quote": [
+   "70 genes go up significantly in all 9 tested types. Examples are ISG15, IFI6, IFIT1/2/3, MX1/MX2, IRF7, OAS1, LY6E, IFITM1/2/3, RSAD2, CMPK2, HERC5 and BST2."
+  ],
+  "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in CD14 Mono",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: shared ISGs in CD14 Mono",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD14 Mono"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "ISG15",
+    "IFI6",
+    "IFIT1",
+    "IFIT2",
+    "IFIT3",
+    "MX1",
+    "MX2",
+    "IRF7",
+    "OAS1",
+    "LY6E",
+    "IFITM1",
+    "IFITM2",
+    "IFITM3",
+    "RSAD2",
+    "CMPK2",
+    "HERC5",
+    "BST2"
+   ],
+   "require": "all"
+  },
+  "file": "claims/S-CD14_Mono.yaml"
+ },
+ {
+  "id": "S-CD16 Mono",
+  "statement": "shared ISGs",
+  "quote": [
+   "70 genes go up significantly in all 9 tested types. Examples are ISG15, IFI6, IFIT1/2/3, MX1/MX2, IRF7, OAS1, LY6E, IFITM1/2/3, RSAD2, CMPK2, HERC5 and BST2."
+  ],
+  "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in CD16 Mono",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: shared ISGs in CD16 Mono",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD16 Mono"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "ISG15",
+    "IFI6",
+    "IFIT1",
+    "IFIT2",
+    "IFIT3",
+    "MX1",
+    "MX2",
+    "IRF7",
+    "OAS1",
+    "LY6E",
+    "IFITM1",
+    "IFITM2",
+    "IFITM3",
+    "RSAD2",
+    "CMPK2",
+    "HERC5",
+    "BST2"
+   ],
+   "require": "all"
+  },
+  "file": "claims/S-CD16_Mono.yaml"
+ },
+ {
+  "id": "S-CD4 T naive",
+  "statement": "shared ISGs",
+  "quote": [
+   "70 genes go up significantly in all 9 tested types. Examples are ISG15, IFI6, IFIT1/2/3, MX1/MX2, IRF7, OAS1, LY6E, IFITM1/2/3, RSAD2, CMPK2, HERC5 and BST2."
+  ],
+  "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in CD4 T naive",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: shared ISGs in CD4 T naive",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD4 T naive"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "ISG15",
+    "IFI6",
+    "IFIT1",
+    "IFIT2",
+    "IFIT3",
+    "MX1",
+    "MX2",
+    "IRF7",
+    "OAS1",
+    "LY6E",
+    "IFITM1",
+    "IFITM2",
+    "IFITM3",
+    "RSAD2",
+    "CMPK2",
+    "HERC5",
+    "BST2"
+   ],
+   "require": "all"
+  },
+  "file": "claims/S-CD4_T_naive.yaml"
+ },
+ {
+  "id": "S-CD4 T memory",
+  "statement": "shared ISGs",
+  "quote": [
+   "70 genes go up significantly in all 9 tested types. Examples are ISG15, IFI6, IFIT1/2/3, MX1/MX2, IRF7, OAS1, LY6E, IFITM1/2/3, RSAD2, CMPK2, HERC5 and BST2."
+  ],
+  "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in CD4 T memory",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: shared ISGs in CD4 T memory",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD4 T memory"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "ISG15",
+    "IFI6",
+    "IFIT1",
+    "IFIT2",
+    "IFIT3",
+    "MX1",
+    "MX2",
+    "IRF7",
+    "OAS1",
+    "LY6E",
+    "IFITM1",
+    "IFITM2",
+    "IFITM3",
+    "RSAD2",
+    "CMPK2",
+    "HERC5",
+    "BST2"
+   ],
+   "require": "all"
+  },
+  "file": "claims/S-CD4_T_memory.yaml"
+ },
+ {
+  "id": "S-CD8 T",
+  "statement": "shared ISGs",
+  "quote": [
+   "70 genes go up significantly in all 9 tested types. Examples are ISG15, IFI6, IFIT1/2/3, MX1/MX2, IRF7, OAS1, LY6E, IFITM1/2/3, RSAD2, CMPK2, HERC5 and BST2."
+  ],
+  "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in CD8 T",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: shared ISGs in CD8 T",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD8 T"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "ISG15",
+    "IFI6",
+    "IFIT1",
+    "IFIT2",
+    "IFIT3",
+    "MX1",
+    "MX2",
+    "IRF7",
+    "OAS1",
+    "LY6E",
+    "IFITM1",
+    "IFITM2",
+    "IFITM3",
+    "RSAD2",
+    "CMPK2",
+    "HERC5",
+    "BST2"
+   ],
+   "require": "all"
+  },
+  "file": "claims/S-CD8_T.yaml"
+ },
+ {
+  "id": "S-NK",
+  "statement": "shared ISGs",
+  "quote": [
+   "70 genes go up significantly in all 9 tested types. Examples are ISG15, IFI6, IFIT1/2/3, MX1/MX2, IRF7, OAS1, LY6E, IFITM1/2/3, RSAD2, CMPK2, HERC5 and BST2."
+  ],
+  "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in NK",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: shared ISGs in NK",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "NK"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "ISG15",
+    "IFI6",
+    "IFIT1",
+    "IFIT2",
+    "IFIT3",
+    "MX1",
+    "MX2",
+    "IRF7",
+    "OAS1",
+    "LY6E",
+    "IFITM1",
+    "IFITM2",
+    "IFITM3",
+    "RSAD2",
+    "CMPK2",
+    "HERC5",
+    "BST2"
+   ],
+   "require": "all"
+  },
+  "file": "claims/S-NK.yaml"
+ },
+ {
+  "id": "S-T (stress/HSP-high)",
+  "statement": "shared ISGs",
+  "quote": [
+   "70 genes go up significantly in all 9 tested types. Examples are ISG15, IFI6, IFIT1/2/3, MX1/MX2, IRF7, OAS1, LY6E, IFITM1/2/3, RSAD2, CMPK2, HERC5 and BST2."
+  ],
+  "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in T (stress/HSP-high)",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: shared ISGs in T (stress/HSP-high)",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "T (stress/HSP-high)"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "ISG15",
+    "IFI6",
+    "IFIT1",
+    "IFIT2",
+    "IFIT3",
+    "MX1",
+    "MX2",
+    "IRF7",
+    "OAS1",
+    "LY6E",
+    "IFITM1",
+    "IFITM2",
+    "IFITM3",
+    "RSAD2",
+    "CMPK2",
+    "HERC5",
+    "BST2"
+   ],
+   "require": "all"
+  },
+  "file": "claims/S-T__stress_HSP-high_.yaml"
+ },
+ {
+  "id": "S-cDC",
+  "statement": "shared ISGs",
+  "quote": [
+   "70 genes go up significantly in all 9 tested types. Examples are ISG15, IFI6, IFIT1/2/3, MX1/MX2, IRF7, OAS1, LY6E, IFITM1/2/3, RSAD2, CMPK2, HERC5 and BST2."
+  ],
+  "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in cDC",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: shared ISGs in cDC",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "cDC"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "ISG15",
+    "IFI6",
+    "IFIT1",
+    "IFIT2",
+    "IFIT3",
+    "MX1",
+    "MX2",
+    "IRF7",
+    "OAS1",
+    "LY6E",
+    "IFITM1",
+    "IFITM2",
+    "IFITM3",
+    "RSAD2",
+    "CMPK2",
+    "HERC5",
+    "BST2"
+   ],
+   "require": "all"
+  },
+  "file": "claims/S-cDC.yaml"
+ },
+ {
+  "id": "MU-CD14 Mono",
+  "statement": "myeloid up",
+  "quote": [
+   "Examples are CCL8 (log2 fold change 9.8 in CD14 monocytes), CXCL10 (9.7 in CD14 monocytes, 12.0 in cDC), CXCL11, TNFSF10 and IFI27 (7.5), plus IL27, IDO1 and CH25H in CD16 monocytes."
+  ],
+  "agent_says": "CCL8, CXCL10, CXCL11, TNFSF10, IFI27 up in CD14 Mono",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: myeloid up in CD14 Mono",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD14 Mono"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "CCL8",
+    "CXCL10",
+    "CXCL11",
+    "TNFSF10",
+    "IFI27"
+   ],
+   "require": "all"
+  },
+  "file": "claims/MU-CD14_Mono.yaml"
+ },
+ {
+  "id": "MU-CD16 Mono",
+  "statement": "myeloid up",
+  "quote": [
+   "Examples are CCL8 (log2 fold change 9.8 in CD14 monocytes), CXCL10 (9.7 in CD14 monocytes, 12.0 in cDC), CXCL11, TNFSF10 and IFI27 (7.5), plus IL27, IDO1 and CH25H in CD16 monocytes."
+  ],
+  "agent_says": "CCL8, CXCL10, CXCL11, TNFSF10, IFI27 up in CD16 Mono",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: myeloid up in CD16 Mono",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD16 Mono"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "CCL8",
+    "CXCL10",
+    "CXCL11",
+    "TNFSF10",
+    "IFI27"
+   ],
+   "require": "all"
+  },
+  "file": "claims/MU-CD16_Mono.yaml"
+ },
+ {
+  "id": "MU-cDC",
+  "statement": "myeloid up",
+  "quote": [
+   "Examples are CCL8 (log2 fold change 9.8 in CD14 monocytes), CXCL10 (9.7 in CD14 monocytes, 12.0 in cDC), CXCL11, TNFSF10 and IFI27 (7.5), plus IL27, IDO1 and CH25H in CD16 monocytes."
+  ],
+  "agent_says": "CCL8, CXCL10, CXCL11, TNFSF10, IFI27 up in cDC",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: myeloid up in cDC",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "cDC"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "CCL8",
+    "CXCL10",
+    "CXCL11",
+    "TNFSF10",
+    "IFI27"
+   ],
+   "require": "all"
+  },
+  "file": "claims/MU-cDC.yaml"
+ },
+ {
+  "id": "MU16-CD16 Mono",
+  "statement": "CD16 up",
+  "quote": [
+   "Examples are CCL8 (log2 fold change 9.8 in CD14 monocytes), CXCL10 (9.7 in CD14 monocytes, 12.0 in cDC), CXCL11, TNFSF10 and IFI27 (7.5), plus IL27, IDO1 and CH25H in CD16 monocytes."
+  ],
+  "agent_says": "IL27, IDO1, CH25H up in CD16 Mono",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: CD16 up in CD16 Mono",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD16 Mono"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "IL27",
+    "IDO1",
+    "CH25H"
+   ],
+   "require": "all"
+  },
+  "file": "claims/MU16-CD16_Mono.yaml"
+ },
+ {
+  "id": "MD-CD14 Mono",
+  "statement": "myeloid down",
+  "quote": [
+   "Monocytes and cDC lose classical-monocyte and inflammatory genes: CD14 (−3.1 in CD16 monocytes), VCAN (−4.4), CLEC5A (−4.8), MMP9 (−4.3), IL8 (−4.1), CD93 and S100A8."
+  ],
+  "agent_says": "CD14, VCAN, CLEC5A, MMP9, IL8, CD93, S100A8 down in CD14 Mono",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: myeloid down in CD14 Mono",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD14 Mono"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "down_in_a"
+   },
+   "genes": [
+    "CD14",
+    "VCAN",
+    "CLEC5A",
+    "MMP9",
+    "IL8",
+    "CD93",
+    "S100A8"
+   ],
+   "require": "all"
+  },
+  "file": "claims/MD-CD14_Mono.yaml"
+ },
+ {
+  "id": "MD-CD16 Mono",
+  "statement": "myeloid down",
+  "quote": [
+   "Monocytes and cDC lose classical-monocyte and inflammatory genes: CD14 (−3.1 in CD16 monocytes), VCAN (−4.4), CLEC5A (−4.8), MMP9 (−4.3), IL8 (−4.1), CD93 and S100A8."
+  ],
+  "agent_says": "CD14, IL8, S100A8 down in CD16 Mono",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: myeloid down in CD16 Mono",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD16 Mono"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "down_in_a"
+   },
+   "genes": [
+    "CD14",
+    "IL8",
+    "S100A8"
+   ],
+   "require": "all"
+  },
+  "file": "claims/MD-CD16_Mono.yaml"
+ },
+ {
+  "id": "MDx-CD16 Mono",
+  "statement": "myeloid down (literal reading)",
+  "quote": [
+   "Monocytes and cDC lose classical-monocyte and inflammatory genes: CD14 (−3.1 in CD16 monocytes), VCAN (−4.4), CLEC5A (−4.8), MMP9 (−4.3), IL8 (−4.1), CD93 and S100A8."
+  ],
+  "agent_says": "VCAN, CLEC5A, MMP9, CD93 down in CD16 Mono",
+  "secondary": true,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: myeloid down (literal reading) in CD16 Mono",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD16 Mono"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "down_in_a"
+   },
+   "genes": [
+    "VCAN",
+    "CLEC5A",
+    "MMP9",
+    "CD93"
+   ],
+   "require": "all"
+  },
+  "file": "claims/MDx-CD16_Mono.yaml"
+ },
+ {
+  "id": "MD-cDC",
+  "statement": "myeloid down",
+  "quote": [
+   "Monocytes and cDC lose classical-monocyte and inflammatory genes: CD14 (−3.1 in CD16 monocytes), VCAN (−4.4), CLEC5A (−4.8), MMP9 (−4.3), IL8 (−4.1), CD93 and S100A8."
+  ],
+  "agent_says": "CD14, VCAN, CLEC5A, IL8, S100A8 down in cDC",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: myeloid down in cDC",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "cDC"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "down_in_a"
+   },
+   "genes": [
+    "CD14",
+    "VCAN",
+    "CLEC5A",
+    "IL8",
+    "S100A8"
+   ],
+   "require": "all"
+  },
+  "file": "claims/MD-cDC.yaml"
+ },
+ {
+  "id": "MDx-cDC",
+  "statement": "myeloid down (literal reading)",
+  "quote": [
+   "Monocytes and cDC lose classical-monocyte and inflammatory genes: CD14 (−3.1 in CD16 monocytes), VCAN (−4.4), CLEC5A (−4.8), MMP9 (−4.3), IL8 (−4.1), CD93 and S100A8."
+  ],
+  "agent_says": "MMP9, CD93 down in cDC",
+  "secondary": true,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: myeloid down (literal reading) in cDC",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "cDC"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "down_in_a"
+   },
+   "genes": [
+    "MMP9",
+    "CD93"
+   ],
+   "require": "all"
+  },
+  "file": "claims/MDx-cDC.yaml"
+ },
+ {
+  "id": "ND-AMICA1-NK",
+  "statement": "NK down",
+  "quote": [
+   "Lymphocytes lose only a few genes, and modestly, e.g. AMICA1, NELL2, ITM2C and S100A4 in NK."
+  ],
+  "agent_says": "AMICA1 down in NK",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: NK down in NK (AMICA1)",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "NK"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "down_in_a"
+   },
+   "genes": [
+    "AMICA1"
+   ],
+   "require": "all"
+  },
+  "file": "claims/ND-AMICA1-NK.yaml"
+ },
+ {
+  "id": "ND-NELL2-NK",
+  "statement": "NK down",
+  "quote": [
+   "Lymphocytes lose only a few genes, and modestly, e.g. AMICA1, NELL2, ITM2C and S100A4 in NK."
+  ],
+  "agent_says": "NELL2 down in NK",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: NK down in NK (NELL2)",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "NK"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "down_in_a"
+   },
+   "genes": [
+    "NELL2"
+   ],
+   "require": "all"
+  },
+  "file": "claims/ND-NELL2-NK.yaml"
+ },
+ {
+  "id": "ND-ITM2C-NK",
+  "statement": "NK down",
+  "quote": [
+   "Lymphocytes lose only a few genes, and modestly, e.g. AMICA1, NELL2, ITM2C and S100A4 in NK."
+  ],
+  "agent_says": "ITM2C down in NK",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: NK down in NK (ITM2C)",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "NK"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "down_in_a"
+   },
+   "genes": [
+    "ITM2C"
+   ],
+   "require": "all"
+  },
+  "file": "claims/ND-ITM2C-NK.yaml"
+ },
+ {
+  "id": "ND-S100A4-NK",
+  "statement": "NK down",
+  "quote": [
+   "Lymphocytes lose only a few genes, and modestly, e.g. AMICA1, NELL2, ITM2C and S100A4 in NK."
+  ],
+  "agent_says": "S100A4 down in NK",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: NK down in NK (S100A4)",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "NK"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "down_in_a"
+   },
+   "genes": [
+    "S100A4"
+   ],
+   "require": "all"
+  },
+  "file": "claims/ND-S100A4-NK.yaml"
+ },
+ {
+  "id": "CV-CD4 T naive",
+  "statement": "caveat up",
+  "quote": [
+   "CXCL10, CCL8 and CXCL11 also appear strongly \"up\" in T, B and NK cells."
+  ],
+  "agent_says": "CXCL10, CCL8 up in CD4 T naive",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: caveat up in CD4 T naive",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD4 T naive"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "CXCL10",
+    "CCL8"
+   ],
+   "require": "all"
+  },
+  "file": "claims/CV-CD4_T_naive.yaml"
+ },
+ {
+  "id": "CVx-CD4 T naive",
+  "statement": "caveat up (literal reading)",
+  "quote": [
+   "CXCL10, CCL8 and CXCL11 also appear strongly \"up\" in T, B and NK cells."
+  ],
+  "agent_says": "CXCL11 up in CD4 T naive",
+  "secondary": true,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: caveat up (literal reading) in CD4 T naive (CXCL11)",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD4 T naive"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "CXCL11"
+   ],
+   "require": "all"
+  },
+  "file": "claims/CVx-CD4_T_naive.yaml"
+ },
+ {
+  "id": "CV-CD4 T memory",
+  "statement": "caveat up",
+  "quote": [
+   "CXCL10, CCL8 and CXCL11 also appear strongly \"up\" in T, B and NK cells."
+  ],
+  "agent_says": "CXCL10, CCL8 up in CD4 T memory",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: caveat up in CD4 T memory",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD4 T memory"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "CXCL10",
+    "CCL8"
+   ],
+   "require": "all"
+  },
+  "file": "claims/CV-CD4_T_memory.yaml"
+ },
+ {
+  "id": "CVx-CD4 T memory",
+  "statement": "caveat up (literal reading)",
+  "quote": [
+   "CXCL10, CCL8 and CXCL11 also appear strongly \"up\" in T, B and NK cells."
+  ],
+  "agent_says": "CXCL11 up in CD4 T memory",
+  "secondary": true,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: caveat up (literal reading) in CD4 T memory (CXCL11)",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD4 T memory"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "CXCL11"
+   ],
+   "require": "all"
+  },
+  "file": "claims/CVx-CD4_T_memory.yaml"
+ },
+ {
+  "id": "CVx-CD8 T",
+  "statement": "caveat up (literal reading)",
+  "quote": [
+   "CXCL10, CCL8 and CXCL11 also appear strongly \"up\" in T, B and NK cells."
+  ],
+  "agent_says": "CXCL10, CCL8, CXCL11 up in CD8 T",
+  "secondary": true,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: caveat up (literal reading) in CD8 T",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "CD8 T"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "CXCL10",
+    "CCL8",
+    "CXCL11"
+   ],
+   "require": "all"
+  },
+  "file": "claims/CVx-CD8_T.yaml"
+ },
+ {
+  "id": "CV-T (stress/HSP-high)",
+  "statement": "caveat up",
+  "quote": [
+   "CXCL10, CCL8 and CXCL11 also appear strongly \"up\" in T, B and NK cells."
+  ],
+  "agent_says": "CXCL10 up in T (stress/HSP-high)",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: caveat up in T (stress/HSP-high) (CXCL10)",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "T (stress/HSP-high)"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "CXCL10"
+   ],
+   "require": "all"
+  },
+  "file": "claims/CV-T__stress_HSP-high_.yaml"
+ },
+ {
+  "id": "CVx-T (stress/HSP-high)",
+  "statement": "caveat up (literal reading)",
+  "quote": [
+   "CXCL10, CCL8 and CXCL11 also appear strongly \"up\" in T, B and NK cells."
+  ],
+  "agent_says": "CCL8, CXCL11 up in T (stress/HSP-high)",
+  "secondary": true,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: caveat up (literal reading) in T (stress/HSP-high)",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "T (stress/HSP-high)"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "CCL8",
+    "CXCL11"
+   ],
+   "require": "all"
+  },
+  "file": "claims/CVx-T__stress_HSP-high_.yaml"
+ },
+ {
+  "id": "CV-B",
+  "statement": "caveat up",
+  "quote": [
+   "CXCL10, CCL8 and CXCL11 also appear strongly \"up\" in T, B and NK cells."
+  ],
+  "agent_says": "CXCL10, CCL8, CXCL11 up in B",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: caveat up in B",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "B"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "CXCL10",
+    "CCL8",
+    "CXCL11"
+   ],
+   "require": "all"
+  },
+  "file": "claims/CV-B.yaml"
+ },
+ {
+  "id": "CV-NK",
+  "statement": "caveat up",
+  "quote": [
+   "CXCL10, CCL8 and CXCL11 also appear strongly \"up\" in T, B and NK cells."
+  ],
+  "agent_says": "CXCL10, CCL8 up in NK",
+  "secondary": false,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: caveat up in NK",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "NK"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "CXCL10",
+    "CCL8"
+   ],
+   "require": "all"
+  },
+  "file": "claims/CV-NK.yaml"
+ },
+ {
+  "id": "CVx-NK",
+  "statement": "caveat up (literal reading)",
+  "quote": [
+   "CXCL10, CCL8 and CXCL11 also appear strongly \"up\" in T, B and NK cells."
+  ],
+  "agent_says": "CXCL11 up in NK",
+  "secondary": true,
+  "spec": {
+   "claim_type": "differential_expression",
+   "name": "agent: caveat up (literal reading) in NK (CXCL11)",
+   "columns": {
+    "condition": "label",
+    "sample": [
+     "replicate",
+     "label"
+    ],
+    "labels": "cell_type"
+   },
+   "target": {
+    "label_value": "NK"
+   },
+   "comparison": {
+    "group_a": "stim",
+    "group_b": "ctrl",
+    "direction": "up_in_a"
+   },
+   "genes": [
+    "CXCL11"
+   ],
+   "require": "all"
+  },
+  "file": "claims/CVx-NK.yaml"
+ }
+]

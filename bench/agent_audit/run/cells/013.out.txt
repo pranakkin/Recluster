@@ -1,0 +1,42 @@
+
+B: UP CXCL10(8.8), CXCL11(7.7), IFIT3(7.2), IFIT1(7.0), IFIT2(6.4), LAMP3(6.3), OASL(6.3), TNFSF10(6.3), IFI6(6.3), RSAD2(6.2)
+   DOWN C16orf74(-3.2), LINC00926(-2.9), CKLF(-2.1), UCP2(-2.1), SPI1(-2.1), CD79B(-1.9), CXXC5(-1.8), CYB561A3(-1.6)
+
+CD14 Mono: UP CCL8(9.8), CXCL11(9.8), CXCL10(9.7), IFIT1(8.7), CCNA1(8.6), IFIT2(8.6), HESX1(8.6), NUPR1(8.4), TNFSF10(8.3), RSAD2(8.3)
+   DOWN C19orf59(-4.9), CLEC5A(-4.8), TPST1(-4.5), CST6(-4.4), VCAN(-4.4), CD93(-4.3), MMP9(-4.3), HBEGF(-4.3)
+
+CD16 Mono: UP CCL8(9.3), CXCL11(8.8), IFIT1(7.2), CH25H(7.0), IL27(6.5), HESX1(6.5), DEFB1(6.4), RSAD2(6.2), IDO1(6.2), ISG15(6.2)
+   DOWN CYP1B1(-4.5), PID1(-4.3), IL8(-4.1), PHLDA1(-3.7), CD14(-3.1), LTA4H(-3.0), CXCL3(-2.9), CD9(-2.9)
+
+CD4 T memory: UP IFIT3(7.7), CXCL10(7.5), RSAD2(7.2), CCL8(7.0), IFIT1(6.5), NEXN(6.3), IFI6(5.8), LAMP3(5.8), CMPK2(5.8), IFIT2(5.7)
+   DOWN ID3(-1.8), C10orf54(-1.8), AMICA1(-1.8), CPNE7(-1.6), NELL2(-1.4), SIT1(-1.4), NCKAP1L(-1.3), IFT27(-1.2)
+
+CD4 T naive: UP CXCL10(7.6), IFIT3(7.5), IFIT1(7.4), CCL8(6.9), RSAD2(6.9), IFIT2(6.8), LAMP3(6.3), CMPK2(5.9), IFI6(5.6), OAS1(5.6)
+   DOWN ITM2C(-2.1), C10orf54(-1.8), AMICA1(-1.7), NELL2(-1.7), DPEP2(-1.7), IL23A(-1.7), MAP2K3(-1.6), SIT1(-1.6)
+
+CD8 T: UP IFIT3(6.0), OAS1(5.5), IFIT1(5.4), IFI44L(5.3), MX1(5.3), IFI6(5.1), RSAD2(5.0), ISG15(4.7), IFIT2(4.5), CMPK2(4.4)
+   DOWN STX10(-1.8), AMICA1(-1.8), GZMM(-1.2), UAP1(-1.2), ITM2C(-1.1), GPX4(-1.1), PLEKHF1(-1.1), HDAC1(-1.1)
+
+NK: UP CXCL10(6.9), IFIT1(6.3), CCL8(5.6), IFIT3(5.6), RSAD2(5.5), IFI6(5.4), CMPK2(5.1), IFI44L(5.0), ISG15(4.7), IFIT2(4.6)
+   DOWN RAMP1(-2.0), S100A4(-1.8), TECR(-1.5), ITM2A(-1.5), SRM(-1.5), IMPDH2(-1.4), FGFBP2(-1.4), CXXC5(-1.4)
+
+T (stress/HSP-high): UP CXCL10(7.8), RSAD2(7.3), IFIT1(6.2), IFIT3(6.1), IFIT2(5.9), CMPK2(5.6), IFI6(5.5), PLSCR1(5.2), OAS1(5.0), IFI44L(4.9)
+   DOWN PRR7(-2.8), RILPL2(-1.4), TUBA4A(-1.3), CYSTM1(-1.3), DUSP2(-1.3), PASK(-1.2), SQSTM1(-1.2), MTMR6(-1.2)
+
+cDC: UP CXCL10(12.0), IFIT3(9.8), CXCL11(9.5), TNFSF10(9.4), IFIT1(9.2), IFIT2(8.8), RSAD2(8.6), HES4(8.5), CCL8(8.4), CMPK2(7.8)
+   DOWN CLEC5A(-4.6), VCAN(-4.4), AMICA1(-4.4), PID1(-4.2), IL1R2(-3.6), S100A8(-3.5), CD14(-3.2), LTA4H(-3.1)
+            B  CD14 Mono  CD16 Mono  CD4 T memory  CD4 T naive  CD8 T   NK  T (stress/HSP-high)   cDC
+index                                                                                                
+ISG15     5.6        7.7        6.2           5.0          5.3    4.7  4.7                  4.5   7.1
+IFI6      6.3        5.0        4.0           5.8          5.6    5.1  5.4                  5.5   5.6
+IFIT1     7.0        8.7        7.2           6.5          7.4    5.4  6.3                  6.2   9.2
+IFIT3     7.2        7.8        5.0           7.7          7.5    6.0  5.6                  6.1   9.8
+MX1       5.0        6.2        5.0           4.9          4.9    5.3  4.4                  4.4   6.2
+LY6E      4.2        6.0        3.8           4.2          4.0    3.4  3.3                  4.6   5.5
+CXCL10    8.8        9.7        5.0           7.5          7.6    NaN  6.9                  7.8  12.0
+CCL8      6.0        9.8        9.3           7.0          6.9    NaN  5.6                  NaN   8.4
+CCL2      2.9        2.6        5.2           2.7          2.6    2.7  2.4                  NaN   4.8
+IFITM3    6.2        6.0        3.8           4.5          4.9    3.9  4.2                  4.2   6.3
+APOBEC3A  NaN        6.1        4.2           5.3          NaN    NaN  NaN                  NaN   7.5
+OAS1      4.7        5.1        2.4           4.5          5.6    5.5  4.4                  5.0   5.9
+IFI27     4.5        7.5        5.3           5.2          4.1    2.6  NaN                  NaN   5.8

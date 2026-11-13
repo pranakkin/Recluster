@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "/Users/pranakkin/Desktop/Recluster/recluster/bench/agent_kernel.py", line 53, in main
+    _run(code, namespace)
+  File "/Users/pranakkin/Desktop/Recluster/recluster/bench/agent_kernel.py", line 33, in _run
+    exec(compile(tree, "<cell>", "exec"), namespace)
+  File "<cell>", line 6, in <module>
+  File "/Users/pranakkin/Desktop/Recluster/.venv/lib/python3.11/site-packages/scanpy/neighbors/__init__.py", line 194, in neighbors
+    neighbors.compute_neighbors(
+  File "/Users/pranakkin/Desktop/Recluster/.venv/lib/python3.11/site-packages/scanpy/neighbors/__init__.py", line 602, in compute_neighbors
+    self._connectivities = _connectivity.umap(
+                           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranakkin/Desktop/Recluster/.venv/lib/python3.11/site-packages/scanpy/neighbors/_connectivity.py", line 127, in umap
+    connectivities, _sigmas, _rhos = fuzzy_simplicial_set(
+                                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranakkin/Desktop/Recluster/.venv/lib/python3.11/site-packages/umap/umap_.py", line 1091, in fuzzy_simplicial_set
+    rows, cols, vals, dists = compute_membership_strengths(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pranakkin/Desktop/Recluster/.venv/lib/python3.11/site-packages/numba/core/dispatcher.py", line 422, in _compile_for_args
+    error_rewrite(e, 'typing')
+  File "/Users/pranakkin/Desktop/Recluster/.venv/lib/python3.11/site-packages/numba/core/dispatcher.py", line 363, in error_rewrite
+    raise e.with_traceback(None)
+numba.core.errors.TypingError: Failed in nopython mode pipeline (step: nopython frontend)
+No conversion from array(float32, 2d, A) to array(float32, 2d, C) for 'knn_dists', defined at None
+
+File "../../../../.venv/lib/python3.11/site-packages/umap/umap_.py", line 717:
+def nearest_neighbors(
+    <source elided>
+
+@numba.njit(
+^
+
+During: typing of argument at /Users/pranakkin/Desktop/Recluster/.venv/lib/python3.11/site-packages/umap/umap_.py (717)
+
+File "../../../../.venv/lib/python3.11/site-packages/umap/umap_.py", line 717:
+def nearest_neighbors(
+    <source elided>
+
+@numba.njit(
+^
+
+During: Pass nopython_type_inference

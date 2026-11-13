@@ -1,0 +1,11 @@
+B 8 tested 3036 up 244 down 74
+CD14 Mono 8 tested 4628 up 812 down 552
+CD16 Mono 8 tested 2162 up 369 down 135
+CD4 T memory 8 tested 3112 up 211 down 21
+CD4 T naive 8 tested 4868 up 247 down 77
+CD8 T 7 tested 1673 up 129 down 12
+Megakaryocyte/platelet skipped, donors 0
+NK 8 tested 1948 up 178 down 36
+T (stress/HSP-high) 8 tested 1409 up 118 down 12
+cDC 7 tested 1610 up 332 down 141
+pDC skipped, donors 1

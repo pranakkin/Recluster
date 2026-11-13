@@ -1,0 +1,6 @@
+a.var_names_make_unique()
+a.var['mt']=a.var_names.str.startswith('MT-')
+sc.pp.calculate_qc_metrics(a,qc_vars=['mt'],inplace=True,percent_top=None)
+print(a.obs[['n_genes_by_counts','total_counts','pct_counts_mt']].describe())
+print(a.var.mt.sum())
+import importlib;print([m for m in ['harmonypy','scvi','bbknn'] if importlib.util.find_spec(m)])

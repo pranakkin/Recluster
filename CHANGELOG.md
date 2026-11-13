@@ -5,6 +5,14 @@ All notable changes to Recluster. Dates are when the work landed in this reposit
 ## [0.7.0] — unreleased
 
 ### Added
+- Agent case study (`bench/agent_audit/`, harness `recluster/bench/agent_audit.py`, tests in
+  `tests/test_agent_audit.py`): Claude Opus 5.5 analysed Kang 2018 through the API with one
+  Python tool, and the claims in its final answer were audited with `recluster audit` under a
+  protocol written before the run, with nine amendments written after reading the answer (65
+  specs: 47 primary, 7 secondary, and the 11 first-run population specs, kept as superseded after
+  amendment 9 re-ran them with the sample column). Results, including where the agent's
+  summary disagrees with its own tables, in `bench/agent_audit/RESULTS.md`; four of the reports
+  are published under `docs/reports/agent/`.
 - `recluster demo`: a true claim (ISG15 up in CD14+ monocytes after IFN-β) and a claim that is
   false by construction (ISG15 differs between two fake groups of control donors), run on the
   full default grid on a seeded subset of Kang 2018 with 200 cells from each donor x condition
@@ -26,7 +34,8 @@ All notable changes to Recluster. Dates are when the work landed in this reposit
   before, they always printed "A minus B", which was wrong for the planted time cases, where
   group_a is the afternoon group B.
 - Removed dead code (unused helpers, parameters, fields and imports) and comments that
-  restated the code. The demo's key numbers hash identically before and after.
+  restated the code. The demo's key numbers hash identically before and after, and a full
+  benchmark re-run gives the same verdicts and statistics (only the case-12 label above changed).
 - README, HOW_IT_WORKS and bench docs: corrected stale statements (grid runs are parallel
   with `--jobs`; both held-out doublet blocks were missed; two cluster descriptions in
   RESULTS.md), added the limitation that ROBUST does not mean true, and added references.

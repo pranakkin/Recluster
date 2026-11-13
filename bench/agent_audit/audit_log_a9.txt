@@ -1,0 +1,12 @@
+[12/65] P9-CD4 T naive: {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'n_not_testable': 0, 'folder': 'out/agent-cd4-t-naive-is-a-distinct-population-per-sample-double', 'seconds': 2629.9}
+[13/65] P9-CD14 Mono: {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'n_not_testable': 0, 'folder': 'out/agent-cd14-mono-is-a-distinct-population-per-sample-doublets', 'seconds': 1256.2}
+[14/65] P9-CD4 T memory: {'verdict': 'FRAGILE', 'n_holds': 14, 'n_runs': 21, 'n_not_testable': 0, 'folder': 'out/agent-cd4-t-memory-is-a-distinct-population-per-sample-doubl', 'seconds': 860.6}
+[15/65] P9-B: {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'n_not_testable': 0, 'folder': 'out/agent-b-is-a-distinct-population-per-sample-doublets', 'seconds': 1066.5}
+[16/65] P9-NK: {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'n_not_testable': 0, 'folder': 'out/agent-nk-is-a-distinct-population-per-sample-doublets', 'seconds': 1044.6}
+[17/65] P9-CD8 T: {'verdict': 'ROBUST', 'n_holds': 20, 'n_runs': 21, 'n_not_testable': 0, 'folder': 'out/agent-cd8-t-is-a-distinct-population-per-sample-doublets', 'seconds': 326.1}
+[18/65] P9-CD16 Mono: {'verdict': 'ROBUST', 'n_holds': 19, 'n_runs': 21, 'n_not_testable': 0, 'folder': 'out/agent-cd16-mono-is-a-distinct-population-per-sample-doublets', 'seconds': 552.6}
+[19/65] P9-T (stress/HSP-high): {'verdict': 'ROBUST', 'n_holds': 21, 'n_runs': 21, 'n_not_testable': 0, 'folder': 'out/agent-t-stress-hsp-high-is-a-distinct-population-per-sample-', 'seconds': 520.0}
+[20/65] P9-cDC: {'verdict': 'ROBUST', 'n_holds': 20, 'n_runs': 21, 'n_not_testable': 0, 'folder': 'out/agent-cdc-is-a-distinct-population-per-sample-doublets', 'seconds': 496.7}
+[21/65] P9-pDC: {'verdict': 'ROBUST', 'n_holds': 19, 'n_runs': 21, 'n_not_testable': 0, 'folder': 'out/agent-pdc-is-a-distinct-population-per-sample-doublets', 'seconds': 461.0}
+[22/65] P9-Megakaryocyte/platelet: {'verdict': 'NOT SUPPORTED', 'n_holds': 1, 'n_runs': 21, 'n_not_testable': 0, 'folder': 'out/agent-megakaryocyte-platelet-is-a-distinct-population-per-sa', 'seconds': 469.8}
+EXIT 0

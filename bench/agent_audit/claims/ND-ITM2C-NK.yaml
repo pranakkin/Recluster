@@ -1,0 +1,17 @@
+claim_type: differential_expression
+name: 'agent: NK down in NK (ITM2C)'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: NK
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: down_in_a
+genes:
+- ITM2C
+require: all

@@ -1,0 +1,9 @@
+claim_type: population_exists
+name: 'agent: NK is a distinct population (per-sample doublets)'
+columns:
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: NK

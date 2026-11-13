@@ -1,0 +1,3 @@
+<cell>:1: FutureWarning: `__version__` is deprecated, use `importlib.metadata.version('scanpy')` instead
+1.17.1 1.11.5 1.9.1
+'csr_array' object has no attribute 'getnnz'

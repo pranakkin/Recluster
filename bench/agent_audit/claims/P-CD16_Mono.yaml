@@ -1,0 +1,6 @@
+claim_type: population_exists
+name: 'agent: CD16 Mono is a distinct population'
+columns:
+  labels: cell_type
+target:
+  label_value: CD16 Mono

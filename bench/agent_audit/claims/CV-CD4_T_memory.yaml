@@ -1,0 +1,18 @@
+claim_type: differential_expression
+name: 'agent: caveat up in CD4 T memory'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: CD4 T memory
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: up_in_a
+genes:
+- CXCL10
+- CCL8
+require: all

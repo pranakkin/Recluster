@@ -1,0 +1,19 @@
+claim_type: differential_expression
+name: 'agent: caveat up (literal reading) in CD8 T'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: CD8 T
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: up_in_a
+genes:
+- CXCL10
+- CCL8
+- CXCL11
+require: all

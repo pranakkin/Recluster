@@ -1,0 +1,522 @@
+{
+ "P-CD4 T naive": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-cd4-t-naive-is-a-distinct-population",
+  "seconds": 247.8
+ },
+ "P-CD14 Mono": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-cd14-mono-is-a-distinct-population",
+  "seconds": 245.6
+ },
+ "P-CD4 T memory": {
+  "verdict": "FRAGILE",
+  "n_holds": 14,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-cd4-t-memory-is-a-distinct-population",
+  "seconds": 428.6
+ },
+ "P-B": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-b-is-a-distinct-population",
+  "seconds": 358.1
+ },
+ "P-NK": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-nk-is-a-distinct-population",
+  "seconds": 314.2
+ },
+ "P-CD8 T": {
+  "verdict": "ROBUST",
+  "n_holds": 19,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-cd8-t-is-a-distinct-population",
+  "seconds": 331.6
+ },
+ "P-CD16 Mono": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-cd16-mono-is-a-distinct-population",
+  "seconds": 251.7
+ },
+ "P-T (stress/HSP-high)": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-t-stress-hsp-high-is-a-distinct-population",
+  "seconds": 230.5
+ },
+ "P-cDC": {
+  "verdict": "ROBUST",
+  "n_holds": 19,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-cdc-is-a-distinct-population",
+  "seconds": 257.0
+ },
+ "P-pDC": {
+  "verdict": "FRAGILE",
+  "n_holds": 16,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-pdc-is-a-distinct-population",
+  "seconds": 343.4
+ },
+ "P-Megakaryocyte/platelet": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 1,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-megakaryocyte-platelet-is-a-distinct-population",
+  "seconds": 299.0
+ },
+ "C-CD4 T naive": {
+  "verdict": "FRAGILE",
+  "n_holds": 12,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-null-cd4-t-naive-proportion-differs-stim-vs-ctrl",
+  "seconds": 185.2
+ },
+ "C-CD14 Mono": {
+  "verdict": "FRAGILE",
+  "n_holds": 15,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-null-cd14-mono-proportion-differs-stim-vs-ctrl",
+  "seconds": 173.7
+ },
+ "C-CD4 T memory": {
+  "verdict": "FRAGILE",
+  "n_holds": 5,
+  "n_runs": 21,
+  "n_not_testable": 4,
+  "folder": "out/agent-null-cd4-t-memory-proportion-differs-stim-vs-ctrl",
+  "seconds": 188.9
+ },
+ "C-B": {
+  "verdict": "FRAGILE",
+  "n_holds": 5,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-null-b-proportion-differs-stim-vs-ctrl",
+  "seconds": 181.6
+ },
+ "C-NK": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 1,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-null-nk-proportion-differs-stim-vs-ctrl",
+  "seconds": 177.3
+ },
+ "C-CD8 T": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 4,
+  "n_runs": 21,
+  "n_not_testable": 1,
+  "folder": "out/agent-null-cd8-t-proportion-differs-stim-vs-ctrl",
+  "seconds": 187.5
+ },
+ "C-CD16 Mono": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 2,
+  "n_runs": 21,
+  "n_not_testable": 2,
+  "folder": "out/agent-null-cd16-mono-proportion-differs-stim-vs-ctrl",
+  "seconds": 181.0
+ },
+ "C-T (stress/HSP-high)": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 1,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-null-t-stress-hsp-high-proportion-differs-stim-vs-ctrl",
+  "seconds": 172.5
+ },
+ "C-cDC": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 4,
+  "n_runs": 21,
+  "n_not_testable": 1,
+  "folder": "out/agent-null-cdc-proportion-differs-stim-vs-ctrl",
+  "seconds": 177.0
+ },
+ "C-pDC": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 21,
+  "n_not_testable": 2,
+  "folder": "out/agent-null-pdc-proportion-differs-stim-vs-ctrl",
+  "seconds": 169.1
+ },
+ "C-Megakaryocyte/platelet": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 21,
+  "n_not_testable": 20,
+  "folder": "out/agent-null-megakaryocyte-platelet-proportion-differs-stim-vs",
+  "seconds": 165.6
+ },
+ "S-B": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-shared-isgs-in-b",
+  "seconds": 210.9
+ },
+ "S-CD14 Mono": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-shared-isgs-in-cd14-mono",
+  "seconds": 227.7
+ },
+ "S-CD16 Mono": {
+  "verdict": "ROBUST",
+  "n_holds": 19,
+  "n_runs": 21,
+  "n_not_testable": 2,
+  "folder": "out/agent-shared-isgs-in-cd16-mono",
+  "seconds": 229.7
+ },
+ "S-CD4 T naive": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-shared-isgs-in-cd4-t-naive",
+  "seconds": 246.1
+ },
+ "S-CD4 T memory": {
+  "verdict": "ROBUST",
+  "n_holds": 17,
+  "n_runs": 21,
+  "n_not_testable": 4,
+  "folder": "out/agent-shared-isgs-in-cd4-t-memory",
+  "seconds": 231.8
+ },
+ "S-CD8 T": {
+  "verdict": "ROBUST",
+  "n_holds": 20,
+  "n_runs": 21,
+  "n_not_testable": 1,
+  "folder": "out/agent-shared-isgs-in-cd8-t",
+  "seconds": 283.9
+ },
+ "S-NK": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-shared-isgs-in-nk",
+  "seconds": 267.4
+ },
+ "S-T (stress/HSP-high)": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-shared-isgs-in-t-stress-hsp-high",
+  "seconds": 237.2
+ },
+ "S-cDC": {
+  "verdict": "ROBUST",
+  "n_holds": 20,
+  "n_runs": 21,
+  "n_not_testable": 1,
+  "folder": "out/agent-shared-isgs-in-cdc",
+  "seconds": 281.2
+ },
+ "MU-CD14 Mono": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-myeloid-up-in-cd14-mono",
+  "seconds": 256.3
+ },
+ "MU-CD16 Mono": {
+  "verdict": "ROBUST",
+  "n_holds": 19,
+  "n_runs": 21,
+  "n_not_testable": 2,
+  "folder": "out/agent-myeloid-up-in-cd16-mono",
+  "seconds": 250.2
+ },
+ "MU-cDC": {
+  "verdict": "ROBUST",
+  "n_holds": 20,
+  "n_runs": 21,
+  "n_not_testable": 1,
+  "folder": "out/agent-myeloid-up-in-cdc",
+  "seconds": 251.3
+ },
+ "MU16-CD16 Mono": {
+  "verdict": "ROBUST",
+  "n_holds": 19,
+  "n_runs": 21,
+  "n_not_testable": 2,
+  "folder": "out/agent-cd16-up-in-cd16-mono",
+  "seconds": 257.8
+ },
+ "MD-CD14 Mono": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-myeloid-down-in-cd14-mono",
+  "seconds": 286.1
+ },
+ "MD-CD16 Mono": {
+  "verdict": "ROBUST",
+  "n_holds": 19,
+  "n_runs": 21,
+  "n_not_testable": 2,
+  "folder": "out/agent-myeloid-down-in-cd16-mono",
+  "seconds": 252.2
+ },
+ "MDx-CD16 Mono": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 21,
+  "n_not_testable": 2,
+  "folder": "out/agent-myeloid-down-literal-reading-in-cd16-mono",
+  "seconds": 262.1
+ },
+ "MD-cDC": {
+  "verdict": "FRAGILE",
+  "n_holds": 5,
+  "n_runs": 21,
+  "n_not_testable": 1,
+  "folder": "out/agent-myeloid-down-in-cdc",
+  "seconds": 316.0
+ },
+ "MDx-cDC": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 0,
+  "n_runs": 21,
+  "n_not_testable": 1,
+  "folder": "out/agent-myeloid-down-literal-reading-in-cdc",
+  "seconds": 371.5
+ },
+ "ND-AMICA1-NK": {
+  "verdict": "ROBUST",
+  "n_holds": 19,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-nk-down-in-nk-amica1",
+  "seconds": 995.9
+ },
+ "ND-NELL2-NK": {
+  "verdict": "FRAGILE",
+  "n_holds": 6,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-nk-down-in-nk-nell2",
+  "seconds": 963.7
+ },
+ "ND-ITM2C-NK": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-nk-down-in-nk-itm2c",
+  "seconds": 947.5
+ },
+ "ND-S100A4-NK": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-nk-down-in-nk-s100a4",
+  "seconds": 979.7
+ },
+ "CV-CD4 T naive": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-caveat-up-in-cd4-t-naive",
+  "seconds": 932.5
+ },
+ "CVx-CD4 T naive": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-caveat-up-literal-reading-in-cd4-t-naive-cxcl11",
+  "seconds": 1066.5
+ },
+ "CV-CD4 T memory": {
+  "verdict": "ROBUST",
+  "n_holds": 17,
+  "n_runs": 21,
+  "n_not_testable": 4,
+  "folder": "out/agent-caveat-up-in-cd4-t-memory",
+  "seconds": 1246.9
+ },
+ "CVx-CD4 T memory": {
+  "verdict": "FRAGILE",
+  "n_holds": 15,
+  "n_runs": 21,
+  "n_not_testable": 4,
+  "folder": "out/agent-caveat-up-literal-reading-in-cd4-t-memory-cxcl11",
+  "seconds": 2358.3
+ },
+ "CVx-CD8 T": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 4,
+  "n_runs": 21,
+  "n_not_testable": 1,
+  "folder": "out/agent-caveat-up-literal-reading-in-cd8-t",
+  "seconds": 2143.7
+ },
+ "CV-T (stress/HSP-high)": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-caveat-up-in-t-stress-hsp-high-cxcl10",
+  "seconds": 1740.9
+ },
+ "CVx-T (stress/HSP-high)": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 1,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-caveat-up-literal-reading-in-t-stress-hsp-high",
+  "seconds": 2288.3
+ },
+ "CV-B": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-caveat-up-in-b",
+  "seconds": 800.8
+ },
+ "CV-NK": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-caveat-up-in-nk",
+  "seconds": 537.4
+ },
+ "CVx-NK": {
+  "verdict": "ROBUST",
+  "n_holds": 20,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-caveat-up-literal-reading-in-nk-cxcl11",
+  "seconds": 498.3
+ },
+ "P9-CD4 T naive": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-cd4-t-naive-is-a-distinct-population-per-sample-double",
+  "seconds": 2629.9
+ },
+ "P9-CD14 Mono": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-cd14-mono-is-a-distinct-population-per-sample-doublets",
+  "seconds": 1256.2
+ },
+ "P9-CD4 T memory": {
+  "verdict": "FRAGILE",
+  "n_holds": 14,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-cd4-t-memory-is-a-distinct-population-per-sample-doubl",
+  "seconds": 860.6
+ },
+ "P9-B": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-b-is-a-distinct-population-per-sample-doublets",
+  "seconds": 1066.5
+ },
+ "P9-NK": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-nk-is-a-distinct-population-per-sample-doublets",
+  "seconds": 1044.6
+ },
+ "P9-CD8 T": {
+  "verdict": "ROBUST",
+  "n_holds": 20,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-cd8-t-is-a-distinct-population-per-sample-doublets",
+  "seconds": 326.1
+ },
+ "P9-CD16 Mono": {
+  "verdict": "ROBUST",
+  "n_holds": 19,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-cd16-mono-is-a-distinct-population-per-sample-doublets",
+  "seconds": 552.6
+ },
+ "P9-T (stress/HSP-high)": {
+  "verdict": "ROBUST",
+  "n_holds": 21,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-t-stress-hsp-high-is-a-distinct-population-per-sample-",
+  "seconds": 520.0
+ },
+ "P9-cDC": {
+  "verdict": "ROBUST",
+  "n_holds": 20,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-cdc-is-a-distinct-population-per-sample-doublets",
+  "seconds": 496.7
+ },
+ "P9-pDC": {
+  "verdict": "ROBUST",
+  "n_holds": 19,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-pdc-is-a-distinct-population-per-sample-doublets",
+  "seconds": 461.0
+ },
+ "P9-Megakaryocyte/platelet": {
+  "verdict": "NOT SUPPORTED",
+  "n_holds": 1,
+  "n_runs": 21,
+  "n_not_testable": 0,
+  "folder": "out/agent-megakaryocyte-platelet-is-a-distinct-population-per-sa",
+  "seconds": 469.8
+ }
+}

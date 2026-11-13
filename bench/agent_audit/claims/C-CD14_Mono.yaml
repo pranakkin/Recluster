@@ -1,0 +1,14 @@
+claim_type: composition_shift
+name: 'agent null: CD14 Mono proportion differs stim vs ctrl'
+columns:
+  condition: label
+  sample:
+  - replicate
+  - label
+  labels: cell_type
+target:
+  label_value: CD14 Mono
+comparison:
+  group_a: stim
+  group_b: ctrl
+  direction: different

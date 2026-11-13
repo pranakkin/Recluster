@@ -1,0 +1,5893 @@
+{
+ "claims": [
+  {
+   "id": "P-CD4 T naive",
+   "statement": "annotation",
+   "agent_says": "exists (hedged by the agent)",
+   "secondary": false,
+   "superseded_by": "P9-CD4 T naive",
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-cd4-t-naive-is-a-distinct-population/report.html",
+   "median_jaccard": 0.763533
+  },
+  {
+   "id": "P-CD14 Mono",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": "P9-CD14 Mono",
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-cd14-mono-is-a-distinct-population/report.html",
+   "median_jaccard": 0.963448
+  },
+  {
+   "id": "P-CD4 T memory",
+   "statement": "annotation",
+   "agent_says": "exists (hedged by the agent)",
+   "secondary": false,
+   "superseded_by": "P9-CD4 T memory",
+   "claim_type": "population_exists",
+   "verdict": "FRAGILE",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 14,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.6666666666666666,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 11,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 8,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 10,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 11,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 9,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 11,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-cd4-t-memory-is-a-distinct-population/report.html",
+   "median_jaccard": 0.571794
+  },
+  {
+   "id": "P-B",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": "P9-B",
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-b-is-a-distinct-population/report.html",
+   "median_jaccard": 0.979121
+  },
+  {
+   "id": "P-NK",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": "P9-NK",
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-nk-is-a-distinct-population/report.html",
+   "median_jaccard": 0.931907
+  },
+  {
+   "id": "P-CD8 T",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": "P9-CD8 T",
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 19,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.9047619047619048,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-cd8-t-is-a-distinct-population/report.html",
+   "median_jaccard": 0.747368
+  },
+  {
+   "id": "P-CD16 Mono",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": "P9-CD16 Mono",
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-cd16-mono-is-a-distinct-population/report.html",
+   "median_jaccard": 0.912998
+  },
+  {
+   "id": "P-T (stress/HSP-high)",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": "P9-T (stress/HSP-high)",
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-t-stress-hsp-high-is-a-distinct-population/report.html",
+   "median_jaccard": 0.741191
+  },
+  {
+   "id": "P-cDC",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": "P9-cDC",
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 19,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.9047619047619048,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 11,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 13,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-cdc-is-a-distinct-population/report.html",
+   "median_jaccard": 0.710407
+  },
+  {
+   "id": "P-pDC",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": "P9-pDC",
+   "claim_type": "population_exists",
+   "verdict": "FRAGILE",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 16,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.7619047619047619,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 13,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 13,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 11,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 11,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-pdc-is-a-distinct-population/report.html",
+   "median_jaccard": 0.982759
+  },
+  {
+   "id": "P-Megakaryocyte/platelet",
+   "statement": "annotation",
+   "agent_says": "exists (hedged by the agent)",
+   "secondary": false,
+   "superseded_by": "P9-Megakaryocyte/platelet",
+   "claim_type": "population_exists",
+   "verdict": "NOT SUPPORTED",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 1,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.047619047619047616,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-megakaryocyte-platelet-is-a-distinct-population/report.html",
+   "median_jaccard": 0.0
+  },
+  {
+   "id": "P9-CD4 T naive",
+   "statement": "annotation",
+   "agent_says": "exists (hedged by the agent)",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-cd4-t-naive-is-a-distinct-population-per-sample-double/report.html",
+   "median_jaccard": 0.728526
+  },
+  {
+   "id": "P9-CD14 Mono",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-cd14-mono-is-a-distinct-population-per-sample-doublets/report.html",
+   "median_jaccard": 0.956265
+  },
+  {
+   "id": "P9-CD4 T memory",
+   "statement": "annotation",
+   "agent_says": "exists (hedged by the agent)",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "population_exists",
+   "verdict": "FRAGILE",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 14,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.6666666666666666,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 8,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 10,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 10,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 9,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 11,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-cd4-t-memory-is-a-distinct-population-per-sample-doubl/report.html",
+   "median_jaccard": 0.571859
+  },
+  {
+   "id": "P9-B",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-b-is-a-distinct-population-per-sample-doublets/report.html",
+   "median_jaccard": 0.967718
+  },
+  {
+   "id": "P9-NK",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-nk-is-a-distinct-population-per-sample-doublets/report.html",
+   "median_jaccard": 0.897216
+  },
+  {
+   "id": "P9-CD8 T",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 20,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.9523809523809523,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 17,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 17,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-cd8-t-is-a-distinct-population-per-sample-doublets/report.html",
+   "median_jaccard": 0.76222
+  },
+  {
+   "id": "P9-CD16 Mono",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 19,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.9047619047619048,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-cd16-mono-is-a-distinct-population-per-sample-doublets/report.html",
+   "median_jaccard": 0.883661
+  },
+  {
+   "id": "P9-T (stress/HSP-high)",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-t-stress-hsp-high-is-a-distinct-population-per-sample-/report.html",
+   "median_jaccard": 0.725912
+  },
+  {
+   "id": "P9-cDC",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 20,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.9523809523809523,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 17,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 17,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-cdc-is-a-distinct-population-per-sample-doublets/report.html",
+   "median_jaccard": 0.779476
+  },
+  {
+   "id": "P9-pDC",
+   "statement": "annotation",
+   "agent_says": "exists",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "population_exists",
+   "verdict": "ROBUST",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 19,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.9047619047619048,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-pdc-is-a-distinct-population-per-sample-doublets/report.html",
+   "median_jaccard": 0.960784
+  },
+  {
+   "id": "P9-Megakaryocyte/platelet",
+   "statement": "annotation",
+   "agent_says": "exists (hedged by the agent)",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "population_exists",
+   "verdict": "NOT SUPPORTED",
+   "label_before_time_check": null,
+   "time_check": null,
+   "n_holds": 1,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.047619047619047616,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-megakaryocyte-platelet-is-a-distinct-population-per-sa/report.html",
+   "median_jaccard": 0.0
+  },
+  {
+   "id": "C-CD4 T naive",
+   "statement": "abundance null",
+   "agent_says": "no significant change after FDR over the 11 types",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "composition_shift",
+   "verdict": "FRAGILE",
+   "label_before_time_check": "FRAGILE",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 12,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.38095238095238093,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 6,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 9,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 8,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 9,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 9,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 11,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 9,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-null-cd4-t-naive-proportion-differs-stim-vs-ctrl/report.html",
+   "median_jaccard": 0.728526,
+   "baseline": {
+    "mean_proportion_a": 0.206282,
+    "mean_proportion_b": 0.215416,
+    "p_logit_ttest": 0.043852,
+    "p_mannwhitney": 0.0546875
+   }
+  },
+  {
+   "id": "C-CD14 Mono",
+   "statement": "abundance null",
+   "agent_says": "no significant change after FDR over the 11 types",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "composition_shift",
+   "verdict": "FRAGILE",
+   "label_before_time_check": "FRAGILE",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 15,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.8571428571428571,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 13,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 13,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 11,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 11,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 14,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-null-cd14-mono-proportion-differs-stim-vs-ctrl/report.html",
+   "median_jaccard": 0.956265,
+   "baseline": {
+    "mean_proportion_a": 0.237134,
+    "mean_proportion_b": 0.255663,
+    "p_logit_ttest": 0.0293317,
+    "p_mannwhitney": 0.015625
+   }
+  },
+  {
+   "id": "C-CD4 T memory",
+   "statement": "abundance null",
+   "agent_says": "no significant change after FDR over the 11 types",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "composition_shift",
+   "verdict": "FRAGILE",
+   "label_before_time_check": "FRAGILE",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 5,
+   "n_runs": 21,
+   "n_not_testable": 4,
+   "cell_level_survival": 0.47619047619047616,
+   "breakers": [
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 4,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 4,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-null-cd4-t-memory-proportion-differs-stim-vs-ctrl/report.html",
+   "median_jaccard": 0.571859,
+   "baseline": {
+    "mean_proportion_a": 0.165663,
+    "mean_proportion_b": 0.183196,
+    "p_logit_ttest": 0.0766778,
+    "p_mannwhitney": 0.078125
+   }
+  },
+  {
+   "id": "C-B",
+   "statement": "abundance null",
+   "agent_says": "no significant change after FDR over the 11 types",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "composition_shift",
+   "verdict": "FRAGILE",
+   "label_before_time_check": "FRAGILE",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 5,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.23809523809523808,
+   "breakers": [
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 5,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 5,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-null-b-proportion-differs-stim-vs-ctrl/report.html",
+   "median_jaccard": 0.967718,
+   "baseline": {
+    "mean_proportion_a": 0.102463,
+    "mean_proportion_b": 0.0984679,
+    "p_logit_ttest": 0.233947,
+    "p_mannwhitney": 0.25
+   }
+  },
+  {
+   "id": "C-NK",
+   "statement": "abundance null",
+   "agent_says": "no significant change after FDR over the 11 types",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "composition_shift",
+   "verdict": "NOT SUPPORTED",
+   "label_before_time_check": "NOT SUPPORTED",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 1,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.19047619047619047,
+   "breakers": [
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 1,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-null-nk-proportion-differs-stim-vs-ctrl/report.html",
+   "median_jaccard": 0.897216,
+   "baseline": {
+    "mean_proportion_a": 0.0707154,
+    "mean_proportion_b": 0.0675277,
+    "p_logit_ttest": 0.546848,
+    "p_mannwhitney": 0.546875
+   }
+  },
+  {
+   "id": "C-CD8 T",
+   "statement": "abundance null",
+   "agent_says": "no significant change after FDR over the 11 types",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "composition_shift",
+   "verdict": "NOT SUPPORTED",
+   "label_before_time_check": "NOT SUPPORTED",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 4,
+   "n_runs": 21,
+   "n_not_testable": 1,
+   "cell_level_survival": 0.5238095238095238,
+   "breakers": [
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 4,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 4,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 4,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 4,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-null-cd8-t-proportion-differs-stim-vs-ctrl/report.html",
+   "median_jaccard": 0.76222,
+   "baseline": {
+    "mean_proportion_a": 0.0921491,
+    "mean_proportion_b": 0.0619285,
+    "p_logit_ttest": 0.00377147,
+    "p_mannwhitney": 0.0078125
+   }
+  },
+  {
+   "id": "C-CD16 Mono",
+   "statement": "abundance null",
+   "agent_says": "no significant change after FDR over the 11 types",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "composition_shift",
+   "verdict": "NOT SUPPORTED",
+   "label_before_time_check": "NOT SUPPORTED",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 2,
+   "n_runs": 21,
+   "n_not_testable": 2,
+   "cell_level_survival": 0.2857142857142857,
+   "breakers": [
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-null-cd16-mono-proportion-differs-stim-vs-ctrl/report.html",
+   "median_jaccard": 0.883661,
+   "baseline": {
+    "mean_proportion_a": 0.0482022,
+    "mean_proportion_b": 0.0485531,
+    "p_logit_ttest": 0.583047,
+    "p_mannwhitney": 1.0
+   }
+  },
+  {
+   "id": "C-T (stress/HSP-high)",
+   "statement": "abundance null",
+   "agent_says": "no significant change after FDR over the 11 types",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "composition_shift",
+   "verdict": "NOT SUPPORTED",
+   "label_before_time_check": "NOT SUPPORTED",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 1,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.23809523809523808,
+   "breakers": [
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-null-t-stress-hsp-high-proportion-differs-stim-vs-ctrl/report.html",
+   "median_jaccard": 0.725912,
+   "baseline": {
+    "mean_proportion_a": 0.0388008,
+    "mean_proportion_b": 0.0350348,
+    "p_logit_ttest": 0.43723,
+    "p_mannwhitney": 0.945312
+   }
+  },
+  {
+   "id": "C-cDC",
+   "statement": "abundance null",
+   "agent_says": "no significant change after FDR over the 11 types",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "composition_shift",
+   "verdict": "NOT SUPPORTED",
+   "label_before_time_check": "NOT SUPPORTED",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 4,
+   "n_runs": 21,
+   "n_not_testable": 1,
+   "cell_level_survival": 0.38095238095238093,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-null-cdc-proportion-differs-stim-vs-ctrl/report.html",
+   "median_jaccard": 0.779476,
+   "baseline": {
+    "mean_proportion_a": 0.01689,
+    "mean_proportion_b": 0.016208,
+    "p_logit_ttest": 0.936694,
+    "p_mannwhitney": 0.640625
+   }
+  },
+  {
+   "id": "C-pDC",
+   "statement": "abundance null",
+   "agent_says": "no significant change after FDR over the 11 types",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "composition_shift",
+   "verdict": "NOT SUPPORTED",
+   "label_before_time_check": "NOT SUPPORTED",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 0,
+   "n_runs": 21,
+   "n_not_testable": 2,
+   "cell_level_survival": 0.9047619047619048,
+   "breakers": [
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-null-pdc-proportion-differs-stim-vs-ctrl/report.html",
+   "median_jaccard": 0.960784,
+   "baseline": {
+    "mean_proportion_a": 0.00718895,
+    "mean_proportion_b": 0.00374217,
+    "p_logit_ttest": 0.503792,
+    "p_mannwhitney": 0.460938
+   }
+  },
+  {
+   "id": "C-Megakaryocyte/platelet",
+   "statement": "abundance null",
+   "agent_says": "no significant change after FDR over the 11 types",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "composition_shift",
+   "verdict": "NOT SUPPORTED",
+   "label_before_time_check": "NOT SUPPORTED",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 0,
+   "n_runs": 21,
+   "n_not_testable": 20,
+   "cell_level_survival": 0.0,
+   "breakers": [
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-null-megakaryocyte-platelet-proportion-differs-stim-vs/report.html",
+   "median_jaccard": 0.0,
+   "baseline": {
+    "mean_proportion_a": 0.0,
+    "mean_proportion_b": 0.0,
+    "p_logit_ttest": 0.512294,
+    "p_mannwhitney": 0.742188
+   }
+  },
+  {
+   "id": "S-B",
+   "statement": "shared ISGs",
+   "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in B",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-shared-isgs-in-b/report.html",
+   "median_jaccard": 0.967718,
+   "per_gene_holds": {
+    "ISG15": 21,
+    "IFI6": 21,
+    "IFIT1": 21,
+    "IFIT2": 21,
+    "IFIT3": 21,
+    "MX1": 21,
+    "MX2": 21,
+    "IRF7": 21,
+    "OAS1": 21,
+    "LY6E": 21,
+    "IFITM1": 21,
+    "IFITM2": 21,
+    "IFITM3": 21,
+    "RSAD2": 21,
+    "CMPK2": 21,
+    "HERC5": 21,
+    "BST2": 21
+   }
+  },
+  {
+   "id": "S-CD14 Mono",
+   "statement": "shared ISGs",
+   "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in CD14 Mono",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-shared-isgs-in-cd14-mono/report.html",
+   "median_jaccard": 0.956265,
+   "per_gene_holds": {
+    "ISG15": 21,
+    "IFI6": 21,
+    "IFIT1": 21,
+    "IFIT2": 21,
+    "IFIT3": 21,
+    "MX1": 21,
+    "MX2": 21,
+    "IRF7": 21,
+    "OAS1": 21,
+    "LY6E": 21,
+    "IFITM1": 21,
+    "IFITM2": 21,
+    "IFITM3": 21,
+    "RSAD2": 21,
+    "CMPK2": 21,
+    "HERC5": 21,
+    "BST2": 21
+   }
+  },
+  {
+   "id": "S-CD16 Mono",
+   "statement": "shared ISGs",
+   "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in CD16 Mono",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 19,
+   "n_runs": 21,
+   "n_not_testable": 2,
+   "cell_level_survival": 0.9047619047619048,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-shared-isgs-in-cd16-mono/report.html",
+   "median_jaccard": 0.883661,
+   "per_gene_holds": {
+    "ISG15": 19,
+    "IFI6": 19,
+    "IFIT1": 19,
+    "IFIT2": 19,
+    "IFIT3": 19,
+    "MX1": 19,
+    "MX2": 19,
+    "IRF7": 19,
+    "OAS1": 19,
+    "LY6E": 19,
+    "IFITM1": 19,
+    "IFITM2": 19,
+    "IFITM3": 19,
+    "RSAD2": 19,
+    "CMPK2": 19,
+    "HERC5": 19,
+    "BST2": 19
+   }
+  },
+  {
+   "id": "S-CD4 T naive",
+   "statement": "shared ISGs",
+   "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in CD4 T naive",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-shared-isgs-in-cd4-t-naive/report.html",
+   "median_jaccard": 0.728526,
+   "per_gene_holds": {
+    "ISG15": 21,
+    "IFI6": 21,
+    "IFIT1": 21,
+    "IFIT2": 21,
+    "IFIT3": 21,
+    "MX1": 21,
+    "MX2": 21,
+    "IRF7": 21,
+    "OAS1": 21,
+    "LY6E": 21,
+    "IFITM1": 21,
+    "IFITM2": 21,
+    "IFITM3": 21,
+    "RSAD2": 21,
+    "CMPK2": 21,
+    "HERC5": 21,
+    "BST2": 21
+   }
+  },
+  {
+   "id": "S-CD4 T memory",
+   "statement": "shared ISGs",
+   "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in CD4 T memory",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 17,
+   "n_runs": 21,
+   "n_not_testable": 4,
+   "cell_level_survival": 0.8095238095238095,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 13,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 13,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 11,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 13,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 12,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-shared-isgs-in-cd4-t-memory/report.html",
+   "median_jaccard": 0.571859,
+   "per_gene_holds": {
+    "ISG15": 17,
+    "IFI6": 17,
+    "IFIT1": 17,
+    "IFIT2": 17,
+    "IFIT3": 17,
+    "MX1": 17,
+    "MX2": 17,
+    "IRF7": 17,
+    "OAS1": 17,
+    "LY6E": 17,
+    "IFITM1": 17,
+    "IFITM2": 17,
+    "IFITM3": 17,
+    "RSAD2": 17,
+    "CMPK2": 17,
+    "HERC5": 17,
+    "BST2": 17
+   }
+  },
+  {
+   "id": "S-CD8 T",
+   "statement": "shared ISGs",
+   "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in CD8 T",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 20,
+   "n_runs": 21,
+   "n_not_testable": 1,
+   "cell_level_survival": 0.9523809523809523,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 17,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 17,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-shared-isgs-in-cd8-t/report.html",
+   "median_jaccard": 0.76222,
+   "per_gene_holds": {
+    "ISG15": 20,
+    "IFI6": 20,
+    "IFIT1": 20,
+    "IFIT2": 20,
+    "IFIT3": 20,
+    "MX1": 20,
+    "MX2": 20,
+    "IRF7": 20,
+    "OAS1": 20,
+    "LY6E": 20,
+    "IFITM1": 20,
+    "IFITM2": 20,
+    "IFITM3": 20,
+    "RSAD2": 20,
+    "CMPK2": 20,
+    "HERC5": 20,
+    "BST2": 20
+   }
+  },
+  {
+   "id": "S-NK",
+   "statement": "shared ISGs",
+   "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in NK",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-shared-isgs-in-nk/report.html",
+   "median_jaccard": 0.897216,
+   "per_gene_holds": {
+    "ISG15": 21,
+    "IFI6": 21,
+    "IFIT1": 21,
+    "IFIT2": 21,
+    "IFIT3": 21,
+    "MX1": 21,
+    "MX2": 21,
+    "IRF7": 21,
+    "OAS1": 21,
+    "LY6E": 21,
+    "IFITM1": 21,
+    "IFITM2": 21,
+    "IFITM3": 21,
+    "RSAD2": 21,
+    "CMPK2": 21,
+    "HERC5": 21,
+    "BST2": 21
+   }
+  },
+  {
+   "id": "S-T (stress/HSP-high)",
+   "statement": "shared ISGs",
+   "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in T (stress/HSP-high)",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 0.9047619047619048,
+   "breakers": [],
+   "report": "out/agent-shared-isgs-in-t-stress-hsp-high/report.html",
+   "median_jaccard": 0.725912,
+   "per_gene_holds": {
+    "ISG15": 21,
+    "IFI6": 21,
+    "IFIT1": 21,
+    "IFIT2": 21,
+    "IFIT3": 21,
+    "MX1": 21,
+    "MX2": 21,
+    "IRF7": 21,
+    "OAS1": 21,
+    "LY6E": 21,
+    "IFITM1": 21,
+    "IFITM2": 21,
+    "IFITM3": 21,
+    "RSAD2": 21,
+    "CMPK2": 21,
+    "HERC5": 21,
+    "BST2": 21
+   }
+  },
+  {
+   "id": "S-cDC",
+   "statement": "shared ISGs",
+   "agent_says": "ISG15, IFI6, IFIT1, IFIT2, IFIT3, MX1, MX2, IRF7, OAS1, LY6E, IFITM1, IFITM2, IFITM3, RSAD2, CMPK2, HERC5, BST2 up in cDC",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 20,
+   "n_runs": 21,
+   "n_not_testable": 1,
+   "cell_level_survival": 0.9523809523809523,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 17,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 17,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-shared-isgs-in-cdc/report.html",
+   "median_jaccard": 0.779476,
+   "per_gene_holds": {
+    "ISG15": 20,
+    "IFI6": 20,
+    "IFIT1": 20,
+    "IFIT2": 20,
+    "IFIT3": 20,
+    "MX1": 20,
+    "MX2": 20,
+    "IRF7": 20,
+    "OAS1": 20,
+    "LY6E": 20,
+    "IFITM1": 20,
+    "IFITM2": 20,
+    "IFITM3": 20,
+    "RSAD2": 20,
+    "CMPK2": 20,
+    "HERC5": 20,
+    "BST2": 20
+   }
+  },
+  {
+   "id": "MU-CD14 Mono",
+   "statement": "myeloid up",
+   "agent_says": "CCL8, CXCL10, CXCL11, TNFSF10, IFI27 up in CD14 Mono",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-myeloid-up-in-cd14-mono/report.html",
+   "median_jaccard": 0.956265,
+   "per_gene_holds": {
+    "CCL8": 21,
+    "CXCL10": 21,
+    "CXCL11": 21,
+    "TNFSF10": 21,
+    "IFI27": 21
+   }
+  },
+  {
+   "id": "MU-CD16 Mono",
+   "statement": "myeloid up",
+   "agent_says": "CCL8, CXCL10, CXCL11, TNFSF10, IFI27 up in CD16 Mono",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 19,
+   "n_runs": 21,
+   "n_not_testable": 2,
+   "cell_level_survival": 0.9047619047619048,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-myeloid-up-in-cd16-mono/report.html",
+   "median_jaccard": 0.883661,
+   "per_gene_holds": {
+    "CCL8": 19,
+    "CXCL10": 19,
+    "CXCL11": 19,
+    "TNFSF10": 19,
+    "IFI27": 19
+   }
+  },
+  {
+   "id": "MU-cDC",
+   "statement": "myeloid up",
+   "agent_says": "CCL8, CXCL10, CXCL11, TNFSF10, IFI27 up in cDC",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 20,
+   "n_runs": 21,
+   "n_not_testable": 1,
+   "cell_level_survival": 0.9523809523809523,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 17,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 17,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-myeloid-up-in-cdc/report.html",
+   "median_jaccard": 0.779476,
+   "per_gene_holds": {
+    "CCL8": 20,
+    "CXCL10": 20,
+    "CXCL11": 20,
+    "TNFSF10": 20,
+    "IFI27": 20
+   }
+  },
+  {
+   "id": "MU16-CD16 Mono",
+   "statement": "CD16 up",
+   "agent_says": "IL27, IDO1, CH25H up in CD16 Mono",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 19,
+   "n_runs": 21,
+   "n_not_testable": 2,
+   "cell_level_survival": 0.9047619047619048,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-cd16-up-in-cd16-mono/report.html",
+   "median_jaccard": 0.883661,
+   "per_gene_holds": {
+    "IL27": 19,
+    "IDO1": 19,
+    "CH25H": 19
+   }
+  },
+  {
+   "id": "MD-CD14 Mono",
+   "statement": "myeloid down",
+   "agent_says": "CD14, VCAN, CLEC5A, MMP9, IL8, CD93, S100A8 down in CD14 Mono",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-myeloid-down-in-cd14-mono/report.html",
+   "median_jaccard": 0.956265,
+   "per_gene_holds": {
+    "CD14": 21,
+    "VCAN": 21,
+    "CLEC5A": 21,
+    "MMP9": 21,
+    "IL8": 21,
+    "CD93": 21,
+    "S100A8": 21
+   }
+  },
+  {
+   "id": "MD-CD16 Mono",
+   "statement": "myeloid down",
+   "agent_says": "CD14, IL8, S100A8 down in CD16 Mono",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 19,
+   "n_runs": 21,
+   "n_not_testable": 2,
+   "cell_level_survival": 0.9047619047619048,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-myeloid-down-in-cd16-mono/report.html",
+   "median_jaccard": 0.883661,
+   "per_gene_holds": {
+    "CD14": 19,
+    "IL8": 19,
+    "S100A8": 19
+   }
+  },
+  {
+   "id": "MDx-CD16 Mono",
+   "statement": "myeloid down (literal reading)",
+   "agent_says": "VCAN, CLEC5A, MMP9, CD93 down in CD16 Mono",
+   "secondary": true,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "NOT SUPPORTED",
+   "label_before_time_check": "NOT SUPPORTED",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 0,
+   "n_runs": 21,
+   "n_not_testable": 2,
+   "cell_level_survival": 0.0,
+   "breakers": [
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-myeloid-down-literal-reading-in-cd16-mono/report.html",
+   "median_jaccard": 0.883661,
+   "per_gene_holds": {
+    "VCAN": 19,
+    "CLEC5A": 19,
+    "MMP9": 0,
+    "CD93": 0
+   }
+  },
+  {
+   "id": "MD-cDC",
+   "statement": "myeloid down",
+   "agent_says": "CD14, VCAN, CLEC5A, IL8, S100A8 down in cDC",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "FRAGILE",
+   "label_before_time_check": "FRAGILE",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 5,
+   "n_runs": 21,
+   "n_not_testable": 1,
+   "cell_level_survival": 0.23809523809523808,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 4,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-myeloid-down-in-cdc/report.html",
+   "median_jaccard": 0.779476,
+   "per_gene_holds": {
+    "CD14": 6,
+    "VCAN": 17,
+    "CLEC5A": 18,
+    "IL8": 20,
+    "S100A8": 5
+   }
+  },
+  {
+   "id": "MDx-cDC",
+   "statement": "myeloid down (literal reading)",
+   "agent_says": "MMP9, CD93 down in cDC",
+   "secondary": true,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "NOT SUPPORTED",
+   "label_before_time_check": "NOT SUPPORTED",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 0,
+   "n_runs": 21,
+   "n_not_testable": 1,
+   "cell_level_survival": 0.047619047619047616,
+   "breakers": [
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-myeloid-down-literal-reading-in-cdc/report.html",
+   "median_jaccard": 0.779476,
+   "per_gene_holds": {
+    "MMP9": 3,
+    "CD93": 0
+   }
+  },
+  {
+   "id": "ND-AMICA1-NK",
+   "statement": "NK down",
+   "agent_says": "AMICA1 down in NK",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 19,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 13,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 16,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 12,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-nk-down-in-nk-amica1/report.html",
+   "median_jaccard": 0.897216,
+   "per_gene_holds": {
+    "AMICA1": 19
+   }
+  },
+  {
+   "id": "ND-NELL2-NK",
+   "statement": "NK down",
+   "agent_says": "NELL2 down in NK",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "FRAGILE",
+   "label_before_time_check": "FRAGILE",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 6,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 4,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 4,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 5,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 4,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-nk-down-in-nk-nell2/report.html",
+   "median_jaccard": 0.897216,
+   "per_gene_holds": {
+    "NELL2": 6
+   }
+  },
+  {
+   "id": "ND-ITM2C-NK",
+   "statement": "NK down",
+   "agent_says": "ITM2C down in NK",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-nk-down-in-nk-itm2c/report.html",
+   "median_jaccard": 0.897216,
+   "per_gene_holds": {
+    "ITM2C": 21
+   }
+  },
+  {
+   "id": "ND-S100A4-NK",
+   "statement": "NK down",
+   "agent_says": "S100A4 down in NK",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-nk-down-in-nk-s100a4/report.html",
+   "median_jaccard": 0.897216,
+   "per_gene_holds": {
+    "S100A4": 21
+   }
+  },
+  {
+   "id": "CV-CD4 T naive",
+   "statement": "caveat up",
+   "agent_says": "CXCL10, CCL8 up in CD4 T naive",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-caveat-up-in-cd4-t-naive/report.html",
+   "median_jaccard": 0.728526,
+   "per_gene_holds": {
+    "CXCL10": 21,
+    "CCL8": 21
+   }
+  },
+  {
+   "id": "CVx-CD4 T naive",
+   "statement": "caveat up (literal reading)",
+   "agent_says": "CXCL11 up in CD4 T naive",
+   "secondary": true,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-caveat-up-literal-reading-in-cd4-t-naive-cxcl11/report.html",
+   "median_jaccard": 0.728526,
+   "per_gene_holds": {
+    "CXCL11": 21
+   }
+  },
+  {
+   "id": "CV-CD4 T memory",
+   "statement": "caveat up",
+   "agent_says": "CXCL10, CCL8 up in CD4 T memory",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 17,
+   "n_runs": 21,
+   "n_not_testable": 4,
+   "cell_level_survival": 0.8095238095238095,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 13,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 13,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 11,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 13,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 12,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-caveat-up-in-cd4-t-memory/report.html",
+   "median_jaccard": 0.571859,
+   "per_gene_holds": {
+    "CXCL10": 17,
+    "CCL8": 17
+   }
+  },
+  {
+   "id": "CVx-CD4 T memory",
+   "statement": "caveat up (literal reading)",
+   "agent_says": "CXCL11 up in CD4 T memory",
+   "secondary": true,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "FRAGILE",
+   "label_before_time_check": "FRAGILE",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 15,
+   "n_runs": 21,
+   "n_not_testable": 4,
+   "cell_level_survival": 0.8095238095238095,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 3,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 11,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 11,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 9,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 13,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 10,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 12,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-caveat-up-literal-reading-in-cd4-t-memory-cxcl11/report.html",
+   "median_jaccard": 0.571859,
+   "per_gene_holds": {
+    "CXCL11": 15
+   }
+  },
+  {
+   "id": "CVx-CD8 T",
+   "statement": "caveat up (literal reading)",
+   "agent_says": "CXCL10, CCL8, CXCL11 up in CD8 T",
+   "secondary": true,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "NOT SUPPORTED",
+   "label_before_time_check": "NOT SUPPORTED",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 4,
+   "n_runs": 21,
+   "n_not_testable": 1,
+   "cell_level_survival": 0.9523809523809523,
+   "breakers": [
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 2,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 3,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 4,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 1,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-caveat-up-literal-reading-in-cd8-t/report.html",
+   "median_jaccard": 0.76222,
+   "per_gene_holds": {
+    "CXCL10": 20,
+    "CCL8": 20,
+    "CXCL11": 4
+   }
+  },
+  {
+   "id": "CV-T (stress/HSP-high)",
+   "statement": "caveat up",
+   "agent_says": "CXCL10 up in T (stress/HSP-high)",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-caveat-up-in-t-stress-hsp-high-cxcl10/report.html",
+   "median_jaccard": 0.725912,
+   "per_gene_holds": {
+    "CXCL10": 21
+   }
+  },
+  {
+   "id": "CVx-T (stress/HSP-high)",
+   "statement": "caveat up (literal reading)",
+   "agent_says": "CCL8, CXCL11 up in T (stress/HSP-high)",
+   "secondary": true,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "NOT SUPPORTED",
+   "label_before_time_check": "NOT SUPPORTED",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 1,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [
+    {
+     "axis": "normalization",
+     "value": "log_total",
+     "n_runs": 16,
+     "n_holds": 0,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": false,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 100,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 1000,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 20,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 50,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 3000,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.3,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 1.5,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 1,
+     "n_runs": 2,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "resolution",
+     "value": 0.5,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "seed",
+     "value": 2,
+     "n_runs": 1,
+     "n_holds": 0,
+     "is_baseline": false
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "min_genes",
+     "value": 200,
+     "n_runs": 13,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "resolution",
+     "value": 1.0,
+     "n_runs": 13,
+     "n_holds": 1,
+     "is_baseline": true
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 1,
+     "is_baseline": false
+    }
+   ],
+   "report": "out/agent-caveat-up-literal-reading-in-t-stress-hsp-high/report.html",
+   "median_jaccard": 0.725912,
+   "per_gene_holds": {
+    "CCL8": 21,
+    "CXCL11": 1
+   }
+  },
+  {
+   "id": "CV-B",
+   "statement": "caveat up",
+   "agent_says": "CXCL10, CCL8, CXCL11 up in B",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-caveat-up-in-b/report.html",
+   "median_jaccard": 0.967718,
+   "per_gene_holds": {
+    "CXCL10": 21,
+    "CCL8": 21,
+    "CXCL11": 21
+   }
+  },
+  {
+   "id": "CV-NK",
+   "statement": "caveat up",
+   "agent_says": "CXCL10, CCL8 up in NK",
+   "secondary": false,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 21,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [],
+   "report": "out/agent-caveat-up-in-nk/report.html",
+   "median_jaccard": 0.897216,
+   "per_gene_holds": {
+    "CXCL10": 21,
+    "CCL8": 21
+   }
+  },
+  {
+   "id": "CVx-NK",
+   "statement": "caveat up (literal reading)",
+   "agent_says": "CXCL11 up in NK",
+   "secondary": true,
+   "superseded_by": null,
+   "claim_type": "differential_expression",
+   "verdict": "ROBUST",
+   "label_before_time_check": "ROBUST",
+   "time_check": "NO TIME CONFOUND DETECTED",
+   "n_holds": 20,
+   "n_runs": 21,
+   "n_not_testable": 0,
+   "cell_level_survival": 1.0,
+   "breakers": [
+    {
+     "axis": "resolution",
+     "value": 2.0,
+     "n_runs": 3,
+     "n_holds": 2,
+     "is_baseline": false
+    },
+    {
+     "axis": "min_genes",
+     "value": 500,
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "normalization",
+     "value": "pearson",
+     "n_runs": 5,
+     "n_holds": 4,
+     "is_baseline": false
+    },
+    {
+     "axis": "n_pcs",
+     "value": 30,
+     "n_runs": 15,
+     "n_holds": 14,
+     "is_baseline": true
+    },
+    {
+     "axis": "n_hvgs",
+     "value": 2000,
+     "n_runs": 16,
+     "n_holds": 15,
+     "is_baseline": true
+    },
+    {
+     "axis": "doublet_removal",
+     "value": true,
+     "n_runs": 18,
+     "n_holds": 17,
+     "is_baseline": true
+    },
+    {
+     "axis": "seed",
+     "value": 0,
+     "n_runs": 18,
+     "n_holds": 17,
+     "is_baseline": true
+    }
+   ],
+   "report": "out/agent-caveat-up-literal-reading-in-nk-cxcl11/report.html",
+   "median_jaccard": 0.897216,
+   "per_gene_holds": {
+    "CXCL11": 20
+   }
+  }
+ ],
+ "abundance_bh": {
+  "n_runs": 21,
+  "passes_after_bh": {
+   "B": 1,
+   "CD14 Mono": 5,
+   "CD16 Mono": 0,
+   "CD4 T memory": 5,
+   "CD4 T naive": 5,
+   "CD8 T": 2,
+   "Megakaryocyte/platelet": 0,
+   "NK": 0,
+   "T (stress/HSP-high)": 1,
+   "cDC": 2,
+   "pDC": 0
+  },
+  "median_padj": {
+   "B": 0.5035492,
+   "CD14 Mono": 0.231704,
+   "CD16 Mono": 0.7751015555555556,
+   "CD4 T memory": 0.31867073333333334,
+   "CD4 T naive": 0.16079066666666667,
+   "CD8 T": 0.56440725,
+   "Megakaryocyte/platelet": 1.0,
+   "NK": 0.8376328888888889,
+   "T (stress/HSP-high)": 0.7134025555555555,
+   "cDC": 0.7751015555555556,
+   "pDC": 0.684398
+  },
+  "contradicted": []
+ }
+}

@@ -18,6 +18,10 @@ written before it ran (one rule was tightened between runs, see bench/RESULTS.md
 expected, 1 false alarm and 3 misses (all three planted-doublet cases). Details in
 [bench/RESULTS.md](bench/RESULTS.md).
 
+Recluster has also audited an AI agent's full analysis of the same data: of the agent's 36
+population and expression claims, 32 are ROBUST, 3 FRAGILE and 1 NOT SUPPORTED, and its summary
+disagrees with its own tables in four places ([details](#auditing-an-ai-agents-analysis)).
+
 Requires Python 3.11 and [uv](https://docs.astral.sh/uv/).
 
 ```bash
@@ -218,6 +222,30 @@ of runs while replicate-aware statistics call it in < 50 %).
   fake population is fragile across normalisations, not removed as doublets. The
   doublet-population step catches the development block where that block clusters on its own
   and removes no real cluster. It missed both held-out blocks. RESULTS.md has the full account.
+
+## Auditing an AI agent's analysis
+
+Claude Opus 5.5 was given the Kang 2018 counts with only a stim/ctrl label and donor ids, one
+Python tool and a request for a full analysis: clusters, cell types, abundance and expression
+changes. It ran once (16 API calls); the API has no seed, so it cannot be replayed exactly.
+Each checkable claim in its final answer became a Recluster claim spec under a protocol written
+before the run, with nine amendments written after reading the answer. 65 specs ran: 47
+primary, 7 secondary, and the 11 first-run population specs that a re-run replaced. Of the 36
+primary population and expression specs, 32 are ROBUST, 3 FRAGILE and 1 NOT SUPPORTED: the
+Megakaryocyte/platelet population. The agent hedged that label but still listed more platelets
+among its two strongest trends. Its statement that no cell type changes in abundance is not
+contradicted on the grid. That is consistent with it, not evidence for it; on the agent's own
+labels, Megakaryocyte/platelet does pass. Read literally, two of its group statements fail (4 of
+7 secondary specs NOT SUPPORTED), and its summary disagrees with its own tables in four places,
+for example two genes it places in NK that its NK table lacks. The population specs first ran
+without a sample column, so doublet detection scored all cells as one batch; amendment 9,
+written after those results, re-ran them with the column. That changed one verdict, pDC, from
+FRAGILE 16/21 to ROBUST 19/21, and both runs are reported. Details in
+[bench/agent_audit/RESULTS.md](bench/agent_audit/RESULTS.md). Reports:
+[Megakaryocyte/platelet population](https://pranakkin.github.io/Recluster/reports/agent/agent-megakaryocyte-platelet-is-a-distinct-population-per-sa.html),
+[NELL2 down in NK](https://pranakkin.github.io/Recluster/reports/agent/agent-nk-down-in-nk-nell2.html),
+[down-genes in cDC](https://pranakkin.github.io/Recluster/reports/agent/agent-myeloid-down-in-cdc.html),
+[CD14 monocyte abundance](https://pranakkin.github.io/Recluster/reports/agent/agent-null-cd14-mono-proportion-differs-stim-vs-ctrl.html).
 
 ## Writing a claim
 
@@ -424,6 +452,7 @@ marker calls survive. Next:
 ```
 recluster/            engine: spec, pipeline, grid, matching, evaluators, time_confound, verdict, report, llm, bench, demo
 recluster/resources/  daynight_genes.csv, built from Wucher et al. 2023 S8 (CC BY 4.0) by scripts/fetch_daynight_genes.py
+bench/agent_audit/    the AI-agent case study: protocol, the agent's run, claim specs, RESULTS.md
 bench/                benchmark runner outputs: RESULTS.md, results.json, results_table.md (and the first run's copies), design_measurements.md
 docs/                 GitHub Pages: index.html (project page, drawn from site-data.js), benchmark.html, reports/, HOW_IT_WORKS.md, report-hero.png
 examples/claims/      claim YAML examples (synthetic, PBMC3k, Kang)
