@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "recluster"
-version = "0.6.0"
+version = "0.7.0"
 description = "An independent stress test for single-cell RNA-seq claims."
 readme = "README.md"
 license = { text = "Proprietary. Copyright (c) 2026 Pranavi Akkinepally. All rights reserved." }

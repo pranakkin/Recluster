@@ -2,7 +2,7 @@
 
 All notable changes to Recluster. Dates are when the work landed in this repository.
 
-## [0.7.0] — unreleased
+## [0.7.0] — 2026-11-13 — Agent audit, ground truth against bulk RNA-seq, first-use tools
 
 ### Added
 - Ground-truth study against matched bulk RNA-seq (`bench/ground_truth/`: `PLAN.md`,
