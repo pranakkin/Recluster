@@ -1,5 +1,5 @@
 # ruff: noqa: E501  (CSS and HTML template strings)
-"""Copy the benchmark reports into docs/ and write a static docs/index.html.
+"""Copy the benchmark reports into docs/ and write a static docs/benchmark.html.
 
 GitHub Pages serves the committed ``docs/`` folder as-is (a ``.nojekyll`` file disables Jekyll).
 Nothing here runs on Pages; this script runs locally after ``recluster bench`` and its output is
@@ -89,7 +89,7 @@ def main() -> None:
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Recluster · benchmark reports</title><style>{CSS}</style></head>
 <body><main>
-<div class="eyebrow">Recluster · benchmark reports</div>
+<div class="eyebrow"><a href="./">Recluster</a> · benchmark reports</div>
 <h1>An independent stress test for single-cell RNA-seq claims</h1>
 <p>{
         n_cases
@@ -123,9 +123,9 @@ describes the design. Source: <a href="{REPO}">{REPO}</a>.</p>
 index with no build step.</p>
 </main></body></html>
 """
-    (DOCS / "index.html").write_text(html)
+    (DOCS / "benchmark.html").write_text(html)
     (DOCS / ".nojekyll").write_text("")
-    print(f"wrote docs/index.html and {n_cases} reports under docs/reports/")
+    print(f"wrote docs/benchmark.html and {n_cases} reports under docs/reports/")
 
 
 if __name__ == "__main__":
