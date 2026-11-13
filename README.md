@@ -47,7 +47,7 @@ You give Recluster an AnnData file with raw counts and a claim:
 - *"Gene G is up in cell type X in condition A vs B."*
 
 It re-runs the analysis across a bounded grid of defensible alternative choices (QC thresholds,
-doublet removal with Scrublet (Wolock et al. 2019), log or Pearson-residual normalisation
+doublet removal with Scrublet (Wolock et al. 2019), log or Pearson-residual normalization
 (Lause et al. 2021), number of variable genes and principal components, Leiden clustering
 resolution (Traag et al. 2019), batch correction with Harmony (Korsunsky et al. 2019), random
 seeds; about 21 to 24 runs by default) and reports how often, and under which choices, the
@@ -143,7 +143,7 @@ commands.
 
 **2. Prepare the `.h5ad`.** Recluster re-derives everything from raw integer counts, which it
 looks for in `layers['counts']` (the layer must be named exactly `counts`), then `.raw.X`, then
-`.X`. If your own pipeline normalises `.X`, save the raw counts in a layer first:
+`.X`. If your own pipeline normalizes `.X`, save the raw counts in a layer first:
 
 ```python
 adata.layers["counts"] = adata.X.copy()   # while .X still holds raw counts
@@ -303,7 +303,7 @@ of runs while replicate-aware statistics call it in < 50 %).
   consistent 1.6-percentage-point drop in the monocyte share after IFN-β. There is no ground
   truth for that case.
 - **Doublets.** All three planted doublet blocks end NOT SUPPORTED for the wrong reason: the
-  fake population is fragile across normalisations, not removed as doublets. The
+  fake population is fragile across normalizations, not removed as doublets. The
   doublet-population step catches the development block where that block clusters on its own
   and removes no real cluster. It missed both held-out blocks. RESULTS.md has the full account.
 
@@ -414,13 +414,13 @@ uv run recluster parse "ISG15 is up in CD14 monocytes after IFN-beta" --data dat
 
 The model sees only the `.obs` column names and values and which gene
 symbols from the sentence exist in the data; the proposal is validated against the file and shown
-to you, labelled as LLM output, before it is written. `--summarize` on a run adds a paragraph
+to you, labeled as LLM output, before it is written. `--summarize` on a run adds a paragraph
 headed "LLM summary of computed results"; a guard discards any summary containing a number the
 code did not compute.
 
 ## Design principles
 
-- **Deterministic stress test.** Every stochastic step is seeded and neighbour search is exact;
+- **Deterministic stress test.** Every stochastic step is seeded and neighbor search is exact;
   re-running a config reproduces the numbers, and tests check it for all three claim types.
 - **Replicate-aware statistics.** Donors, not cells, are the unit of inference: a t-test on logit
   proportions (one of the two transformations propeller offers; Phipson et al. 2022) and DESeq2
@@ -439,7 +439,7 @@ code did not compute.
 - **Provenance.** Package versions, input hash, grid, thresholds and every run's requested and
   effective parameters and outputs are written to `provenance.json` and embedded in the report.
 - **LLM only at the edges.** It may draft a claim file (checked against the data, confirmed by
-  you) and summarise computed numbers (guarded). It never touches a computation.
+  you) and summarize computed numbers (guarded). It never touches a computation.
 - **Explicit thresholds.** All cutoffs are configurable and printed in every report. Each change
   is logged with its reason in `PLAN.md` and `bench/RESULTS.md`. The numbers behind the design
   decisions are recomputed by `scripts/design_measurements.py` into
@@ -492,7 +492,7 @@ code did not compute.
   rate-based fallback, it reaches AUROC 0.87, precision 0.60 and recall 0.54 (0.27 without the
   fallback). The doublet-population step removes a doublet cluster that resembles doublets of
   the cell-type groups the data defines, but it missed both held-out blocks: the NK + monocyte
-  block formed its own cluster and was not recognised (statistic 0.95), and the CD8 T + B block
+  block formed its own cluster and was not recognized (statistic 0.95), and the CD8 T + B block
   never formed a cluster of its own. Doublets merged into a real cluster are beyond any
   cluster-level test.
 - Marker-based matching of CD4 T cells is weak at low clustering resolution; the labels, when a
@@ -611,7 +611,7 @@ the full grid before reading the verdict.
 
 ## Built by
 
-Pranavi Akkinepally, BS in Applied Mathematics and Neuroscience at Johns Hopkins.
+Pranavi Akkinepally, Applied Mathematics & Statistics and Neuroscience, Johns Hopkins (expected 2029).
 
 Single-cell results now come out of pipelines and AI agents faster than anyone checks them, and
 the mistakes that sink them, such as testing cells instead of donors or comparing groups sampled

@@ -23,7 +23,7 @@
   --ink-2: #4a4842;
   --ink-3: #6b6860;
   --rule: #d6d1c4;
-  /* verdict colours, used for verdicts only */
+  /* verdict colors, used for verdicts only */
   --robust: #2f6b3a;
   --fragile: #7d5f19;
   --ns: #9b3b2e;
@@ -346,7 +346,7 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
       <figure class="instrument" aria-labelledby="ex-claim" style="max-width:720px;margin-top:var(--s6)">
         <p class="label">Example from the benchmark · Kang et al. 2018 · 8 donors</p>
         <p class="claim" id="ex-claim">“ISG15 is higher in CD14+ monocytes in group A than in group B.”</p>
-        <p class="context">Groups A and B were made by relabelling: each holds 4 control and 4 interferon-stimulated
+        <p class="context">Groups A and B were made by relabeling: each holds 4 control and 4 interferon-stimulated
           samples, so nothing real separates them and the claim is false by construction. Both tests below ran on
           the same cells in the same <span data-n-runs>21</span> re-analyses.</p>
         <p class="claim" style="font-size:19px">The standard cell-level test calls this false claim significant in
@@ -410,7 +410,7 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
         </div>
         <aside class="sn">
           <span class="label">What this does not show</span>
-          <p>Recluster's verdict equalled its single baseline donor-level run on all 40 claims: in these data
+          <p>Recluster's verdict equaled its single baseline donor-level run on all 40 claims: in these data
             almost no setting changes the cells tested. The three false calls (rat Alkbh7, Ezh2, Son) each held in
             21 of 21 runs, so the re-runs gave no warning. The genes come from the extremes, so the study says
             little about modest effects, and with 40 claims the intervals are wide: specificity 17 of 20, 95&nbsp;%
@@ -420,6 +420,35 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
           <p>Defined after scoring: the same paired donor-level test, on all cells before doublet removal, called 451
             of 1,830 rat (24.6&nbsp;%) and 158 of 1,752 mouse (9.0&nbsp;%) bulk no-change genes at p &lt; 0.05.
             <a href="https://github.com/pranakkin/Recluster/blob/main/bench/ground_truth/RESULTS.md">RESULTS.md</a></p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="why-now" aria-labelledby="h-now">
+      <p class="label kicker">Why now</p>
+      <h2 id="h-now">An AI agent analyzed 24,673 cells in 2½ minutes. Recluster checked every claim it made.</h2>
+      <div class="row">
+        <div class="prose">
+          <p>Given the Kang 2018 counts (24,673 cells, 8 donors), Claude Opus 5.5 produced a full analysis
+            (clusters, cell types, abundance and expression claims) in 2&nbsp;min 32&nbsp;s, in one run through the API,
+            kept unedited. <span class="mono">recluster audit</span> took the object it handed back, re-derived
+            everything from the raw counts and tested its claims.</p>
+          <p>Of its 36 primary population and expression claims, 32 came out ROBUST, 3 FRAGILE and 1 NOT
+            SUPPORTED. The NOT SUPPORTED one was a platelet population that held in 1 of 21 runs; the agent had
+            hedged the label but still gave “more platelets (0.29% → 0.56%)” as one of its two strongest trends.
+            Its summary also disagreed with its own tables in four places. Most of the analysis held up; the
+            reports show which parts did not.</p>
+        </div>
+        <aside class="sn">
+          <span class="label">Caveats</span>
+          <p>One run of one agent on one dataset; a second run would give other clusters and claims. The rules for
+            turning its answer into claims were written after reading it. The population results come from a re-run
+            with per-sample doublet removal, decided after the first
+            results had been seen; both runs are reported. On the agent's own labels the platelet shift does pass a
+            donor-level test; it is the population itself that rarely reappears when the analysis is re-run.
+            <a href="https://github.com/pranakkin/Recluster/blob/main/bench/agent_audit/RESULTS.md">RESULTS.md</a> ·
+            <a href="benchmark.html#agent">Reports</a> ·
+            <a href="https://github.com/pranakkin/Recluster#auditing-an-ai-agents-analysis">Case study</a></p>
         </aside>
       </div>
     </section>
@@ -448,50 +477,25 @@ footer nav { display: flex; gap: var(--s2) var(--s5); flex-wrap: wrap; }
             explains it and every case.</p>
         </aside>
       </div>
-      <div class="ledger-legend" aria-hidden="true">
-        <span><i class="sq held"></i>claim held</span>
-        <span><i class="sq"></i>did not hold</span>
-        <span><i class="sq nomatch"></i>no cluster matched the population</span>
-        <span>Planted errors: a known flaw added to real data (fake doublets, an over-split cell type, a deleted
-          population, a batch artifact, a time-of-day shift), so the right answer is known. Doublets are two cells
-          captured as one. Each row is one claim with a known answer: runs, runs held, Recluster's verdict, and
-          whether that passes the rule fixed before the run. Each row opens the full report.</span>
-      </div>
-      <ul class="ledger" id="ledger" aria-label="Benchmark cases">
-        <li class="group">The case list could not be loaded. The full table is on the <a href="benchmark.html">benchmark page</a>.</li>
-      </ul>
-      <p class="small-sans" style="margin-top:var(--s4)">The agent audit reports are listed on the
-        <a href="benchmark.html#agent">benchmark page</a>.</p>
+      <details class="more cases" id="cases">
+      <summary data-cases-summary>Show all <span data-case-count>20</span> cases</summary>
+        <div class="ledger-legend" aria-hidden="true">
+          <span><i class="sq held"></i>claim held</span>
+          <span><i class="sq"></i>did not hold</span>
+          <span><i class="sq nomatch"></i>no cluster matched the population</span>
+          <span>Planted errors: a known flaw added to real data (fake doublets, an over-split cell type, a deleted
+            population, a batch artifact, a time-of-day shift), so the right answer is known. Doublets are two cells
+            captured as one. Each row is one claim with a known answer: runs, runs held, Recluster's verdict, and
+            whether that passes the rule fixed before the run. Each row opens the full report.</span>
+        </div>
+        <ul class="ledger" id="ledger" aria-label="Benchmark cases">
+          <li class="group">The case list could not be loaded. The full table is on the <a href="benchmark.html">benchmark page</a>.</li>
+        </ul>
+        <p class="small-sans" style="margin-top:var(--s4)">The agent audit reports are listed on the
+          <a href="benchmark.html#agent">benchmark page</a>.</p>
+      </details>
     </section>
 
-    <section id="why-now" aria-labelledby="h-now">
-      <p class="label kicker">Why now</p>
-      <h2 id="h-now">An AI agent analysed 24,673 cells in 2½ minutes. Recluster checked every claim it made.</h2>
-      <div class="row">
-        <div class="prose">
-          <p>Given the Kang 2018 counts (24,673 cells, 8 donors), Claude Opus 5.5 produced a full analysis
-            (clusters, cell types, abundance and expression claims) in 2&nbsp;min 32&nbsp;s, in one run through the API,
-            kept unedited. <span class="mono">recluster audit</span> took the object it handed back, re-derived
-            everything from the raw counts and tested its claims.</p>
-          <p>Of its 36 primary population and expression claims, 32 came out ROBUST, 3 FRAGILE and 1 NOT
-            SUPPORTED. The NOT SUPPORTED one was a platelet population that held in 1 of 21 runs; the agent had
-            hedged the label but still gave “more platelets (0.29% → 0.56%)” as one of its two strongest trends.
-            Its summary also disagreed with its own tables in four places. Most of the analysis held up; the
-            reports show which parts did not.</p>
-        </div>
-        <aside class="sn">
-          <span class="label">Caveats</span>
-          <p>One run of one agent on one dataset; a second run would give other clusters and claims. The rules for
-            turning its answer into claims were written after reading it. The population results come from a re-run
-            with per-sample doublet removal, decided after the first
-            results had been seen; both runs are reported. On the agent's own labels the platelet shift does pass a
-            donor-level test; it is the population itself that rarely reappears when the analysis is re-run.
-            <a href="https://github.com/pranakkin/Recluster/blob/main/bench/agent_audit/RESULTS.md">RESULTS.md</a> ·
-            <a href="benchmark.html#agent">Reports</a> ·
-            <a href="https://github.com/pranakkin/Recluster#auditing-an-ai-agents-analysis">Case study</a></p>
-        </aside>
-      </div>
-    </section>
 
     <section id="who" aria-labelledby="h-who-for">
       <p class="label kicker">Who it's for</p>
@@ -714,7 +718,9 @@ genes: [ISG15]</code></pre>
     <section class="who" id="founder" aria-labelledby="h-who">
       <p class="label kicker">Founder</p>
       <h2 id="h-who">Pranavi Akkinepally</h2>
-      <p class="small-sans">BS in Applied Mathematics and Neuroscience, Johns Hopkins</p>
+      <p class="small-sans">Applied Mathematics &amp; Statistics and Neuroscience, Johns Hopkins (expected 2029)</p>
+      <p>In the Stein-O’Brien Lab I built a method to read circadian time from gene expression, then designed
+        controls that 8 of my own findings failed. Recluster makes that kind of check routine.</p>
       <p>Single-cell results now come out of pipelines and AI agents faster than anyone checks them, and the
         mistakes that sink them, such as testing cells instead of donors or comparing groups sampled at different
         times of day, rarely show in the final figure. I built Recluster so a claim can be checked before anyone
@@ -765,7 +771,7 @@ genes: [ISG15]</code></pre>
   }
   var NAMES = {
     min_genes: "Minimum genes per cell", max_mito_pct: "Maximum mitochondrial reads, %",
-    doublet_removal: "Doublet removal (Scrublet)", normalization: "Normalisation", n_hvgs: "Highly variable genes",
+    doublet_removal: "Doublet removal (Scrublet)", normalization: "Normalization", n_hvgs: "Highly variable genes",
     n_pcs: "Principal components", resolution: "Clustering resolution (Leiden)",
     batch_correction: "Batch correction (Harmony)", seed: "Random seed"
   };
@@ -924,10 +930,16 @@ genes: [ISG15]</code></pre>
   document.querySelector('[data-score="fa"]').textContent = faN;
   document.querySelector('[data-score="miss"]').textContent = missN;
   document.querySelector("[data-generated]").textContent = D.generated_at.slice(0, 10);
+  document.querySelectorAll("[data-case-count]").forEach(function (e) { e.textContent = D.cases.length; });
+  var cases = document.getElementById("cases"), summ = cases && cases.querySelector("[data-cases-summary]");
+  if (cases && summ) cases.addEventListener("toggle", function () {
+    summ.firstChild.textContent = cases.open ? "Hide the " : "Show all ";
+    summ.lastChild.textContent = " cases";
+  });
 })();
 </script>
 <script>
-/* a Copy button above each code block; copies the text without the grey comments */
+/* a Copy button above each code block; copies the text without the gray comments */
 (function () {
   "use strict";
   document.querySelectorAll("pre").forEach(function (pre) {

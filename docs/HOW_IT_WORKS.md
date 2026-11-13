@@ -7,7 +7,7 @@ printed in every report.
 
 ## 1. The problems Recluster is built for
 
-A single-cell analysis is a long chain of choices: which cells to discard, how to normalise,
+A single-cell analysis is a long chain of choices: which cells to discard, how to normalize,
 how many genes and components to keep, how finely to cluster, whether to correct for batch,
 which random seed to use. Each choice is defensible on its own, and each can change the
 answer. A claim that only holds under one particular chain of choices is not a finding about
@@ -112,7 +112,7 @@ Every grid point is a `PipelineParams` object with nine fields. One run does, in
    detected in fewer than 3 cells are dropped. If the matrix has no mitochondrial genes the mito
    axis is removed from the grid rather than silently duplicating runs.
 2. **Doublet scoring.** Scrublet (Wolock et al. 2019; scanpy's implementation), run separately
-   per sample when every sample has at least 100 cells, with a fixed seed and exact neighbours.
+   per sample when every sample has at least 100 cells, with a fixed seed and exact neighbors.
    Scrublet picks its own threshold from the valley of the simulated-doublet histogram, and that
    threshold can land above every observed score, calling nothing (it did on one of the two
    original Kang lanes).
@@ -124,19 +124,19 @@ Every grid point is a `PipelineParams` object with nine fields. One run does, in
    demuxlet on the two Kang GEO lanes with sample = lane, the expectation is 10.8 to 11.1 %
    against 11.5 % called by demuxlet. This stage is cached per QC setting; `doublet_removal`
    then keeps or drops the predicted doublets.
-3. **Normalisation and feature selection.** Either total-count scaling to 10,000 per cell,
-   `log1p`, selection of `n_hvgs` highly variable genes (Seurat flavour), and z-scaling clipped at
+3. **Normalization and feature selection.** Either total-count scaling to 10,000 per cell,
+   `log1p`, selection of `n_hvgs` highly variable genes (Seurat flavor), and z-scaling clipped at
    10; or analytic Pearson residuals (Lause et al. 2021) on the top `n_hvgs` genes.
 4. **PCA** with `n_pcs` components (ARPACK solver, seeded).
 5. **Batch correction**, optional: Harmony (Korsunsky et al. 2019) on the PCs, keyed by the
    batch column.
-6. **Neighbour graph**: 15 nearest neighbours, exact search, so that, with fixed seeds, two runs
+6. **Neighbor graph**: 15 nearest neighbors, exact search, so that, with fixed seeds, two runs
    on the same machine give identical provenance apart from timestamps and run times (floats
    rounded to six significant digits).
-7. **Leiden clustering** (Traag et al. 2019) at `resolution`, igraph flavour, 2 iterations, seeded.
+7. **Leiden clustering** (Traag et al. 2019) at `resolution`, igraph flavor, 2 iterations, seeded.
 8. **Doublet populations**, when `doublet_removal` is on and `doublet_cluster_removal` is set (the
    default). Scrublet scores cells one at a time and misses doublets that are each other's
-   neighbours, for example many doublets of the same two cell types. This step asks of every
+   neighbors, for example many doublets of the same two cell types. This step asks of every
    cluster of at least 10 cells whether it can be told apart from doublets of other cell types.
    The other clusters are joined into cell-type groups (average-linkage on their centroids,
    1 - Pearson correlation of per-gene z-scored log expression, cut at 1.0); the three pairs of
@@ -225,7 +225,7 @@ which cells are "the population".
   population is the union of qualifying clusters, and its whole-dataset AUROC against the other
   kept cells is reported for every run. For population claims that union AUROC is checked again
   (section 7.1); comparison claims apply no union-AUROC check beyond candidacy.
-- **Reference set and Jaccard.** The labelled cells when a label is given; otherwise the matched
+- **Reference set and Jaccard.** The labeled cells when a label is given; otherwise the matched
   set of the first run, normally the baseline, in which the matched population reaches marker
   AUROC 0.80 (recorded as `reference_source`). Jaccard is computed over barcodes that passed the
   run's QC, and the fraction of reference cells that QC removed is reported separately, so "QC
@@ -258,7 +258,7 @@ groups (`evaluators/pairing.py` detects this from the replicate key: every pair 
 a sample in each group) the decisive test is a paired t-test on the per-donor differences of
 those logits, with a Wilcoxon signed-rank test alongside; otherwise a Welch t-test on the logits
 with a Mann-Whitney U test alongside. Pairing is the correct model for a split-sample design and
-removes donor baseline variance. Measured on Kang with this code, over its 8 labelled cell types
+removes donor baseline variance. Measured on Kang with this code, over its 8 labeled cell types
 (7 testable): the unpaired Welch test calls none (all p ≥ 0.67); the paired test calls one,
 CD14+ monocytes (p = 0.035; about 23.8 % of cells in stim against 25.4 % in ctrl, lower in stim
 for 7 of 8 donors), and standard errors shrink 2 to 9 fold. That cell type is the benchmark's
@@ -297,7 +297,7 @@ Two tests per gene on the cells of the matched population.
 ## 8. The time-of-day check (`recluster/time_confound.py`)
 
 Runs once per comparison claim, after the grid, on the baseline run's matched population (or on
-the labelled cells when the baseline found nothing). Never at the level of the cell.
+the labeled cells when the baseline found nothing). Never at the level of the cell.
 
 **Units.** The unit of both permutation tests is the sample, unless a column of the sample key
 other than the condition column groups several samples per level, every level sits in one
@@ -410,7 +410,7 @@ one-at-a-time changes flipped the baseline result.
 
 ## 10. Determinism and provenance (`recluster/provenance.py`)
 
-Every stochastic step is seeded; neighbour search is exact; permutation tests enumerate or use a
+Every stochastic step is seeded; neighbor search is exact; permutation tests enumerate or use a
 fixed seed. Floating-point results are rounded to six significant digits so two runs compare
 equal. `provenance.json` records package versions, platform, the input's SHA-256 and shape, the
 spec, the grid, the thresholds, the dropped duplicate grid points, every run's effective QC
@@ -421,13 +421,13 @@ expression claims with and without collection times.
 ## 11. Reports (`recluster/report/`)
 
 One self-contained HTML file per claim: inline CSS and SVG, no scripts, no external assets. The
-verdict is shown with text and an icon, never by colour alone. The population panel shows the
+verdict is shown with text and an icon, never by color alone. The population panel shows the
 matched population's marker AUROC, Jaccard, sample spread and the two doublet diagnostics; the
 replicate-aware panel labels its tests as paired or unpaired according to the design the run
 used; the time-of-day section shows the balance test with its floor, the refit, or the clock
 panel. The methods paragraph is produced from a fixed template filled with the settings actually
 used, including the design the baseline run used. Nothing in the report comes from a language
-model unless the optional LLM summary was requested, in which case it is boxed and labelled.
+model unless the optional LLM summary was requested, in which case it is boxed and labeled.
 
 ### How to read a report
 
@@ -459,7 +459,7 @@ A report goes from the answer to the evidence. From the top:
   driven by one.
 - **Time-of-day check**, for comparison claims: the balance test with its floor and the refit
   when collection times are given, or the clock-gene panel when they are not (section 8).
-- **As labelled**, when the claim gives a label: the same test on the cells exactly as labelled,
+- **As labeled**, when the claim gives a label: the same test on the cells exactly as labeled,
   without re-clustering; this is the claim as the original analysis made it.
 - **All runs**, **Methods**, **Thresholds** and **Provenance**: every run's settings and
   outcome, the methods paragraph, the cutoffs used, and the inputs and package versions.
@@ -570,11 +570,11 @@ produces a number that appears in a verdict, a table or a chart.
 - The Scrublet expectation assumes one lane per scored subset; for samples demultiplexed from a
   pooled lane the fallback calls fewer doublets than the lane holds.
 - Composition tests assume one sample per donor and condition; nested designs beyond that are
-  not modelled.
+  not modeled.
 - The mixture-based doublet diagnostic has no reliable cutoff and is reported, not enforced.
 - Doublet detection is the weakest step: Scrublet flags almost none of a block of same-type
   doublets, and the doublet-population step missed both held-out blocks: the NK + monocyte block
-  formed its own cluster and was not recognised (statistic 0.95), and the CD8 T + B block never
+  formed its own cluster and was not recognized (statistic 0.95), and the CD8 T + B block never
   formed a cluster of its own. Doublets merged into a real cluster are beyond any cluster-level
   test.
 
